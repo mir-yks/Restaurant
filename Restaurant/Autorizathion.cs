@@ -79,6 +79,7 @@ namespace Restaurant
                         case 1: nextForm = new DesktopAdministrator(workerFIO); break;
                         case 2: nextForm = new DesktopManager(workerFIO); break;
                         case 3: nextForm = new DesktopOfficiant(workerFIO); break;
+                        case 4: nextForm = new DesktopChef(workerFIO); break;
                     }
 
                     if (nextForm != null)
