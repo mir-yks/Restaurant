@@ -63,8 +63,9 @@ namespace Restaurant
                     }
 
                     string passwordHashInDB = dt.Rows[0]["WorkerPassword"].ToString();
-                    int userRole = Convert.ToInt32(dt.Rows[0]["WorkerRole"]); 
+                    int userRole = Convert.ToInt32(dt.Rows[0]["WorkerRole"]);
                     string workerFIO = dt.Rows[0]["WorkerFIO"].ToString();
+
 
                     if (hash_pass != passwordHashInDB)
                     {
@@ -73,23 +74,23 @@ namespace Restaurant
                         return;
                     }
 
-                    Form nextForm = null;
-                    switch (userRole) 
+                    string roleName = "";
+                    switch (userRole)
                     {
-                        case 1: nextForm = new DesktopAdministrator(workerFIO); break;
-                        case 2: nextForm = new DesktopManager(workerFIO); break;
-                        case 3: nextForm = new DesktopOfficiant(workerFIO); break;
-                        case 4: nextForm = new DesktopChef(workerFIO); break;
+                        case 1: roleName = "Администратор"; break;
+                        case 2: roleName = "Менеджер"; break;
+                        case 3: roleName = "Официант"; break;
+                        case 4: roleName = "Шеф-повар"; break;
                     }
 
-                    if (nextForm != null)
-                    {
-                        this.Visible = false;
-                        nextForm.ShowDialog();
-                        textBox1.Clear();
-                        textBox2.Clear();
-                        this.Visible = true;
-                    }
+                    // Всегда открываем одну форму Desktop, передавая данные
+                    Form nextForm = new Desktop(workerFIO, userRole, roleName);
+
+                    this.Visible = false;
+                    nextForm.ShowDialog();
+                    textBox1.Clear();
+                    textBox2.Clear();
+                    this.Visible = true;
                 }
             }
             catch (Exception ex)

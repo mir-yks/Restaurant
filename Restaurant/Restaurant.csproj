@@ -80,29 +80,11 @@
     <Compile Include="ClientsInsert.Designer.cs">
       <DependentUpon>ClientsInsert.cs</DependentUpon>
     </Compile>
-    <Compile Include="DesktopAdministrator.cs">
+    <Compile Include="Desktop.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DesktopAdministrator.Designer.cs">
-      <DependentUpon>DesktopAdministrator.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DesktopChef.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DesktopChef.Designer.cs">
-      <DependentUpon>DesktopChef.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DesktopManager.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DesktopManager.Designer.cs">
-      <DependentUpon>DesktopManager.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DesktopOfficiant.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DesktopOfficiant.Designer.cs">
-      <DependentUpon>DesktopOfficiant.cs</DependentUpon>
+    <Compile Include="Desktop.Designer.cs">
+      <DependentUpon>Desktop.cs</DependentUpon>
     </Compile>
     <Compile Include="Menu.cs">
       <SubType>Form</SubType>
@@ -211,17 +193,8 @@
     <EmbeddedResource Include="ClientsInsert.resx">
       <DependentUpon>ClientsInsert.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DesktopAdministrator.resx">
-      <DependentUpon>DesktopAdministrator.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DesktopChef.resx">
-      <DependentUpon>DesktopChef.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DesktopManager.resx">
-      <DependentUpon>DesktopManager.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DesktopOfficiant.resx">
-      <DependentUpon>DesktopOfficiant.cs</DependentUpon>
+    <EmbeddedResource Include="Desktop.resx">
+      <DependentUpon>Desktop.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Menu.resx">
       <DependentUpon>Menu.cs</DependentUpon>
