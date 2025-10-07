@@ -157,7 +157,6 @@
             this.button4.TabIndex = 27;
             this.button4.Text = "Забронировать";
             this.button4.UseVisualStyleBackColor = false;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // button2
             // 

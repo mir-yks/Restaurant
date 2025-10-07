@@ -30,6 +30,7 @@ namespace Restaurant
             button7.Visible = false;
             button8.Visible = false;
             button9.Visible = false;
+            button10.Visible = false;
 
             button4.Visible = true;
 
@@ -48,8 +49,10 @@ namespace Restaurant
             {
                 button2.Visible = true;
                 button6.Visible = true;
+                button10.Visible = true;
 
                 button6.Location = new System.Drawing.Point(12, 380);
+                button10.Location = new System.Drawing.Point(12, 258);
 
                 this.Text = "Менеджер";
             }
@@ -78,6 +81,13 @@ namespace Restaurant
             Role Roles = new Role();
             this.Visible = false;
             Roles.ShowDialog();
+            this.Visible = true;
+        }
+        private void button10_Click(object sender, EventArgs e)
+        {
+            Вooking Вooking = new Вooking();
+            this.Visible = true;
+            Вooking.ShowDialog();
             this.Visible = true;
         }
 

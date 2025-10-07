@@ -24,7 +24,7 @@ namespace Restaurant
             button2.Visible = false;
             button1.Visible = true;
 
-            if (roleId == 1 || roleId == 3)
+            if (roleId == 3)
             {
                 button2.Visible = true;
             }

@@ -50,174 +50,183 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Autorizathion.cs">
+    <Compile Include="SomeForm\Autorizathion.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Autorizathion.Designer.cs">
+    <Compile Include="SomeForm\Autorizathion.Designer.cs">
       <DependentUpon>Autorizathion.cs</DependentUpon>
     </Compile>
-    <Compile Include="Category.cs">
+    <Compile Include="Chef\Category.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Category.Designer.cs">
+    <Compile Include="Chef\Category.Designer.cs">
       <DependentUpon>Category.cs</DependentUpon>
     </Compile>
-    <Compile Include="CategoryInsert.cs">
+    <Compile Include="Chef\CategoryInsert.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CategoryInsert.Designer.cs">
+    <Compile Include="Chef\CategoryInsert.Designer.cs">
       <DependentUpon>CategoryInsert.cs</DependentUpon>
     </Compile>
-    <Compile Include="Clients.cs">
+    <Compile Include="Manager\Booking.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Clients.Designer.cs">
+    <Compile Include="Manager\Booking.Designer.cs">
+      <DependentUpon>Booking.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Manager\Clients.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Manager\Clients.Designer.cs">
       <DependentUpon>Clients.cs</DependentUpon>
     </Compile>
-    <Compile Include="ClientsInsert.cs">
+    <Compile Include="Manager\ClientsInsert.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ClientsInsert.Designer.cs">
+    <Compile Include="Manager\ClientsInsert.Designer.cs">
       <DependentUpon>ClientsInsert.cs</DependentUpon>
     </Compile>
-    <Compile Include="Desktop.cs">
+    <Compile Include="SomeForm\Desktop.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Desktop.Designer.cs">
+    <Compile Include="SomeForm\Desktop.Designer.cs">
       <DependentUpon>Desktop.cs</DependentUpon>
     </Compile>
-    <Compile Include="Menu.cs">
+    <Compile Include="SomeForm\Menu.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Menu.Designer.cs">
+    <Compile Include="SomeForm\Menu.Designer.cs">
       <DependentUpon>Menu.cs</DependentUpon>
     </Compile>
-    <Compile Include="MenuInsert.cs">
+    <Compile Include="Chef\MenuInsert.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MenuInsert.Designer.cs">
+    <Compile Include="Chef\MenuInsert.Designer.cs">
       <DependentUpon>MenuInsert.cs</DependentUpon>
     </Compile>
-    <Compile Include="OffersInsert.cs">
+    <Compile Include="Chef\OffersInsert.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="OffersInsert.Designer.cs">
+    <Compile Include="Chef\OffersInsert.Designer.cs">
       <DependentUpon>OffersInsert.cs</DependentUpon>
     </Compile>
-    <Compile Include="Offers.cs">
+    <Compile Include="Chef\Offers.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Offers.Designer.cs">
+    <Compile Include="Chef\Offers.Designer.cs">
       <DependentUpon>Offers.cs</DependentUpon>
     </Compile>
-    <Compile Include="OrderInsert.cs">
+    <Compile Include="Waiter\OrderInsert.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="OrderInsert.Designer.cs">
+    <Compile Include="Waiter\OrderInsert.Designer.cs">
       <DependentUpon>OrderInsert.cs</DependentUpon>
     </Compile>
-    <Compile Include="Order.cs">
+    <Compile Include="SomeForm\Order.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Order.Designer.cs">
+    <Compile Include="SomeForm\Order.Designer.cs">
       <DependentUpon>Order.cs</DependentUpon>
     </Compile>
-    <Compile Include="RoleInsert.cs">
+    <Compile Include="Administrator\RoleInsert.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RoleInsert.Designer.cs">
+    <Compile Include="Administrator\RoleInsert.Designer.cs">
       <DependentUpon>RoleInsert.cs</DependentUpon>
     </Compile>
-    <Compile Include="OrderItem.cs">
+    <Compile Include="SomeForm\OrderItem.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="OrderItem.Designer.cs">
+    <Compile Include="SomeForm\OrderItem.Designer.cs">
       <DependentUpon>OrderItem.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Revenue.cs">
+    <Compile Include="Manager\Revenue.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Revenue.Designer.cs">
+    <Compile Include="Manager\Revenue.Designer.cs">
       <DependentUpon>Revenue.cs</DependentUpon>
     </Compile>
-    <Compile Include="Role.cs">
+    <Compile Include="Administrator\Role.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Role.Designer.cs">
+    <Compile Include="Administrator\Role.Designer.cs">
       <DependentUpon>Role.cs</DependentUpon>
     </Compile>
-    <Compile Include="Tables.cs">
+    <Compile Include="SomeForm\Tables.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Tables.Designer.cs">
+    <Compile Include="SomeForm\Tables.Designer.cs">
       <DependentUpon>Tables.cs</DependentUpon>
     </Compile>
-    <Compile Include="TablesInsert.cs">
+    <Compile Include="Administrator\TablesInsert.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TablesInsert.Designer.cs">
+    <Compile Include="Administrator\TablesInsert.Designer.cs">
       <DependentUpon>TablesInsert.cs</DependentUpon>
     </Compile>
-    <Compile Include="WorkerInsert.cs">
+    <Compile Include="Administrator\WorkerInsert.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WorkerInsert.Designer.cs">
+    <Compile Include="Administrator\WorkerInsert.Designer.cs">
       <DependentUpon>WorkerInsert.cs</DependentUpon>
     </Compile>
-    <Compile Include="Worker.cs">
+    <Compile Include="Administrator\Worker.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Worker.Designer.cs">
+    <Compile Include="Administrator\Worker.Designer.cs">
       <DependentUpon>Worker.cs</DependentUpon>
     </Compile>
-    <Compile Include="Вooking.cs">
+    <Compile Include="Manager\ВookingInsert.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Вooking.Designer.cs">
-      <DependentUpon>Вooking.cs</DependentUpon>
+    <Compile Include="Manager\ВookingInsert.Designer.cs">
+      <DependentUpon>ВookingInsert.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Autorizathion.resx">
+    <EmbeddedResource Include="SomeForm\Autorizathion.resx">
       <DependentUpon>Autorizathion.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Category.resx">
+    <EmbeddedResource Include="Chef\Category.resx">
       <DependentUpon>Category.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CategoryInsert.resx">
+    <EmbeddedResource Include="Chef\CategoryInsert.resx">
       <DependentUpon>CategoryInsert.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Clients.resx">
+    <EmbeddedResource Include="Manager\Booking.resx">
+      <DependentUpon>Booking.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Manager\Clients.resx">
       <DependentUpon>Clients.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ClientsInsert.resx">
+    <EmbeddedResource Include="Manager\ClientsInsert.resx">
       <DependentUpon>ClientsInsert.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Desktop.resx">
+    <EmbeddedResource Include="SomeForm\Desktop.resx">
       <DependentUpon>Desktop.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Menu.resx">
+    <EmbeddedResource Include="SomeForm\Menu.resx">
       <DependentUpon>Menu.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MenuInsert.resx">
+    <EmbeddedResource Include="Chef\MenuInsert.resx">
       <DependentUpon>MenuInsert.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="OffersInsert.resx">
+    <EmbeddedResource Include="Chef\OffersInsert.resx">
       <DependentUpon>OffersInsert.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Offers.resx">
+    <EmbeddedResource Include="Chef\Offers.resx">
       <DependentUpon>Offers.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="OrderInsert.resx">
+    <EmbeddedResource Include="Waiter\OrderInsert.resx">
       <DependentUpon>OrderInsert.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Order.resx">
+    <EmbeddedResource Include="SomeForm\Order.resx">
       <DependentUpon>Order.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="RoleInsert.resx">
+    <EmbeddedResource Include="Administrator\RoleInsert.resx">
       <DependentUpon>RoleInsert.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="OrderItem.resx">
+    <EmbeddedResource Include="SomeForm\OrderItem.resx">
       <DependentUpon>OrderItem.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -230,26 +239,26 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Revenue.resx">
+    <EmbeddedResource Include="Manager\Revenue.resx">
       <DependentUpon>Revenue.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Role.resx">
+    <EmbeddedResource Include="Administrator\Role.resx">
       <DependentUpon>Role.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Tables.resx">
+    <EmbeddedResource Include="SomeForm\Tables.resx">
       <DependentUpon>Tables.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TablesInsert.resx">
+    <EmbeddedResource Include="Administrator\TablesInsert.resx">
       <DependentUpon>TablesInsert.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="WorkerInsert.resx">
+    <EmbeddedResource Include="Administrator\WorkerInsert.resx">
       <DependentUpon>WorkerInsert.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Worker.resx">
+    <EmbeddedResource Include="Administrator\Worker.resx">
       <DependentUpon>Worker.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Вooking.resx">
-      <DependentUpon>Вooking.cs</DependentUpon>
+    <EmbeddedResource Include="Manager\ВookingInsert.resx">
+      <DependentUpon>ВookingInsert.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
