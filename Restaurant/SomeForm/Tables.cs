@@ -49,22 +49,9 @@ namespace Restaurant
             this.Visible = true;
         }
 
-        private void button4_Click(object sender, EventArgs e)
-        {
-            Вooking BookingManager = new Вooking();
-            this.Visible = true;
-            BookingManager.ShowDialog();
-            this.Visible = true;
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
-        }
-
-        private void button4_Click_1(object sender, EventArgs e)
-        {
-
         }
     }
 }

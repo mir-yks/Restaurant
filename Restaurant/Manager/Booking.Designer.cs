@@ -1,5 +1,5 @@
 ﻿
-namespace Restaurant.Manager
+namespace Restaurant
 {
     partial class Booking
     {
@@ -90,7 +90,7 @@ namespace Restaurant.Manager
             this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(102)))), ((int)(((byte)(0)))));
             this.label2.Font = new System.Drawing.Font("Verdana", 14F);
-            this.label2.Location = new System.Drawing.Point(9, 425);
+            this.label2.Location = new System.Drawing.Point(10, 420);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(223, 23);
             this.label2.TabIndex = 39;

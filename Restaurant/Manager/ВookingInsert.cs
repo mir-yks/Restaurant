@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace Restaurant
 {
-    public partial class Вooking : Form
+    public partial class ВookingInsert : Form
     {
-        public Вooking()
+        public ВookingInsert()
         {
             InitializeComponent();
         }

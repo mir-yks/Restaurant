@@ -85,9 +85,9 @@ namespace Restaurant
         }
         private void button10_Click(object sender, EventArgs e)
         {
-            Вooking Вooking = new Вooking();
-            this.Visible = true;
-            Вooking.ShowDialog();
+            Booking Booking = new Booking();
+            this.Visible = false;
+            Booking.ShowDialog();
             this.Visible = true;
         }
 

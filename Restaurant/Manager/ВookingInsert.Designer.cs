@@ -1,6 +1,6 @@
 ﻿namespace Restaurant
 {
-    partial class Вooking
+    partial class ВookingInsert
     {
         /// <summary>
         /// Required designer variable.

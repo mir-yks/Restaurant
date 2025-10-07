@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Restaurant.Manager
+namespace Restaurant
 {
     public partial class Booking : Form
     {
@@ -19,17 +19,17 @@ namespace Restaurant.Manager
 
         private void button2_Click(object sender, EventArgs e)
         {
-            BookingInsert BookingInsert = new BookingInsert();
+            ВookingInsert ВookingInsert = new ВookingInsert();
             this.Visible = true;
-            BookingInsert.ShowDialog();
+            ВookingInsert.ShowDialog();
             this.Visible = true;
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            BookingInsert BookingInsert = new BookingInsert();
+            ВookingInsert ВookingInsert = new ВookingInsert();
             this.Visible = true;
-            BookingInsert.ShowDialog();
+            ВookingInsert.ShowDialog();
             this.Visible = true;
         }
 
