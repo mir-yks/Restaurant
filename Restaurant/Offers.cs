@@ -19,7 +19,7 @@ namespace Restaurant
 
         private void button3_Click(object sender, EventArgs e)
         {
-            OfferInsert OfferInsert = new OfferInsert();
+            OffersInsert OfferInsert = new OffersInsert();
             this.Visible = true;
             OfferInsert.ShowDialog();
             this.Visible = true;
@@ -27,7 +27,7 @@ namespace Restaurant
 
         private void button2_Click(object sender, EventArgs e)
         {
-            OfferInsert OfferInsert = new OfferInsert();
+            OffersInsert OfferInsert = new OffersInsert();
             this.Visible = true;
             OfferInsert.ShowDialog();
             this.Visible = true;

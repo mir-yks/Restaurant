@@ -10,10 +10,10 @@ using System.Windows.Forms;
 
 namespace Restaurant
 {
-    public partial class Orders : Form
+    public partial class Order : Form
     {
         private int roleId;
-        public Orders(int role)
+        public Order(int role)
         {
             InitializeComponent(); 
             roleId = role;

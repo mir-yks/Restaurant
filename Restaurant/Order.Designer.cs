@@ -1,6 +1,6 @@
 ﻿namespace Restaurant
 {
-    partial class Orders
+    partial class Order
     {
         /// <summary>
         /// Required designer variable.

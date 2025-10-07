@@ -98,11 +98,11 @@
     <Compile Include="MenuInsert.Designer.cs">
       <DependentUpon>MenuInsert.cs</DependentUpon>
     </Compile>
-    <Compile Include="OfferInsert.cs">
+    <Compile Include="OffersInsert.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="OfferInsert.Designer.cs">
-      <DependentUpon>OfferInsert.cs</DependentUpon>
+    <Compile Include="OffersInsert.Designer.cs">
+      <DependentUpon>OffersInsert.cs</DependentUpon>
     </Compile>
     <Compile Include="Offers.cs">
       <SubType>Form</SubType>
@@ -116,11 +116,11 @@
     <Compile Include="OrderInsert.Designer.cs">
       <DependentUpon>OrderInsert.cs</DependentUpon>
     </Compile>
-    <Compile Include="Orders.cs">
+    <Compile Include="Order.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Orders.Designer.cs">
-      <DependentUpon>Orders.cs</DependentUpon>
+    <Compile Include="Order.Designer.cs">
+      <DependentUpon>Order.cs</DependentUpon>
     </Compile>
     <Compile Include="RoleInsert.cs">
       <SubType>Form</SubType>
@@ -142,11 +142,11 @@
     <Compile Include="Revenue.Designer.cs">
       <DependentUpon>Revenue.cs</DependentUpon>
     </Compile>
-    <Compile Include="Roles.cs">
+    <Compile Include="Role.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Roles.Designer.cs">
-      <DependentUpon>Roles.cs</DependentUpon>
+    <Compile Include="Role.Designer.cs">
+      <DependentUpon>Role.cs</DependentUpon>
     </Compile>
     <Compile Include="Tables.cs">
       <SubType>Form</SubType>
@@ -166,11 +166,11 @@
     <Compile Include="WorkerInsert.Designer.cs">
       <DependentUpon>WorkerInsert.cs</DependentUpon>
     </Compile>
-    <Compile Include="Workers.cs">
+    <Compile Include="Worker.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Workers.Designer.cs">
-      <DependentUpon>Workers.cs</DependentUpon>
+    <Compile Include="Worker.Designer.cs">
+      <DependentUpon>Worker.cs</DependentUpon>
     </Compile>
     <Compile Include="Вooking.cs">
       <SubType>Form</SubType>
@@ -202,8 +202,8 @@
     <EmbeddedResource Include="MenuInsert.resx">
       <DependentUpon>MenuInsert.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="OfferInsert.resx">
-      <DependentUpon>OfferInsert.cs</DependentUpon>
+    <EmbeddedResource Include="OffersInsert.resx">
+      <DependentUpon>OffersInsert.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Offers.resx">
       <DependentUpon>Offers.cs</DependentUpon>
@@ -211,8 +211,8 @@
     <EmbeddedResource Include="OrderInsert.resx">
       <DependentUpon>OrderInsert.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Orders.resx">
-      <DependentUpon>Orders.cs</DependentUpon>
+    <EmbeddedResource Include="Order.resx">
+      <DependentUpon>Order.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RoleInsert.resx">
       <DependentUpon>RoleInsert.cs</DependentUpon>
@@ -233,8 +233,8 @@
     <EmbeddedResource Include="Revenue.resx">
       <DependentUpon>Revenue.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Roles.resx">
-      <DependentUpon>Roles.cs</DependentUpon>
+    <EmbeddedResource Include="Role.resx">
+      <DependentUpon>Role.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Tables.resx">
       <DependentUpon>Tables.cs</DependentUpon>
@@ -245,8 +245,8 @@
     <EmbeddedResource Include="WorkerInsert.resx">
       <DependentUpon>WorkerInsert.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Workers.resx">
-      <DependentUpon>Workers.cs</DependentUpon>
+    <EmbeddedResource Include="Worker.resx">
+      <DependentUpon>Worker.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Вooking.resx">
       <DependentUpon>Вooking.cs</DependentUpon>

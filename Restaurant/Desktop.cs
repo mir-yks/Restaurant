@@ -75,7 +75,7 @@ namespace Restaurant
         }
         private void button9_Click(object sender, EventArgs e)
         {
-            Roles Roles = new Roles();
+            Role Roles = new Role();
             this.Visible = false;
             Roles.ShowDialog();
             this.Visible = true;
@@ -104,7 +104,7 @@ namespace Restaurant
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Menu Menu = new Menu(1);
+            Menu Menu = new Menu(currentRole);
             this.Visible = false;
             Menu.ShowDialog();
             this.Visible = true;
@@ -112,7 +112,7 @@ namespace Restaurant
 
         private void button3_Click(object sender, EventArgs e)
         {
-            Tables TablesAdministrator = new Tables(1); 
+            Tables TablesAdministrator = new Tables(currentRole); 
             this.Visible = false;
             TablesAdministrator.ShowDialog();
             this.Visible = true;
@@ -120,7 +120,7 @@ namespace Restaurant
 
         private void button5_Click(object sender, EventArgs e)
         {
-            Workers Workers = new Workers();
+            Worker Workers = new Worker();
             this.Visible = false;
             Workers.ShowDialog();
             this.Visible = true;
@@ -128,7 +128,7 @@ namespace Restaurant
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Orders Orders = new Orders(1);
+            Order Orders = new Order(currentRole);
             this.Visible = false;
             Orders.ShowDialog();
             this.Visible = true;
