@@ -286,6 +286,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="Resources\exit.png" />
+    <Content Include="Resources\image\exit.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\image\fonAutorization.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

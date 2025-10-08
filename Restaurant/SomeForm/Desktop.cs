@@ -55,8 +55,6 @@ namespace Restaurant
 
                 button5.Location = new System.Drawing.Point(12, 319);
                 button9.Location = new System.Drawing.Point(12, 258);
-
-                 this.Text = "Администратор";
             }
             if (currentRole == 2)
             {
@@ -66,16 +64,12 @@ namespace Restaurant
 
                 button6.Location = new System.Drawing.Point(12, 380);
                 button10.Location = new System.Drawing.Point(12, 258);
-
-                this.Text = "Менеджер";
             }
             if (currentRole == 3)
             {
                 button3.Visible = true;
                 button1.Visible = true;
                 button2.Visible = true;
-
-                this.Text = "Официант";
             }
             if (currentRole == 4)
             {
@@ -85,8 +79,6 @@ namespace Restaurant
 
                 button7.Location = new System.Drawing.Point(12, 319);
                 button8.Location = new System.Drawing.Point(12, 380);
-
-                this.Text = "Шеф-повар";
             }
         }
         private void button9_Click(object sender, EventArgs e)
