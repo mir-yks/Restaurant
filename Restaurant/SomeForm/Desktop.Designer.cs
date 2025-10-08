@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Desktop));
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
@@ -185,7 +184,6 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.BackgroundImage = global::Restaurant.Properties.Resources.plug;
             this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pictureBox1.Location = new System.Drawing.Point(400, 190);
             this.pictureBox1.Name = "pictureBox1";
@@ -224,7 +222,6 @@
             // imagePanel
             // 
             this.imagePanel.BackColor = System.Drawing.Color.Transparent;
-            this.imagePanel.BackgroundImage = global::Restaurant.Properties.Resources.logo;
             this.imagePanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.imagePanel.Font = new System.Drawing.Font("Verdana", 14F);
             this.imagePanel.Location = new System.Drawing.Point(49, 2);
@@ -237,7 +234,6 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(784, 561);
             this.ControlBox = false;

@@ -165,7 +165,6 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.BackgroundImage = global::Restaurant.Properties.Resources.plug;
             this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pictureBox1.Location = new System.Drawing.Point(287, 76);
             this.pictureBox1.Name = "pictureBox1";
