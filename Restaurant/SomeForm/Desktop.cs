@@ -18,6 +18,19 @@ namespace Restaurant
             label4.Text = $"Добро пожаловать,\n\n{currentFIO}!";
             label3.Text = $"Ваша роль: {currentRoleName}";
 
+            label3.Font = Fonts.MontserratAlternatesBold(14f);
+            label4.Font = Fonts.MontserratAlternatesBold(14f);
+            button1.Font = Fonts.MontserratAlternatesBold(12f);
+            button2.Font = Fonts.MontserratAlternatesBold(12f);
+            button3.Font = Fonts.MontserratAlternatesBold(12f);
+            button4.Font = Fonts.MontserratAlternatesBold(12f);
+            button5.Font = Fonts.MontserratAlternatesBold(12f);
+            button6.Font = Fonts.MontserratAlternatesBold(12f);
+            button7.Font = Fonts.MontserratAlternatesBold(12f);
+            button8.Font = Fonts.MontserratAlternatesBold(12f);
+            button9.Font = Fonts.MontserratAlternatesBold(12f);
+            button10.Font = Fonts.MontserratAlternatesBold(12f);
+
             ConfigureByRole();
         }
         private void ConfigureByRole()
