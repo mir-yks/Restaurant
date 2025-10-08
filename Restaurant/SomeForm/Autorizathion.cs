@@ -10,11 +10,6 @@ namespace Restaurant
 {
     public partial class Autorizathion : Form
     {
-        string connectionStr = @"host=localhost;
-                                uid=root;
-                                pwd=;
-                                database=restaurant;";
-
         public Autorizathion()
         {
             InitializeComponent();
@@ -74,7 +69,7 @@ namespace Restaurant
                     hash_pass = BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
                 }
 
-                using (MySqlConnection con = new MySqlConnection(connectionStr))
+                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
                 {
                     con.Open();
                     MySqlCommand cmd = new MySqlCommand(
