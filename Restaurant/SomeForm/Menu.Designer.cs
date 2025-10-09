@@ -172,10 +172,10 @@
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button2.Font = new System.Drawing.Font("Verdana", 14F);
             this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Location = new System.Drawing.Point(677, 536);
+            this.button2.Location = new System.Drawing.Point(672, 536);
             this.button2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(110, 50);
+            this.button2.Size = new System.Drawing.Size(115, 50);
             this.button2.TabIndex = 30;
             this.button2.Text = "Добавить";
             this.button2.UseVisualStyleBackColor = false;
@@ -188,10 +188,10 @@
             this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button3.Font = new System.Drawing.Font("Verdana", 14F);
             this.button3.ForeColor = System.Drawing.Color.White;
-            this.button3.Location = new System.Drawing.Point(559, 536);
+            this.button3.Location = new System.Drawing.Point(549, 536);
             this.button3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(110, 50);
+            this.button3.Size = new System.Drawing.Size(115, 50);
             this.button3.TabIndex = 30;
             this.button3.Text = "Изменить";
             this.button3.UseVisualStyleBackColor = false;
