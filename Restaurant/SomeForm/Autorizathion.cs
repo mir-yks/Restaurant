@@ -31,7 +31,6 @@ namespace Restaurant
             {
                 txt.BorderStyle = BorderStyle.FixedSingle;
                 txt.BackColor = ColorTranslator.FromHtml("#393C46");
-                txt.ForeColor = Color.White;
 
             }
             else if (ctrl is CheckBox chk)
