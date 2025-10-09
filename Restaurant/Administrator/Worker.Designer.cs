@@ -47,9 +47,9 @@
             this.comboBox1.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.comboBox1.ForeColor = System.Drawing.Color.White;
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(199, 469);
+            this.comboBox1.Location = new System.Drawing.Point(267, 469);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(172, 31);
+            this.comboBox1.Size = new System.Drawing.Size(230, 31);
             this.comboBox1.TabIndex = 43;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
@@ -62,7 +62,7 @@
             this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.Font = new System.Drawing.Font("Verdana", 14F);
             this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(195, 438);
+            this.label3.Location = new System.Drawing.Point(263, 438);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(119, 23);
             this.label3.TabIndex = 42;
@@ -139,7 +139,7 @@
             this.textBox1.ForeColor = System.Drawing.Color.White;
             this.textBox1.Location = new System.Drawing.Point(12, 470);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(166, 30);
+            this.textBox1.Size = new System.Drawing.Size(230, 30);
             this.textBox1.TabIndex = 37;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
