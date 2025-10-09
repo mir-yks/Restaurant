@@ -138,7 +138,6 @@
             this.textBox1.Font = new System.Drawing.Font("Verdana", 14F);
             this.textBox1.ForeColor = System.Drawing.Color.White;
             this.textBox1.Location = new System.Drawing.Point(12, 470);
-            this.textBox1.MaxLength = 6;
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(166, 30);
             this.textBox1.TabIndex = 37;

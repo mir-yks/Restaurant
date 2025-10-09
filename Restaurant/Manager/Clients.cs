@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,6 +13,7 @@ namespace Restaurant
 {
     public partial class Clients : Form
     {
+        private DataTable clientTable;
         public Clients()
         {
             InitializeComponent();
@@ -22,6 +24,7 @@ namespace Restaurant
             button1.Font = Fonts.MontserratAlternatesBold(12f);
             button2.Font = Fonts.MontserratAlternatesBold(12f);
             button3.Font = Fonts.MontserratAlternatesBold(12f);
+            dataGridView1.Font = Fonts.MontserratAlternatesRegular(10f);
         }
 
         private void button1_Click_1(object sender, EventArgs e)
@@ -44,5 +47,52 @@ namespace Restaurant
             ClientsInsert.ShowDialog();
             this.Visible = true;
         }
+
+        private void Clients_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                MySqlConnection con = new MySqlConnection(connStr.ConnectionString);
+                con.Open();
+                MySqlCommand cmd = new MySqlCommand(@"SELECT 
+                                                        ClientFIO AS 'ФИО',
+                                                        ClientPhone AS 'Телефон'
+                                                    FROM client;", con);
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                clientTable = new DataTable();
+                da.Fill(clientTable);
+                dataGridView1.DataSource = clientTable;
+                MySqlCommand client = new MySqlCommand("SELECT ClientFIO FROM client;", con);
+                MySqlDataReader reader = client.ExecuteReader();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString(), "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            ApplyFilters();
+        }
+        private void ApplyFilters()
+        {
+            if (clientTable == null) return;
+
+            string searchText = textBox1.Text.Trim().Replace("'", "''");
+
+            DataView view = new DataView(clientTable);
+            string filter = "";
+
+            // Поиск по ФИО
+            if (!string.IsNullOrEmpty(searchText))
+                filter = $"ФИО LIKE '%{searchText}%'";
+
+
+            view.RowFilter = filter;
+            dataGridView1.DataSource = view;
+        }
+
     }
+
 }
