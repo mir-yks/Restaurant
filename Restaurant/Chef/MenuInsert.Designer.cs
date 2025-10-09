@@ -165,6 +165,7 @@
             // 
             // pictureBox1
             // 
+            this.pictureBox1.BackgroundImage = global::Restaurant.Properties.Resources.plug;
             this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pictureBox1.Location = new System.Drawing.Point(287, 76);
             this.pictureBox1.Name = "pictureBox1";
@@ -192,7 +193,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.comboBox5);
             this.Controls.Add(this.comboBox4);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "MenuInsert";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Редактирование блюда";

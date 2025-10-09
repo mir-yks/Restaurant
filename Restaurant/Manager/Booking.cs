@@ -15,6 +15,11 @@ namespace Restaurant
         public Booking()
         {
             InitializeComponent();
+
+            label2.Font = Fonts.MontserratAlternatesRegular(14f);
+            button1.Font = Fonts.MontserratAlternatesBold(12f);
+            button2.Font = Fonts.MontserratAlternatesBold(12f);
+            button3.Font = Fonts.MontserratAlternatesBold(12f);
         }
 
         private void button2_Click(object sender, EventArgs e)

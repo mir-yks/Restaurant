@@ -53,8 +53,8 @@ namespace Restaurant
                 button5.Visible = true;
                 button9.Visible = true;
 
-                button5.Location = new System.Drawing.Point(12, 319);
-                button9.Location = new System.Drawing.Point(12, 258);
+                button5.Location = new System.Drawing.Point(12, 359);
+                button9.Location = new System.Drawing.Point(12, 298);
             }
             if (currentRole == 2)
             {
@@ -62,8 +62,8 @@ namespace Restaurant
                 button6.Visible = true;
                 button10.Visible = true;
 
-                button6.Location = new System.Drawing.Point(12, 380);
-                button10.Location = new System.Drawing.Point(12, 258);
+                button6.Location = new System.Drawing.Point(12, 420);
+                button10.Location = new System.Drawing.Point(12, 298);
             }
             if (currentRole == 3)
             {
@@ -77,8 +77,8 @@ namespace Restaurant
                 button7.Visible = true;
                 button8.Visible = true;
 
-                button7.Location = new System.Drawing.Point(12, 319);
-                button8.Location = new System.Drawing.Point(12, 380);
+                button7.Location = new System.Drawing.Point(12, 359);
+                button8.Location = new System.Drawing.Point(12, 420);
             }
         }
         private void button9_Click(object sender, EventArgs e)

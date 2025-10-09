@@ -51,7 +51,7 @@
             this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button4.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.button4.ForeColor = System.Drawing.Color.White;
-            this.button4.Location = new System.Drawing.Point(12, 494);
+            this.button4.Location = new System.Drawing.Point(12, 533);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(105, 55);
             this.button4.TabIndex = 7;
@@ -66,7 +66,7 @@
             this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button5.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.button5.ForeColor = System.Drawing.Color.White;
-            this.button5.Location = new System.Drawing.Point(234, 319);
+            this.button5.Location = new System.Drawing.Point(233, 359);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(105, 55);
             this.button5.TabIndex = 9;
@@ -81,7 +81,7 @@
             this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button3.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.button3.ForeColor = System.Drawing.Color.White;
-            this.button3.Location = new System.Drawing.Point(12, 380);
+            this.button3.Location = new System.Drawing.Point(12, 420);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(105, 55);
             this.button3.TabIndex = 10;
@@ -96,7 +96,7 @@
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button2.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Location = new System.Drawing.Point(12, 319);
+            this.button2.Location = new System.Drawing.Point(12, 359);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(105, 55);
             this.button2.TabIndex = 11;
@@ -111,7 +111,7 @@
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(12, 258);
+            this.button1.Location = new System.Drawing.Point(12, 298);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(105, 55);
             this.button1.TabIndex = 12;
@@ -126,7 +126,7 @@
             this.button7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button7.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.button7.ForeColor = System.Drawing.Color.White;
-            this.button7.Location = new System.Drawing.Point(123, 258);
+            this.button7.Location = new System.Drawing.Point(122, 298);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(105, 55);
             this.button7.TabIndex = 8;
@@ -141,7 +141,7 @@
             this.button8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button8.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.button8.ForeColor = System.Drawing.Color.White;
-            this.button8.Location = new System.Drawing.Point(123, 319);
+            this.button8.Location = new System.Drawing.Point(122, 359);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(105, 55);
             this.button8.TabIndex = 8;
@@ -156,7 +156,7 @@
             this.button9.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button9.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.button9.ForeColor = System.Drawing.Color.White;
-            this.button9.Location = new System.Drawing.Point(123, 380);
+            this.button9.Location = new System.Drawing.Point(122, 420);
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(105, 55);
             this.button9.TabIndex = 8;
@@ -170,7 +170,7 @@
             this.label4.BackColor = System.Drawing.Color.Transparent;
             this.label4.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(350, 55);
+            this.label4.Location = new System.Drawing.Point(391, 51);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(223, 23);
             this.label4.TabIndex = 13;
@@ -183,7 +183,7 @@
             this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(8, 207);
+            this.label3.Location = new System.Drawing.Point(8, 238);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(65, 23);
             this.label3.TabIndex = 14;
@@ -196,7 +196,7 @@
             this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button6.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.button6.ForeColor = System.Drawing.Color.White;
-            this.button6.Location = new System.Drawing.Point(234, 258);
+            this.button6.Location = new System.Drawing.Point(233, 298);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(105, 55);
             this.button6.TabIndex = 9;
@@ -211,7 +211,7 @@
             this.button10.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button10.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.button10.ForeColor = System.Drawing.Color.White;
-            this.button10.Location = new System.Drawing.Point(234, 380);
+            this.button10.Location = new System.Drawing.Point(233, 420);
             this.button10.Name = "button10";
             this.button10.Size = new System.Drawing.Size(105, 55);
             this.button10.TabIndex = 8;
@@ -237,7 +237,7 @@
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImage = global::Restaurant.Properties.Resources.fonMain;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(784, 561);
+            this.ClientSize = new System.Drawing.Size(800, 600);
             this.ControlBox = false;
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.label4);

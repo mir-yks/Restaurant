@@ -58,15 +58,15 @@ namespace Restaurant
             {
                 button2.Visible = true;
                 button3.Visible = true;
-                button3.Location = new System.Drawing.Point(657, 494);
-                button2.Location = new System.Drawing.Point(536, 494);
+                button3.Location = new System.Drawing.Point(673, 533);
+                button2.Location = new System.Drawing.Point(552, 533);
             }
             else if (roleId == 3)
             {
                 button4.Visible = true;
                 button5.Visible = true;
                 button6.Visible = true;
-                button6.Location = new System.Drawing.Point(657, 433);
+                button6.Location = new System.Drawing.Point(673, 533);
                 
             }
         }
