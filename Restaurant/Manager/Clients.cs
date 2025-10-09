@@ -15,6 +15,13 @@ namespace Restaurant
         public Clients()
         {
             InitializeComponent();
+
+            label1.Font = Fonts.MontserratAlternatesRegular(14f);
+            label2.Font = Fonts.MontserratAlternatesRegular(14f);
+            textBox1.Font = Fonts.MontserratAlternatesRegular(14f);
+            button1.Font = Fonts.MontserratAlternatesBold(12f);
+            button2.Font = Fonts.MontserratAlternatesBold(12f);
+            button3.Font = Fonts.MontserratAlternatesBold(12f);
         }
 
         private void button1_Click_1(object sender, EventArgs e)

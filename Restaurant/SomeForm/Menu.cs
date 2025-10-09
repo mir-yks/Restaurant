@@ -29,9 +29,6 @@ namespace Restaurant
             button1.Font = Fonts.MontserratAlternatesBold(12f);
             button2.Font = Fonts.MontserratAlternatesBold(12f);
             button3.Font = Fonts.MontserratAlternatesBold(12f);
-
-            textBox1.BorderStyle = BorderStyle.FixedSingle;
-            textBox1.BackColor = ColorTranslator.FromHtml("#393C46");
         }
         private void ConfigureButtons()
         {

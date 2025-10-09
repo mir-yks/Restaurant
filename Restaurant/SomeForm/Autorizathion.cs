@@ -19,30 +19,7 @@ namespace Restaurant
             textBox1.Font = Fonts.MontserratAlternatesRegular(14f);
             textBox2.Font = Fonts.MontserratAlternatesRegular(14f);
             button2.Font = Fonts.MontserratAlternatesBold(12f);
-
-            StyleControl(textBox1);
-            StyleControl(textBox2);
-            StyleControl(checkBox1);
-
         }
-        private void StyleControl(Control ctrl)
-        {
-            if (ctrl is TextBox txt)
-            {
-                txt.BorderStyle = BorderStyle.FixedSingle;
-                txt.BackColor = ColorTranslator.FromHtml("#393C46");
-
-            }
-            else if (ctrl is CheckBox chk)
-            {
-                chk.FlatStyle = FlatStyle.Flat;
-                chk.FlatAppearance.BorderColor = ColorTranslator.FromHtml("#61636B");
-                chk.FlatAppearance.BorderSize = 1;
-                chk.FlatAppearance.CheckedBackColor = ColorTranslator.FromHtml("#61636B");
-                chk.BackColor = ColorTranslator.FromHtml("#393C46");
-            }
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
             Application.Exit();

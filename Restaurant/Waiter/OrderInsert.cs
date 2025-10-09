@@ -35,9 +35,6 @@ namespace Restaurant
 
             dateTimePicker1.MaxDate = DateTime.Today;
             dateTimePicker1.MinDate = DateTime.Today.AddMonths(-3);
-
-            textBox1.BorderStyle = BorderStyle.FixedSingle;
-            textBox1.BackColor = ColorTranslator.FromHtml("#393C46");
         }
 
 

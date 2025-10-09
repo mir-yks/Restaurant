@@ -44,10 +44,10 @@ namespace Restaurant
             this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button3.Font = new System.Drawing.Font("Verdana", 14F);
             this.button3.ForeColor = System.Drawing.Color.White;
-            this.button3.Location = new System.Drawing.Point(543, 497);
+            this.button3.Location = new System.Drawing.Point(549, 536);
             this.button3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(110, 50);
+            this.button3.Size = new System.Drawing.Size(115, 50);
             this.button3.TabIndex = 40;
             this.button3.Text = "Изменить";
             this.button3.UseVisualStyleBackColor = false;
@@ -60,10 +60,10 @@ namespace Restaurant
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button2.Font = new System.Drawing.Font("Verdana", 14F);
             this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Location = new System.Drawing.Point(661, 497);
+            this.button2.Location = new System.Drawing.Point(672, 536);
             this.button2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(110, 50);
+            this.button2.Size = new System.Drawing.Size(115, 50);
             this.button2.TabIndex = 41;
             this.button2.Text = "Добавить";
             this.button2.UseVisualStyleBackColor = false;
@@ -76,7 +76,7 @@ namespace Restaurant
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Font = new System.Drawing.Font("Verdana", 14F);
             this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(13, 497);
+            this.button1.Location = new System.Drawing.Point(13, 536);
             this.button1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(110, 50);
@@ -94,7 +94,7 @@ namespace Restaurant
             this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.Font = new System.Drawing.Font("Verdana", 14F);
             this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(10, 420);
+            this.label2.Location = new System.Drawing.Point(12, 440);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(226, 23);
             this.label2.TabIndex = 39;
@@ -111,7 +111,7 @@ namespace Restaurant
             this.dataGridView1.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(784, 404);
+            this.dataGridView1.Size = new System.Drawing.Size(800, 424);
             this.dataGridView1.TabIndex = 38;
             // 
             // Booking
@@ -121,7 +121,7 @@ namespace Restaurant
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImage = global::Restaurant.Properties.Resources.fonMain;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(784, 561);
+            this.ClientSize = new System.Drawing.Size(800, 600);
             this.ControlBox = false;
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);

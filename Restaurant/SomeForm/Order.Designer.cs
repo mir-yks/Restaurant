@@ -133,6 +133,7 @@
             // textBox1
             // 
             this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBox1.Font = new System.Drawing.Font("Verdana", 14F);
             this.textBox1.Location = new System.Drawing.Point(14, 443);
             this.textBox1.MaxLength = 6;
