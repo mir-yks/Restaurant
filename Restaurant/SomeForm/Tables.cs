@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace Restaurant
@@ -11,25 +12,31 @@ namespace Restaurant
         {
             InitializeComponent();
             roleId = role;
-            ConfigureButtons(); 
+            ConfigureButtons();
+
+            label1.Font = Fonts.MontserratAlternatesRegular(14f);
+            label2.Font = Fonts.MontserratAlternatesRegular(14f);
+            label3.Font = Fonts.MontserratAlternatesRegular(14f);
+            textBox1.Font = Fonts.MontserratAlternatesRegular(14f);
+            comboBox1.Font = Fonts.MontserratAlternatesRegular(14f);
+            button1.Font = Fonts.MontserratAlternatesBold(12f);
+            button2.Font = Fonts.MontserratAlternatesBold(12f);
+            button3.Font = Fonts.MontserratAlternatesBold(12f);
+
+            textBox1.BorderStyle = BorderStyle.FixedSingle;
+            textBox1.BackColor = ColorTranslator.FromHtml("#393C46");
         }
 
         private void ConfigureButtons()
         {
             button2.Visible = false; 
             button3.Visible = false;
-            button4.Visible = false; 
             button1.Visible = true; 
 
             if (roleId == 1) 
             {
                 button2.Visible = true;
                 button3.Visible = true;
-            }
-            else if (roleId == 2) 
-            {
-                button4.Visible = true;
-                button4.Location = new System.Drawing.Point(661, 492);
             }
         }
 
