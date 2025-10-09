@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -20,6 +21,7 @@ namespace Restaurant
             button1.Font = Fonts.MontserratAlternatesBold(12f);
             button2.Font = Fonts.MontserratAlternatesBold(12f);
             button3.Font = Fonts.MontserratAlternatesBold(12f);
+            dataGridView1.Font = Fonts.MontserratAlternatesRegular(10f);
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -41,6 +43,25 @@ namespace Restaurant
         private void button1_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
+        }
+
+        private void Offers_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                MySqlConnection con = new MySqlConnection(connStr.ConnectionString);
+                con.Open();
+                MySqlCommand cmd = new MySqlCommand(@"SELECT OffersDishName AS 'Предложение блюд', OffersDishDicsount AS 'Скидка' FROM OffersDish", con);
+                DataTable t = new DataTable();
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                da.Fill(t);
+                dataGridView1.DataSource = t;
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString(), "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
