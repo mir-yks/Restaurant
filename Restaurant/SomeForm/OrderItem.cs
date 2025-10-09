@@ -18,6 +18,9 @@ namespace Restaurant
             InitializeComponent();
             roleId = role;
             ConfigureButtons();
+
+            button1.Font = Fonts.MontserratAlternatesBold(12f);
+            button2.Font = Fonts.MontserratAlternatesBold(12f);
         }
         private void ConfigureButtons()
         {

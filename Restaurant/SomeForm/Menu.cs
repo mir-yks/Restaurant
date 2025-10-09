@@ -18,6 +18,20 @@ namespace Restaurant
             InitializeComponent();
             roleId = role;
             ConfigureButtons();
+
+            label1.Font = Fonts.MontserratAlternatesRegular(14f);
+            label2.Font = Fonts.MontserratAlternatesRegular(14f);
+            label3.Font = Fonts.MontserratAlternatesRegular(14f);
+            label4.Font = Fonts.MontserratAlternatesRegular(14f);
+            textBox1.Font = Fonts.MontserratAlternatesRegular(14f);
+            comboBox1.Font = Fonts.MontserratAlternatesRegular(14f);
+            comboBox2.Font = Fonts.MontserratAlternatesRegular(14f);
+            button1.Font = Fonts.MontserratAlternatesBold(12f);
+            button2.Font = Fonts.MontserratAlternatesBold(12f);
+            button3.Font = Fonts.MontserratAlternatesBold(12f);
+
+            textBox1.BorderStyle = BorderStyle.FixedSingle;
+            textBox1.BackColor = ColorTranslator.FromHtml("#393C46");
         }
         private void ConfigureButtons()
         {
