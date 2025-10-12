@@ -66,9 +66,9 @@
             this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button5.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.button5.ForeColor = System.Drawing.Color.White;
-            this.button5.Location = new System.Drawing.Point(233, 359);
+            this.button5.Location = new System.Drawing.Point(314, 359);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(105, 55);
+            this.button5.Size = new System.Drawing.Size(145, 55);
             this.button5.TabIndex = 9;
             this.button5.Text = "Сотрудники";
             this.button5.UseVisualStyleBackColor = false;
@@ -83,7 +83,7 @@
             this.button3.ForeColor = System.Drawing.Color.White;
             this.button3.Location = new System.Drawing.Point(12, 420);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(105, 55);
+            this.button3.Size = new System.Drawing.Size(145, 55);
             this.button3.TabIndex = 10;
             this.button3.Text = "Столы";
             this.button3.UseVisualStyleBackColor = false;
@@ -98,7 +98,7 @@
             this.button2.ForeColor = System.Drawing.Color.White;
             this.button2.Location = new System.Drawing.Point(12, 359);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(105, 55);
+            this.button2.Size = new System.Drawing.Size(145, 55);
             this.button2.TabIndex = 11;
             this.button2.Text = "Заказы";
             this.button2.UseVisualStyleBackColor = false;
@@ -113,7 +113,7 @@
             this.button1.ForeColor = System.Drawing.Color.White;
             this.button1.Location = new System.Drawing.Point(12, 298);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(105, 55);
+            this.button1.Size = new System.Drawing.Size(145, 55);
             this.button1.TabIndex = 12;
             this.button1.Text = "Меню";
             this.button1.UseVisualStyleBackColor = false;
@@ -126,9 +126,9 @@
             this.button7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button7.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.button7.ForeColor = System.Drawing.Color.White;
-            this.button7.Location = new System.Drawing.Point(122, 298);
+            this.button7.Location = new System.Drawing.Point(163, 298);
             this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(105, 55);
+            this.button7.Size = new System.Drawing.Size(145, 55);
             this.button7.TabIndex = 8;
             this.button7.Text = "Категории блюд";
             this.button7.UseVisualStyleBackColor = false;
@@ -141,9 +141,9 @@
             this.button8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button8.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.button8.ForeColor = System.Drawing.Color.White;
-            this.button8.Location = new System.Drawing.Point(122, 359);
+            this.button8.Location = new System.Drawing.Point(163, 359);
             this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(105, 55);
+            this.button8.Size = new System.Drawing.Size(145, 55);
             this.button8.TabIndex = 8;
             this.button8.Text = "Предложения";
             this.button8.UseVisualStyleBackColor = false;
@@ -156,9 +156,9 @@
             this.button9.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button9.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.button9.ForeColor = System.Drawing.Color.White;
-            this.button9.Location = new System.Drawing.Point(122, 420);
+            this.button9.Location = new System.Drawing.Point(163, 420);
             this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(105, 55);
+            this.button9.Size = new System.Drawing.Size(145, 55);
             this.button9.TabIndex = 8;
             this.button9.Text = "Роли";
             this.button9.UseVisualStyleBackColor = false;
@@ -196,9 +196,9 @@
             this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button6.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.button6.ForeColor = System.Drawing.Color.White;
-            this.button6.Location = new System.Drawing.Point(233, 298);
+            this.button6.Location = new System.Drawing.Point(314, 298);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(105, 55);
+            this.button6.Size = new System.Drawing.Size(145, 55);
             this.button6.TabIndex = 9;
             this.button6.Text = "Клиенты";
             this.button6.UseVisualStyleBackColor = false;
@@ -211,11 +211,11 @@
             this.button10.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button10.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.button10.ForeColor = System.Drawing.Color.White;
-            this.button10.Location = new System.Drawing.Point(233, 420);
+            this.button10.Location = new System.Drawing.Point(314, 420);
             this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(105, 55);
+            this.button10.Size = new System.Drawing.Size(145, 55);
             this.button10.TabIndex = 8;
-            this.button10.Text = "Бронирование";
+            this.button10.Text = "Бронь столиков";
             this.button10.UseVisualStyleBackColor = false;
             this.button10.Click += new System.EventHandler(this.button10_Click);
             // 
