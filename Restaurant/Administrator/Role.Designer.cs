@@ -93,11 +93,11 @@
             this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.Font = new System.Drawing.Font("Verdana", 14F);
             this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(12, 448);
+            this.label2.Location = new System.Drawing.Point(670, 420);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(140, 23);
+            this.label2.Size = new System.Drawing.Size(74, 23);
             this.label2.TabIndex = 34;
-            this.label2.Text = "Всего ролей:";
+            this.label2.Text = "Всего:";
             // 
             // dataGridView1
             // 
@@ -112,7 +112,7 @@
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.Size = new System.Drawing.Size(800, 414);
+            this.dataGridView1.Size = new System.Drawing.Size(800, 410);
             this.dataGridView1.TabIndex = 31;
             // 
             // Role

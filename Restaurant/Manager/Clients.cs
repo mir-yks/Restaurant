@@ -62,6 +62,9 @@ namespace Restaurant
                 clientTable = new DataTable();
                 da.Fill(clientTable);
                 dataGridView1.DataSource = clientTable;
+
+                label2.Text = $"Всего: {clientTable.Rows.Count}";
+
                 MySqlCommand client = new MySqlCommand("SELECT ClientFIO FROM client;", con);
                 MySqlDataReader reader = client.ExecuteReader();
             }
@@ -84,15 +87,29 @@ namespace Restaurant
             DataView view = new DataView(clientTable);
             string filter = "";
 
-            // Поиск по ФИО
             if (!string.IsNullOrEmpty(searchText))
                 filter = $"ФИО LIKE '%{searchText}%'";
 
 
             view.RowFilter = filter;
             dataGridView1.DataSource = view;
+
+            label2.Text = $"Всего: {view.Count}";
         }
 
+        private void button7_Click(object sender, EventArgs e)
+        {
+            textBox1.Text = "";
+
+            if (clientTable != null)
+            {
+                DataView view = new DataView(clientTable);
+                view.RowFilter = "";
+                dataGridView1.DataSource = view;
+
+                label2.Text = $"Всего: {view.Count}";
+            }
+        }
     }
 
 }

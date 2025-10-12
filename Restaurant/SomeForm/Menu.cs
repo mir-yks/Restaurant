@@ -85,6 +85,9 @@ namespace Restaurant
                 menuTable = new DataTable();
                 da.Fill(menuTable);
                 dataGridView1.DataSource = menuTable;
+
+                label2.Text = $"Всего: {menuTable.Rows.Count}";
+
                 MySqlCommand cmdCategories = new MySqlCommand("SELECT CategoryDishName FROM CategoryDish;", con);
                 MySqlDataReader reader = cmdCategories.ExecuteReader();
 
@@ -155,6 +158,8 @@ namespace Restaurant
                 view.Sort = "";
 
             dataGridView1.DataSource = view;
+
+            label2.Text = $"Всего: {view.Count}";
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -170,6 +175,8 @@ namespace Restaurant
                 view.RowFilter = "";
                 view.Sort = "";
                 dataGridView1.DataSource = view;
+
+                label2.Text = $"Всего: {view.Count}";
             }
         }
     }

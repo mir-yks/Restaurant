@@ -74,6 +74,8 @@ namespace Restaurant
                 MySqlCommand cmdRoles = new MySqlCommand("SELECT RoleName FROM role;", con);
                 MySqlDataReader reader = cmdRoles.ExecuteReader();
 
+                label2.Text = $"Всего: {workersTable.Rows.Count}";
+
                 comboBox1.Items.Clear();
                 comboBox1.Items.Add("");
                 while (reader.Read())
@@ -122,8 +124,24 @@ namespace Restaurant
 
             view.RowFilter = filter;
             dataGridView1.DataSource = view;
+
+            label2.Text = $"Всего: {view.Count}";
         }
 
+        private void button4_Click(object sender, EventArgs e)
+        {
+            textBox1.Text = "";
+            comboBox1.SelectedIndex = 0;
+
+            if (workersTable != null)
+            {
+                DataView view = new DataView(workersTable);
+                view.RowFilter = "";
+                dataGridView1.DataSource = view;
+
+                label2.Text = $"Всего: {view.Count}";
+            }
+        }
     }
 
 }

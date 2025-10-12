@@ -131,6 +131,9 @@ namespace Restaurant
                 orderTable = new DataTable();
                 da.Fill(orderTable);
                 dataGridView1.DataSource = orderTable;
+
+                label2.Text = $"Всего: {orderTable.Rows.Count}";
+
                 MySqlCommand cmdCategories = new MySqlCommand("SELECT CategoryDishName FROM CategoryDish;", con);
                 MySqlDataReader reader = cmdCategories.ExecuteReader();
 
@@ -140,6 +143,9 @@ namespace Restaurant
                 comboBox1.Items.Add("В обработке");
                 comboBox1.Items.Add("На кухне");
                 comboBox1.Items.Add("Готов");
+
+                comboBox1.Items.Add("Оплачен");
+                comboBox1.Items.Add("Не оплачен");
                 comboBox1.SelectedIndex = 0;
 
 
@@ -176,14 +182,19 @@ namespace Restaurant
 
             if (!string.IsNullOrEmpty(searchText))
             {
-                filter = $"Convert([Номер заказа], 'System.String') LIKE '%{searchText}%'";
+                filter = $"Convert([Номер заказа], 'System.String') LIKE '%{searchText}%' " +
+                         $"OR [Клиент] LIKE '%{searchText}%' " +
+                         $"OR [Сотрудник] LIKE '%{searchText}%' " +
+                         $"OR Convert([Номер столика], 'System.String') LIKE '%{searchText}%'";
             }
 
             if (!string.IsNullOrEmpty(selectedStatus))
             {
+                string statusFilter = $"[Статус заказа] = '{selectedStatus}' OR [Статус оплаты заказа] = '{selectedStatus}'";
                 if (!string.IsNullOrEmpty(filter))
-                    filter += " AND ";
-                filter += $"[Статус заказа] = '{selectedStatus}'";
+                    filter = $"({filter}) AND ({statusFilter})";
+                else
+                    filter = statusFilter;
             }
 
             view.RowFilter = filter;
@@ -196,6 +207,26 @@ namespace Restaurant
                 view.Sort = "";
 
             dataGridView1.DataSource = view;
+
+            label2.Text = $"Всего: {view.Count}";
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            textBox1.Text = "";
+
+            comboBox1.SelectedIndex = 0;
+            comboBox2.SelectedIndex = 0;
+
+            if (orderTable != null)
+            {
+                DataView view = new DataView(orderTable);
+                view.RowFilter = "";
+                view.Sort = "";
+                dataGridView1.DataSource = view;
+
+                label2.Text = $"Всего: {view.Count}";
+            }
         }
     }
 }

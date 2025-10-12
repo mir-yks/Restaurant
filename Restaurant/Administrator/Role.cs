@@ -50,6 +50,9 @@ namespace Restaurant
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(t);
                 dataGridView1.DataSource = t;
+
+                label2.Text = $"Всего: {t.Rows.Count}";
+
                 con.Close();
             }
             catch (Exception ex)
