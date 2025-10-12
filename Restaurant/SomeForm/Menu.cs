@@ -35,11 +35,11 @@ namespace Restaurant
         }
         private void ConfigureButtons()
         {
-            button1.Visible = true; 
+            button1.Visible = true;
             button2.Visible = false;
             button3.Visible = false;
 
-            if (roleId == 4) 
+            if (roleId == 4)
             {
                 button2.Visible = true;
                 button3.Visible = true;
@@ -89,7 +89,7 @@ namespace Restaurant
                 MySqlDataReader reader = cmdCategories.ExecuteReader();
 
                 comboBox1.Items.Clear();
-                comboBox1.Items.Add(""); 
+                comboBox1.Items.Add("");
                 while (reader.Read())
                 {
                     comboBox1.Items.Add(reader.GetString(0));
@@ -130,13 +130,19 @@ namespace Restaurant
             string filter = "";
 
             if (!string.IsNullOrEmpty(searchText))
-                filter = $"Блюдо LIKE '%{searchText}%'";
+            {
+                if (searchText.Length > 1)
+                {
+                    string trimmedSearch = searchText.Substring(1);
+                    filter = $"(Блюдо LIKE '%{trimmedSearch}%' OR Описание LIKE '%{trimmedSearch}%')";
+                }
+            }
 
             if (!string.IsNullOrEmpty(selectedCategory))
             {
                 if (!string.IsNullOrEmpty(filter))
                     filter += " AND ";
-                filter += $"`Категория блюда` = '{selectedCategory}'";
+                filter += $"[Категория блюда] = '{selectedCategory}'";
             }
 
             view.RowFilter = filter;
@@ -146,11 +152,25 @@ namespace Restaurant
             else if (sortOption == "По убыванию")
                 view.Sort = "[Стоимость] DESC";
             else
-                view.Sort = ""; 
+                view.Sort = "";
 
             dataGridView1.DataSource = view;
         }
 
-    }
+        private void button4_Click(object sender, EventArgs e)
+        {
+            textBox1.Text = "";
 
+            comboBox1.SelectedIndex = 0;
+            comboBox2.SelectedIndex = 0;
+
+            if (menuTable != null)
+            {
+                DataView view = new DataView(menuTable);
+                view.RowFilter = "";
+                view.Sort = "";
+                dataGridView1.DataSource = view;
+            }
+        }
+    }
 }
