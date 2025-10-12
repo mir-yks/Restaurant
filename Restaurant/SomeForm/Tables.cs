@@ -26,6 +26,7 @@ namespace Restaurant
             button1.Font = Fonts.MontserratAlternatesBold(12f);
             button2.Font = Fonts.MontserratAlternatesBold(12f);
             button3.Font = Fonts.MontserratAlternatesBold(12f);
+            button8.Font = Fonts.MontserratAlternatesBold(12f);
             dataGridView1.Font = Fonts.MontserratAlternatesRegular(10f);
         }
 
@@ -33,12 +34,14 @@ namespace Restaurant
         {
             button2.Visible = false;
             button3.Visible = false;
+            button8.Visible = false;
             button1.Visible = true;
 
             if (roleId == 1)
             {
                 button2.Visible = true;
                 button3.Visible = true;
+                button8.Visible = true;
             }
         }
 

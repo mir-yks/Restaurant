@@ -31,6 +31,7 @@ namespace Restaurant
             button1.Font = Fonts.MontserratAlternatesBold(12f);
             button2.Font = Fonts.MontserratAlternatesBold(12f);
             button3.Font = Fonts.MontserratAlternatesBold(12f);
+            button8.Font = Fonts.MontserratAlternatesBold(12f);
             dataGridView1.Font = Fonts.MontserratAlternatesRegular(10f);
         }
         private void ConfigureButtons()
@@ -38,11 +39,13 @@ namespace Restaurant
             button1.Visible = true;
             button2.Visible = false;
             button3.Visible = false;
+            button8.Visible = false;
 
             if (roleId == 4)
             {
                 button2.Visible = true;
                 button3.Visible = true;
+                button8.Visible = true;
             }
         }
         private void button1_Click(object sender, EventArgs e)

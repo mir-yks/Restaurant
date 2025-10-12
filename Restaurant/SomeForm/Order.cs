@@ -34,6 +34,7 @@ namespace Restaurant
             button4.Font = Fonts.MontserratAlternatesBold(12f);
             button5.Font = Fonts.MontserratAlternatesBold(12f);
             button6.Font = Fonts.MontserratAlternatesBold(12f);
+            button8.Font = Fonts.MontserratAlternatesBold(12f);
             dataGridView1.Font = Fonts.MontserratAlternatesRegular(10f);
         }
 
@@ -44,6 +45,7 @@ namespace Restaurant
             button4.Visible = false;
             button5.Visible = false;
             button6.Visible = false;
+            button8.Visible = false;
             button1.Visible = true;
 
             if (roleId == 1)
@@ -66,8 +68,9 @@ namespace Restaurant
                 button4.Visible = true;
                 button5.Visible = true;
                 button6.Visible = true;
-                button6.Location = new System.Drawing.Point(673, 533);
-                
+                button8.Visible = true;
+                button6.Location = new System.Drawing.Point(421, 533);
+                button8.Location = new System.Drawing.Point(673, 472);
             }
         }
 

@@ -23,10 +23,11 @@ namespace Restaurant
             label3.Font = Fonts.MontserratAlternatesRegular(14f);
             textBox1.Font = Fonts.MontserratAlternatesRegular(14f);
             comboBox1.Font = Fonts.MontserratAlternatesRegular(14f);
-            dataGridView1.Font = Fonts.MontserratAlternatesRegular(10f);
             button1.Font = Fonts.MontserratAlternatesBold(12f);
             button2.Font = Fonts.MontserratAlternatesBold(12f);
             button3.Font = Fonts.MontserratAlternatesBold(12f);
+            button8.Font = Fonts.MontserratAlternatesBold(12f);
+            dataGridView1.Font = Fonts.MontserratAlternatesRegular(10f);
         }
 
         private void button1_Click(object sender, EventArgs e)
