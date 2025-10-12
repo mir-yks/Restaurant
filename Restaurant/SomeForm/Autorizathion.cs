@@ -10,6 +10,7 @@ namespace Restaurant
 {
     public partial class Autorizathion : Form
     {
+        private bool passwordVisible = false;
         public Autorizathion()
         {
             InitializeComponent();
@@ -19,6 +20,9 @@ namespace Restaurant
             textBox1.Font = Fonts.MontserratAlternatesRegular(14f);
             textBox2.Font = Fonts.MontserratAlternatesRegular(14f);
             button2.Font = Fonts.MontserratAlternatesBold(12f);
+
+            textBox2.UseSystemPasswordChar = false; 
+            textBox2.PasswordChar = '*';    
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -84,7 +88,6 @@ namespace Restaurant
                         case 4: roleName = "Шеф-повар"; break;
                     }
 
-                    // Всегда открываем одну форму Desktop, передавая данные
                     Form nextForm = new Desktop(workerFIO, userRole, roleName);
 
                     this.Visible = false;
@@ -100,11 +103,6 @@ namespace Restaurant
             }
         }
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-            textBox2.UseSystemPasswordChar = !checkBox1.Checked;
-        }
-
         private void textBox_KeyPress(object sender, KeyPressEventArgs e)
         {
             string allowedSymbols = "!@#$%^&*()-_=+[]{}|;:'\",.<>?/\\`~"; 
@@ -117,5 +115,23 @@ namespace Restaurant
                 e.Handled = true;
             }
         }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            passwordVisible = !passwordVisible;
+
+            if (passwordVisible)
+            {
+                textBox2.PasswordChar = '\0'; 
+                pictureBox2.BackgroundImage = Properties.Resources.eye;
+            }
+            else
+            {
+                textBox2.PasswordChar = '*';
+                pictureBox2.BackgroundImage = Properties.Resources.eye_closed;
+            }
+        }
+
+
     }
 }

@@ -289,6 +289,12 @@
     <Content Include="Resources\image\exit.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\image\eye.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\image\eye_closed.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\image\fonAutorization.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
