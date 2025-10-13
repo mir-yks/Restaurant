@@ -22,7 +22,7 @@ namespace Restaurant
             button2.Font = Fonts.MontserratAlternatesBold(12f);
             button3.Font = Fonts.MontserratAlternatesBold(12f);
             button8.Font = Fonts.MontserratAlternatesBold(12f);
-            dataGridView1.Font = Fonts.MontserratAlternatesRegular(10f);
+            dataGridView1.Font = Fonts.MontserratAlternatesRegular(12f);
         }
 
         private void button3_Click(object sender, EventArgs e)

@@ -27,7 +27,7 @@ namespace Restaurant
             button2.Font = Fonts.MontserratAlternatesBold(12f);
             button3.Font = Fonts.MontserratAlternatesBold(12f);
             button8.Font = Fonts.MontserratAlternatesBold(12f);
-            dataGridView1.Font = Fonts.MontserratAlternatesRegular(10f);
+            dataGridView1.Font = Fonts.MontserratAlternatesRegular(12f);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -142,18 +142,35 @@ namespace Restaurant
         }
         private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (dataGridView1.Columns[e.ColumnIndex].HeaderText == "Телефон" && e.Value != null)
-            {
-                string phone = e.Value.ToString();
+            if (e.Value == null) return;
 
-                phone = new string(phone.Where(char.IsDigit).ToArray());
+            string columnName = dataGridView1.Columns[e.ColumnIndex].HeaderText;
+            string text = e.Value.ToString();
+
+            if (columnName == "Телефон")
+            {
+                string phone = new string(text.Where(char.IsDigit).ToArray());
 
                 if (phone.Length == 11 && phone.StartsWith("7"))
                 {
-                    e.Value = $"+{phone[0]}({phone.Substring(1, 3)}) {phone.Substring(4, 3)}-{phone.Substring(7, 2)}-{phone.Substring(9, 2)}";
+                    string visiblePart = phone.Substring(0, 4);
+                    string hiddenPart = new string('*', phone.Length - 4);
+                    string maskedPhone = visiblePart + hiddenPart;
+
+                    e.Value = $"+{maskedPhone[0]}({maskedPhone.Substring(1, 3)}) {maskedPhone.Substring(4, 3)}-{maskedPhone.Substring(7, 2)}-{maskedPhone.Substring(9, 2)}";
+                }
+            }
+            else
+            {
+                if (text.Length > 4)
+                {
+                    string visiblePart = text.Substring(0, 4);
+                    string hiddenPart = new string('*', text.Length - 4);
+                    e.Value = visiblePart + hiddenPart;
                 }
             }
         }
+
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {

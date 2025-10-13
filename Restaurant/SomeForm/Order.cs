@@ -35,7 +35,7 @@ namespace Restaurant
             button5.Font = Fonts.MontserratAlternatesBold(12f);
             button6.Font = Fonts.MontserratAlternatesBold(12f);
             button8.Font = Fonts.MontserratAlternatesBold(12f);
-            dataGridView1.Font = Fonts.MontserratAlternatesRegular(10f);
+            dataGridView1.Font = Fonts.MontserratAlternatesRegular(12f);
         }
 
         private void ConfigureButtons()
