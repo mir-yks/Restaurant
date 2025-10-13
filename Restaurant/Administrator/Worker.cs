@@ -37,7 +37,7 @@ namespace Restaurant
 
         private void button2_Click(object sender, EventArgs e)
         {
-            WorkerInsert WorkerInsert = new WorkerInsert();
+            WorkerInsert WorkerInsert = new WorkerInsert("add");
             this.Visible = true;
             WorkerInsert.ShowDialog();
             this.Visible = true;
@@ -45,7 +45,7 @@ namespace Restaurant
 
         private void button3_Click(object sender, EventArgs e)
         {
-            WorkerInsert WorkerInsert = new WorkerInsert();
+            WorkerInsert WorkerInsert = new WorkerInsert("edit");
             this.Visible = true;
             WorkerInsert.ShowDialog();
             this.Visible = true;
@@ -111,11 +111,9 @@ namespace Restaurant
             DataView view = new DataView(workersTable);
             string filter = "";
 
-            // Поиск по ФИО
             if (!string.IsNullOrEmpty(searchText))
                 filter = $"ФИО LIKE '%{searchText}%'";
 
-            // Фильтр по роли
             if (!string.IsNullOrEmpty(selectedRole))
             {
                 if (!string.IsNullOrEmpty(filter))
@@ -128,7 +126,6 @@ namespace Restaurant
 
             label2.Text = $"Всего: {view.Count}";
         }
-
         private void button4_Click(object sender, EventArgs e)
         {
             textBox1.Text = "";
@@ -143,6 +140,41 @@ namespace Restaurant
                 label2.Text = $"Всего: {view.Count}";
             }
         }
-    }
+        private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (dataGridView1.Columns[e.ColumnIndex].HeaderText == "Телефон" && e.Value != null)
+            {
+                string phone = e.Value.ToString();
 
+                phone = new string(phone.Where(char.IsDigit).ToArray());
+
+                if (phone.Length == 11 && phone.StartsWith("7"))
+                {
+                    e.Value = $"+{phone[0]}({phone.Substring(1, 3)}) {phone.Substring(4, 3)}-{phone.Substring(7, 2)}-{phone.Substring(9, 2)}";
+                }
+            }
+        }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
+
+                WorkerInsert form = new WorkerInsert("view");
+
+                form.WorkerFIO = row.Cells["ФИО"].Value.ToString();
+                form.WorkerLogin = row.Cells["Логин"].Value.ToString();
+                form.WorkerPhone = row.Cells["Телефон"].Value.ToString();
+                form.WorkerEmail = row.Cells["Email"].Value.ToString();
+                form.WorkerBirthday = Convert.ToDateTime(row.Cells["Дата рождения"].Value);
+                form.WorkerDateEmployment = Convert.ToDateTime(row.Cells["Дата найма"].Value);
+                form.WorkerAddress = row.Cells["Адрес"].Value.ToString();
+                form.WorkerRole = row.Cells["Роль"].Value.ToString();
+
+                form.ShowDialog();
+
+            }
+        }
+    }
 }

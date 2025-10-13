@@ -32,7 +32,6 @@
             this.textBox5 = new System.Windows.Forms.TextBox();
             this.textBox9 = new System.Windows.Forms.TextBox();
             this.textBox8 = new System.Windows.Forms.TextBox();
-            this.textBox7 = new System.Windows.Forms.TextBox();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -50,6 +49,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.comboBox3 = new System.Windows.Forms.ComboBox();
+            this.maskedTextBox1 = new System.Windows.Forms.MaskedTextBox();
             this.SuspendLayout();
             // 
             // textBox6
@@ -95,17 +95,6 @@
             this.textBox8.Name = "textBox8";
             this.textBox8.Size = new System.Drawing.Size(283, 31);
             this.textBox8.TabIndex = 47;
-            // 
-            // textBox7
-            // 
-            this.textBox7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.textBox7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox7.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox7.ForeColor = System.Drawing.Color.White;
-            this.textBox7.Location = new System.Drawing.Point(16, 304);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(283, 31);
-            this.textBox7.TabIndex = 52;
             // 
             // textBox4
             // 
@@ -307,6 +296,18 @@
             this.comboBox3.Size = new System.Drawing.Size(283, 31);
             this.comboBox3.TabIndex = 27;
             // 
+            // maskedTextBox1
+            // 
+            this.maskedTextBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.maskedTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.maskedTextBox1.Font = new System.Drawing.Font("Verdana", 14.25F);
+            this.maskedTextBox1.ForeColor = System.Drawing.Color.White;
+            this.maskedTextBox1.Location = new System.Drawing.Point(16, 304);
+            this.maskedTextBox1.Mask = "+7 (000) 000-00-00";
+            this.maskedTextBox1.Name = "maskedTextBox1";
+            this.maskedTextBox1.Size = new System.Drawing.Size(283, 31);
+            this.maskedTextBox1.TabIndex = 52;
+            // 
             // WorkerInsert
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -316,11 +317,11 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(650, 420);
             this.ControlBox = false;
+            this.Controls.Add(this.maskedTextBox1);
             this.Controls.Add(this.textBox6);
             this.Controls.Add(this.textBox5);
             this.Controls.Add(this.textBox9);
             this.Controls.Add(this.textBox8);
-            this.Controls.Add(this.textBox7);
             this.Controls.Add(this.textBox4);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label6);
@@ -353,7 +354,6 @@
         private System.Windows.Forms.TextBox textBox5;
         private System.Windows.Forms.TextBox textBox9;
         private System.Windows.Forms.TextBox textBox8;
-        private System.Windows.Forms.TextBox textBox7;
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label6;
@@ -371,5 +371,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.MaskedTextBox maskedTextBox1;
     }
 }

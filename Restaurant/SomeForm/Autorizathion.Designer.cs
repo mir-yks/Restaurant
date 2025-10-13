@@ -93,6 +93,7 @@
             // button1
             // 
             this.button1.BackColor = System.Drawing.Color.Transparent;
+            this.button1.BackgroundImage = global::Restaurant.Properties.Resources.exit;
             this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.button1.FlatAppearance.BorderSize = 0;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;

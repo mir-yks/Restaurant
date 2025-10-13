@@ -35,7 +35,7 @@ namespace Restaurant
 
         private void button3_Click(object sender, EventArgs e)
         {
-            ClientsInsert ClientsInsert = new ClientsInsert();
+            ClientsInsert ClientsInsert = new ClientsInsert("edit");
             this.Visible = true;
             ClientsInsert.ShowDialog();
             this.Visible = true;
@@ -43,7 +43,7 @@ namespace Restaurant
 
         private void button2_Click(object sender, EventArgs e)
         {
-            ClientsInsert ClientsInsert = new ClientsInsert();
+            ClientsInsert ClientsInsert = new ClientsInsert("add");
             this.Visible = true;
             ClientsInsert.ShowDialog();
             this.Visible = true;
@@ -111,6 +111,33 @@ namespace Restaurant
                 label2.Text = $"Всего: {view.Count}";
             }
         }
-    }
+        private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (dataGridView1.Columns[e.ColumnIndex].HeaderText == "Телефон" && e.Value != null)
+            {
+                string phone = e.Value.ToString();
 
+                phone = new string(phone.Where(char.IsDigit).ToArray());
+
+                if (phone.Length == 11 && phone.StartsWith("7"))
+                {
+                    e.Value = $"+{phone[0]}({phone.Substring(1, 3)}) {phone.Substring(4, 3)}-{phone.Substring(7, 2)}-{phone.Substring(9, 2)}";
+                }
+            }
+        }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
+                ClientsInsert form = new ClientsInsert("view");
+
+                form.ClientFIO = row.Cells["ФИО"].Value.ToString();
+                form.ClientPhone = row.Cells["Телефон"].Value.ToString();
+
+                form.ShowDialog();
+            }
+        }
+    }
 }
