@@ -235,5 +235,57 @@ namespace Restaurant
                 e.Handled = true;
             }
         }
+
+        private void textBoxFIO_TextChanged(object sender, EventArgs e)
+        {
+            int cursorPos = textBoxFIO.SelectionStart;
+
+            string input = textBoxFIO.Text;
+            bool showSpaceWarning = false;
+            bool showDashWarning = false;
+
+            int spaceCount = input.Count(c => c == ' ');
+            if (spaceCount > 2)
+            {
+                int lastSpace = input.LastIndexOf(' ');
+                input = input.Remove(lastSpace, 1);
+                showSpaceWarning = true;
+            }
+
+            int dashCount = input.Count(c => c == '-');
+            if (dashCount > 1)
+            {
+                int lastDash = input.LastIndexOf('-');
+                input = input.Remove(lastDash, 1);
+                showDashWarning = true;
+            }
+
+            string[] parts = input
+                .Split(new char[] { ' ', '-' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(p => char.ToUpper(p[0]) + p.Substring(1).ToLower())
+                .ToArray();
+
+            string formatted = input;
+            int index = 0;
+            foreach (string part in parts)
+            {
+                int pos = formatted.IndexOf(part, index, StringComparison.OrdinalIgnoreCase);
+                if (pos >= 0)
+                {
+                    formatted = formatted.Remove(pos, part.Length).Insert(pos, part);
+                    index = pos + part.Length;
+                }
+            }
+
+            textBoxFIO.TextChanged -= textBoxFIO_TextChanged;
+            textBoxFIO.Text = formatted;
+            textBoxFIO.SelectionStart = Math.Min(cursorPos, textBoxFIO.Text.Length);
+            textBoxFIO.TextChanged += textBoxFIO_TextChanged;
+
+            if (showSpaceWarning)
+                InputTooltipHelper.Show(textBoxFIO, "Можно использовать не более двух пробелов.");
+            if (showDashWarning)
+                InputTooltipHelper.Show(textBoxFIO, "Можно использовать только одно тире.");
+        }
     }
 }

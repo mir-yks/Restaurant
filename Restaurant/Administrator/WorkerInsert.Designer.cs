@@ -127,6 +127,7 @@
             this.textBoxFIO.Name = "textBoxFIO";
             this.textBoxFIO.Size = new System.Drawing.Size(283, 31);
             this.textBoxFIO.TabIndex = 50;
+            this.textBoxFIO.TextChanged += new System.EventHandler(this.textBoxFIO_TextChanged);
             this.textBoxFIO.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxFIO_KeyPress);
             // 
             // labelConfPassword

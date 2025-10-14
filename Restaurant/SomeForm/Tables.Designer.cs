@@ -101,7 +101,7 @@
             this.textBoxTable.Size = new System.Drawing.Size(180, 30);
             this.textBoxTable.TabIndex = 25;
             this.textBoxTable.TextChanged += new System.EventHandler(this.textBoxTable_TextChanged);
-            this.textBoxTable.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxTable_KeyPress); ;
+            this.textBoxTable.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxTable_KeyPress);
             // 
             // labelPlaceCount
             // 
