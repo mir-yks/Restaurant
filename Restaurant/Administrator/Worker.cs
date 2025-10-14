@@ -18,24 +18,24 @@ namespace Restaurant
         {
             InitializeComponent();
 
-            label1.Font = Fonts.MontserratAlternatesRegular(14f);
-            label2.Font = Fonts.MontserratAlternatesRegular(14f);
-            label3.Font = Fonts.MontserratAlternatesRegular(14f);
-            textBox1.Font = Fonts.MontserratAlternatesRegular(14f);
-            comboBox1.Font = Fonts.MontserratAlternatesRegular(14f);
-            button1.Font = Fonts.MontserratAlternatesBold(12f);
-            button2.Font = Fonts.MontserratAlternatesBold(12f);
-            button3.Font = Fonts.MontserratAlternatesBold(12f);
-            button8.Font = Fonts.MontserratAlternatesBold(12f);
+            labelWorker.Font = Fonts.MontserratAlternatesRegular(14f);
+            labelTotal.Font = Fonts.MontserratAlternatesRegular(14f);
+            labelCategory.Font = Fonts.MontserratAlternatesRegular(14f);
+            textBoxWorker.Font = Fonts.MontserratAlternatesRegular(14f);
+            comboBoxCategory.Font = Fonts.MontserratAlternatesRegular(14f);
+            buttonBack.Font = Fonts.MontserratAlternatesBold(12f);
+            buttonNew.Font = Fonts.MontserratAlternatesBold(12f);
+            buttonUpdate.Font = Fonts.MontserratAlternatesBold(12f);
+            buttonDelete.Font = Fonts.MontserratAlternatesBold(12f);
             dataGridView1.Font = Fonts.MontserratAlternatesRegular(12f);
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonBack_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void buttonNew_Click(object sender, EventArgs e)
         {
             WorkerInsert WorkerInsert = new WorkerInsert("add");
             this.Visible = true;
@@ -43,7 +43,7 @@ namespace Restaurant
             this.Visible = true;
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void buttonUpdate_Click(object sender, EventArgs e)
         {
             WorkerInsert WorkerInsert = new WorkerInsert("edit");
             this.Visible = true;
@@ -75,29 +75,29 @@ namespace Restaurant
                 MySqlCommand cmdRoles = new MySqlCommand("SELECT RoleName FROM role;", con);
                 MySqlDataReader reader = cmdRoles.ExecuteReader();
 
-                label2.Text = $"Всего: {workersTable.Rows.Count}";
+                labelTotal.Text = $"Всего: {workersTable.Rows.Count}";
 
-                comboBox1.Items.Clear();
-                comboBox1.Items.Add("");
+                comboBoxCategory.Items.Clear();
+                comboBoxCategory.Items.Add("");
                 while (reader.Read())
                 {
-                    comboBox1.Items.Add(reader.GetString(0));
+                    comboBoxCategory.Items.Add(reader.GetString(0));
                 }
                 reader.Close();
 
-                comboBox1.SelectedIndex = 0;
+                comboBoxCategory.SelectedIndex = 0;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message.ToString(), "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void comboBoxCategory_SelectedIndexChanged(object sender, EventArgs e)
         {
             ApplyFilters();
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private void textBoxWorker_TextChanged(object sender, EventArgs e)
         {
             ApplyFilters();
         }
@@ -105,8 +105,8 @@ namespace Restaurant
         {
             if (workersTable == null) return;
 
-            string searchText = textBox1.Text.Trim().Replace("'", "''");
-            string selectedRole = comboBox1.SelectedItem?.ToString() ?? "";
+            string searchText = textBoxWorker.Text.Trim().Replace("'", "''");
+            string selectedRole = comboBoxCategory.SelectedItem?.ToString() ?? "";
 
             DataView view = new DataView(workersTable);
             string filter = "";
@@ -124,12 +124,12 @@ namespace Restaurant
             view.RowFilter = filter;
             dataGridView1.DataSource = view;
 
-            label2.Text = $"Всего: {view.Count}";
+            labelTotal.Text = $"Всего: {view.Count}";
         }
-        private void button4_Click(object sender, EventArgs e)
+        private void buttonClearFilters_Click(object sender, EventArgs e)
         {
-            textBox1.Text = "";
-            comboBox1.SelectedIndex = 0;
+            textBoxWorker.Text = "";
+            comboBoxCategory.SelectedIndex = 0;
 
             if (workersTable != null)
             {
@@ -137,7 +137,7 @@ namespace Restaurant
                 view.RowFilter = "";
                 dataGridView1.DataSource = view;
 
-                label2.Text = $"Всего: {view.Count}";
+                labelTotal.Text = $"Всего: {view.Count}";
             }
         }
         private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -172,7 +172,7 @@ namespace Restaurant
         }
 
 
-        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
             {
@@ -194,13 +194,22 @@ namespace Restaurant
             }
         }
 
-        private void button8_Click(object sender, EventArgs e)
+        private void buttonDelete_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("Вы действительно хотите удалить запись?", "Подтверждение удаления записи", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult result = MessageBox.Show("Вы действительно хотите удалить запись?", "Удаление записи", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (result == DialogResult.Yes)
             {
 
+            }
+        }
+
+        private void textBoxWorker_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) &&
+                !System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"^[а-яА-Я-\s]$"))
+            {
+                e.Handled = true;
             }
         }
     }

@@ -28,88 +28,88 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label2 = new System.Windows.Forms.Label();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.label4 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.labelClient = new System.Windows.Forms.Label();
+            this.comboBoxClient = new System.Windows.Forms.ComboBox();
+            this.dateTimePickerBooking = new System.Windows.Forms.DateTimePicker();
+            this.labelDateBooking = new System.Windows.Forms.Label();
+            this.buttonBack = new System.Windows.Forms.Button();
+            this.buttonArrange = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // label2
+            // labelClient
             // 
-            this.label2.AutoSize = true;
-            this.label2.BackColor = System.Drawing.Color.Transparent;
-            this.label2.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(24, 88);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(88, 23);
-            this.label2.TabIndex = 6;
-            this.label2.Text = "Клиент:";
+            this.labelClient.AutoSize = true;
+            this.labelClient.BackColor = System.Drawing.Color.Transparent;
+            this.labelClient.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelClient.ForeColor = System.Drawing.Color.White;
+            this.labelClient.Location = new System.Drawing.Point(24, 88);
+            this.labelClient.Name = "labelClient";
+            this.labelClient.Size = new System.Drawing.Size(88, 23);
+            this.labelClient.TabIndex = 6;
+            this.labelClient.Text = "Клиент:";
             // 
-            // comboBox2
+            // comboBoxClient
             // 
-            this.comboBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.comboBox2.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.comboBox2.ForeColor = System.Drawing.Color.White;
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(28, 114);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(226, 31);
-            this.comboBox2.TabIndex = 4;
+            this.comboBoxClient.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.comboBoxClient.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxClient.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.comboBoxClient.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.comboBoxClient.ForeColor = System.Drawing.Color.White;
+            this.comboBoxClient.FormattingEnabled = true;
+            this.comboBoxClient.Location = new System.Drawing.Point(28, 114);
+            this.comboBoxClient.Name = "comboBoxClient";
+            this.comboBoxClient.Size = new System.Drawing.Size(226, 31);
+            this.comboBoxClient.TabIndex = 4;
             // 
-            // dateTimePicker1
+            // dateTimePickerBooking
             // 
-            this.dateTimePicker1.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.dateTimePicker1.Location = new System.Drawing.Point(28, 174);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(226, 31);
-            this.dateTimePicker1.TabIndex = 8;
+            this.dateTimePickerBooking.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.dateTimePickerBooking.Location = new System.Drawing.Point(28, 174);
+            this.dateTimePickerBooking.Name = "dateTimePickerBooking";
+            this.dateTimePickerBooking.Size = new System.Drawing.Size(226, 31);
+            this.dateTimePickerBooking.TabIndex = 8;
             // 
-            // label4
+            // labelDateBooking
             // 
-            this.label4.AutoSize = true;
-            this.label4.BackColor = System.Drawing.Color.Transparent;
-            this.label4.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(24, 148);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(131, 23);
-            this.label4.TabIndex = 7;
-            this.label4.Text = "Дата брони:";
+            this.labelDateBooking.AutoSize = true;
+            this.labelDateBooking.BackColor = System.Drawing.Color.Transparent;
+            this.labelDateBooking.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelDateBooking.ForeColor = System.Drawing.Color.White;
+            this.labelDateBooking.Location = new System.Drawing.Point(24, 148);
+            this.labelDateBooking.Name = "labelDateBooking";
+            this.labelDateBooking.Size = new System.Drawing.Size(131, 23);
+            this.labelDateBooking.TabIndex = 7;
+            this.labelDateBooking.Text = "Дата брони:";
             // 
-            // button1
+            // buttonBack
             // 
-            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.button1.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(99)))), ((int)(((byte)(107)))));
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(12, 283);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(105, 55);
-            this.button1.TabIndex = 9;
-            this.button1.Text = "Назад";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.buttonBack.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.buttonBack.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(99)))), ((int)(((byte)(107)))));
+            this.buttonBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonBack.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonBack.ForeColor = System.Drawing.Color.White;
+            this.buttonBack.Location = new System.Drawing.Point(12, 283);
+            this.buttonBack.Name = "buttonBack";
+            this.buttonBack.Size = new System.Drawing.Size(105, 55);
+            this.buttonBack.TabIndex = 9;
+            this.buttonBack.Text = "Назад";
+            this.buttonBack.UseVisualStyleBackColor = false;
+            this.buttonBack.Click += new System.EventHandler(this.buttonBack_Click);
             // 
-            // button2
+            // buttonArrange
             // 
-            this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.button2.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(99)))), ((int)(((byte)(107)))));
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Location = new System.Drawing.Point(152, 283);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(120, 55);
-            this.button2.TabIndex = 9;
-            this.button2.Text = "Оформить бронь";
-            this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.buttonArrange.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.buttonArrange.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(99)))), ((int)(((byte)(107)))));
+            this.buttonArrange.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonArrange.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonArrange.ForeColor = System.Drawing.Color.White;
+            this.buttonArrange.Location = new System.Drawing.Point(152, 283);
+            this.buttonArrange.Name = "buttonArrange";
+            this.buttonArrange.Size = new System.Drawing.Size(120, 55);
+            this.buttonArrange.TabIndex = 9;
+            this.buttonArrange.Text = "Оформить бронь";
+            this.buttonArrange.UseVisualStyleBackColor = false;
+            this.buttonArrange.Click += new System.EventHandler(this.buttonArrange_Click);
             // 
             // ВookingInsert
             // 
@@ -120,12 +120,12 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(284, 350);
             this.ControlBox = false;
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.dateTimePicker1);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.comboBox2);
+            this.Controls.Add(this.buttonArrange);
+            this.Controls.Add(this.buttonBack);
+            this.Controls.Add(this.dateTimePickerBooking);
+            this.Controls.Add(this.labelDateBooking);
+            this.Controls.Add(this.labelClient);
+            this.Controls.Add(this.comboBoxClient);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "ВookingInsert";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -136,11 +136,11 @@
         }
 
         #endregion
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label labelClient;
+        private System.Windows.Forms.ComboBox comboBoxClient;
+        private System.Windows.Forms.DateTimePicker dateTimePickerBooking;
+        private System.Windows.Forms.Label labelDateBooking;
+        private System.Windows.Forms.Button buttonBack;
+        private System.Windows.Forms.Button buttonArrange;
     }
 }

@@ -15,16 +15,16 @@ namespace Restaurant
         {
             InitializeComponent();
 
-            label1.Font = Fonts.MontserratAlternatesRegular(14f);
+            labelLogin.Font = Fonts.MontserratAlternatesRegular(14f);
             label2.Font = Fonts.MontserratAlternatesRegular(14f);
-            textBox1.Font = Fonts.MontserratAlternatesRegular(14f);
-            textBox2.Font = Fonts.MontserratAlternatesRegular(14f);
-            button2.Font = Fonts.MontserratAlternatesBold(12f);
+            textBoxLogin.Font = Fonts.MontserratAlternatesRegular(14f);
+            textBoxPassword.Font = Fonts.MontserratAlternatesRegular(14f);
+            buttonEnter.Font = Fonts.MontserratAlternatesBold(12f);
 
-            textBox2.UseSystemPasswordChar = false; 
-            textBox2.PasswordChar = '*';    
+            textBoxPassword.UseSystemPasswordChar = false; 
+            textBoxPassword.PasswordChar = '*';    
         }
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonExit_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show("Вы действительно хотите выйти?", "Подтверждение выхода", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
@@ -34,18 +34,18 @@ namespace Restaurant
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void buttonEnter_Click(object sender, EventArgs e)
         {
             try
             {
-                if (string.IsNullOrEmpty(textBox1.Text) || string.IsNullOrEmpty(textBox2.Text))
+                if (string.IsNullOrEmpty(textBoxLogin.Text) || string.IsNullOrEmpty(textBoxPassword.Text))
                 {
                     MessageBox.Show("Введите логин и пароль для входа!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
 
-                string login = textBox1.Text;
-                string passwd = textBox2.Text;
+                string login = textBoxLogin.Text;
+                string passwd = textBoxPassword.Text;
 
                 string hash_pass;
                 using (var sha256 = SHA256.Create())
@@ -67,8 +67,8 @@ namespace Restaurant
                     if (dt.Rows.Count == 0)
                     {
                         MessageBox.Show("Пользователя с таким логином не существует!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        textBox1.Clear();
-                        textBox2.Clear();
+                        textBoxLogin.Clear();
+                        textBoxPassword.Clear();
                         return;
                     }
 
@@ -80,7 +80,7 @@ namespace Restaurant
                     if (hash_pass != passwordHashInDB)
                     {
                         MessageBox.Show("Введен неверный пароль!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        textBox2.Clear();
+                        textBoxPassword.Clear();
                         return;
                     }
 
@@ -97,8 +97,8 @@ namespace Restaurant
 
                     this.Visible = false;
                     nextForm.ShowDialog();
-                    textBox1.Clear();
-                    textBox2.Clear();
+                    textBoxLogin.Clear();
+                    textBoxPassword.Clear();
                     this.Visible = true;
                 }
             }
@@ -108,7 +108,7 @@ namespace Restaurant
             }
         }
 
-        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        private void textBoxLogin_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) &&
                 !System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"^[a-zA-Z0-9@._-]$"))
@@ -117,7 +117,7 @@ namespace Restaurant
             }
         }
 
-        private void textBox2_KeyPress(object sender, KeyPressEventArgs e)
+        private void textBoxPassword_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) &&
                 !System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"^[a-zA-Z0-9!@#$%^&*()\-_=+\[\]{}|;:,.<>?]$"))
@@ -132,13 +132,13 @@ namespace Restaurant
 
             if (passwordVisible)
             {
-                textBox2.PasswordChar = '\0'; 
-                pictureBox2.BackgroundImage = Properties.Resources.eye;
+                textBoxPassword.PasswordChar = '\0'; 
+                pictureBox.BackgroundImage = Properties.Resources.eye;
             }
             else
             {
-                textBox2.PasswordChar = '*';
-                pictureBox2.BackgroundImage = Properties.Resources.eye_closed;
+                textBoxPassword.PasswordChar = '*';
+                pictureBox.BackgroundImage = Properties.Resources.eye_closed;
             }
         }
     }

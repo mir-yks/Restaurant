@@ -28,292 +28,297 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBox6 = new System.Windows.Forms.TextBox();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.textBox9 = new System.Windows.Forms.TextBox();
-            this.textBox8 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.maskedTextBox1 = new System.Windows.Forms.MaskedTextBox();
+            this.textBoxConfPassword = new System.Windows.Forms.TextBox();
+            this.textBoxPassword = new System.Windows.Forms.TextBox();
+            this.textBoxAddress = new System.Windows.Forms.TextBox();
+            this.textBoxEmail = new System.Windows.Forms.TextBox();
+            this.textBoxLogin = new System.Windows.Forms.TextBox();
+            this.textBoxFIO = new System.Windows.Forms.TextBox();
+            this.labelConfPassword = new System.Windows.Forms.Label();
+            this.labelAddress = new System.Windows.Forms.Label();
+            this.labelEmail = new System.Windows.Forms.Label();
+            this.labelPassword = new System.Windows.Forms.Label();
+            this.labelPhone = new System.Windows.Forms.Label();
+            this.labelLogin = new System.Windows.Forms.Label();
+            this.labelFIO = new System.Windows.Forms.Label();
+            this.buttonWrite = new System.Windows.Forms.Button();
+            this.buttonBack = new System.Windows.Forms.Button();
+            this.dateTimePickerEmployment = new System.Windows.Forms.DateTimePicker();
+            this.dateTimePickerBirthday = new System.Windows.Forms.DateTimePicker();
+            this.labelEmployment = new System.Windows.Forms.Label();
+            this.labelRole = new System.Windows.Forms.Label();
+            this.labelBirthday = new System.Windows.Forms.Label();
+            this.comboBoxRole = new System.Windows.Forms.ComboBox();
+            this.maskedTextBoxPhone = new System.Windows.Forms.MaskedTextBox();
             this.SuspendLayout();
             // 
-            // textBox6
+            // textBoxConfPassword
             // 
-            this.textBox6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.textBox6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox6.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox6.ForeColor = System.Drawing.Color.White;
-            this.textBox6.Location = new System.Drawing.Point(16, 235);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(283, 31);
-            this.textBox6.TabIndex = 45;
-            this.textBox6.MaxLength = 50;
+            this.textBoxConfPassword.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.textBoxConfPassword.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBoxConfPassword.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxConfPassword.ForeColor = System.Drawing.Color.White;
+            this.textBoxConfPassword.Location = new System.Drawing.Point(16, 235);
+            this.textBoxConfPassword.MaxLength = 50;
+            this.textBoxConfPassword.Name = "textBoxConfPassword";
+            this.textBoxConfPassword.Size = new System.Drawing.Size(283, 31);
+            this.textBoxConfPassword.TabIndex = 45;
+            this.textBoxConfPassword.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxPasswdAndEmail_KeyPress);
             // 
-            // textBox5
+            // textBoxPassword
             // 
-            this.textBox5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.textBox5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox5.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox5.ForeColor = System.Drawing.Color.White;
-            this.textBox5.Location = new System.Drawing.Point(16, 168);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.MaxLength = 50;
-            this.textBox5.Size = new System.Drawing.Size(283, 31);
-            this.textBox5.TabIndex = 49;
+            this.textBoxPassword.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.textBoxPassword.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBoxPassword.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxPassword.ForeColor = System.Drawing.Color.White;
+            this.textBoxPassword.Location = new System.Drawing.Point(16, 168);
+            this.textBoxPassword.MaxLength = 50;
+            this.textBoxPassword.Name = "textBoxPassword";
+            this.textBoxPassword.Size = new System.Drawing.Size(283, 31);
+            this.textBoxPassword.TabIndex = 49;
+            this.textBoxPassword.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxPasswdAndEmail_KeyPress);
             // 
-            // textBox9
+            // textBoxAddress
             // 
-            this.textBox9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.textBox9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox9.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox9.ForeColor = System.Drawing.Color.White;
-            this.textBox9.Location = new System.Drawing.Point(337, 235);
-            this.textBox9.Name = "textBox9";
-            this.textBox9.Size = new System.Drawing.Size(283, 31);
-            this.textBox9.TabIndex = 48;
+            this.textBoxAddress.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.textBoxAddress.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBoxAddress.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxAddress.ForeColor = System.Drawing.Color.White;
+            this.textBoxAddress.Location = new System.Drawing.Point(337, 235);
+            this.textBoxAddress.Name = "textBoxAddress";
+            this.textBoxAddress.Size = new System.Drawing.Size(283, 31);
+            this.textBoxAddress.TabIndex = 48;
+            this.textBoxAddress.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxAddress_KeyPress);
             // 
-            // textBox8
+            // textBoxEmail
             // 
-            this.textBox8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.textBox8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox8.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox8.ForeColor = System.Drawing.Color.White;
-            this.textBox8.Location = new System.Drawing.Point(337, 36);
-            this.textBox8.Name = "textBox8";
-            this.textBox8.MaxLength = 100;
-            this.textBox8.Size = new System.Drawing.Size(283, 31);
-            this.textBox8.TabIndex = 47;
+            this.textBoxEmail.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.textBoxEmail.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBoxEmail.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxEmail.ForeColor = System.Drawing.Color.White;
+            this.textBoxEmail.Location = new System.Drawing.Point(337, 36);
+            this.textBoxEmail.MaxLength = 100;
+            this.textBoxEmail.Name = "textBoxEmail";
+            this.textBoxEmail.Size = new System.Drawing.Size(283, 31);
+            this.textBoxEmail.TabIndex = 47;
+            this.textBoxEmail.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxPasswdAndEmail_KeyPress);
             // 
-            // textBox4
+            // textBoxLogin
             // 
-            this.textBox4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.textBox4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox4.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox4.ForeColor = System.Drawing.Color.White;
-            this.textBox4.Location = new System.Drawing.Point(16, 102);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.MaxLength = 50;
-            this.textBox4.Size = new System.Drawing.Size(283, 31);
-            this.textBox4.TabIndex = 51;
+            this.textBoxLogin.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.textBoxLogin.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBoxLogin.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxLogin.ForeColor = System.Drawing.Color.White;
+            this.textBoxLogin.Location = new System.Drawing.Point(16, 102);
+            this.textBoxLogin.MaxLength = 50;
+            this.textBoxLogin.Name = "textBoxLogin";
+            this.textBoxLogin.Size = new System.Drawing.Size(283, 31);
+            this.textBoxLogin.TabIndex = 51;
+            this.textBoxLogin.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxLogin_KeyPress);
             // 
-            // textBox1
+            // textBoxFIO
             // 
-            this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox1.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox1.ForeColor = System.Drawing.Color.White;
-            this.textBox1.Location = new System.Drawing.Point(16, 36);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.MaxLength = 50;
-            this.textBox1.Size = new System.Drawing.Size(283, 31);
-            this.textBox1.TabIndex = 50;
+            this.textBoxFIO.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.textBoxFIO.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBoxFIO.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxFIO.ForeColor = System.Drawing.Color.White;
+            this.textBoxFIO.Location = new System.Drawing.Point(16, 36);
+            this.textBoxFIO.MaxLength = 50;
+            this.textBoxFIO.Name = "textBoxFIO";
+            this.textBoxFIO.Size = new System.Drawing.Size(283, 31);
+            this.textBoxFIO.TabIndex = 50;
+            this.textBoxFIO.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxFIO_KeyPress);
             // 
-            // label6
+            // labelConfPassword
             // 
-            this.label6.AutoSize = true;
-            this.label6.BackColor = System.Drawing.Color.Transparent;
-            this.label6.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label6.ForeColor = System.Drawing.Color.White;
-            this.label6.Location = new System.Drawing.Point(12, 209);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(250, 23);
-            this.label6.TabIndex = 35;
-            this.label6.Text = "Подтверждение пароля:";
+            this.labelConfPassword.AutoSize = true;
+            this.labelConfPassword.BackColor = System.Drawing.Color.Transparent;
+            this.labelConfPassword.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelConfPassword.ForeColor = System.Drawing.Color.White;
+            this.labelConfPassword.Location = new System.Drawing.Point(12, 209);
+            this.labelConfPassword.Name = "labelConfPassword";
+            this.labelConfPassword.Size = new System.Drawing.Size(250, 23);
+            this.labelConfPassword.TabIndex = 35;
+            this.labelConfPassword.Text = "Подтверждение пароля:";
             // 
-            // label12
+            // labelAddress
             // 
-            this.label12.AutoSize = true;
-            this.label12.BackColor = System.Drawing.Color.Transparent;
-            this.label12.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label12.ForeColor = System.Drawing.Color.White;
-            this.label12.Location = new System.Drawing.Point(333, 209);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(77, 23);
-            this.label12.TabIndex = 40;
-            this.label12.Text = "Адрес:";
+            this.labelAddress.AutoSize = true;
+            this.labelAddress.BackColor = System.Drawing.Color.Transparent;
+            this.labelAddress.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelAddress.ForeColor = System.Drawing.Color.White;
+            this.labelAddress.Location = new System.Drawing.Point(333, 209);
+            this.labelAddress.Name = "labelAddress";
+            this.labelAddress.Size = new System.Drawing.Size(77, 23);
+            this.labelAddress.TabIndex = 40;
+            this.labelAddress.Text = "Адрес:";
             // 
-            // label10
+            // labelEmail
             // 
-            this.label10.AutoSize = true;
-            this.label10.BackColor = System.Drawing.Color.Transparent;
-            this.label10.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label10.ForeColor = System.Drawing.Color.White;
-            this.label10.Location = new System.Drawing.Point(333, 10);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(72, 23);
-            this.label10.TabIndex = 39;
-            this.label10.Text = "Email:";
+            this.labelEmail.AutoSize = true;
+            this.labelEmail.BackColor = System.Drawing.Color.Transparent;
+            this.labelEmail.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelEmail.ForeColor = System.Drawing.Color.White;
+            this.labelEmail.Location = new System.Drawing.Point(333, 10);
+            this.labelEmail.Name = "labelEmail";
+            this.labelEmail.Size = new System.Drawing.Size(72, 23);
+            this.labelEmail.TabIndex = 39;
+            this.labelEmail.Text = "Email:";
             // 
-            // label2
+            // labelPassword
             // 
-            this.label2.AutoSize = true;
-            this.label2.BackColor = System.Drawing.Color.Transparent;
-            this.label2.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(12, 142);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(91, 23);
-            this.label2.TabIndex = 38;
-            this.label2.Text = "Пароль:";
+            this.labelPassword.AutoSize = true;
+            this.labelPassword.BackColor = System.Drawing.Color.Transparent;
+            this.labelPassword.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelPassword.ForeColor = System.Drawing.Color.White;
+            this.labelPassword.Location = new System.Drawing.Point(12, 142);
+            this.labelPassword.Name = "labelPassword";
+            this.labelPassword.Size = new System.Drawing.Size(91, 23);
+            this.labelPassword.TabIndex = 38;
+            this.labelPassword.Text = "Пароль:";
             // 
-            // label7
+            // labelPhone
             // 
-            this.label7.AutoSize = true;
-            this.label7.BackColor = System.Drawing.Color.Transparent;
-            this.label7.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label7.ForeColor = System.Drawing.Color.White;
-            this.label7.Location = new System.Drawing.Point(12, 278);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(105, 23);
-            this.label7.TabIndex = 41;
-            this.label7.Text = "Телефон:";
+            this.labelPhone.AutoSize = true;
+            this.labelPhone.BackColor = System.Drawing.Color.Transparent;
+            this.labelPhone.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelPhone.ForeColor = System.Drawing.Color.White;
+            this.labelPhone.Location = new System.Drawing.Point(12, 278);
+            this.labelPhone.Name = "labelPhone";
+            this.labelPhone.Size = new System.Drawing.Size(105, 23);
+            this.labelPhone.TabIndex = 41;
+            this.labelPhone.Text = "Телефон:";
             // 
-            // label1
+            // labelLogin
             // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(12, 76);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(78, 23);
-            this.label1.TabIndex = 42;
-            this.label1.Text = "Логин:";
+            this.labelLogin.AutoSize = true;
+            this.labelLogin.BackColor = System.Drawing.Color.Transparent;
+            this.labelLogin.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelLogin.ForeColor = System.Drawing.Color.White;
+            this.labelLogin.Location = new System.Drawing.Point(12, 76);
+            this.labelLogin.Name = "labelLogin";
+            this.labelLogin.Size = new System.Drawing.Size(78, 23);
+            this.labelLogin.TabIndex = 42;
+            this.labelLogin.Text = "Логин:";
             // 
-            // label9
+            // labelFIO
             // 
-            this.label9.AutoSize = true;
-            this.label9.BackColor = System.Drawing.Color.Transparent;
-            this.label9.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label9.ForeColor = System.Drawing.Color.White;
-            this.label9.Location = new System.Drawing.Point(12, 9);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(64, 23);
-            this.label9.TabIndex = 43;
-            this.label9.Text = "ФИО:";
+            this.labelFIO.AutoSize = true;
+            this.labelFIO.BackColor = System.Drawing.Color.Transparent;
+            this.labelFIO.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelFIO.ForeColor = System.Drawing.Color.White;
+            this.labelFIO.Location = new System.Drawing.Point(12, 9);
+            this.labelFIO.Name = "labelFIO";
+            this.labelFIO.Size = new System.Drawing.Size(64, 23);
+            this.labelFIO.TabIndex = 43;
+            this.labelFIO.Text = "ФИО:";
             // 
-            // button2
+            // buttonWrite
             // 
-            this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.button2.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(99)))), ((int)(((byte)(107)))));
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Location = new System.Drawing.Point(523, 358);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(115, 50);
-            this.button2.TabIndex = 34;
-            this.button2.Text = "Записать";
-            this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.buttonWrite.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.buttonWrite.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(99)))), ((int)(((byte)(107)))));
+            this.buttonWrite.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonWrite.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonWrite.ForeColor = System.Drawing.Color.White;
+            this.buttonWrite.Location = new System.Drawing.Point(523, 358);
+            this.buttonWrite.Name = "buttonWrite";
+            this.buttonWrite.Size = new System.Drawing.Size(115, 50);
+            this.buttonWrite.TabIndex = 34;
+            this.buttonWrite.Text = "Записать";
+            this.buttonWrite.UseVisualStyleBackColor = false;
+            this.buttonWrite.Click += new System.EventHandler(this.buttonWrite_Click);
             // 
-            // button1
+            // buttonBack
             // 
-            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.button1.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(99)))), ((int)(((byte)(107)))));
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(12, 358);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(110, 50);
-            this.button1.TabIndex = 33;
-            this.button1.Text = "Назад";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.buttonBack.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.buttonBack.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(99)))), ((int)(((byte)(107)))));
+            this.buttonBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonBack.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonBack.ForeColor = System.Drawing.Color.White;
+            this.buttonBack.Location = new System.Drawing.Point(12, 358);
+            this.buttonBack.Name = "buttonBack";
+            this.buttonBack.Size = new System.Drawing.Size(110, 50);
+            this.buttonBack.TabIndex = 33;
+            this.buttonBack.Text = "Назад";
+            this.buttonBack.UseVisualStyleBackColor = false;
+            this.buttonBack.Click += new System.EventHandler(this.buttonBack_Click);
             // 
-            // dateTimePicker2
+            // dateTimePickerEmployment
             // 
-            this.dateTimePicker2.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.dateTimePicker2.Location = new System.Drawing.Point(337, 168);
-            this.dateTimePicker2.Name = "dateTimePicker2";
-            this.dateTimePicker2.Size = new System.Drawing.Size(283, 31);
-            this.dateTimePicker2.TabIndex = 32;
+            this.dateTimePickerEmployment.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.dateTimePickerEmployment.Location = new System.Drawing.Point(337, 168);
+            this.dateTimePickerEmployment.Name = "dateTimePickerEmployment";
+            this.dateTimePickerEmployment.Size = new System.Drawing.Size(283, 31);
+            this.dateTimePickerEmployment.TabIndex = 32;
             // 
-            // dateTimePicker1
+            // dateTimePickerBirthday
             // 
-            this.dateTimePicker1.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.dateTimePicker1.Location = new System.Drawing.Point(337, 102);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(283, 31);
-            this.dateTimePicker1.TabIndex = 31;
+            this.dateTimePickerBirthday.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.dateTimePickerBirthday.Location = new System.Drawing.Point(337, 102);
+            this.dateTimePickerBirthday.Name = "dateTimePickerBirthday";
+            this.dateTimePickerBirthday.Size = new System.Drawing.Size(283, 31);
+            this.dateTimePickerBirthday.TabIndex = 31;
             // 
-            // label11
+            // labelEmployment
             // 
-            this.label11.AutoSize = true;
-            this.label11.BackColor = System.Drawing.Color.Transparent;
-            this.label11.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label11.ForeColor = System.Drawing.Color.White;
-            this.label11.Location = new System.Drawing.Point(333, 142);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(246, 23);
-            this.label11.TabIndex = 29;
-            this.label11.Text = "Дата приёма на работу:";
+            this.labelEmployment.AutoSize = true;
+            this.labelEmployment.BackColor = System.Drawing.Color.Transparent;
+            this.labelEmployment.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelEmployment.ForeColor = System.Drawing.Color.White;
+            this.labelEmployment.Location = new System.Drawing.Point(333, 142);
+            this.labelEmployment.Name = "labelEmployment";
+            this.labelEmployment.Size = new System.Drawing.Size(246, 23);
+            this.labelEmployment.TabIndex = 29;
+            this.labelEmployment.Text = "Дата приёма на работу:";
             // 
-            // label3
+            // labelRole
             // 
-            this.label3.AutoSize = true;
-            this.label3.BackColor = System.Drawing.Color.Transparent;
-            this.label3.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(333, 278);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(65, 23);
-            this.label3.TabIndex = 28;
-            this.label3.Text = "Роль:";
+            this.labelRole.AutoSize = true;
+            this.labelRole.BackColor = System.Drawing.Color.Transparent;
+            this.labelRole.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelRole.ForeColor = System.Drawing.Color.White;
+            this.labelRole.Location = new System.Drawing.Point(333, 278);
+            this.labelRole.Name = "labelRole";
+            this.labelRole.Size = new System.Drawing.Size(65, 23);
+            this.labelRole.TabIndex = 28;
+            this.labelRole.Text = "Роль:";
             // 
-            // label4
+            // labelBirthday
             // 
-            this.label4.AutoSize = true;
-            this.label4.BackColor = System.Drawing.Color.Transparent;
-            this.label4.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(333, 76);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(168, 23);
-            this.label4.TabIndex = 30;
-            this.label4.Text = "Дата рождения:";
+            this.labelBirthday.AutoSize = true;
+            this.labelBirthday.BackColor = System.Drawing.Color.Transparent;
+            this.labelBirthday.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelBirthday.ForeColor = System.Drawing.Color.White;
+            this.labelBirthday.Location = new System.Drawing.Point(333, 76);
+            this.labelBirthday.Name = "labelBirthday";
+            this.labelBirthday.Size = new System.Drawing.Size(168, 23);
+            this.labelBirthday.TabIndex = 30;
+            this.labelBirthday.Text = "Дата рождения:";
             // 
-            // comboBox3
+            // comboBoxRole
             // 
-            this.comboBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.comboBox3.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.comboBox3.ForeColor = System.Drawing.Color.White;
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(337, 304);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(283, 31);
-            this.comboBox3.TabIndex = 27;
+            this.comboBoxRole.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.comboBoxRole.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxRole.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.comboBoxRole.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.comboBoxRole.ForeColor = System.Drawing.Color.White;
+            this.comboBoxRole.FormattingEnabled = true;
+            this.comboBoxRole.Location = new System.Drawing.Point(337, 304);
+            this.comboBoxRole.Name = "comboBoxRole";
+            this.comboBoxRole.Size = new System.Drawing.Size(283, 31);
+            this.comboBoxRole.TabIndex = 27;
             // 
-            // maskedTextBox1
+            // maskedTextBoxPhone
             // 
-            this.maskedTextBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.maskedTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.maskedTextBox1.Font = new System.Drawing.Font("Verdana", 14.25F);
-            this.maskedTextBox1.ForeColor = System.Drawing.Color.White;
-            this.maskedTextBox1.Location = new System.Drawing.Point(16, 304);
-            this.maskedTextBox1.Mask = "+7 (000) 000-00-00";
-            this.maskedTextBox1.MaxLength = 10;
-            this.maskedTextBox1.Name = "maskedTextBox1";
-            this.maskedTextBox1.Size = new System.Drawing.Size(283, 31);
-            this.maskedTextBox1.TabIndex = 52;
+            this.maskedTextBoxPhone.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.maskedTextBoxPhone.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.maskedTextBoxPhone.Font = new System.Drawing.Font("Verdana", 14.25F);
+            this.maskedTextBoxPhone.ForeColor = System.Drawing.Color.White;
+            this.maskedTextBoxPhone.Location = new System.Drawing.Point(16, 304);
+            this.maskedTextBoxPhone.Mask = "+7 (000) 000-00-00";
+            this.maskedTextBoxPhone.Name = "maskedTextBoxPhone";
+            this.maskedTextBoxPhone.Size = new System.Drawing.Size(283, 31);
+            this.maskedTextBoxPhone.TabIndex = 52;
             // 
             // WorkerInsert
             // 
@@ -324,28 +329,28 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(650, 420);
             this.ControlBox = false;
-            this.Controls.Add(this.maskedTextBox1);
-            this.Controls.Add(this.textBox6);
-            this.Controls.Add(this.textBox5);
-            this.Controls.Add(this.textBox9);
-            this.Controls.Add(this.textBox8);
-            this.Controls.Add(this.textBox4);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.label12);
-            this.Controls.Add(this.label10);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.label9);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.dateTimePicker2);
-            this.Controls.Add(this.dateTimePicker1);
-            this.Controls.Add(this.label11);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.comboBox3);
+            this.Controls.Add(this.maskedTextBoxPhone);
+            this.Controls.Add(this.textBoxConfPassword);
+            this.Controls.Add(this.textBoxPassword);
+            this.Controls.Add(this.textBoxAddress);
+            this.Controls.Add(this.textBoxEmail);
+            this.Controls.Add(this.textBoxLogin);
+            this.Controls.Add(this.textBoxFIO);
+            this.Controls.Add(this.labelConfPassword);
+            this.Controls.Add(this.labelAddress);
+            this.Controls.Add(this.labelEmail);
+            this.Controls.Add(this.labelPassword);
+            this.Controls.Add(this.labelPhone);
+            this.Controls.Add(this.labelLogin);
+            this.Controls.Add(this.labelFIO);
+            this.Controls.Add(this.buttonWrite);
+            this.Controls.Add(this.buttonBack);
+            this.Controls.Add(this.dateTimePickerEmployment);
+            this.Controls.Add(this.dateTimePickerBirthday);
+            this.Controls.Add(this.labelEmployment);
+            this.Controls.Add(this.labelRole);
+            this.Controls.Add(this.labelBirthday);
+            this.Controls.Add(this.comboBoxRole);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "WorkerInsert";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -357,27 +362,27 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBox6;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.TextBox textBox9;
-        private System.Windows.Forms.TextBox textBox8;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.DateTimePicker dateTimePicker2;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.ComboBox comboBox3;
-        private System.Windows.Forms.MaskedTextBox maskedTextBox1;
+        private System.Windows.Forms.TextBox textBoxConfPassword;
+        private System.Windows.Forms.TextBox textBoxPassword;
+        private System.Windows.Forms.TextBox textBoxAddress;
+        private System.Windows.Forms.TextBox textBoxEmail;
+        private System.Windows.Forms.TextBox textBoxLogin;
+        private System.Windows.Forms.TextBox textBoxFIO;
+        private System.Windows.Forms.Label labelConfPassword;
+        private System.Windows.Forms.Label labelAddress;
+        private System.Windows.Forms.Label labelEmail;
+        private System.Windows.Forms.Label labelPassword;
+        private System.Windows.Forms.Label labelPhone;
+        private System.Windows.Forms.Label labelLogin;
+        private System.Windows.Forms.Label labelFIO;
+        private System.Windows.Forms.Button buttonWrite;
+        private System.Windows.Forms.Button buttonBack;
+        private System.Windows.Forms.DateTimePicker dateTimePickerEmployment;
+        private System.Windows.Forms.DateTimePicker dateTimePickerBirthday;
+        private System.Windows.Forms.Label labelEmployment;
+        private System.Windows.Forms.Label labelRole;
+        private System.Windows.Forms.Label labelBirthday;
+        private System.Windows.Forms.ComboBox comboBoxRole;
+        private System.Windows.Forms.MaskedTextBox maskedTextBoxPhone;
     }
 }

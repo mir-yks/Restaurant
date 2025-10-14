@@ -16,19 +16,29 @@ namespace Restaurant
         {
             InitializeComponent();
 
-            label1.Font = Fonts.MontserratAlternatesRegular(14f);
-            label2.Font = Fonts.MontserratAlternatesRegular(14f);
-            label3.Font = Fonts.MontserratAlternatesRegular(14f);
-            label4.Font = Fonts.MontserratAlternatesRegular(14f);
-            dateTimePicker1.Font = Fonts.MontserratAlternatesRegular(12f);
-            dateTimePicker2.Font = Fonts.MontserratAlternatesRegular(12f);
-            button1.Font = Fonts.MontserratAlternatesBold(12f);
-            button2.Font = Fonts.MontserratAlternatesBold(12f);
+            labelReport.Font = Fonts.MontserratAlternatesRegular(14f);
+            labelS.Font = Fonts.MontserratAlternatesRegular(14f);
+            labelPo.Font = Fonts.MontserratAlternatesRegular(14f);
+            labelPeriod.Font = Fonts.MontserratAlternatesRegular(14f);
+            dateTimePickerS.Font = Fonts.MontserratAlternatesRegular(12f);
+            dateTimePickerPo.Font = Fonts.MontserratAlternatesRegular(12f);
+            buttonBack.Font = Fonts.MontserratAlternatesBold(12f);
+            buttonCreate.Font = Fonts.MontserratAlternatesBold(12f);
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonBack_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
+        }
+
+        private void buttonCreate_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Вы действительно хотите создать отчёт?", "Создание отчёта", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+
+            }
         }
     }
 }

@@ -21,60 +21,60 @@ namespace Restaurant
             roleId = role;
             ConfigureButtons();
 
-            label1.Font = Fonts.MontserratAlternatesRegular(14f);
-            label2.Font = Fonts.MontserratAlternatesRegular(14f);
-            label3.Font = Fonts.MontserratAlternatesRegular(14f);
-            label4.Font = Fonts.MontserratAlternatesRegular(14f);
-            textBox1.Font = Fonts.MontserratAlternatesRegular(14f);
-            comboBox1.Font = Fonts.MontserratAlternatesRegular(14f);
-            comboBox2.Font = Fonts.MontserratAlternatesRegular(14f);
-            button1.Font = Fonts.MontserratAlternatesBold(12f);
-            button2.Font = Fonts.MontserratAlternatesBold(12f);
-            button3.Font = Fonts.MontserratAlternatesBold(12f);
-            button4.Font = Fonts.MontserratAlternatesBold(12f);
-            button5.Font = Fonts.MontserratAlternatesBold(12f);
-            button6.Font = Fonts.MontserratAlternatesBold(12f);
-            button8.Font = Fonts.MontserratAlternatesBold(12f);
+            labelOrder.Font = Fonts.MontserratAlternatesRegular(14f);
+            labelTotal.Font = Fonts.MontserratAlternatesRegular(14f);
+            labelStatus.Font = Fonts.MontserratAlternatesRegular(14f);
+            labelSum.Font = Fonts.MontserratAlternatesRegular(14f);
+            textBoxOrder.Font = Fonts.MontserratAlternatesRegular(14f);
+            comboBoxStatus.Font = Fonts.MontserratAlternatesRegular(14f);
+            comboBoxSum.Font = Fonts.MontserratAlternatesRegular(14f);
+            buttonBack.Font = Fonts.MontserratAlternatesBold(12f);
+            buttonReport.Font = Fonts.MontserratAlternatesBold(12f);
+            buttonOrderItem.Font = Fonts.MontserratAlternatesBold(12f);
+            buttonNew.Font = Fonts.MontserratAlternatesBold(12f);
+            buttonUpdate.Font = Fonts.MontserratAlternatesBold(12f);
+            buttonCheck.Font = Fonts.MontserratAlternatesBold(12f);
+            buttonDelete.Font = Fonts.MontserratAlternatesBold(12f);
             dataGridView1.Font = Fonts.MontserratAlternatesRegular(12f);
         }
 
         private void ConfigureButtons()
         {
-            button2.Visible = false;
-            button3.Visible = false;
-            button4.Visible = false;
-            button5.Visible = false;
-            button6.Visible = false;
-            button8.Visible = false;
-            button1.Visible = true;
+            buttonReport.Visible = false;
+            buttonOrderItem.Visible = false;
+            buttonNew.Visible = false;
+            buttonUpdate.Visible = false;
+            buttonCheck.Visible = false;
+            buttonDelete.Visible = false;
+            buttonBack.Visible = true;
 
             if (roleId == 1)
             {
-                button2.Visible = true;
-                button3.Visible = true;
-                button4.Visible = true;
-                button5.Visible = true;
-                button6.Visible = true;
+                buttonReport.Visible = true;
+                buttonOrderItem.Visible = true;
+                buttonNew.Visible = true;
+                buttonUpdate.Visible = true;
+                buttonCheck.Visible = true;
             }
             else if (roleId == 2)
             {
-                button2.Visible = true;
-                button3.Visible = true;
-                button3.Location = new System.Drawing.Point(673, 533);
-                button2.Location = new System.Drawing.Point(552, 533);
+                buttonReport.Visible = true;
+                buttonOrderItem.Visible = true;
+                buttonOrderItem.Location = new System.Drawing.Point(673, 533);
+                buttonReport.Location = new System.Drawing.Point(552, 533);
             }
             else if (roleId == 3)
             {
-                button4.Visible = true;
-                button5.Visible = true;
-                button6.Visible = true;
-                button8.Visible = true;
-                button6.Location = new System.Drawing.Point(421, 533);
-                button8.Location = new System.Drawing.Point(673, 472);
+                buttonNew.Visible = true;
+                buttonUpdate.Visible = true;
+                buttonCheck.Visible = true;
+                buttonDelete.Visible = true;
+                buttonCheck.Location = new System.Drawing.Point(421, 533);
+                buttonDelete.Location = new System.Drawing.Point(673, 472);
             }
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void buttonNew_Click(object sender, EventArgs e)
         {
             OrderInsert OrderInsert = new OrderInsert();
             this.Visible = true;
@@ -82,7 +82,7 @@ namespace Restaurant
             this.Visible = true;
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void buttonUpdate_Click(object sender, EventArgs e)
         {
             OrderInsert OrderInsert = new OrderInsert();
             this.Visible = true;
@@ -90,7 +90,7 @@ namespace Restaurant
             this.Visible = true;
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void buttonOrderItem_Click(object sender, EventArgs e)
         {
             OrderItem OrderItem = new OrderItem(roleId);
             this.Visible = false;
@@ -98,7 +98,7 @@ namespace Restaurant
             this.Visible = true;
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void buttonReport_Click(object sender, EventArgs e)
         {
             Revenue Revenue = new Revenue();
             this.Visible = true;
@@ -106,9 +106,9 @@ namespace Restaurant
             this.Visible = true;
         }
 
-        private void button8_Click(object sender, EventArgs e)
+        private void buttonDelete_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("Вы действительно хотите удалить запись?", "Подтверждение удаления записи", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult result = MessageBox.Show("Вы действительно хотите удалить запись?", "Удаление записи", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (result == DialogResult.Yes)
             {
@@ -116,7 +116,7 @@ namespace Restaurant
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonBack_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
         }
@@ -145,28 +145,28 @@ namespace Restaurant
                 da.Fill(orderTable);
                 dataGridView1.DataSource = orderTable;
 
-                label2.Text = $"Всего: {orderTable.Rows.Count}";
+                labelTotal.Text = $"Всего: {orderTable.Rows.Count}";
 
                 MySqlCommand cmdCategories = new MySqlCommand("SELECT CategoryDishName FROM CategoryDish;", con);
                 MySqlDataReader reader = cmdCategories.ExecuteReader();
 
-                comboBox1.Items.Clear();
-                comboBox1.Items.Add("");
-                comboBox1.Items.Add("Принят");
-                comboBox1.Items.Add("В обработке");
-                comboBox1.Items.Add("На кухне");
-                comboBox1.Items.Add("Готов");
+                comboBoxStatus.Items.Clear();
+                comboBoxStatus.Items.Add("");
+                comboBoxStatus.Items.Add("Принят");
+                comboBoxStatus.Items.Add("В обработке");
+                comboBoxStatus.Items.Add("На кухне");
+                comboBoxStatus.Items.Add("Готов");
 
-                comboBox1.Items.Add("Оплачен");
-                comboBox1.Items.Add("Не оплачен");
-                comboBox1.SelectedIndex = 0;
+                comboBoxStatus.Items.Add("Оплачен");
+                comboBoxStatus.Items.Add("Не оплачен");
+                comboBoxStatus.SelectedIndex = 0;
 
 
-                comboBox2.Items.Clear();
-                comboBox2.Items.Add("");
-                comboBox2.Items.Add("По возрастанию");
-                comboBox2.Items.Add("По убыванию");
-                comboBox2.SelectedIndex = 0;
+                comboBoxSum.Items.Clear();
+                comboBoxSum.Items.Add("");
+                comboBoxSum.Items.Add("По возрастанию");
+                comboBoxSum.Items.Add("По убыванию");
+                comboBoxSum.SelectedIndex = 0;
             }
             catch (Exception ex)
             {
@@ -178,7 +178,7 @@ namespace Restaurant
             ApplyFilters();
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private void textBoxOrder_TextChanged(object sender, EventArgs e)
         {
             ApplyFilters();
         }
@@ -186,9 +186,9 @@ namespace Restaurant
         {
             if (orderTable == null) return;
 
-            string searchText = textBox1.Text.Trim().Replace("'", "''");
-            string selectedStatus = comboBox1.SelectedItem?.ToString() ?? "";
-            string sortOption = comboBox2.SelectedItem?.ToString() ?? "";
+            string searchText = textBoxOrder.Text.Trim().Replace("'", "''");
+            string selectedStatus = comboBoxStatus.SelectedItem?.ToString() ?? "";
+            string sortOption = comboBoxSum.SelectedItem?.ToString() ?? "";
 
             DataView view = new DataView(orderTable);
             string filter = "";
@@ -221,15 +221,15 @@ namespace Restaurant
 
             dataGridView1.DataSource = view;
 
-            label2.Text = $"Всего: {view.Count}";
+            labelTotal.Text = $"Всего: {view.Count}";
         }
 
-        private void button7_Click(object sender, EventArgs e)
+        private void buttonClearFilters_Click(object sender, EventArgs e)
         {
-            textBox1.Text = "";
+            textBoxOrder.Text = "";
 
-            comboBox1.SelectedIndex = 0;
-            comboBox2.SelectedIndex = 0;
+            comboBoxStatus.SelectedIndex = 0;
+            comboBoxSum.SelectedIndex = 0;
 
             if (orderTable != null)
             {
@@ -238,14 +238,14 @@ namespace Restaurant
                 view.Sort = "";
                 dataGridView1.DataSource = view;
 
-                label2.Text = $"Всего: {view.Count}";
+                labelTotal.Text = $"Всего: {view.Count}";
             }
         }
 
-        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        private void textBoxOrder_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) &&
-                !System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"^[а-яА-Я0-9\s]$"))
+                !System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"^[а-яА-Я0-9-\s]$"))
             {
                 e.Handled = true;
             }

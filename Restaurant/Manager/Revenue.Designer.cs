@@ -28,108 +28,109 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
+            this.dateTimePickerS = new System.Windows.Forms.DateTimePicker();
+            this.labelReport = new System.Windows.Forms.Label();
+            this.labelS = new System.Windows.Forms.Label();
+            this.labelPo = new System.Windows.Forms.Label();
+            this.dateTimePickerPo = new System.Windows.Forms.DateTimePicker();
+            this.buttonCreate = new System.Windows.Forms.Button();
+            this.buttonBack = new System.Windows.Forms.Button();
+            this.labelPeriod = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // dateTimePicker1
+            // dateTimePickerS
             // 
-            this.dateTimePicker1.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.dateTimePicker1.Location = new System.Drawing.Point(57, 124);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(200, 31);
-            this.dateTimePicker1.TabIndex = 0;
+            this.dateTimePickerS.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.dateTimePickerS.Location = new System.Drawing.Point(57, 124);
+            this.dateTimePickerS.Name = "dateTimePickerS";
+            this.dateTimePickerS.Size = new System.Drawing.Size(200, 31);
+            this.dateTimePickerS.TabIndex = 0;
             // 
-            // label1
+            // labelReport
             // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(36, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(187, 23);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Отчёт по выручке";
+            this.labelReport.AutoSize = true;
+            this.labelReport.BackColor = System.Drawing.Color.Transparent;
+            this.labelReport.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelReport.ForeColor = System.Drawing.Color.White;
+            this.labelReport.Location = new System.Drawing.Point(36, 9);
+            this.labelReport.Name = "labelReport";
+            this.labelReport.Size = new System.Drawing.Size(187, 23);
+            this.labelReport.TabIndex = 1;
+            this.labelReport.Text = "Отчёт по выручке";
             // 
-            // label2
+            // labelS
             // 
-            this.label2.AutoSize = true;
-            this.label2.BackColor = System.Drawing.Color.Transparent;
-            this.label2.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(29, 124);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(23, 23);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "С";
+            this.labelS.AutoSize = true;
+            this.labelS.BackColor = System.Drawing.Color.Transparent;
+            this.labelS.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelS.ForeColor = System.Drawing.Color.White;
+            this.labelS.Location = new System.Drawing.Point(29, 124);
+            this.labelS.Name = "labelS";
+            this.labelS.Size = new System.Drawing.Size(23, 23);
+            this.labelS.TabIndex = 1;
+            this.labelS.Text = "С";
             // 
-            // label3
+            // labelPo
             // 
-            this.label3.AutoSize = true;
-            this.label3.BackColor = System.Drawing.Color.Transparent;
-            this.label3.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(16, 176);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(36, 23);
-            this.label3.TabIndex = 3;
-            this.label3.Text = "По";
+            this.labelPo.AutoSize = true;
+            this.labelPo.BackColor = System.Drawing.Color.Transparent;
+            this.labelPo.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelPo.ForeColor = System.Drawing.Color.White;
+            this.labelPo.Location = new System.Drawing.Point(16, 176);
+            this.labelPo.Name = "labelPo";
+            this.labelPo.Size = new System.Drawing.Size(36, 23);
+            this.labelPo.TabIndex = 3;
+            this.labelPo.Text = "По";
             // 
-            // dateTimePicker2
+            // dateTimePickerPo
             // 
-            this.dateTimePicker2.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.dateTimePicker2.Location = new System.Drawing.Point(57, 176);
-            this.dateTimePicker2.Name = "dateTimePicker2";
-            this.dateTimePicker2.Size = new System.Drawing.Size(200, 31);
-            this.dateTimePicker2.TabIndex = 2;
+            this.dateTimePickerPo.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.dateTimePickerPo.Location = new System.Drawing.Point(57, 176);
+            this.dateTimePickerPo.Name = "dateTimePickerPo";
+            this.dateTimePickerPo.Size = new System.Drawing.Size(200, 31);
+            this.dateTimePickerPo.TabIndex = 2;
             // 
-            // button2
+            // buttonCreate
             // 
-            this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.button2.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(99)))), ((int)(((byte)(107)))));
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Location = new System.Drawing.Point(158, 294);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(110, 55);
-            this.button2.TabIndex = 10;
-            this.button2.Text = "Создать отчёт";
-            this.button2.UseVisualStyleBackColor = false;
+            this.buttonCreate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.buttonCreate.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(99)))), ((int)(((byte)(107)))));
+            this.buttonCreate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonCreate.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonCreate.ForeColor = System.Drawing.Color.White;
+            this.buttonCreate.Location = new System.Drawing.Point(158, 294);
+            this.buttonCreate.Name = "buttonCreate";
+            this.buttonCreate.Size = new System.Drawing.Size(110, 55);
+            this.buttonCreate.TabIndex = 10;
+            this.buttonCreate.Text = "Создать отчёт";
+            this.buttonCreate.UseVisualStyleBackColor = false;
+            this.buttonCreate.Click += new System.EventHandler(this.buttonCreate_Click);
             // 
-            // button1
+            // buttonBack
             // 
-            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.button1.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(99)))), ((int)(((byte)(107)))));
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(12, 294);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(110, 55);
-            this.button1.TabIndex = 11;
-            this.button1.Text = "Назад";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.buttonBack.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.buttonBack.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(99)))), ((int)(((byte)(107)))));
+            this.buttonBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonBack.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonBack.ForeColor = System.Drawing.Color.White;
+            this.buttonBack.Location = new System.Drawing.Point(12, 294);
+            this.buttonBack.Name = "buttonBack";
+            this.buttonBack.Size = new System.Drawing.Size(110, 55);
+            this.buttonBack.TabIndex = 11;
+            this.buttonBack.Text = "Назад";
+            this.buttonBack.UseVisualStyleBackColor = false;
+            this.buttonBack.Click += new System.EventHandler(this.buttonBack_Click);
             // 
-            // label4
+            // labelPeriod
             // 
-            this.label4.AutoSize = true;
-            this.label4.BackColor = System.Drawing.Color.Transparent;
-            this.label4.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(31, 56);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(192, 23);
-            this.label4.TabIndex = 1;
-            this.label4.Text = "Выберите период:";
+            this.labelPeriod.AutoSize = true;
+            this.labelPeriod.BackColor = System.Drawing.Color.Transparent;
+            this.labelPeriod.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelPeriod.ForeColor = System.Drawing.Color.White;
+            this.labelPeriod.Location = new System.Drawing.Point(31, 56);
+            this.labelPeriod.Name = "labelPeriod";
+            this.labelPeriod.Size = new System.Drawing.Size(192, 23);
+            this.labelPeriod.TabIndex = 1;
+            this.labelPeriod.Text = "Выберите период:";
             // 
             // Revenue
             // 
@@ -140,14 +141,14 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(284, 361);
             this.ControlBox = false;
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.dateTimePicker2);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.dateTimePicker1);
+            this.Controls.Add(this.buttonCreate);
+            this.Controls.Add(this.buttonBack);
+            this.Controls.Add(this.labelPo);
+            this.Controls.Add(this.dateTimePickerPo);
+            this.Controls.Add(this.labelS);
+            this.Controls.Add(this.labelPeriod);
+            this.Controls.Add(this.labelReport);
+            this.Controls.Add(this.dateTimePickerS);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Revenue";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -159,13 +160,13 @@
 
         #endregion
 
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.DateTimePicker dateTimePicker2;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.DateTimePicker dateTimePickerS;
+        private System.Windows.Forms.Label labelReport;
+        private System.Windows.Forms.Label labelS;
+        private System.Windows.Forms.Label labelPo;
+        private System.Windows.Forms.DateTimePicker dateTimePickerPo;
+        private System.Windows.Forms.Button buttonCreate;
+        private System.Windows.Forms.Button buttonBack;
+        private System.Windows.Forms.Label labelPeriod;
     }
 }

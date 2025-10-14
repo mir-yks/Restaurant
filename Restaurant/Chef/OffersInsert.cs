@@ -16,26 +16,44 @@ namespace Restaurant
         {
             InitializeComponent();
 
-            label1.Font = Fonts.MontserratAlternatesRegular(14f);
-            label2.Font = Fonts.MontserratAlternatesRegular(14f);
-            textBox1.Font = Fonts.MontserratAlternatesRegular(14f);
-            textBox2.Font = Fonts.MontserratAlternatesRegular(14f);
-            button1.Font = Fonts.MontserratAlternatesBold(12f);
-            button2.Font = Fonts.MontserratAlternatesBold(12f);
+            labelName.Font = Fonts.MontserratAlternatesRegular(14f);
+            labelDickount.Font = Fonts.MontserratAlternatesRegular(14f);
+            textBoxName.Font = Fonts.MontserratAlternatesRegular(14f);
+            textBoxDiscount.Font = Fonts.MontserratAlternatesRegular(14f);
+            buttonBack.Font = Fonts.MontserratAlternatesBold(12f);
+            buttonWrite.Font = Fonts.MontserratAlternatesBold(12f);
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonBack_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void buttonWrite_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show("Вы действительно хотите сохранить запись?", "Подтверждение записи", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (result == DialogResult.Yes)
             {
 
+            }
+        }
+
+        private void textBoxName_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) &&
+                !System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"^[а-яА-Я-\s]$"))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBoxDiscount_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) &&
+                !System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"^[0-9,]$"))
+            {
+                e.Handled = true;
             }
         }
     }

@@ -28,225 +28,225 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.comboBox5 = new System.Windows.Forms.ComboBox();
-            this.comboBox4 = new System.Windows.Forms.ComboBox();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.buttonOrderItem = new System.Windows.Forms.Button();
+            this.buttonBack = new System.Windows.Forms.Button();
+            this.dateTimePickerOder = new System.Windows.Forms.DateTimePicker();
+            this.labelStatusPayment = new System.Windows.Forms.Label();
+            this.labelStatusOrder = new System.Windows.Forms.Label();
+            this.labelTable = new System.Windows.Forms.Label();
+            this.labelClient = new System.Windows.Forms.Label();
+            this.labelDateOrder = new System.Windows.Forms.Label();
+            this.labelWaiter = new System.Windows.Forms.Label();
+            this.comboBoxStatusPayment = new System.Windows.Forms.ComboBox();
+            this.comboBoxStatusOrder = new System.Windows.Forms.ComboBox();
+            this.comboBoxWorker = new System.Windows.Forms.ComboBox();
+            this.comboBoxClient = new System.Windows.Forms.ComboBox();
+            this.comboBoxWaiter = new System.Windows.Forms.ComboBox();
+            this.labelSum = new System.Windows.Forms.Label();
+            this.textBoxSum = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
-            // button2
+            // buttonOrderItem
             // 
-            this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.button2.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(99)))), ((int)(((byte)(107)))));
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Location = new System.Drawing.Point(462, 294);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(110, 55);
-            this.button2.TabIndex = 33;
-            this.button2.Text = "Состав заказа";
-            this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.buttonOrderItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.buttonOrderItem.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(99)))), ((int)(((byte)(107)))));
+            this.buttonOrderItem.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonOrderItem.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonOrderItem.ForeColor = System.Drawing.Color.White;
+            this.buttonOrderItem.Location = new System.Drawing.Point(462, 294);
+            this.buttonOrderItem.Name = "buttonOrderItem";
+            this.buttonOrderItem.Size = new System.Drawing.Size(110, 55);
+            this.buttonOrderItem.TabIndex = 33;
+            this.buttonOrderItem.Text = "Состав заказа";
+            this.buttonOrderItem.UseVisualStyleBackColor = false;
+            this.buttonOrderItem.Click += new System.EventHandler(this.buttonOrderItem_Click);
             // 
-            // button1
+            // buttonBack
             // 
-            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.button1.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(99)))), ((int)(((byte)(107)))));
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(12, 294);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(110, 55);
-            this.button1.TabIndex = 32;
-            this.button1.Text = "Назад";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.buttonBack.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.buttonBack.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(99)))), ((int)(((byte)(107)))));
+            this.buttonBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonBack.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonBack.ForeColor = System.Drawing.Color.White;
+            this.buttonBack.Location = new System.Drawing.Point(12, 294);
+            this.buttonBack.Name = "buttonBack";
+            this.buttonBack.Size = new System.Drawing.Size(110, 55);
+            this.buttonBack.TabIndex = 32;
+            this.buttonBack.Text = "Назад";
+            this.buttonBack.UseVisualStyleBackColor = false;
+            this.buttonBack.Click += new System.EventHandler(this.buttonBack_Click);
             // 
-            // dateTimePicker1
+            // dateTimePickerOder
             // 
-            this.dateTimePicker1.CalendarForeColor = System.Drawing.Color.White;
-            this.dateTimePicker1.CalendarMonthBackground = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.dateTimePicker1.CalendarTitleBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.dateTimePicker1.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.dateTimePicker1.Location = new System.Drawing.Point(313, 166);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(226, 31);
-            this.dateTimePicker1.TabIndex = 31;
+            this.dateTimePickerOder.CalendarForeColor = System.Drawing.Color.White;
+            this.dateTimePickerOder.CalendarMonthBackground = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.dateTimePickerOder.CalendarTitleBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.dateTimePickerOder.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.dateTimePickerOder.Location = new System.Drawing.Point(313, 166);
+            this.dateTimePickerOder.Name = "dateTimePickerOder";
+            this.dateTimePickerOder.Size = new System.Drawing.Size(226, 31);
+            this.dateTimePickerOder.TabIndex = 31;
             // 
-            // label7
+            // labelStatusPayment
             // 
-            this.label7.AutoSize = true;
-            this.label7.BackColor = System.Drawing.Color.Transparent;
-            this.label7.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label7.ForeColor = System.Drawing.Color.White;
-            this.label7.Location = new System.Drawing.Point(309, 73);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(160, 23);
-            this.label7.TabIndex = 25;
-            this.label7.Text = "Статус оплаты:";
+            this.labelStatusPayment.AutoSize = true;
+            this.labelStatusPayment.BackColor = System.Drawing.Color.Transparent;
+            this.labelStatusPayment.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelStatusPayment.ForeColor = System.Drawing.Color.White;
+            this.labelStatusPayment.Location = new System.Drawing.Point(309, 73);
+            this.labelStatusPayment.Name = "labelStatusPayment";
+            this.labelStatusPayment.Size = new System.Drawing.Size(160, 23);
+            this.labelStatusPayment.TabIndex = 25;
+            this.labelStatusPayment.Text = "Статус оплаты:";
             // 
-            // label6
+            // labelStatusOrder
             // 
-            this.label6.AutoSize = true;
-            this.label6.BackColor = System.Drawing.Color.Transparent;
-            this.label6.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label6.ForeColor = System.Drawing.Color.White;
-            this.label6.Location = new System.Drawing.Point(309, 7);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(153, 23);
-            this.label6.TabIndex = 26;
-            this.label6.Text = "Статус заказа:";
+            this.labelStatusOrder.AutoSize = true;
+            this.labelStatusOrder.BackColor = System.Drawing.Color.Transparent;
+            this.labelStatusOrder.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelStatusOrder.ForeColor = System.Drawing.Color.White;
+            this.labelStatusOrder.Location = new System.Drawing.Point(309, 7);
+            this.labelStatusOrder.Name = "labelStatusOrder";
+            this.labelStatusOrder.Size = new System.Drawing.Size(153, 23);
+            this.labelStatusOrder.TabIndex = 26;
+            this.labelStatusOrder.Text = "Статус заказа:";
             // 
-            // label3
+            // labelTable
             // 
-            this.label3.AutoSize = true;
-            this.label3.BackColor = System.Drawing.Color.Transparent;
-            this.label3.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(26, 140);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(65, 23);
-            this.label3.TabIndex = 27;
-            this.label3.Text = "Стол:";
+            this.labelTable.AutoSize = true;
+            this.labelTable.BackColor = System.Drawing.Color.Transparent;
+            this.labelTable.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelTable.ForeColor = System.Drawing.Color.White;
+            this.labelTable.Location = new System.Drawing.Point(26, 140);
+            this.labelTable.Name = "labelTable";
+            this.labelTable.Size = new System.Drawing.Size(65, 23);
+            this.labelTable.TabIndex = 27;
+            this.labelTable.Text = "Стол:";
             // 
-            // label2
+            // labelClient
             // 
-            this.label2.AutoSize = true;
-            this.label2.BackColor = System.Drawing.Color.Transparent;
-            this.label2.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(26, 73);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(88, 23);
-            this.label2.TabIndex = 28;
-            this.label2.Text = "Клиент:";
+            this.labelClient.AutoSize = true;
+            this.labelClient.BackColor = System.Drawing.Color.Transparent;
+            this.labelClient.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelClient.ForeColor = System.Drawing.Color.White;
+            this.labelClient.Location = new System.Drawing.Point(26, 73);
+            this.labelClient.Name = "labelClient";
+            this.labelClient.Size = new System.Drawing.Size(88, 23);
+            this.labelClient.TabIndex = 28;
+            this.labelClient.Text = "Клиент:";
             // 
-            // label4
+            // labelDateOrder
             // 
-            this.label4.AutoSize = true;
-            this.label4.BackColor = System.Drawing.Color.Transparent;
-            this.label4.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(309, 140);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(135, 23);
-            this.label4.TabIndex = 29;
-            this.label4.Text = "Дата заказа:";
+            this.labelDateOrder.AutoSize = true;
+            this.labelDateOrder.BackColor = System.Drawing.Color.Transparent;
+            this.labelDateOrder.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelDateOrder.ForeColor = System.Drawing.Color.White;
+            this.labelDateOrder.Location = new System.Drawing.Point(309, 140);
+            this.labelDateOrder.Name = "labelDateOrder";
+            this.labelDateOrder.Size = new System.Drawing.Size(135, 23);
+            this.labelDateOrder.TabIndex = 29;
+            this.labelDateOrder.Text = "Дата заказа:";
             // 
-            // label1
+            // labelWaiter
             // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(26, 7);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(119, 23);
-            this.label1.TabIndex = 30;
-            this.label1.Text = "Официант:";
+            this.labelWaiter.AutoSize = true;
+            this.labelWaiter.BackColor = System.Drawing.Color.Transparent;
+            this.labelWaiter.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelWaiter.ForeColor = System.Drawing.Color.White;
+            this.labelWaiter.Location = new System.Drawing.Point(26, 7);
+            this.labelWaiter.Name = "labelWaiter";
+            this.labelWaiter.Size = new System.Drawing.Size(119, 23);
+            this.labelWaiter.TabIndex = 30;
+            this.labelWaiter.Text = "Официант:";
             // 
-            // comboBox5
+            // comboBoxStatusPayment
             // 
-            this.comboBox5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.comboBox5.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.comboBox5.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.comboBox5.ForeColor = System.Drawing.Color.White;
-            this.comboBox5.FormattingEnabled = true;
-            this.comboBox5.Location = new System.Drawing.Point(313, 99);
-            this.comboBox5.Name = "comboBox5";
-            this.comboBox5.Size = new System.Drawing.Size(226, 31);
-            this.comboBox5.TabIndex = 20;
+            this.comboBoxStatusPayment.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.comboBoxStatusPayment.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxStatusPayment.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.comboBoxStatusPayment.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.comboBoxStatusPayment.ForeColor = System.Drawing.Color.White;
+            this.comboBoxStatusPayment.FormattingEnabled = true;
+            this.comboBoxStatusPayment.Location = new System.Drawing.Point(313, 99);
+            this.comboBoxStatusPayment.Name = "comboBoxStatusPayment";
+            this.comboBoxStatusPayment.Size = new System.Drawing.Size(226, 31);
+            this.comboBoxStatusPayment.TabIndex = 20;
             // 
-            // comboBox4
+            // comboBoxStatusOrder
             // 
-            this.comboBox4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.comboBox4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.comboBox4.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.comboBox4.ForeColor = System.Drawing.Color.White;
-            this.comboBox4.FormattingEnabled = true;
-            this.comboBox4.Location = new System.Drawing.Point(313, 33);
-            this.comboBox4.Name = "comboBox4";
-            this.comboBox4.Size = new System.Drawing.Size(226, 31);
-            this.comboBox4.TabIndex = 21;
+            this.comboBoxStatusOrder.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.comboBoxStatusOrder.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxStatusOrder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.comboBoxStatusOrder.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.comboBoxStatusOrder.ForeColor = System.Drawing.Color.White;
+            this.comboBoxStatusOrder.FormattingEnabled = true;
+            this.comboBoxStatusOrder.Location = new System.Drawing.Point(313, 33);
+            this.comboBoxStatusOrder.Name = "comboBoxStatusOrder";
+            this.comboBoxStatusOrder.Size = new System.Drawing.Size(226, 31);
+            this.comboBoxStatusOrder.TabIndex = 21;
             // 
-            // comboBox3
+            // comboBoxWorker
             // 
-            this.comboBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.comboBox3.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.comboBox3.ForeColor = System.Drawing.Color.White;
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(30, 166);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(226, 31);
-            this.comboBox3.TabIndex = 22;
+            this.comboBoxWorker.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.comboBoxWorker.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxWorker.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.comboBoxWorker.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.comboBoxWorker.ForeColor = System.Drawing.Color.White;
+            this.comboBoxWorker.FormattingEnabled = true;
+            this.comboBoxWorker.Location = new System.Drawing.Point(30, 166);
+            this.comboBoxWorker.Name = "comboBoxWorker";
+            this.comboBoxWorker.Size = new System.Drawing.Size(226, 31);
+            this.comboBoxWorker.TabIndex = 22;
             // 
-            // comboBox2
+            // comboBoxClient
             // 
-            this.comboBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.comboBox2.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.comboBox2.ForeColor = System.Drawing.Color.White;
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(30, 99);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(226, 31);
-            this.comboBox2.TabIndex = 23;
+            this.comboBoxClient.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.comboBoxClient.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxClient.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.comboBoxClient.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.comboBoxClient.ForeColor = System.Drawing.Color.White;
+            this.comboBoxClient.FormattingEnabled = true;
+            this.comboBoxClient.Location = new System.Drawing.Point(30, 99);
+            this.comboBoxClient.Name = "comboBoxClient";
+            this.comboBoxClient.Size = new System.Drawing.Size(226, 31);
+            this.comboBoxClient.TabIndex = 23;
             // 
-            // comboBox1
+            // comboBoxWaiter
             // 
-            this.comboBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.comboBox1.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.comboBox1.ForeColor = System.Drawing.Color.White;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(30, 33);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(226, 31);
-            this.comboBox1.TabIndex = 24;
+            this.comboBoxWaiter.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.comboBoxWaiter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxWaiter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.comboBoxWaiter.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.comboBoxWaiter.ForeColor = System.Drawing.Color.White;
+            this.comboBoxWaiter.FormattingEnabled = true;
+            this.comboBoxWaiter.Location = new System.Drawing.Point(30, 33);
+            this.comboBoxWaiter.Name = "comboBoxWaiter";
+            this.comboBoxWaiter.Size = new System.Drawing.Size(226, 31);
+            this.comboBoxWaiter.TabIndex = 24;
             // 
-            // label5
+            // labelSum
             // 
-            this.label5.AutoSize = true;
-            this.label5.BackColor = System.Drawing.Color.Transparent;
-            this.label5.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(309, 215);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(80, 23);
-            this.label5.TabIndex = 27;
-            this.label5.Text = "Сумма:";
+            this.labelSum.AutoSize = true;
+            this.labelSum.BackColor = System.Drawing.Color.Transparent;
+            this.labelSum.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelSum.ForeColor = System.Drawing.Color.White;
+            this.labelSum.Location = new System.Drawing.Point(309, 215);
+            this.labelSum.Name = "labelSum";
+            this.labelSum.Size = new System.Drawing.Size(80, 23);
+            this.labelSum.TabIndex = 27;
+            this.labelSum.Text = "Сумма:";
             // 
-            // textBox1
+            // textBoxSum
             // 
-            this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox1.Enabled = false;
-            this.textBox1.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox1.ForeColor = System.Drawing.Color.White;
-            this.textBox1.Location = new System.Drawing.Point(313, 241);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 31);
-            this.textBox1.TabIndex = 34;
+            this.textBoxSum.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.textBoxSum.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBoxSum.Enabled = false;
+            this.textBoxSum.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxSum.ForeColor = System.Drawing.Color.White;
+            this.textBoxSum.Location = new System.Drawing.Point(313, 241);
+            this.textBoxSum.Name = "textBoxSum";
+            this.textBoxSum.Size = new System.Drawing.Size(100, 31);
+            this.textBoxSum.TabIndex = 34;
             // 
             // OrderInsert
             // 
@@ -257,22 +257,22 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(584, 361);
             this.ControlBox = false;
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.dateTimePicker1);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.comboBox5);
-            this.Controls.Add(this.comboBox4);
-            this.Controls.Add(this.comboBox3);
-            this.Controls.Add(this.comboBox2);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.textBoxSum);
+            this.Controls.Add(this.buttonOrderItem);
+            this.Controls.Add(this.buttonBack);
+            this.Controls.Add(this.dateTimePickerOder);
+            this.Controls.Add(this.labelStatusPayment);
+            this.Controls.Add(this.labelStatusOrder);
+            this.Controls.Add(this.labelSum);
+            this.Controls.Add(this.labelTable);
+            this.Controls.Add(this.labelClient);
+            this.Controls.Add(this.labelDateOrder);
+            this.Controls.Add(this.labelWaiter);
+            this.Controls.Add(this.comboBoxStatusPayment);
+            this.Controls.Add(this.comboBoxStatusOrder);
+            this.Controls.Add(this.comboBoxWorker);
+            this.Controls.Add(this.comboBoxClient);
+            this.Controls.Add(this.comboBoxWaiter);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "OrderInsert";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -284,21 +284,21 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox comboBox5;
-        private System.Windows.Forms.ComboBox comboBox4;
-        private System.Windows.Forms.ComboBox comboBox3;
-        private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button buttonOrderItem;
+        private System.Windows.Forms.Button buttonBack;
+        private System.Windows.Forms.DateTimePicker dateTimePickerOder;
+        private System.Windows.Forms.Label labelStatusPayment;
+        private System.Windows.Forms.Label labelStatusOrder;
+        private System.Windows.Forms.Label labelTable;
+        private System.Windows.Forms.Label labelClient;
+        private System.Windows.Forms.Label labelDateOrder;
+        private System.Windows.Forms.Label labelWaiter;
+        private System.Windows.Forms.ComboBox comboBoxStatusPayment;
+        private System.Windows.Forms.ComboBox comboBoxStatusOrder;
+        private System.Windows.Forms.ComboBox comboBoxWorker;
+        private System.Windows.Forms.ComboBox comboBoxClient;
+        private System.Windows.Forms.ComboBox comboBoxWaiter;
+        private System.Windows.Forms.Label labelSum;
+        private System.Windows.Forms.TextBox textBoxSum;
     }
 }

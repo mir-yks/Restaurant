@@ -19,28 +19,28 @@ namespace Restaurant
             InitializeComponent();
             this.mode = mode;
 
-            label1.Font = Fonts.MontserratAlternatesRegular(14f);
-            label2.Font = Fonts.MontserratAlternatesRegular(14f);
-            label3.Font = Fonts.MontserratAlternatesRegular(14f);
-            label4.Font = Fonts.MontserratAlternatesRegular(14f);
-            label11.Font = Fonts.MontserratAlternatesRegular(14f);
-            label6.Font = Fonts.MontserratAlternatesRegular(14f);
-            label7.Font = Fonts.MontserratAlternatesRegular(14f);
-            label12.Font = Fonts.MontserratAlternatesRegular(14f);
-            label9.Font = Fonts.MontserratAlternatesRegular(14f);
-            label10.Font = Fonts.MontserratAlternatesRegular(14f);
-            textBox1.Font = Fonts.MontserratAlternatesRegular(14f);
-            textBox4.Font = Fonts.MontserratAlternatesRegular(14f);
-            textBox5.Font = Fonts.MontserratAlternatesRegular(14f);
-            textBox6.Font = Fonts.MontserratAlternatesRegular(14f);
-            textBox8.Font = Fonts.MontserratAlternatesRegular(14f);
-            textBox9.Font = Fonts.MontserratAlternatesRegular(14f);
-            maskedTextBox1.Font = Fonts.MontserratAlternatesRegular(14f);
-            comboBox3.Font = Fonts.MontserratAlternatesRegular(14f);
-            dateTimePicker1.Font = Fonts.MontserratAlternatesRegular(14f);
-            dateTimePicker2.Font = Fonts.MontserratAlternatesRegular(14f);
-            button1.Font = Fonts.MontserratAlternatesBold(12f);
-            button2.Font = Fonts.MontserratAlternatesBold(12f);
+            labelLogin.Font = Fonts.MontserratAlternatesRegular(14f);
+            labelPassword.Font = Fonts.MontserratAlternatesRegular(14f);
+            labelRole.Font = Fonts.MontserratAlternatesRegular(14f);
+            labelBirthday.Font = Fonts.MontserratAlternatesRegular(14f);
+            labelEmployment.Font = Fonts.MontserratAlternatesRegular(14f);
+            labelConfPassword.Font = Fonts.MontserratAlternatesRegular(14f);
+            labelPhone.Font = Fonts.MontserratAlternatesRegular(14f);
+            labelAddress.Font = Fonts.MontserratAlternatesRegular(14f);
+            labelFIO.Font = Fonts.MontserratAlternatesRegular(14f);
+            labelEmail.Font = Fonts.MontserratAlternatesRegular(14f);
+            textBoxFIO.Font = Fonts.MontserratAlternatesRegular(14f);
+            textBoxLogin.Font = Fonts.MontserratAlternatesRegular(14f);
+            textBoxPassword.Font = Fonts.MontserratAlternatesRegular(14f);
+            textBoxConfPassword.Font = Fonts.MontserratAlternatesRegular(14f);
+            textBoxEmail.Font = Fonts.MontserratAlternatesRegular(14f);
+            textBoxAddress.Font = Fonts.MontserratAlternatesRegular(14f);
+            maskedTextBoxPhone.Font = Fonts.MontserratAlternatesRegular(14f);
+            comboBoxRole.Font = Fonts.MontserratAlternatesRegular(14f);
+            dateTimePickerBirthday.Font = Fonts.MontserratAlternatesRegular(14f);
+            dateTimePickerEmployment.Font = Fonts.MontserratAlternatesRegular(14f);
+            buttonBack.Font = Fonts.MontserratAlternatesBold(12f);
+            buttonWrite.Font = Fonts.MontserratAlternatesBold(12f);
 
             LoadRoles();
             ApplyMode();
@@ -57,10 +57,10 @@ namespace Restaurant
                     MySqlDataAdapter daRoles = new MySqlDataAdapter("SELECT RoleName FROM role;", con);
                     daRoles.Fill(rolesTable);
 
-                    comboBox3.Items.Clear();
+                    comboBoxRole.Items.Clear();
                     foreach (DataRow row in rolesTable.Rows)
                     {
-                        comboBox3.Items.Add(row["RoleName"].ToString());
+                        comboBoxRole.Items.Add(row["RoleName"].ToString());
                     }
                 }
             }
@@ -75,128 +75,164 @@ namespace Restaurant
             switch (mode)
             {
                 case "view":
-                    label2.Visible = false;
-                    label6.Visible = false;
-                    textBox5.Visible = false;
-                    textBox6.Visible = false;
-                    button2.Visible = false;
+                    labelPassword.Visible = false;
+                    labelConfPassword.Visible = false;
+                    textBoxPassword.Visible = false;
+                    textBoxConfPassword.Visible = false;
+                    buttonWrite.Visible = false;
 
-                    textBox1.ReadOnly = true;
-                    textBox4.ReadOnly = true;
-                    textBox5.ReadOnly = true;
-                    textBox6.ReadOnly = true;
-                    maskedTextBox1.ReadOnly = true;
-                    textBox8.ReadOnly = true;
-                    textBox9.ReadOnly = true;
+                    textBoxFIO.ReadOnly = true;
+                    textBoxLogin.ReadOnly = true;
+                    textBoxPassword.ReadOnly = true;
+                    textBoxConfPassword.ReadOnly = true;
+                    maskedTextBoxPhone.ReadOnly = true;
+                    textBoxEmail.ReadOnly = true;
+                    textBoxAddress.ReadOnly = true;
 
-                    comboBox3.Enabled = false;
-                    dateTimePicker1.Enabled = false;
-                    dateTimePicker2.Enabled = false;
+                    comboBoxRole.Enabled = false;
+                    dateTimePickerBirthday.Enabled = false;
+                    dateTimePickerEmployment.Enabled = false;
                     
-                    comboBox3.Location = new System.Drawing.Point(16, 235);
-                    label3.Location = new System.Drawing.Point(12, 209);
-                    textBox9.Location = new System.Drawing.Point(16, 168);
-                    label12.Location = new System.Drawing.Point(12, 142);
+                    comboBoxRole.Location = new System.Drawing.Point(16, 235);
+                    labelRole.Location = new System.Drawing.Point(12, 209);
+                    textBoxAddress.Location = new System.Drawing.Point(16, 168);
+                    labelAddress.Location = new System.Drawing.Point(12, 142);
 
-                    button1.Text = "Закрыть"; 
+                    buttonBack.Text = "Закрыть"; 
                     break;
 
                 case "add":
-                    textBox1.Text = "";
-                    textBox4.Text = "";
-                    textBox5.Text = "";
-                    textBox6.Text = "";
-                    maskedTextBox1.Text = "";
-                    textBox8.Text = "";
-                    textBox9.Text = "";
-                    comboBox3.SelectedIndex = 0;
-                    dateTimePicker1.Value = DateTime.Today;
-                    dateTimePicker2.Value = DateTime.Today;
+                    textBoxFIO.Text = "";
+                    textBoxLogin.Text = "";
+                    textBoxPassword.Text = "";
+                    textBoxConfPassword.Text = "";
+                    maskedTextBoxPhone.Text = "";
+                    textBoxEmail.Text = "";
+                    textBoxAddress.Text = "";
+                    comboBoxRole.SelectedIndex = 0;
+                    dateTimePickerBirthday.Value = DateTime.Today;
+                    dateTimePickerEmployment.Value = DateTime.Today;
 
-                    button2.Visible = true; 
-                    button1.Text = "Отмена";
+                    buttonWrite.Visible = true; 
+                    buttonBack.Text = "Отмена";
                     break;
 
                 case "edit":
-                    textBox1.ReadOnly = false;
-                    textBox4.ReadOnly = false;
-                    textBox5.ReadOnly = false;
-                    textBox6.ReadOnly = false;
-                    maskedTextBox1.ReadOnly = false;
-                    textBox8.ReadOnly = false;
-                    textBox9.ReadOnly = false;
+                    textBoxFIO.ReadOnly = false;
+                    textBoxLogin.ReadOnly = false;
+                    textBoxPassword.ReadOnly = false;
+                    textBoxConfPassword.ReadOnly = false;
+                    maskedTextBoxPhone.ReadOnly = false;
+                    textBoxEmail.ReadOnly = false;
+                    textBoxAddress.ReadOnly = false;
 
-                    comboBox3.Enabled = true;
-                    dateTimePicker1.Enabled = true;
-                    dateTimePicker2.Enabled = true;
+                    comboBoxRole.Enabled = true;
+                    dateTimePickerBirthday.Enabled = true;
+                    dateTimePickerEmployment.Enabled = true;
 
-                    button2.Visible = true; 
-                    button1.Text = "Отмена";
+                    buttonWrite.Visible = true; 
+                    buttonBack.Text = "Отмена";
                     break;
             }
         }
 
         public string WorkerFIO
         {
-            get => textBox1.Text;
-            set => textBox1.Text = value;
+            get => textBoxFIO.Text;
+            set => textBoxFIO.Text = value;
         }
 
         public string WorkerLogin
         {
-            get => textBox4.Text;
-            set => textBox4.Text = value;
+            get => textBoxLogin.Text;
+            set => textBoxLogin.Text = value;
         }
 
         public string WorkerPhone
         {
-            get => maskedTextBox1.Text;
-            set => maskedTextBox1.Text = value;
+            get => maskedTextBoxPhone.Text;
+            set => maskedTextBoxPhone.Text = value;
         }
 
         public string WorkerEmail
         {
-            get => textBox8.Text;
-            set => textBox8.Text = value;
+            get => textBoxEmail.Text;
+            set => textBoxEmail.Text = value;
         }
 
         public DateTime WorkerBirthday
         {
-            get => dateTimePicker1.Value;
-            set => dateTimePicker1.Value = value;
+            get => dateTimePickerBirthday.Value;
+            set => dateTimePickerBirthday.Value = value;
         }
 
         public DateTime WorkerDateEmployment
         {
-            get => dateTimePicker2.Value;
-            set => dateTimePicker2.Value = value;
+            get => dateTimePickerEmployment.Value;
+            set => dateTimePickerEmployment.Value = value;
         }
 
         public string WorkerAddress
         {
-            get => textBox9.Text;
-            set => textBox9.Text = value;
+            get => textBoxAddress.Text;
+            set => textBoxAddress.Text = value;
         }
 
         public string WorkerRole
         {
-            get => comboBox3.Text;
-            set => comboBox3.Text = value;
+            get => comboBoxRole.Text;
+            set => comboBoxRole.Text = value;
         }
 
 
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonBack_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void buttonWrite_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show("Вы действительно хотите сохранить запись?", "Подтверждение записи", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (result == DialogResult.Yes)
             {
 
+            }
+        }
+
+        private void textBoxFIO_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) &&
+                !System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"^[а-яА-Я-\s]$"))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBoxLogin_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) &&
+                !System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"^[a-zA-Z0-9@._-]$"))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBoxPasswdAndEmail_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) &&
+                !System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"^[a-zA-Z0-9!@#$%^&*()\-_=+\[\]{}|;:,.<>?]$"))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBoxAddress_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) &&
+                !System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"^[а-яА-Я-,.\s]$"))
+            {
+                e.Handled = true;
             }
         }
     }

@@ -18,12 +18,12 @@ namespace Restaurant
             InitializeComponent();
             this.mode = mode;
 
-            label1.Font = Fonts.MontserratAlternatesRegular(14f);
-            label2.Font = Fonts.MontserratAlternatesRegular(14f);
-            textBox1.Font = Fonts.MontserratAlternatesRegular(14f);
-            maskedTextBox1.Font = Fonts.MontserratAlternatesRegular(14f);
-            button1.Font = Fonts.MontserratAlternatesBold(12f);
-            button2.Font = Fonts.MontserratAlternatesBold(12f);
+            labelFIO.Font = Fonts.MontserratAlternatesRegular(14f);
+            labelPhone.Font = Fonts.MontserratAlternatesRegular(14f);
+            textBoxFIO.Font = Fonts.MontserratAlternatesRegular(14f);
+            maskedTextBoxPhone.Font = Fonts.MontserratAlternatesRegular(14f);
+            buttonBack.Font = Fonts.MontserratAlternatesBold(12f);
+            buttonWrite.Font = Fonts.MontserratAlternatesBold(12f);
 
             ApplyMode();
         }
@@ -33,59 +33,68 @@ namespace Restaurant
             switch (mode)
             {
                 case "view":
-                    textBox1.ReadOnly = true;
-                    maskedTextBox1.ReadOnly = true;
+                    textBoxFIO.ReadOnly = true;
+                    maskedTextBoxPhone.ReadOnly = true;
 
-                    button2.Visible = false;
+                    buttonWrite.Visible = false;
 
-                    button1.Text = "Закрыть";
+                    buttonBack.Text = "Закрыть";
                     break;
 
                 case "add":
-                    textBox1.Text = "";
-                    maskedTextBox1.Text = "";
+                    textBoxFIO.Text = "";
+                    maskedTextBoxPhone.Text = "";
 
-                    textBox1.ReadOnly = false;
-                    maskedTextBox1.ReadOnly = false;
+                    textBoxFIO.ReadOnly = false;
+                    maskedTextBoxPhone.ReadOnly = false;
 
-                    button2.Visible = true;
-                    button1.Text = "Отмена";
+                    buttonWrite.Visible = true;
+                    buttonBack.Text = "Отмена";
                     break;
 
                 case "edit":
-                    textBox1.ReadOnly = false;
-                    maskedTextBox1.ReadOnly = false;
+                    textBoxFIO.ReadOnly = false;
+                    maskedTextBoxPhone.ReadOnly = false;
 
-                    button2.Visible = true;
-                    button1.Text = "Отмена";
+                    buttonWrite.Visible = true;
+                    buttonBack.Text = "Отмена";
                     break;
             }
         }
 
         public string ClientFIO
         {
-            get => textBox1.Text;
-            set => textBox1.Text = value;
+            get => textBoxFIO.Text;
+            set => textBoxFIO.Text = value;
         }
 
         public string ClientPhone
         {
-            get => maskedTextBox1.Text;
-            set => maskedTextBox1.Text = value;
+            get => maskedTextBoxPhone.Text;
+            set => maskedTextBoxPhone.Text = value;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonBack_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void buttonWrite_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show("Вы действительно хотите сохранить запись?", "Подтверждение записи", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (result == DialogResult.Yes)
             {
 
+            }
+        }
+
+        private void textBoxFIO_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) &&
+                !System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"^[а-яА-Я-\s]$"))
+            {
+                e.Handled = true;
             }
         }
     }

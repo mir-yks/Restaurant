@@ -16,20 +16,20 @@ namespace Restaurant
         {
             InitializeComponent();
 
-            label2.Font = Fonts.MontserratAlternatesRegular(14f);
-            label4.Font = Fonts.MontserratAlternatesRegular(14f);
-            comboBox2.Font = Fonts.MontserratAlternatesRegular(14f);
-            dateTimePicker1.Font = Fonts.MontserratAlternatesRegular(12f);
-            button1.Font = Fonts.MontserratAlternatesBold(12f);
-            button2.Font = Fonts.MontserratAlternatesBold(12f);
+            labelClient.Font = Fonts.MontserratAlternatesRegular(14f);
+            labelDateBooking.Font = Fonts.MontserratAlternatesRegular(14f);
+            comboBoxClient.Font = Fonts.MontserratAlternatesRegular(14f);
+            dateTimePickerBooking.Font = Fonts.MontserratAlternatesRegular(12f);
+            buttonBack.Font = Fonts.MontserratAlternatesBold(12f);
+            buttonArrange.Font = Fonts.MontserratAlternatesBold(12f);
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonBack_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void buttonArrange_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show("Вы действительно хотите записать бронь?", "Подтверждение записи", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 

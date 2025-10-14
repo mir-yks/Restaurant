@@ -28,91 +28,93 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.buttonWrite = new System.Windows.Forms.Button();
+            this.buttonBack = new System.Windows.Forms.Button();
+            this.labelNumberTable = new System.Windows.Forms.Label();
+            this.textBoxNumberTables = new System.Windows.Forms.TextBox();
+            this.textBoxPlaceCount = new System.Windows.Forms.TextBox();
+            this.labelPlaceCount = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // button2
+            // buttonWrite
             // 
-            this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.button2.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(99)))), ((int)(((byte)(107)))));
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Location = new System.Drawing.Point(173, 138);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(115, 50);
-            this.button2.TabIndex = 19;
-            this.button2.Text = "Записать";
-            this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.buttonWrite.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.buttonWrite.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(99)))), ((int)(((byte)(107)))));
+            this.buttonWrite.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonWrite.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonWrite.ForeColor = System.Drawing.Color.White;
+            this.buttonWrite.Location = new System.Drawing.Point(173, 138);
+            this.buttonWrite.Name = "buttonWrite";
+            this.buttonWrite.Size = new System.Drawing.Size(115, 50);
+            this.buttonWrite.TabIndex = 19;
+            this.buttonWrite.Text = "Записать";
+            this.buttonWrite.UseVisualStyleBackColor = false;
+            this.buttonWrite.Click += new System.EventHandler(this.buttonWrite_Click);
             // 
-            // button1
+            // buttonBack
             // 
-            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.button1.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(99)))), ((int)(((byte)(107)))));
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(12, 138);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(110, 50);
-            this.button1.TabIndex = 18;
-            this.button1.Text = "Назад";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.buttonBack.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.buttonBack.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(99)))), ((int)(((byte)(107)))));
+            this.buttonBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonBack.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonBack.ForeColor = System.Drawing.Color.White;
+            this.buttonBack.Location = new System.Drawing.Point(12, 138);
+            this.buttonBack.Name = "buttonBack";
+            this.buttonBack.Size = new System.Drawing.Size(110, 50);
+            this.buttonBack.TabIndex = 18;
+            this.buttonBack.Text = "Назад";
+            this.buttonBack.UseVisualStyleBackColor = false;
+            this.buttonBack.Click += new System.EventHandler(this.buttonBack_Click);
             // 
-            // label1
+            // labelNumberTable
             // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(35, 3);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(165, 23);
-            this.label1.TabIndex = 17;
-            this.label1.Text = "Номер столика:";
+            this.labelNumberTable.AutoSize = true;
+            this.labelNumberTable.BackColor = System.Drawing.Color.Transparent;
+            this.labelNumberTable.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelNumberTable.ForeColor = System.Drawing.Color.White;
+            this.labelNumberTable.Location = new System.Drawing.Point(35, 3);
+            this.labelNumberTable.Name = "labelNumberTable";
+            this.labelNumberTable.Size = new System.Drawing.Size(165, 23);
+            this.labelNumberTable.TabIndex = 17;
+            this.labelNumberTable.Text = "Номер столика:";
             // 
-            // textBox1
+            // textBoxNumberTables
             // 
-            this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox1.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox1.ForeColor = System.Drawing.Color.White;
-            this.textBox1.Location = new System.Drawing.Point(39, 29);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.MaxLength = 3;
-            this.textBox1.Size = new System.Drawing.Size(219, 31);
-            this.textBox1.TabIndex = 16;
+            this.textBoxNumberTables.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.textBoxNumberTables.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBoxNumberTables.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxNumberTables.ForeColor = System.Drawing.Color.White;
+            this.textBoxNumberTables.Location = new System.Drawing.Point(39, 29);
+            this.textBoxNumberTables.MaxLength = 3;
+            this.textBoxNumberTables.Name = "textBoxNumberTables";
+            this.textBoxNumberTables.Size = new System.Drawing.Size(219, 31);
+            this.textBoxNumberTables.TabIndex = 16;
+            this.textBoxNumberTables.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_KeyPress);
             // 
-            // textBox2
+            // textBoxPlaceCount
             // 
-            this.textBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox2.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox2.ForeColor = System.Drawing.Color.White;
-            this.textBox2.Location = new System.Drawing.Point(39, 92);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.MaxLength = 2;
-            this.textBox2.Size = new System.Drawing.Size(219, 31);
-            this.textBox2.TabIndex = 16;
+            this.textBoxPlaceCount.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.textBoxPlaceCount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBoxPlaceCount.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxPlaceCount.ForeColor = System.Drawing.Color.White;
+            this.textBoxPlaceCount.Location = new System.Drawing.Point(39, 92);
+            this.textBoxPlaceCount.MaxLength = 2;
+            this.textBoxPlaceCount.Name = "textBoxPlaceCount";
+            this.textBoxPlaceCount.Size = new System.Drawing.Size(219, 31);
+            this.textBoxPlaceCount.TabIndex = 16;
+            this.textBoxPlaceCount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_KeyPress);
             // 
-            // label2
+            // labelPlaceCount
             // 
-            this.label2.AutoSize = true;
-            this.label2.BackColor = System.Drawing.Color.Transparent;
-            this.label2.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(35, 66);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(183, 23);
-            this.label2.TabIndex = 17;
-            this.label2.Text = "Количество мест:";
+            this.labelPlaceCount.AutoSize = true;
+            this.labelPlaceCount.BackColor = System.Drawing.Color.Transparent;
+            this.labelPlaceCount.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelPlaceCount.ForeColor = System.Drawing.Color.White;
+            this.labelPlaceCount.Location = new System.Drawing.Point(35, 66);
+            this.labelPlaceCount.Name = "labelPlaceCount";
+            this.labelPlaceCount.Size = new System.Drawing.Size(183, 23);
+            this.labelPlaceCount.TabIndex = 17;
+            this.labelPlaceCount.Text = "Количество мест:";
             // 
             // TablesInsert
             // 
@@ -123,12 +125,12 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(300, 200);
             this.ControlBox = false;
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.buttonWrite);
+            this.Controls.Add(this.buttonBack);
+            this.Controls.Add(this.labelPlaceCount);
+            this.Controls.Add(this.labelNumberTable);
+            this.Controls.Add(this.textBoxPlaceCount);
+            this.Controls.Add(this.textBoxNumberTables);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "TablesInsert";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -140,11 +142,11 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button buttonWrite;
+        private System.Windows.Forms.Button buttonBack;
+        private System.Windows.Forms.Label labelNumberTable;
+        private System.Windows.Forms.TextBox textBoxNumberTables;
+        private System.Windows.Forms.TextBox textBoxPlaceCount;
+        private System.Windows.Forms.Label labelPlaceCount;
     }
 }

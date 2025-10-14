@@ -17,15 +17,15 @@ namespace Restaurant
         {
             InitializeComponent();
 
-            label2.Font = Fonts.MontserratAlternatesRegular(14f);
-            button1.Font = Fonts.MontserratAlternatesBold(12f);
-            button2.Font = Fonts.MontserratAlternatesBold(12f);
-            button3.Font = Fonts.MontserratAlternatesBold(12f);
-            button8.Font = Fonts.MontserratAlternatesBold(12f);
+            labelTotal.Font = Fonts.MontserratAlternatesRegular(14f);
+            buttonBack.Font = Fonts.MontserratAlternatesBold(12f);
+            buttonNew.Font = Fonts.MontserratAlternatesBold(12f);
+            buttonUpdate.Font = Fonts.MontserratAlternatesBold(12f);
+            buttonDelete.Font = Fonts.MontserratAlternatesBold(12f);
             dataGridView1.Font = Fonts.MontserratAlternatesRegular(12f);
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void buttonNew_Click(object sender, EventArgs e)
         {
             ВookingInsert ВookingInsert = new ВookingInsert();
             this.Visible = true;
@@ -33,7 +33,7 @@ namespace Restaurant
             this.Visible = true;
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void buttonUpdate_Click(object sender, EventArgs e)
         {
             ВookingInsert ВookingInsert = new ВookingInsert();
             this.Visible = true;
@@ -41,7 +41,7 @@ namespace Restaurant
             this.Visible = true;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonBack_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
         }
@@ -62,7 +62,7 @@ namespace Restaurant
                 da.Fill(t);
                 dataGridView1.DataSource = t;
 
-                label2.Text = $"Всего: {t.Rows.Count}";
+                labelTotal.Text = $"Всего: {t.Rows.Count}";
 
                 con.Close();
             }
@@ -72,9 +72,9 @@ namespace Restaurant
             }
         }
 
-        private void button8_Click(object sender, EventArgs e)
+        private void buttonDelete_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("Вы действительно хотите удалить запись?", "Подтверждение удаления записи", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult result = MessageBox.Show("Вы действительно хотите удалить запись?", "Удаление записи", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (result == DialogResult.Yes)
             {

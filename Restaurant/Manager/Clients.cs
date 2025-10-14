@@ -18,22 +18,22 @@ namespace Restaurant
         {
             InitializeComponent();
 
-            label1.Font = Fonts.MontserratAlternatesRegular(14f);
-            label2.Font = Fonts.MontserratAlternatesRegular(14f);
-            textBox1.Font = Fonts.MontserratAlternatesRegular(14f);
-            button1.Font = Fonts.MontserratAlternatesBold(12f);
-            button2.Font = Fonts.MontserratAlternatesBold(12f);
-            button3.Font = Fonts.MontserratAlternatesBold(12f);
-            button8.Font = Fonts.MontserratAlternatesBold(12f);
+            labelClient.Font = Fonts.MontserratAlternatesRegular(14f);
+            labelTotal.Font = Fonts.MontserratAlternatesRegular(14f);
+            textBoxClient.Font = Fonts.MontserratAlternatesRegular(14f);
+            buttonBack.Font = Fonts.MontserratAlternatesBold(12f);
+            buttonNew.Font = Fonts.MontserratAlternatesBold(12f);
+            buttonUpdate.Font = Fonts.MontserratAlternatesBold(12f);
+            buttonDelete.Font = Fonts.MontserratAlternatesBold(12f);
             dataGridView1.Font = Fonts.MontserratAlternatesRegular(12f);
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonBack_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void buttonUpdate_Click(object sender, EventArgs e)
         {
             ClientsInsert ClientsInsert = new ClientsInsert("edit");
             this.Visible = true;
@@ -41,7 +41,7 @@ namespace Restaurant
             this.Visible = true;
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void buttonNew_Click(object sender, EventArgs e)
         {
             ClientsInsert ClientsInsert = new ClientsInsert("add");
             this.Visible = true;
@@ -64,7 +64,7 @@ namespace Restaurant
                 da.Fill(clientTable);
                 dataGridView1.DataSource = clientTable;
 
-                label2.Text = $"Всего: {clientTable.Rows.Count}";
+                labelTotal.Text = $"Всего: {clientTable.Rows.Count}";
 
                 MySqlCommand client = new MySqlCommand("SELECT ClientFIO FROM client;", con);
                 MySqlDataReader reader = client.ExecuteReader();
@@ -75,7 +75,7 @@ namespace Restaurant
             }
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private void textBoxClient_TextChanged(object sender, EventArgs e)
         {
             ApplyFilters();
         }
@@ -83,7 +83,7 @@ namespace Restaurant
         {
             if (clientTable == null) return;
 
-            string searchText = textBox1.Text.Trim().Replace("'", "''");
+            string searchText = textBoxClient.Text.Trim().Replace("'", "''");
 
             DataView view = new DataView(clientTable);
             string filter = "";
@@ -95,12 +95,12 @@ namespace Restaurant
             view.RowFilter = filter;
             dataGridView1.DataSource = view;
 
-            label2.Text = $"Всего: {view.Count}";
+            labelTotal.Text = $"Всего: {view.Count}";
         }
 
-        private void button7_Click(object sender, EventArgs e)
+        private void buttonClearFilters_Click(object sender, EventArgs e)
         {
-            textBox1.Text = "";
+            textBoxClient.Text = "";
 
             if (clientTable != null)
             {
@@ -108,7 +108,7 @@ namespace Restaurant
                 view.RowFilter = "";
                 dataGridView1.DataSource = view;
 
-                label2.Text = $"Всего: {view.Count}";
+                labelTotal.Text = $"Всего: {view.Count}";
             }
         }
         private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -143,7 +143,7 @@ namespace Restaurant
         }
 
 
-        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
             {
@@ -157,13 +157,22 @@ namespace Restaurant
             }
         }
 
-        private void button8_Click(object sender, EventArgs e)
+        private void buttonDelete_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("Вы действительно хотите удалить запись?", "Подтверждение удаления записи", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult result = MessageBox.Show("Вы действительно хотите удалить запись?", "Удаление записи", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (result == DialogResult.Yes)
             {
 
+            }
+        }
+
+        private void textBoxClient_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) &&
+                !System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"^[а-яА-Я-\s]$"))
+            {
+                e.Handled = true;
             }
         }
     }

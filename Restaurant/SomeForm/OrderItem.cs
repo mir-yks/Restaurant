@@ -20,21 +20,21 @@ namespace Restaurant
             roleId = role;
             ConfigureButtons();
 
-            button1.Font = Fonts.MontserratAlternatesBold(12f);
-            button2.Font = Fonts.MontserratAlternatesBold(12f);
+            buttonBack.Font = Fonts.MontserratAlternatesBold(12f);
+            buttonWrite.Font = Fonts.MontserratAlternatesBold(12f);
             dataGridView1.Font = Fonts.MontserratAlternatesRegular(12f);
         }
         private void ConfigureButtons()
         {
-            button2.Visible = false;
-            button1.Visible = true;
+            buttonWrite.Visible = false;
+            buttonBack.Visible = true;
 
             if (roleId == 3)
             {
-                button2.Visible = true;
+                buttonWrite.Visible = true;
             }
         }
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonBack_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
         }
@@ -64,7 +64,7 @@ namespace Restaurant
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void buttonWrite_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show("Вы действительно хотите сохранить запись?", "Подтверждение записи", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 

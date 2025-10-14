@@ -15,80 +15,80 @@ namespace Restaurant
             currentRole = role;
             currentRoleName = roleName;
 
-            label4.Text = $"Добро пожаловать,\n\n{currentFIO}!";
-            label3.Text = $"Ваша роль: {currentRoleName}";
+            labelWelcome.Text = $"Добро пожаловать,\n\n{currentFIO}!";
+            labelRole.Text = $"Ваша роль: {currentRoleName}";
 
-            label3.Font = Fonts.MontserratAlternatesBold(14f);
-            label4.Font = Fonts.MontserratAlternatesBold(14f);
-            button1.Font = Fonts.MontserratAlternatesBold(12f);
-            button2.Font = Fonts.MontserratAlternatesBold(12f);
-            button3.Font = Fonts.MontserratAlternatesBold(12f);
-            button4.Font = Fonts.MontserratAlternatesBold(12f);
-            button5.Font = Fonts.MontserratAlternatesBold(12f);
-            button6.Font = Fonts.MontserratAlternatesBold(12f);
-            button7.Font = Fonts.MontserratAlternatesBold(12f);
-            button8.Font = Fonts.MontserratAlternatesBold(12f);
-            button9.Font = Fonts.MontserratAlternatesBold(12f);
-            button10.Font = Fonts.MontserratAlternatesBold(12f);
+            labelRole.Font = Fonts.MontserratAlternatesBold(14f);
+            labelWelcome.Font = Fonts.MontserratAlternatesBold(14f);
+            buttonMenu.Font = Fonts.MontserratAlternatesBold(12f);
+            buttonOrders.Font = Fonts.MontserratAlternatesBold(12f);
+            buttonTables.Font = Fonts.MontserratAlternatesBold(12f);
+            buttonExit.Font = Fonts.MontserratAlternatesBold(12f);
+            buttonWorkers.Font = Fonts.MontserratAlternatesBold(12f);
+            buttonClients.Font = Fonts.MontserratAlternatesBold(12f);
+            buttonCategory.Font = Fonts.MontserratAlternatesBold(12f);
+            buttonOffers.Font = Fonts.MontserratAlternatesBold(12f);
+            buttonRoles.Font = Fonts.MontserratAlternatesBold(12f);
+            buttonBooking.Font = Fonts.MontserratAlternatesBold(12f);
 
             ConfigureByRole();
         }
         private void ConfigureByRole()
         {
-            button1.Visible = false;
-            button2.Visible = false;
-            button3.Visible = false;
-            button5.Visible = false;
-            button6.Visible = false;
-            button7.Visible = false;
-            button8.Visible = false;
-            button9.Visible = false;
-            button10.Visible = false;
+            buttonMenu.Visible = false;
+            buttonOrders.Visible = false;
+            buttonTables.Visible = false;
+            buttonWorkers.Visible = false;
+            buttonClients.Visible = false;
+            buttonCategory.Visible = false;
+            buttonOffers.Visible = false;
+            buttonRoles.Visible = false;
+            buttonBooking.Visible = false;
 
-            button4.Visible = true;
+            buttonExit.Visible = true;
 
             if (currentRole == 1) 
             {
-                button3.Visible = true;
-                button5.Visible = true;
-                button9.Visible = true;
+                buttonTables.Visible = true;
+                buttonWorkers.Visible = true;
+                buttonRoles.Visible = true;
 
-                button5.Location = new System.Drawing.Point(12, 359);
-                button9.Location = new System.Drawing.Point(12, 298);
+                buttonWorkers.Location = new System.Drawing.Point(12, 359);
+                buttonRoles.Location = new System.Drawing.Point(12, 298);
             }
             if (currentRole == 2)
             {
-                button2.Visible = true;
-                button6.Visible = true;
-                button10.Visible = true;
+                buttonOrders.Visible = true;
+                buttonClients.Visible = true;
+                buttonBooking.Visible = true;
 
-                button6.Location = new System.Drawing.Point(12, 420);
-                button10.Location = new System.Drawing.Point(12, 298);
+                buttonClients.Location = new System.Drawing.Point(12, 420);
+                buttonBooking.Location = new System.Drawing.Point(12, 298);
             }
             if (currentRole == 3)
             {
-                button3.Visible = true;
-                button1.Visible = true;
-                button2.Visible = true;
+                buttonTables.Visible = true;
+                buttonMenu.Visible = true;
+                buttonOrders.Visible = true;
             }
             if (currentRole == 4)
             {
-                button1.Visible = true;
-                button7.Visible = true;
-                button8.Visible = true;
+                buttonMenu.Visible = true;
+                buttonCategory.Visible = true;
+                buttonOffers.Visible = true;
 
-                button7.Location = new System.Drawing.Point(12, 359);
-                button8.Location = new System.Drawing.Point(12, 420);
+                buttonCategory.Location = new System.Drawing.Point(12, 359);
+                buttonOffers.Location = new System.Drawing.Point(12, 420);
             }
         }
-        private void button9_Click(object sender, EventArgs e)
+        private void buttonRoles_Click(object sender, EventArgs e)
         {
             Role Roles = new Role();
             this.Visible = false;
             Roles.ShowDialog();
             this.Visible = true;
         }
-        private void button10_Click(object sender, EventArgs e)
+        private void buttonBooking_Click(object sender, EventArgs e)
         {
             Booking Booking = new Booking();
             this.Visible = false;
@@ -96,12 +96,17 @@ namespace Restaurant
             this.Visible = true;
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void buttonExit_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.OK;
+            DialogResult result = MessageBox.Show("Вы действительно хотите выйти?", "Подтверждение выхода", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                this.DialogResult = DialogResult.OK;
+            }
         }
 
-        private void button8_Click(object sender, EventArgs e)
+        private void buttonOffers_Click(object sender, EventArgs e)
         {
             Offers Offers = new Offers();
             this.Visible = false;
@@ -109,7 +114,7 @@ namespace Restaurant
             this.Visible = true;
         }
 
-        private void button7_Click(object sender, EventArgs e)
+        private void buttonCategory_Click(object sender, EventArgs e)
         {
             Category Category = new Category();
             this.Visible = false;
@@ -117,7 +122,7 @@ namespace Restaurant
             this.Visible = true;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonMenu_Click(object sender, EventArgs e)
         {
             Menu Menu = new Menu(currentRole);
             this.Visible = false;
@@ -125,7 +130,7 @@ namespace Restaurant
             this.Visible = true;
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void buttonTables_Click(object sender, EventArgs e)
         {
             Tables TablesAdministrator = new Tables(currentRole); 
             this.Visible = false;
@@ -133,7 +138,7 @@ namespace Restaurant
             this.Visible = true;
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void buttonWorkers_Click(object sender, EventArgs e)
         {
             Worker Workers = new Worker();
             this.Visible = false;
@@ -141,14 +146,14 @@ namespace Restaurant
             this.Visible = true;
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void buttonOrders_Click(object sender, EventArgs e)
         {
             Order Orders = new Order(currentRole);
             this.Visible = false;
             Orders.ShowDialog();
             this.Visible = true;
         }
-        private void button6_Click(object sender, EventArgs e)
+        private void buttonClients_Click(object sender, EventArgs e)
         {
             Clients Clients = new Clients();
             this.Visible = false;

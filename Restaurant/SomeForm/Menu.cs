@@ -21,39 +21,39 @@ namespace Restaurant
             roleId = role;
             ConfigureButtons();
 
-            label1.Font = Fonts.MontserratAlternatesRegular(14f);
-            label2.Font = Fonts.MontserratAlternatesRegular(14f);
-            label3.Font = Fonts.MontserratAlternatesRegular(14f);
-            label4.Font = Fonts.MontserratAlternatesRegular(14f);
-            textBox1.Font = Fonts.MontserratAlternatesRegular(14f);
-            comboBox1.Font = Fonts.MontserratAlternatesRegular(14f);
-            comboBox2.Font = Fonts.MontserratAlternatesRegular(14f);
-            button1.Font = Fonts.MontserratAlternatesBold(12f);
-            button2.Font = Fonts.MontserratAlternatesBold(12f);
-            button3.Font = Fonts.MontserratAlternatesBold(12f);
-            button8.Font = Fonts.MontserratAlternatesBold(12f);
+            labelDish.Font = Fonts.MontserratAlternatesRegular(14f);
+            labelTotal.Font = Fonts.MontserratAlternatesRegular(14f);
+            labelCategory.Font = Fonts.MontserratAlternatesRegular(14f);
+            labelPrice.Font = Fonts.MontserratAlternatesRegular(14f);
+            textBoxDish.Font = Fonts.MontserratAlternatesRegular(14f);
+            comboBoxCategory.Font = Fonts.MontserratAlternatesRegular(14f);
+            comboBoxPrice.Font = Fonts.MontserratAlternatesRegular(14f);
+            buttonBack.Font = Fonts.MontserratAlternatesBold(12f);
+            buttonNew.Font = Fonts.MontserratAlternatesBold(12f);
+            buttonUpdate.Font = Fonts.MontserratAlternatesBold(12f);
+            buttonDelete.Font = Fonts.MontserratAlternatesBold(12f);
             dataGridView1.Font = Fonts.MontserratAlternatesRegular(12f);
         }
         private void ConfigureButtons()
         {
-            button1.Visible = true;
-            button2.Visible = false;
-            button3.Visible = false;
-            button8.Visible = false;
+            buttonBack.Visible = true;
+            buttonNew.Visible = false;
+            buttonUpdate.Visible = false;
+            buttonDelete.Visible = false;
 
             if (roleId == 4)
             {
-                button2.Visible = true;
-                button3.Visible = true;
-                button8.Visible = true;
+                buttonNew.Visible = true;
+                buttonUpdate.Visible = true;
+                buttonDelete.Visible = true;
             }
         }
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonBack_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void buttonUpdate_Click(object sender, EventArgs e)
         {
             MenuInsert MenuInsert = new MenuInsert();
             this.Visible = true;
@@ -61,7 +61,7 @@ namespace Restaurant
             this.Visible = true;
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void buttonNew_Click(object sender, EventArgs e)
         {
             MenuInsert MenuInsert = new MenuInsert();
             this.Visible = true;
@@ -89,26 +89,26 @@ namespace Restaurant
                 da.Fill(menuTable);
                 dataGridView1.DataSource = menuTable;
 
-                label2.Text = $"Всего: {menuTable.Rows.Count}";
+                labelTotal.Text = $"Всего: {menuTable.Rows.Count}";
 
                 MySqlCommand cmdCategories = new MySqlCommand("SELECT CategoryDishName FROM CategoryDish;", con);
                 MySqlDataReader reader = cmdCategories.ExecuteReader();
 
-                comboBox1.Items.Clear();
-                comboBox1.Items.Add("");
+                comboBoxCategory.Items.Clear();
+                comboBoxCategory.Items.Add("");
                 while (reader.Read())
                 {
-                    comboBox1.Items.Add(reader.GetString(0));
+                    comboBoxCategory.Items.Add(reader.GetString(0));
                 }
                 reader.Close();
 
-                comboBox1.SelectedIndex = 0;
+                comboBoxCategory.SelectedIndex = 0;
 
-                comboBox2.Items.Clear();
-                comboBox2.Items.Add("");
-                comboBox2.Items.Add("По возрастанию");
-                comboBox2.Items.Add("По убыванию");
-                comboBox2.SelectedIndex = 0;
+                comboBoxPrice.Items.Clear();
+                comboBoxPrice.Items.Add("");
+                comboBoxPrice.Items.Add("По возрастанию");
+                comboBoxPrice.Items.Add("По убыванию");
+                comboBoxPrice.SelectedIndex = 0;
             }
             catch (Exception ex)
             {
@@ -120,7 +120,7 @@ namespace Restaurant
             ApplyFilters();
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private void textBoxDish_TextChanged(object sender, EventArgs e)
         {
             ApplyFilters();
         }
@@ -128,9 +128,9 @@ namespace Restaurant
         {
             if (menuTable == null) return;
 
-            string searchText = textBox1.Text.Trim().Replace("'", "''");
-            string selectedCategory = comboBox1.SelectedItem?.ToString() ?? "";
-            string sortOption = comboBox2.SelectedItem?.ToString() ?? "";
+            string searchText = textBoxDish.Text.Trim().Replace("'", "''");
+            string selectedCategory = comboBoxCategory.SelectedItem?.ToString() ?? "";
+            string sortOption = comboBoxPrice.SelectedItem?.ToString() ?? "";
 
             DataView view = new DataView(menuTable);
             string filter = "";
@@ -162,15 +162,15 @@ namespace Restaurant
 
             dataGridView1.DataSource = view;
 
-            label2.Text = $"Всего: {view.Count}";
+            labelTotal.Text = $"Всего: {view.Count}";
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void buttonClearFilters_Click(object sender, EventArgs e)
         {
-            textBox1.Text = "";
+            textBoxDish.Text = "";
 
-            comboBox1.SelectedIndex = 0;
-            comboBox2.SelectedIndex = 0;
+            comboBoxCategory.SelectedIndex = 0;
+            comboBoxPrice.SelectedIndex = 0;
 
             if (menuTable != null)
             {
@@ -179,13 +179,13 @@ namespace Restaurant
                 view.Sort = "";
                 dataGridView1.DataSource = view;
 
-                label2.Text = $"Всего: {view.Count}";
+                labelTotal.Text = $"Всего: {view.Count}";
             }
         }
 
-        private void button8_Click(object sender, EventArgs e)
+        private void buttonDelete_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("Вы действительно хотите удалить запись?", "Подтверждение удаления записи", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult result = MessageBox.Show("Вы действительно хотите удалить запись?", "Удаление записи", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (result == DialogResult.Yes)
             {
@@ -193,10 +193,10 @@ namespace Restaurant
             }
         }
 
-        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        private void textBoxDish_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) &&
-                !System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"^[а-яА-Я,\s]$"))
+                !System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"^[а-яА-Я-,.\s]$"))
             {
                 e.Handled = true;
             }
