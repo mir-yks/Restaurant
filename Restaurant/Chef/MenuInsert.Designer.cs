@@ -52,6 +52,7 @@
             this.textBox3.ForeColor = System.Drawing.Color.White;
             this.textBox3.Location = new System.Drawing.Point(16, 169);
             this.textBox3.Name = "textBox3";
+            this.textBox3.MaxLength = 5;
             this.textBox3.Size = new System.Drawing.Size(227, 31);
             this.textBox3.TabIndex = 46;
             // 
@@ -74,6 +75,7 @@
             this.textBox1.ForeColor = System.Drawing.Color.White;
             this.textBox1.Location = new System.Drawing.Point(16, 34);
             this.textBox1.Name = "textBox1";
+            this.textBox1.MaxLength = 100;
             this.textBox1.Size = new System.Drawing.Size(227, 31);
             this.textBox1.TabIndex = 48;
             // 

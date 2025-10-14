@@ -241,5 +241,14 @@ namespace Restaurant
                 label2.Text = $"Всего: {view.Count}";
             }
         }
+
+        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) &&
+                !System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"^[а-яА-Я0-9\s]$"))
+            {
+                e.Handled = true;
+            }
+        }
     }
 }

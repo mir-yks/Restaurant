@@ -184,5 +184,14 @@ namespace Restaurant
 
             }
         }
+
+        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) &&
+                !System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"^[0-9]$"))
+            {
+                e.Handled = true;
+            }
+        }
     }
 }

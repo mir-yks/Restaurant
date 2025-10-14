@@ -108,14 +108,19 @@ namespace Restaurant
             }
         }
 
-        private void textBox_KeyPress(object sender, KeyPressEventArgs e)
+        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
         {
-            string allowedSymbols = "!@#$%^&*()-_=+[]{}|;:'\",.<>?/\\`~"; 
             if (!char.IsControl(e.KeyChar) &&
-                !char.IsWhiteSpace(e.KeyChar) &&
-                (e.KeyChar < 'A' || e.KeyChar > 'z') &&
-                (e.KeyChar < '0' || e.KeyChar > '9') &&
-                !allowedSymbols.Contains(e.KeyChar.ToString())) 
+                !System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"^[a-zA-Z0-9@._-]$"))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox2_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) &&
+                !System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"^[a-zA-Z0-9!@#$%^&*()\-_=+\[\]{}|;:,.<>?]$"))
             {
                 e.Handled = true;
             }
@@ -136,7 +141,5 @@ namespace Restaurant
                 pictureBox2.BackgroundImage = Properties.Resources.eye_closed;
             }
         }
-
-
     }
 }

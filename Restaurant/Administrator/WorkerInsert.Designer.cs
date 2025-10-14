@@ -62,6 +62,7 @@
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(283, 31);
             this.textBox6.TabIndex = 45;
+            this.textBox6.MaxLength = 50;
             // 
             // textBox5
             // 
@@ -71,6 +72,7 @@
             this.textBox5.ForeColor = System.Drawing.Color.White;
             this.textBox5.Location = new System.Drawing.Point(16, 168);
             this.textBox5.Name = "textBox5";
+            this.textBox5.MaxLength = 50;
             this.textBox5.Size = new System.Drawing.Size(283, 31);
             this.textBox5.TabIndex = 49;
             // 
@@ -93,6 +95,7 @@
             this.textBox8.ForeColor = System.Drawing.Color.White;
             this.textBox8.Location = new System.Drawing.Point(337, 36);
             this.textBox8.Name = "textBox8";
+            this.textBox8.MaxLength = 100;
             this.textBox8.Size = new System.Drawing.Size(283, 31);
             this.textBox8.TabIndex = 47;
             // 
@@ -104,6 +107,7 @@
             this.textBox4.ForeColor = System.Drawing.Color.White;
             this.textBox4.Location = new System.Drawing.Point(16, 102);
             this.textBox4.Name = "textBox4";
+            this.textBox4.MaxLength = 50;
             this.textBox4.Size = new System.Drawing.Size(283, 31);
             this.textBox4.TabIndex = 51;
             // 
@@ -115,6 +119,7 @@
             this.textBox1.ForeColor = System.Drawing.Color.White;
             this.textBox1.Location = new System.Drawing.Point(16, 36);
             this.textBox1.Name = "textBox1";
+            this.textBox1.MaxLength = 50;
             this.textBox1.Size = new System.Drawing.Size(283, 31);
             this.textBox1.TabIndex = 50;
             // 
@@ -305,6 +310,7 @@
             this.maskedTextBox1.ForeColor = System.Drawing.Color.White;
             this.maskedTextBox1.Location = new System.Drawing.Point(16, 304);
             this.maskedTextBox1.Mask = "+7 (000) 000-00-00";
+            this.maskedTextBox1.MaxLength = 10;
             this.maskedTextBox1.Name = "maskedTextBox1";
             this.maskedTextBox1.Size = new System.Drawing.Size(283, 31);
             this.maskedTextBox1.TabIndex = 52;

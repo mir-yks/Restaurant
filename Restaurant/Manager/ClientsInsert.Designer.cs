@@ -44,6 +44,7 @@
             this.textBox1.ForeColor = System.Drawing.Color.White;
             this.textBox1.Location = new System.Drawing.Point(42, 63);
             this.textBox1.Name = "textBox1";
+            this.textBox1.MaxLength = 100;
             this.textBox1.Size = new System.Drawing.Size(283, 31);
             this.textBox1.TabIndex = 30;
             // 
@@ -111,6 +112,7 @@
             this.maskedTextBox1.ForeColor = System.Drawing.Color.White;
             this.maskedTextBox1.Location = new System.Drawing.Point(42, 129);
             this.maskedTextBox1.Mask = "+7 (000) 000-00-00";
+            this.maskedTextBox1.MaxLength = 10;
             this.maskedTextBox1.Name = "maskedTextBox1";
             this.maskedTextBox1.Size = new System.Drawing.Size(283, 31);
             this.maskedTextBox1.TabIndex = 53;

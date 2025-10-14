@@ -192,5 +192,14 @@ namespace Restaurant
 
             }
         }
+
+        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) &&
+                !System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"^[а-яА-Я,\s]$"))
+            {
+                e.Handled = true;
+            }
+        }
     }
 }
