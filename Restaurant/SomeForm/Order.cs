@@ -106,6 +106,16 @@ namespace Restaurant
             this.Visible = true;
         }
 
+        private void button8_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Вы действительно хотите удалить запись?", "Подтверждение удаления записи", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+
+            }
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;

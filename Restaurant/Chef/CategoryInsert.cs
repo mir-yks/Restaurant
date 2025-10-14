@@ -26,5 +26,15 @@ namespace Restaurant
         {
             this.DialogResult = DialogResult.OK;
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Вы действительно хотите сохранить запись?", "Подтверждение записи", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+
+            }
+        }
     }
 }
