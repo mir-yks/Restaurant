@@ -51,9 +51,7 @@ namespace Restaurant
         private void buttonNew_Click(object sender, EventArgs e)
         {
             TablesInsert TablesInsert = new TablesInsert("add");
-            this.Visible = true;
             TablesInsert.ShowDialog();
-            this.Visible = true;
 
             LoadTables();
         }
@@ -63,15 +61,14 @@ namespace Restaurant
             if (dataGridView1.CurrentRow == null) return;
 
             DataGridViewRow row = dataGridView1.CurrentRow;
-            TablesInsert form = new TablesInsert("edit")
+            TablesInsert TablesInsert = new TablesInsert("edit")
             {
                 TableID = Convert.ToInt32(row.Cells["Номер столика"].Value),
                 TablePlaces = Convert.ToInt32(row.Cells["Количество мест"].Value),
                 TableStatus = row.Cells["Статус столика"].Value.ToString()
             };
 
-            if (form.ShowDialog() == DialogResult.OK)
-                LoadTables();
+            TablesInsert.ShowDialog();
         }
 
         private void buttonBack_Click(object sender, EventArgs e)

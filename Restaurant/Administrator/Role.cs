@@ -31,9 +31,7 @@ namespace Restaurant
         private void buttonNew_Click(object sender, EventArgs e)
         {
             RoleInsert RoleInsert = new RoleInsert("add");
-            this.Visible = true;
             RoleInsert.ShowDialog();
-            this.Visible = true;
 
             LoadRoles();
         }
@@ -45,12 +43,10 @@ namespace Restaurant
                 int id = Convert.ToInt32(dataGridView1.CurrentRow.Cells["RoleId"].Value);
                 string name = dataGridView1.CurrentRow.Cells["Наименование"].Value.ToString();
 
-                RoleInsert form = new RoleInsert("edit");
-                form.RoleId = id;
-                form.RoleName = name;
-
-                if (form.ShowDialog() == DialogResult.OK)
-                    LoadRoles();
+                RoleInsert RoleInsert = new RoleInsert("edit");
+                RoleInsert.RoleId = id;
+                RoleInsert.RoleName = name;
+                RoleInsert.ShowDialog();
             }
         }
 

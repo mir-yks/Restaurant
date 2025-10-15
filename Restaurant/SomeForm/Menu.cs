@@ -58,64 +58,105 @@ namespace Restaurant
 
         private void buttonUpdate_Click(object sender, EventArgs e)
         {
-            MenuInsert MenuInsert = new MenuInsert();
-            this.Visible = true;
+            if (dataGridView1.CurrentRow == null) return;
+
+            int id = Convert.ToInt32(dataGridView1.CurrentRow.Cells["DishId"].Value);
+            string name = dataGridView1.CurrentRow.Cells["Блюдо"].Value.ToString();
+            string desc = dataGridView1.CurrentRow.Cells["Описание"].Value.ToString();
+            decimal price = Convert.ToDecimal(dataGridView1.CurrentRow.Cells["Стоимость"].Value);
+            string category = dataGridView1.CurrentRow.Cells["Категория блюда"].Value.ToString();
+            string offer = dataGridView1.CurrentRow.Cells["Предложение блюда"].Value.ToString();
+
+            MenuInsert MenuInsert = new MenuInsert("edit")
+            {
+                DishID = id,
+                DishName = name,
+                DishDescription = desc,
+                DishPrice = price,
+                DishCategory = category,
+                DishOffer = offer
+            };
+
             MenuInsert.ShowDialog();
-            this.Visible = true;
+            LoadMenu();
         }
 
         private void buttonNew_Click(object sender, EventArgs e)
         {
-            MenuInsert MenuInsert = new MenuInsert();
-            this.Visible = true;
+            MenuInsert MenuInsert = new MenuInsert("add");
             MenuInsert.ShowDialog();
-            this.Visible = true;
+
+            LoadMenu();
         }
 
         private void Menu_Load(object sender, EventArgs e)
         {
+            LoadMenu();
+            LoadFilters();
+        }
+
+        private void LoadMenu()
+        {
             try
             {
-                MySqlConnection con = new MySqlConnection(connStr.ConnectionString);
-                con.Open();
-                MySqlCommand cmd = new MySqlCommand(@"SELECT 
-                                                        m.DishName AS 'Блюдо',
-                                                        m.DishDescription AS 'Описание',
-                                                        m.DishPrice AS 'Стоимость',
-                                                        c.CategoryDishName AS 'Категория блюда',
-                                                        o.OffersDishName AS 'Предложение блюда'
-                                                    FROM MenuDish m
-                                                    JOIN CategoryDish c ON m.DishCategory = c.CategoryDishId
-                                                    LEFT JOIN OffersDish o ON m.OffersDish = o.OffersDishId;", con);
-                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-                menuTable = new DataTable();
-                da.Fill(menuTable);
-                dataGridView1.DataSource = menuTable;
-
-                labelTotal.Text = $"Всего: {menuTable.Rows.Count}";
-
-                MySqlCommand cmdCategories = new MySqlCommand("SELECT CategoryDishName FROM CategoryDish;", con);
-                MySqlDataReader reader = cmdCategories.ExecuteReader();
-
-                comboBoxCategory.Items.Clear();
-                comboBoxCategory.Items.Add("");
-                while (reader.Read())
+                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
                 {
-                    comboBoxCategory.Items.Add(reader.GetString(0));
+                    con.Open();
+                    string query = @"SELECT 
+                                        m.DishId,
+                                        m.DishName AS 'Блюдо',
+                                        m.DishDescription AS 'Описание',
+                                        m.DishPrice AS 'Стоимость',
+                                        c.CategoryDishName AS 'Категория блюда',
+                                        o.OffersDishName AS 'Предложение блюда'
+                                     FROM MenuDish m
+                                     JOIN CategoryDish c ON m.DishCategory = c.CategoryDishId
+                                     LEFT JOIN OffersDish o ON m.OffersDish = o.OffersDishId;";
+                    MySqlDataAdapter da = new MySqlDataAdapter(query, con);
+                    menuTable = new DataTable();
+                    da.Fill(menuTable);
+                    dataGridView1.DataSource = menuTable;
+
+                    if (dataGridView1.Columns.Contains("DishId"))
+                        dataGridView1.Columns["DishId"].Visible = false;
+
+                    labelTotal.Text = $"Всего: {menuTable.Rows.Count}";
                 }
-                reader.Close();
-
-                comboBoxCategory.SelectedIndex = 0;
-
-                comboBoxPrice.Items.Clear();
-                comboBoxPrice.Items.Add("");
-                comboBoxPrice.Items.Add("По возрастанию");
-                comboBoxPrice.Items.Add("По убыванию");
-                comboBoxPrice.SelectedIndex = 0;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message.ToString(), "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void LoadFilters()
+        {
+            try
+            {
+                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                {
+                    con.Open();
+
+                    MySqlCommand cmdCategories = new MySqlCommand("SELECT CategoryDishName FROM CategoryDish;", con);
+                    MySqlDataReader reader = cmdCategories.ExecuteReader();
+
+                    comboBoxCategory.Items.Clear();
+                    comboBoxCategory.Items.Add("");
+                    while (reader.Read())
+                        comboBoxCategory.Items.Add(reader.GetString(0));
+                    reader.Close();
+                    comboBoxCategory.SelectedIndex = 0;
+
+                    comboBoxPrice.Items.Clear();
+                    comboBoxPrice.Items.Add("");
+                    comboBoxPrice.Items.Add("По возрастанию");
+                    comboBoxPrice.Items.Add("По убыванию");
+                    comboBoxPrice.SelectedIndex = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void comboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -188,11 +229,30 @@ namespace Restaurant
 
         private void buttonDelete_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("Вы действительно хотите удалить запись?", "Удаление записи", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dataGridView1.CurrentRow == null) return;
 
-            if (result == DialogResult.Yes)
+            int id = Convert.ToInt32(dataGridView1.CurrentRow.Cells["DishId"].Value);
+            string name = dataGridView1.CurrentRow.Cells["Блюдо"].Value.ToString();
+
+            DialogResult result = MessageBox.Show($"Вы действительно хотите удалить блюдо \"{name}\"?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result != DialogResult.Yes) return;
+
+            try
             {
+                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                {
+                    con.Open();
+                    MySqlCommand cmd = new MySqlCommand("DELETE FROM MenuDish WHERE DishId = @id", con);
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.ExecuteNonQuery();
 
+                    MessageBox.Show($"Блюдо \"{name}\" успешно удалено!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadMenu();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка удаления", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

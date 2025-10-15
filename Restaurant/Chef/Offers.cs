@@ -37,25 +37,21 @@ namespace Restaurant
             string name = dataGridView1.CurrentRow.Cells["Предложение"].Value.ToString();
             decimal discount = Convert.ToDecimal(dataGridView1.CurrentRow.Cells["Скидка"].Value);
 
-            OffersInsert form = new OffersInsert("edit")
+            OffersInsert OfferInsert = new OffersInsert("edit")
             {
                 OfferID = id,
                 OfferName = name,
                 OfferDiscount = discount
             };
 
-            this.Visible = true;
-            if (form.ShowDialog() == DialogResult.OK)
-                LoadOffers();
-            this.Visible = true;
+            OfferInsert.ShowDialog();
+            LoadOffers();
         }
 
         private void buttonNew_Click(object sender, EventArgs e)
         {
             OffersInsert OfferInsert = new OffersInsert("add");
-            this.Visible = true;
             OfferInsert.ShowDialog();
-            this.Visible = true;
 
             LoadOffers();
         }

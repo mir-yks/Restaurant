@@ -42,9 +42,7 @@ namespace Restaurant
         private void buttonNew_Click(object sender, EventArgs e)
         {
             WorkerInsert WorkerInsert = new WorkerInsert("add");
-            this.Visible = true;
             WorkerInsert.ShowDialog();
-            this.Visible = true;
 
             LoadWorkers();
         }
@@ -55,7 +53,7 @@ namespace Restaurant
 
             DataGridViewRow row = dataGridView1.CurrentRow;
 
-            WorkerInsert form = new WorkerInsert("edit")
+            WorkerInsert WorkerInsert = new WorkerInsert("edit")
             {
                 WorkerFIO = row.Cells["ФИО"].Value.ToString(),
                 WorkerLogin = row.Cells["Логин"].Value.ToString(),
@@ -68,9 +66,7 @@ namespace Restaurant
                 WorkerID = Convert.ToInt32(row.Cells["ID"].Value)
             };
 
-            this.Visible = true;
-            form.ShowDialog();
-            this.Visible = true;
+            WorkerInsert.ShowDialog();
 
             LoadWorkers();
         }

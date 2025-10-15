@@ -134,9 +134,9 @@ namespace Restaurant
 
         private void buttonTables_Click(object sender, EventArgs e)
         {
-            Tables TablesAdministrator = new Tables(currentRole); 
+            Tables Tables = new Tables(currentRole); 
             this.Visible = false;
-            TablesAdministrator.ShowDialog();
+            Tables.ShowDialog();
             this.Visible = true;
         }
 

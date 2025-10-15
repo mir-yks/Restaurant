@@ -36,24 +36,20 @@ namespace Restaurant
             int id = Convert.ToInt32(dataGridView1.CurrentRow.Cells["CategoryDishId"].Value);
             string name = dataGridView1.CurrentRow.Cells["Категория"].Value.ToString();
 
-            CategoryInsert form = new CategoryInsert("edit")
+            CategoryInsert CategoryInsert = new CategoryInsert("edit")
             {
                 CategoryID = id,
                 CategoryName = name
             };
 
-            this.Visible = true;
-            if (form.ShowDialog() == DialogResult.OK)
-                LoadCategories();
-            this.Visible = true;
+            CategoryInsert.ShowDialog();
+            LoadCategories();
         }
 
         private void buttonNew_Click(object sender, EventArgs e)
         {
             CategoryInsert CategoryInsert = new CategoryInsert("add");
-            this.Visible = true;
             CategoryInsert.ShowDialog();
-            this.Visible = true;
 
             LoadCategories();
         }

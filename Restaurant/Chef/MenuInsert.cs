@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,9 +13,38 @@ namespace Restaurant
 {
     public partial class MenuInsert : Form
     {
-        public MenuInsert()
+        private string mode;
+
+        public int DishID { get; set; }
+        public string DishName
+        {
+            get => textBoxName.Text;
+            set => textBoxName.Text = value;
+        }
+        public string DishDescription
+        {
+            get => textBoxDescription.Text;
+            set => textBoxDescription.Text = value;
+        }
+        public decimal DishPrice
+        {
+            get => decimal.TryParse(textBoxPrice.Text, out decimal p) ? p : 0;
+            set => textBoxPrice.Text = value.ToString("0.##");
+        }
+        public string DishCategory
+        {
+            get => comboBoxCategory.Text;
+            set => comboBoxCategory.Text = value;
+        }
+        public string DishOffer
+        {
+            get => comboBoxOffers.Text;
+            set => comboBoxOffers.Text = value;
+        }
+        public MenuInsert(string mode)
         {
             InitializeComponent();
+            this.mode = mode;
 
             labelName.Font = Fonts.MontserratAlternatesRegular(14f);
             labelDescription.Font = Fonts.MontserratAlternatesRegular(14f);
@@ -28,6 +58,63 @@ namespace Restaurant
             comboBoxOffers.Font = Fonts.MontserratAlternatesRegular(14f);
             buttonBack.Font = Fonts.MontserratAlternatesBold(12f);
             buttonWrite.Font = Fonts.MontserratAlternatesBold(12f);
+
+            LoadCategories();
+            LoadOffers();
+            ApplyMode();
+        }
+
+        private void ApplyMode()
+        {
+            if (mode == "add")
+            {
+                buttonWrite.Text = "Добавить";
+                this.Text = "Добавление блюда";
+            }
+            else if (mode == "edit")
+            {
+                buttonWrite.Text = "Обновить";
+                this.Text = "Редактирование блюда";
+            }
+        }
+
+        private void LoadCategories()
+        {
+            try
+            {
+                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                {
+                    con.Open();
+                    MySqlCommand cmd = new MySqlCommand("SELECT CategoryDishName FROM CategoryDish;", con);
+                    MySqlDataReader reader = cmd.ExecuteReader();
+                    comboBoxCategory.Items.Clear();
+                    while (reader.Read())
+                        comboBoxCategory.Items.Add(reader.GetString(0));
+                    reader.Close();
+                    if (comboBoxCategory.Items.Count > 0) comboBoxCategory.SelectedIndex = 0;
+                }
+            }
+            catch (Exception ex) { MessageBox.Show(ex.Message); }
+        }
+
+        private void LoadOffers()
+        {
+            try
+            {
+                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                {
+                    con.Open();
+                    MySqlCommand cmd = new MySqlCommand("SELECT OffersDishName FROM OffersDish;", con);
+                    MySqlDataReader reader = cmd.ExecuteReader();
+                    comboBoxOffers.Items.Clear();
+                    comboBoxOffers.Items.Add("");
+                    while (reader.Read())
+                        comboBoxOffers.Items.Add(reader.GetString(0));
+                    reader.Close();
+                    comboBoxOffers.SelectedIndex = 0;
+                }
+            }
+            catch (Exception ex) { MessageBox.Show(ex.Message); }
         }
 
         private void buttonBack_Click(object sender, EventArgs e)
@@ -37,12 +124,61 @@ namespace Restaurant
 
         private void buttonWrite_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("Вы действительно хотите сохранить запись?", "Подтверждение записи", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            if (result == DialogResult.Yes)
+            if (string.IsNullOrWhiteSpace(DishName))
             {
-
+                MessageBox.Show("Введите название блюда.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
+
+            DialogResult result = MessageBox.Show("Вы действительно хотите сохранить запись?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result != DialogResult.Yes) return;
+
+            try
+            {
+                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                {
+                    con.Open();
+
+                    if (mode == "add")
+                    {
+                        MySqlCommand cmd = new MySqlCommand(
+                            @"INSERT INTO MenuDish (DishName, DishDescription, DishPrice, DishCategory, OffersDish) 
+                              VALUES (@name, @desc, @price, (SELECT CategoryDishId FROM CategoryDish WHERE CategoryDishName=@category),
+                                      (SELECT OffersDishId FROM OffersDish WHERE OffersDishName=@offer))", con);
+                        cmd.Parameters.AddWithValue("@name", DishName.Trim());
+                        cmd.Parameters.AddWithValue("@desc", DishDescription.Trim());
+                        cmd.Parameters.AddWithValue("@price", DishPrice);
+                        cmd.Parameters.AddWithValue("@category", DishCategory);
+                        cmd.Parameters.AddWithValue("@offer", DishOffer);
+                        cmd.ExecuteNonQuery();
+
+                        MessageBox.Show($"Блюдо \"{DishName}\" успешно добавлено!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else if (mode == "edit")
+                    {
+                        MySqlCommand cmd = new MySqlCommand(
+                            @"UPDATE MenuDish SET 
+                                DishName=@name,
+                                DishDescription=@desc,
+                                DishPrice=@price,
+                                DishCategory=(SELECT CategoryDishId FROM CategoryDish WHERE CategoryDishName=@category),
+                                OffersDish=(SELECT OffersDishId FROM OffersDish WHERE OffersDishName=@offer)
+                              WHERE DishId=@id", con);
+                        cmd.Parameters.AddWithValue("@name", DishName.Trim());
+                        cmd.Parameters.AddWithValue("@desc", DishDescription.Trim());
+                        cmd.Parameters.AddWithValue("@price", DishPrice);
+                        cmd.Parameters.AddWithValue("@category", DishCategory);
+                        cmd.Parameters.AddWithValue("@offer", DishOffer);
+                        cmd.Parameters.AddWithValue("@id", DishID);
+                        cmd.ExecuteNonQuery();
+
+                        MessageBox.Show($"Блюдо \"{DishName}\" успешно обновлено!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+
+                    this.DialogResult = DialogResult.OK;
+                }
+            }
+            catch (Exception ex) { MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
 
         private void textBoxName_KeyPress(object sender, KeyPressEventArgs e)
