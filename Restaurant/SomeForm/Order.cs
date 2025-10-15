@@ -36,6 +36,9 @@ namespace Restaurant
             buttonCheck.Font = Fonts.MontserratAlternatesBold(12f);
             buttonDelete.Font = Fonts.MontserratAlternatesBold(12f);
             dataGridView1.Font = Fonts.MontserratAlternatesRegular(12f);
+
+            buttonUpdate.Enabled = false;
+            buttonDelete.Enabled = false;
         }
 
         private void ConfigureButtons()
@@ -298,6 +301,15 @@ namespace Restaurant
                 !System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"^[а-яА-Я0-9-\s]$"))
             {
                 e.Handled = true;
+            }
+        }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                buttonUpdate.Enabled = true;
+                buttonDelete.Enabled = true;
             }
         }
     }

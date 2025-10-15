@@ -17,6 +17,9 @@ namespace Restaurant
             buttonUpdate.Font = Fonts.MontserratAlternatesBold(12f);
             buttonDelete.Font = Fonts.MontserratAlternatesBold(12f);
             dataGridView1.Font = Fonts.MontserratAlternatesRegular(12f);
+
+            buttonUpdate.Enabled = false;
+            buttonDelete.Enabled = false;
         }
 
         private void buttonBack_Click(object sender, EventArgs e)
@@ -69,6 +72,15 @@ namespace Restaurant
             if (result == DialogResult.Yes)
             {
 
+            }
+        }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                buttonUpdate.Enabled = true;
+                buttonDelete.Enabled = true;
             }
         }
     }
