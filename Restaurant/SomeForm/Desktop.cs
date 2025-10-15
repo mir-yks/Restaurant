@@ -8,12 +8,14 @@ namespace Restaurant
         private string currentFIO;
         private int currentRole;
         private string currentRoleName;
-        public Desktop(string fio, int role, string roleName)
+        private int currentUserID;
+        public Desktop(string fio, int role, string roleName, int userID)
         {
             InitializeComponent();
             currentFIO = fio;
             currentRole = role;
             currentRoleName = roleName;
+            currentUserID = userID;
 
             labelWelcome.Text = $"Добро пожаловать,\n\n{currentFIO}!";
             labelRole.Text = $"Ваша роль: {currentRoleName}";
@@ -141,6 +143,7 @@ namespace Restaurant
         private void buttonWorkers_Click(object sender, EventArgs e)
         {
             Worker Workers = new Worker();
+            Workers.CurrentUserID = currentUserID;
             this.Visible = false;
             Workers.ShowDialog();
             this.Visible = true;

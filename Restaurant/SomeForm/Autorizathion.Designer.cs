@@ -64,7 +64,7 @@
             this.textBoxPassword.MaxLength = 50;
             this.textBoxPassword.Name = "textBoxPassword";
             this.textBoxPassword.Size = new System.Drawing.Size(240, 25);
-            this.textBoxPassword.TabIndex = 1;
+            this.textBoxPassword.TabIndex = 2;
             this.textBoxPassword.UseSystemPasswordChar = true;
             this.textBoxPassword.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxPassword_KeyPress);
             // 
@@ -118,7 +118,7 @@
             this.buttonEnter.Location = new System.Drawing.Point(90, 280);
             this.buttonEnter.Name = "buttonEnter";
             this.buttonEnter.Size = new System.Drawing.Size(100, 35);
-            this.buttonEnter.TabIndex = 4;
+            this.buttonEnter.TabIndex = 3;
             this.buttonEnter.Text = "Войти";
             this.buttonEnter.UseVisualStyleBackColor = false;
             this.buttonEnter.Click += new System.EventHandler(this.buttonEnter_Click);
@@ -131,7 +131,7 @@
             this.pictureBox1.Location = new System.Drawing.Point(65, 30);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(160, 107);
-            this.pictureBox1.TabIndex = 5;
+            this.pictureBox1.TabIndex = 4;
             this.pictureBox1.TabStop = false;
             // 
             // pictureBox

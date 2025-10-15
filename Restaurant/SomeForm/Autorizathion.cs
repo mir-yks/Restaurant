@@ -58,7 +58,7 @@ namespace Restaurant
                 {
                     con.Open();
                     MySqlCommand cmd = new MySqlCommand(
-                        "SELECT WorkerPassword, WorkerRole, WorkerFIO FROM Worker WHERE WorkerLogin = @login;", con);
+                        "SELECT WorkerPassword, WorkerRole, WorkerFIO, WorkerId FROM Worker WHERE WorkerLogin = @login;", con);
                     cmd.Parameters.AddWithValue("@login", login);
 
                     DataTable dt = new DataTable();
@@ -93,7 +93,8 @@ namespace Restaurant
                         case 4: roleName = "Шеф-повар"; break;
                     }
 
-                    Form nextForm = new Desktop(workerFIO, userRole, roleName);
+                    int userID = Convert.ToInt32(dt.Rows[0]["WorkerId"]);
+                    Form nextForm = new Desktop(workerFIO, userRole, roleName, userID);
 
                     this.Visible = false;
                     nextForm.ShowDialog();

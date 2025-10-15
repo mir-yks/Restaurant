@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -14,6 +15,7 @@ namespace Restaurant
     public partial class WorkerInsert : Form
     {
         private string mode;
+        public int WorkerID { get; set; }
         public WorkerInsert(string mode)
         {
             InitializeComponent();
@@ -192,13 +194,101 @@ namespace Restaurant
 
         private void buttonWrite_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("Вы действительно хотите сохранить запись?", "Подтверждение записи", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult result = MessageBox.Show(
+        "Вы действительно хотите сохранить запись?",
+        "Подтверждение записи",
+        MessageBoxButtons.YesNo,
+        MessageBoxIcon.Question);
 
-            if (result == DialogResult.Yes)
+            if (result != DialogResult.Yes) return;
+
+            try
             {
+                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                {
+                    con.Open();
 
+                    // Получаем цифры телефона
+                    string userDigits = new string(maskedTextBoxPhone.Text.Where(char.IsDigit).ToArray());
+
+                    // Хэшируем пароль SHA256
+                    string hashedPassword = "";
+                    if (!string.IsNullOrEmpty(textBoxPassword.Text))
+                    {
+                        using (SHA256 sha256 = SHA256.Create())
+                        {
+                            byte[] hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(textBoxPassword.Text));
+                            hashedPassword = BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
+                        }
+                    }
+
+                    if (mode == "add")
+                    {
+                        string query = @"INSERT INTO worker 
+                            (WorkerFIO, WorkerLogin, WorkerPassword, WorkerPhone, WorkerEmail, 
+                             WorkerBirthday, WorkerDateEmployment, WorkerAddress, WorkerRole)
+                             VALUES (@FIO, @Login, @Password, @Phone, @Email, 
+                                     @Birthday, @Employment, @Address, 
+                                     (SELECT RoleId FROM role WHERE RoleName = @Role))";
+
+                        MySqlCommand cmd = new MySqlCommand(query, con);
+                        cmd.Parameters.AddWithValue("@FIO", textBoxFIO.Text);
+                        cmd.Parameters.AddWithValue("@Login", textBoxLogin.Text);
+                        cmd.Parameters.AddWithValue("@Password", hashedPassword); // <-- хэш
+                        cmd.Parameters.AddWithValue("@Phone", userDigits);
+                        cmd.Parameters.AddWithValue("@Email", textBoxEmail.Text);
+                        cmd.Parameters.AddWithValue("@Birthday", dateTimePickerBirthday.Value);
+                        cmd.Parameters.AddWithValue("@Employment", dateTimePickerEmployment.Value);
+                        cmd.Parameters.AddWithValue("@Address", textBoxAddress.Text);
+                        cmd.Parameters.AddWithValue("@Role", comboBoxRole.Text);
+
+                        cmd.ExecuteNonQuery();
+                        MessageBox.Show("Сотрудник успешно добавлен!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else if (mode == "edit")
+                    {
+                        string query = @"UPDATE worker 
+                                 SET WorkerFIO = @FIO,
+                                     WorkerLogin = @Login,
+                                     WorkerPhone = @Phone,
+                                     WorkerEmail = @Email,
+                                     WorkerBirthday = @Birthday,
+                                     WorkerDateEmployment = @Employment,
+                                     WorkerAddress = @Address,
+                                     WorkerRole = (SELECT RoleId FROM role WHERE RoleName = @Role)
+                                     {0}
+                                 WHERE WorkerId = @Id";
+
+                        // Если пароль введён, обновляем его, иначе оставляем старый
+                        string passwordPart = !string.IsNullOrEmpty(hashedPassword) ? ", WorkerPassword = @Password" : "";
+                        query = string.Format(query, passwordPart);
+
+                        MySqlCommand cmd = new MySqlCommand(query, con);
+                        cmd.Parameters.AddWithValue("@FIO", textBoxFIO.Text);
+                        cmd.Parameters.AddWithValue("@Login", textBoxLogin.Text);
+                        cmd.Parameters.AddWithValue("@Phone", userDigits);
+                        cmd.Parameters.AddWithValue("@Email", textBoxEmail.Text);
+                        cmd.Parameters.AddWithValue("@Birthday", dateTimePickerBirthday.Value);
+                        cmd.Parameters.AddWithValue("@Employment", dateTimePickerEmployment.Value);
+                        cmd.Parameters.AddWithValue("@Address", textBoxAddress.Text);
+                        cmd.Parameters.AddWithValue("@Role", comboBoxRole.Text);
+                        cmd.Parameters.AddWithValue("@Id", WorkerID);
+                        if (!string.IsNullOrEmpty(hashedPassword))
+                            cmd.Parameters.AddWithValue("@Password", hashedPassword);
+
+                        cmd.ExecuteNonQuery();
+                        MessageBox.Show("Данные успешно обновлены!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+
+                    this.DialogResult = DialogResult.OK;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         private void textBoxFIO_KeyPress(object sender, KeyPressEventArgs e)
         {

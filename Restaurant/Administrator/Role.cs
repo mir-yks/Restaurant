@@ -7,6 +7,7 @@ namespace Restaurant
 {
     public partial class Role : Form
     {
+        private DataTable rolesTable;
         public Role()
         {
             InitializeComponent();
@@ -29,7 +30,7 @@ namespace Restaurant
 
         private void buttonNew_Click(object sender, EventArgs e)
         {
-            RoleInsert RoleInsert = new RoleInsert();
+            RoleInsert RoleInsert = new RoleInsert("add");
             this.Visible = true;
             RoleInsert.ShowDialog();
             this.Visible = true;
@@ -37,41 +38,75 @@ namespace Restaurant
 
         private void buttonUpdate_Click(object sender, EventArgs e)
         {
-            RoleInsert RoleInsert = new RoleInsert();
-            this.Visible = true;
-            RoleInsert.ShowDialog();
-            this.Visible = true;
+            if (dataGridView1.CurrentRow != null)
+            {
+                int id = Convert.ToInt32(dataGridView1.CurrentRow.Cells["RoleId"].Value);
+                string name = dataGridView1.CurrentRow.Cells["Наименование"].Value.ToString();
+
+                RoleInsert form = new RoleInsert("edit");
+                form.RoleId = id;
+                form.RoleName = name;
+
+                if (form.ShowDialog() == DialogResult.OK)
+                    LoadRoles();
+            }
         }
 
         private void Role_Load(object sender, EventArgs e)
         {
+            LoadRoles();
+        }
+
+        private void LoadRoles()
+        {
             try
             {
-                MySqlConnection con = new MySqlConnection(connStr.ConnectionString);
-                con.Open();
-                MySqlCommand cmd = new MySqlCommand(@"SELECT RoleName AS 'Наименование' FROM role", con);
-                DataTable t = new DataTable();
-                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-                da.Fill(t);
-                dataGridView1.DataSource = t;
+                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                {
+                    con.Open();
+                    MySqlCommand cmd = new MySqlCommand(@"SELECT RoleId, RoleName AS 'Наименование' FROM role", con);
+                    rolesTable = new DataTable();
+                    MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                    da.Fill(rolesTable);
+                    dataGridView1.DataSource = rolesTable;
 
-                labelTotal.Text = $"Всего: {t.Rows.Count}";
+                    dataGridView1.Columns["RoleId"].Visible = false;
+                    dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                    dataGridView1.MultiSelect = false;
 
-                con.Close();
+                    labelTotal.Text = $"Всего: {rolesTable.Rows.Count}";
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message.ToString(), "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void buttonDelete_Click(object sender, EventArgs e)
         {
+            if (dataGridView1.CurrentRow == null) return;
+
             DialogResult result = MessageBox.Show("Вы действительно хотите удалить запись?", "Удаление записи", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (result == DialogResult.Yes)
             {
-
+                try
+                {
+                    using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                    {
+                        con.Open();
+                        int id = Convert.ToInt32(dataGridView1.CurrentRow.Cells["RoleId"].Value);
+                        MySqlCommand cmd = new MySqlCommand("DELETE FROM role WHERE RoleId = @id", con);
+                        cmd.Parameters.AddWithValue("@id", id);
+                        cmd.ExecuteNonQuery();
+                        LoadRoles();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка удаления", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 

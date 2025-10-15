@@ -83,7 +83,7 @@
             this.textBoxRole.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxRole.ForeColor = System.Drawing.Color.White;
             this.textBoxRole.Location = new System.Drawing.Point(44, 34);
-            this.textBoxRole.MaxLength = 50;
+            this.textBoxRole.MaxLength = 20;
             this.textBoxRole.Name = "textBoxRole";
             this.textBoxRole.Size = new System.Drawing.Size(219, 31);
             this.textBoxRole.TabIndex = 4;

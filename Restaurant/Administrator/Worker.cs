@@ -14,6 +14,7 @@ namespace Restaurant
     public partial class Worker : Form
     {
         private DataTable workersTable;
+        public int CurrentUserID { get; set; }
         public Worker()
         {
             InitializeComponent();
@@ -44,55 +45,89 @@ namespace Restaurant
             this.Visible = true;
             WorkerInsert.ShowDialog();
             this.Visible = true;
+
+            LoadWorkers();
         }
 
         private void buttonUpdate_Click(object sender, EventArgs e)
         {
-            WorkerInsert WorkerInsert = new WorkerInsert("edit");
+            if (dataGridView1.CurrentRow == null) return;
+
+            DataGridViewRow row = dataGridView1.CurrentRow;
+
+            WorkerInsert form = new WorkerInsert("edit")
+            {
+                WorkerFIO = row.Cells["ФИО"].Value.ToString(),
+                WorkerLogin = row.Cells["Логин"].Value.ToString(),
+                WorkerPhone = row.Cells["Телефон"].Value.ToString(),
+                WorkerEmail = row.Cells["Email"].Value.ToString(),
+                WorkerBirthday = Convert.ToDateTime(row.Cells["Дата рождения"].Value),
+                WorkerDateEmployment = Convert.ToDateTime(row.Cells["Дата найма"].Value),
+                WorkerAddress = row.Cells["Адрес"].Value.ToString(),
+                WorkerRole = row.Cells["Роль"].Value.ToString(),
+                WorkerID = Convert.ToInt32(row.Cells["ID"].Value)
+            };
+
+            this.Visible = false;
+            form.ShowDialog();
             this.Visible = true;
-            WorkerInsert.ShowDialog();
-            this.Visible = true;
+
+            LoadWorkers();
         }
 
         private void Worker_Load(object sender, EventArgs e)
         {
+            LoadWorkers();
+        }
+
+        private void LoadWorkers()
+        {
             try
             {
-                MySqlConnection con = new MySqlConnection(connStr.ConnectionString);
-                con.Open();
-                MySqlCommand cmd = new MySqlCommand(@"SELECT 
-                                                        w.WorkerFIO AS 'ФИО',
-                                                        w.WorkerLogin AS 'Логин',
-                                                        w.WorkerPhone AS 'Телефон',
-                                                        w.WorkerEmail AS 'Email',
-                                                        w.WorkerBirthday AS 'Дата рождения',
-                                                        w.WorkerDateEmployment AS 'Дата найма',
-                                                        w.WorkerAddress AS 'Адрес',
-                                                        r.RoleName AS 'Роль'
-                                                    FROM worker w
-                                                    JOIN role r ON w.WorkerRole = r.RoleId;", con);
-                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-                workersTable = new DataTable();
-                da.Fill(workersTable);
-                dataGridView1.DataSource = workersTable;
-                MySqlCommand cmdRoles = new MySqlCommand("SELECT RoleName FROM role;", con);
-                MySqlDataReader reader = cmdRoles.ExecuteReader();
-
-                labelTotal.Text = $"Всего: {workersTable.Rows.Count}";
-
-                comboBoxCategory.Items.Clear();
-                comboBoxCategory.Items.Add("");
-                while (reader.Read())
+                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
                 {
-                    comboBoxCategory.Items.Add(reader.GetString(0));
-                }
-                reader.Close();
+                    con.Open();
+                    MySqlCommand cmd = new MySqlCommand(@"
+                        SELECT 
+                            w.WorkerId AS 'ID',
+                            w.WorkerFIO AS 'ФИО',
+                            w.WorkerLogin AS 'Логин',
+                            w.WorkerPhone AS 'Телефон',
+                            w.WorkerEmail AS 'Email',
+                            w.WorkerBirthday AS 'Дата рождения',
+                            w.WorkerDateEmployment AS 'Дата найма',
+                            w.WorkerAddress AS 'Адрес',
+                            r.RoleName AS 'Роль'
+                        FROM worker w
+                        JOIN role r ON w.WorkerRole = r.RoleId;", con);
 
-                comboBoxCategory.SelectedIndex = 0;
+                    MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                    workersTable = new DataTable();
+                    da.Fill(workersTable);
+                    dataGridView1.DataSource = workersTable;
+
+                    if (dataGridView1.Columns.Contains("ID"))
+                        dataGridView1.Columns["ID"].Visible = false;
+
+                    labelTotal.Text = $"Всего: {workersTable.Rows.Count}";
+
+                    MySqlCommand cmdRoles = new MySqlCommand("SELECT RoleName FROM role;", con);
+                    MySqlDataReader reader = cmdRoles.ExecuteReader();
+
+                    comboBoxCategory.Items.Clear();
+                    comboBoxCategory.Items.Add("");
+                    while (reader.Read())
+                    {
+                        comboBoxCategory.Items.Add(reader.GetString(0));
+                    }
+                    reader.Close();
+
+                    comboBoxCategory.SelectedIndex = 0;
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message.ToString(), "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void comboBoxCategory_SelectedIndexChanged(object sender, EventArgs e)
@@ -248,11 +283,41 @@ namespace Restaurant
 
         private void buttonDelete_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("Вы действительно хотите удалить запись?", "Удаление записи", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            if (result == DialogResult.Yes)
+            if (dataGridView1.CurrentRow == null)
             {
+                MessageBox.Show("Выберите сотрудника для удаления!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
+            int selectedWorkerId = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID"].Value);
+
+            if (selectedWorkerId == CurrentUserID)
+            {
+                MessageBox.Show("Вы не можете удалить самого себя!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string workerFIO = dataGridView1.CurrentRow.Cells["ФИО"].Value.ToString();
+            DialogResult result = MessageBox.Show($"Удалить сотрудника: {workerFIO}?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result != DialogResult.Yes) return;
+
+            try
+            {
+                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                {
+                    con.Open();
+                    MySqlCommand cmd = new MySqlCommand("DELETE FROM worker WHERE WorkerId = @id", con);
+                    cmd.Parameters.AddWithValue("@id", selectedWorkerId);
+                    cmd.ExecuteNonQuery();
+
+                    MessageBox.Show("Сотрудник успешно удалён!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadWorkers();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка удаления", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
