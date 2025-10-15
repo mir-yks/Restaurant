@@ -50,18 +50,28 @@ namespace Restaurant
 
         private void buttonNew_Click(object sender, EventArgs e)
         {
-            TablesInsert TablesInsert = new TablesInsert();
+            TablesInsert TablesInsert = new TablesInsert("add");
             this.Visible = true;
             TablesInsert.ShowDialog();
             this.Visible = true;
+
+            LoadTables();
         }
 
         private void buttonUpdate_Click(object sender, EventArgs e)
         {
-            TablesInsert TablesInsert = new TablesInsert();
-            this.Visible = true;
-            TablesInsert.ShowDialog();
-            this.Visible = true;
+            if (dataGridView1.CurrentRow == null) return;
+
+            DataGridViewRow row = dataGridView1.CurrentRow;
+            TablesInsert form = new TablesInsert("edit")
+            {
+                TableID = Convert.ToInt32(row.Cells["Номер столика"].Value),
+                TablePlaces = Convert.ToInt32(row.Cells["Количество мест"].Value),
+                TableStatus = row.Cells["Статус столика"].Value.ToString()
+            };
+
+            if (form.ShowDialog() == DialogResult.OK)
+                LoadTables();
         }
 
         private void buttonBack_Click(object sender, EventArgs e)
@@ -71,48 +81,54 @@ namespace Restaurant
 
         private void Tables_Load(object sender, EventArgs e)
         {
+            LoadTables();
+        }
+
+        private void LoadTables()
+        {
             try
             {
-                MySqlConnection con = new MySqlConnection(connStr.ConnectionString);
-                con.Open();
-
-                MySqlCommand cmd = new MySqlCommand(@"SELECT 
-                                                        TablesId AS 'Номер столика',
-                                                        TablesCountPlace AS 'Количество мест',
-                                                        TablesStatus AS 'Статус столика'
-                                                    FROM Tables;", con);
-                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-                tablesTable = new DataTable();
-                da.Fill(tablesTable);
-                dataGridView1.DataSource = tablesTable;
-
-                labelTotal.Text = $"Всего: {tablesTable.Rows.Count}";
-
-                comboBoxPlaceCount.Items.Clear();
-                comboBoxPlaceCount.Items.Add("");
-                MySqlCommand cmdSeats = new MySqlCommand("SELECT DISTINCT TablesCountPlace FROM Tables ORDER BY TablesCountPlace;", con);
-                MySqlDataReader reader = cmdSeats.ExecuteReader();
-                while (reader.Read())
+                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
                 {
-                    comboBoxPlaceCount.Items.Add(reader.GetInt32(0).ToString());
-                }
-                reader.Close();
-                comboBoxPlaceCount.SelectedIndex = 0;
+                    con.Open();
+                    MySqlCommand cmd = new MySqlCommand(@"
+                        SELECT 
+                            TablesId AS 'Номер столика',
+                            TablesCountPlace AS 'Количество мест',
+                            TablesStatus AS 'Статус столика'
+                        FROM Tables;", con);
 
-                comboBoxStatus.Items.Clear();
-                comboBoxStatus.Items.Add(""); 
-                MySqlCommand cmdStatus = new MySqlCommand("SELECT DISTINCT TablesStatus FROM Tables;", con);
-                MySqlDataReader reader2 = cmdStatus.ExecuteReader();
-                while (reader2.Read())
-                {
-                    comboBoxStatus.Items.Add(reader2.GetString(0));
+                    MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                    tablesTable = new DataTable();
+                    da.Fill(tablesTable);
+                    dataGridView1.DataSource = tablesTable;
+
+                    labelTotal.Text = $"Всего: {tablesTable.Rows.Count}";
+
+                    // Фильтры
+                    comboBoxPlaceCount.Items.Clear();
+                    comboBoxPlaceCount.Items.Add("");
+                    MySqlCommand cmdSeats = new MySqlCommand("SELECT DISTINCT TablesCountPlace FROM Tables ORDER BY TablesCountPlace;", con);
+                    MySqlDataReader reader = cmdSeats.ExecuteReader();
+                    while (reader.Read())
+                        comboBoxPlaceCount.Items.Add(reader.GetInt32(0).ToString());
+                    reader.Close();
+
+                    comboBoxStatus.Items.Clear();
+                    comboBoxStatus.Items.Add("");
+                    MySqlCommand cmdStatus = new MySqlCommand("SELECT DISTINCT TablesStatus FROM Tables;", con);
+                    MySqlDataReader reader2 = cmdStatus.ExecuteReader();
+                    while (reader2.Read())
+                        comboBoxStatus.Items.Add(reader2.GetString(0));
+                    reader2.Close();
+
+                    comboBoxPlaceCount.SelectedIndex = 0;
+                    comboBoxStatus.SelectedIndex = 0;
                 }
-                reader2.Close();
-                comboBoxStatus.SelectedIndex = 0;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message.ToString(), "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -180,11 +196,27 @@ namespace Restaurant
 
         private void buttonDelete_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("Вы действительно хотите удалить запись?", "Удаление записи", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dataGridView1.CurrentRow == null) return;
 
-            if (result == DialogResult.Yes)
+            int selectedTable = Convert.ToInt32(dataGridView1.CurrentRow.Cells["Номер столика"].Value);
+            DialogResult result = MessageBox.Show($"Удалить столик №{selectedTable}?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result != DialogResult.Yes) return;
+
+            try
             {
-
+                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                {
+                    con.Open();
+                    MySqlCommand cmd = new MySqlCommand("DELETE FROM Tables WHERE TablesId = @Id", con);
+                    cmd.Parameters.AddWithValue("@Id", selectedTable);
+                    cmd.ExecuteNonQuery();
+                    LoadTables();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка удаления", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
