@@ -13,6 +13,7 @@ namespace Restaurant
 {
     public partial class Category : Form
     {
+        private DataTable categoriesTable;
         public Category()
         {
             InitializeComponent();
@@ -30,18 +31,31 @@ namespace Restaurant
 
         private void buttonUpdate_Click(object sender, EventArgs e)
         {
-            CategoryInsert CategoryInsert = new CategoryInsert();
+            if (dataGridView1.CurrentRow == null) return;
+
+            int id = Convert.ToInt32(dataGridView1.CurrentRow.Cells["CategoryDishId"].Value);
+            string name = dataGridView1.CurrentRow.Cells["Категория"].Value.ToString();
+
+            CategoryInsert form = new CategoryInsert("edit")
+            {
+                CategoryID = id,
+                CategoryName = name
+            };
+
             this.Visible = true;
-            CategoryInsert.ShowDialog();
+            if (form.ShowDialog() == DialogResult.OK)
+                LoadCategories();
             this.Visible = true;
         }
 
         private void buttonNew_Click(object sender, EventArgs e)
         {
-            CategoryInsert CategoryInsert = new CategoryInsert();
+            CategoryInsert CategoryInsert = new CategoryInsert("add");
             this.Visible = true;
             CategoryInsert.ShowDialog();
             this.Visible = true;
+
+            LoadCategories();
         }
 
         private void buttonBack_Click(object sender, EventArgs e)
@@ -51,33 +65,60 @@ namespace Restaurant
 
         private void Category_Load(object sender, EventArgs e)
         {
+            LoadCategories();
+        }
+
+        private void LoadCategories()
+        {
             try
             {
-                MySqlConnection con = new MySqlConnection(connStr.ConnectionString);
-                con.Open();
-                MySqlCommand cmd = new MySqlCommand(@"SELECT CategoryDishName AS 'Категории блюд' FROM CategoryDish", con);
-                DataTable t = new DataTable();
-                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-                da.Fill(t);
-                dataGridView1.DataSource = t;
+                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                {
+                    con.Open();
+                    MySqlCommand cmd = new MySqlCommand("SELECT CategoryDishId, CategoryDishName AS 'Категория' FROM CategoryDish", con);
+                    categoriesTable = new DataTable();
+                    MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                    da.Fill(categoriesTable);
+                    dataGridView1.DataSource = categoriesTable;
 
-                labelTotal.Text = $"Всего: {t.Rows.Count}";
+                    if (dataGridView1.Columns.Contains("CategoryDishId"))
+                        dataGridView1.Columns["CategoryDishId"].Visible = false;
 
-                con.Close();
+                    labelTotal.Text = $"Всего: {categoriesTable.Rows.Count}";
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message.ToString(), "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void buttonDelete_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("Вы действительно хотите удалить запись?", "Удаление записи", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dataGridView1.CurrentRow == null) return;
 
-            if (result == DialogResult.Yes)
+            int id = Convert.ToInt32(dataGridView1.CurrentRow.Cells["CategoryDishId"].Value);
+            string name = dataGridView1.CurrentRow.Cells["Категория"].Value.ToString();
+
+            DialogResult result = MessageBox.Show($"Вы действительно хотите удалить категорию \"{name}\"?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result != DialogResult.Yes) return;
+
+            try
             {
+                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                {
+                    con.Open();
+                    MySqlCommand cmd = new MySqlCommand("DELETE FROM CategoryDish WHERE CategoryDishId = @id", con);
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.ExecuteNonQuery();
 
+                    MessageBox.Show($"Категория \"{name}\" успешно удалена!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadCategories();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка удаления", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)

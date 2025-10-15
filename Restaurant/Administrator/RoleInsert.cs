@@ -61,7 +61,11 @@ namespace Restaurant
                 return;
             }
 
-            DialogResult confirm = MessageBox.Show("Вы действительно хотите сохранить запись?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult confirm = MessageBox.Show(
+                "Вы действительно хотите сохранить запись?",
+                "Подтверждение",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
             if (confirm != DialogResult.Yes) return;
 
             try
@@ -75,6 +79,8 @@ namespace Restaurant
                         MySqlCommand cmd = new MySqlCommand("INSERT INTO role (RoleName) VALUES (@name)", con);
                         cmd.Parameters.AddWithValue("@name", textBoxRole.Text.Trim());
                         cmd.ExecuteNonQuery();
+
+                        MessageBox.Show($"Роль \"{textBoxRole.Text.Trim()}\" успешно добавлена!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else if (mode == "edit")
                     {
@@ -82,6 +88,8 @@ namespace Restaurant
                         cmd.Parameters.AddWithValue("@name", textBoxRole.Text.Trim());
                         cmd.Parameters.AddWithValue("@id", RoleId);
                         cmd.ExecuteNonQuery();
+
+                        MessageBox.Show($"Данные роли успешно обновлены!\nНаименование: \"{textBoxRole.Text.Trim()}\"", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
 
                     this.DialogResult = DialogResult.OK;
@@ -92,6 +100,7 @@ namespace Restaurant
                 MessageBox.Show(ex.Message, "Ошибка сохранения", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         private void textBoxRole_KeyPress(object sender, KeyPressEventArgs e)
         {

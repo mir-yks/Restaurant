@@ -68,7 +68,7 @@ namespace Restaurant
                 WorkerID = Convert.ToInt32(row.Cells["ID"].Value)
             };
 
-            this.Visible = false;
+            this.Visible = true;
             form.ShowDialog();
             this.Visible = true;
 
@@ -298,7 +298,7 @@ namespace Restaurant
             }
 
             string workerFIO = dataGridView1.CurrentRow.Cells["ФИО"].Value.ToString();
-            DialogResult result = MessageBox.Show($"Удалить сотрудника: {workerFIO}?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult result = MessageBox.Show($"Вы действительно хотите удалить сотрудника \"{workerFIO}\"?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (result != DialogResult.Yes) return;
 
@@ -311,7 +311,7 @@ namespace Restaurant
                     cmd.Parameters.AddWithValue("@id", selectedWorkerId);
                     cmd.ExecuteNonQuery();
 
-                    MessageBox.Show("Сотрудник успешно удалён!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show($"Сотрудник \"{workerFIO}\" успешно удалён!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LoadWorkers();
                 }
             }
@@ -320,6 +320,7 @@ namespace Restaurant
                 MessageBox.Show(ex.Message, "Ошибка удаления", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         private void textBoxWorker_KeyPress(object sender, KeyPressEventArgs e)
         {

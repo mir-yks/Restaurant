@@ -34,6 +34,8 @@ namespace Restaurant
             this.Visible = true;
             RoleInsert.ShowDialog();
             this.Visible = true;
+
+            LoadRoles();
         }
 
         private void buttonUpdate_Click(object sender, EventArgs e)
@@ -87,7 +89,13 @@ namespace Restaurant
         {
             if (dataGridView1.CurrentRow == null) return;
 
-            DialogResult result = MessageBox.Show("Вы действительно хотите удалить запись?", "Удаление записи", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            string roleName = dataGridView1.CurrentRow.Cells["Наименование"].Value.ToString();
+
+            DialogResult result = MessageBox.Show(
+                $"Вы действительно хотите удалить роль \"{roleName}\"?",
+                "Удаление записи",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
 
             if (result == DialogResult.Yes)
             {
@@ -100,6 +108,9 @@ namespace Restaurant
                         MySqlCommand cmd = new MySqlCommand("DELETE FROM role WHERE RoleId = @id", con);
                         cmd.Parameters.AddWithValue("@id", id);
                         cmd.ExecuteNonQuery();
+
+                        MessageBox.Show($"Роль \"{roleName}\" успешно удалена!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                         LoadRoles();
                     }
                 }
@@ -109,6 +120,7 @@ namespace Restaurant
                 }
             }
         }
+
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {

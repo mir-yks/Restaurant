@@ -13,6 +13,7 @@ namespace Restaurant
 {
     public partial class Offers : Form
     {
+        private DataTable offersTable;
         public Offers()
         {
             InitializeComponent();
@@ -30,18 +31,33 @@ namespace Restaurant
 
         private void buttonUpdate_Click(object sender, EventArgs e)
         {
-            OffersInsert OfferInsert = new OffersInsert();
+            if (dataGridView1.CurrentRow == null) return;
+
+            int id = Convert.ToInt32(dataGridView1.CurrentRow.Cells["OffersDishId"].Value);
+            string name = dataGridView1.CurrentRow.Cells["Предложение"].Value.ToString();
+            decimal discount = Convert.ToDecimal(dataGridView1.CurrentRow.Cells["Скидка"].Value);
+
+            OffersInsert form = new OffersInsert("edit")
+            {
+                OfferID = id,
+                OfferName = name,
+                OfferDiscount = discount
+            };
+
             this.Visible = true;
-            OfferInsert.ShowDialog();
+            if (form.ShowDialog() == DialogResult.OK)
+                LoadOffers();
             this.Visible = true;
         }
 
         private void buttonNew_Click(object sender, EventArgs e)
         {
-            OffersInsert OfferInsert = new OffersInsert();
+            OffersInsert OfferInsert = new OffersInsert("add");
             this.Visible = true;
             OfferInsert.ShowDialog();
             this.Visible = true;
+
+            LoadOffers();
         }
 
         private void buttonBack_Click(object sender, EventArgs e)
@@ -51,33 +67,62 @@ namespace Restaurant
 
         private void Offers_Load(object sender, EventArgs e)
         {
+            LoadOffers();
+        }
+
+        private void LoadOffers()
+        {
             try
             {
-                MySqlConnection con = new MySqlConnection(connStr.ConnectionString);
-                con.Open();
-                MySqlCommand cmd = new MySqlCommand(@"SELECT OffersDishName AS 'Предложение блюд', OffersDishDicsount AS 'Скидка' FROM OffersDish", con);
-                DataTable t = new DataTable();
-                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-                da.Fill(t);
-                dataGridView1.DataSource = t;
+                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                {
+                    con.Open();
+                    MySqlCommand cmd = new MySqlCommand(
+                        "SELECT OffersDishId, OffersDishName AS 'Предложение', OffersDishDicsount AS 'Скидка' FROM OffersDish",
+                        con);
+                    offersTable = new DataTable();
+                    MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                    da.Fill(offersTable);
+                    dataGridView1.DataSource = offersTable;
 
-                labelTotal.Text = $"Всего: {t.Rows.Count}";
+                    if (dataGridView1.Columns.Contains("OffersDishId"))
+                        dataGridView1.Columns["OffersDishId"].Visible = false;
 
-                con.Close();
+                    labelTotal.Text = $"Всего: {offersTable.Rows.Count}";
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message.ToString(), "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void buttonDelete_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("Вы действительно хотите удалить запись?", "Удаление записи", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dataGridView1.CurrentRow == null) return;
 
-            if (result == DialogResult.Yes)
+            int id = Convert.ToInt32(dataGridView1.CurrentRow.Cells["OffersDishId"].Value);
+            string name = dataGridView1.CurrentRow.Cells["Предложение"].Value.ToString();
+
+            DialogResult result = MessageBox.Show($"Вы действительно хотите удалить предложение \"{name}\"?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result != DialogResult.Yes) return;
+
+            try
             {
+                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                {
+                    con.Open();
+                    MySqlCommand cmd = new MySqlCommand("DELETE FROM OffersDish WHERE OffersDishId = @id", con);
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.ExecuteNonQuery();
 
+                    MessageBox.Show($"Предложение \"{name}\" успешно удалено!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadOffers();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка удаления", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

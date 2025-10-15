@@ -195,10 +195,10 @@ namespace Restaurant
         private void buttonWrite_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show(
-        "Вы действительно хотите сохранить запись?",
-        "Подтверждение записи",
-        MessageBoxButtons.YesNo,
-        MessageBoxIcon.Question);
+                "Вы действительно хотите сохранить запись?",
+                "Подтверждение записи",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
 
             if (result != DialogResult.Yes) return;
 
@@ -208,10 +208,7 @@ namespace Restaurant
                 {
                     con.Open();
 
-                    // Получаем цифры телефона
                     string userDigits = new string(maskedTextBoxPhone.Text.Where(char.IsDigit).ToArray());
-
-                    // Хэшируем пароль SHA256
                     string hashedPassword = "";
                     if (!string.IsNullOrEmpty(textBoxPassword.Text))
                     {
@@ -225,16 +222,16 @@ namespace Restaurant
                     if (mode == "add")
                     {
                         string query = @"INSERT INTO worker 
-                            (WorkerFIO, WorkerLogin, WorkerPassword, WorkerPhone, WorkerEmail, 
-                             WorkerBirthday, WorkerDateEmployment, WorkerAddress, WorkerRole)
-                             VALUES (@FIO, @Login, @Password, @Phone, @Email, 
-                                     @Birthday, @Employment, @Address, 
-                                     (SELECT RoleId FROM role WHERE RoleName = @Role))";
+                    (WorkerFIO, WorkerLogin, WorkerPassword, WorkerPhone, WorkerEmail, 
+                     WorkerBirthday, WorkerDateEmployment, WorkerAddress, WorkerRole)
+                     VALUES (@FIO, @Login, @Password, @Phone, @Email, 
+                             @Birthday, @Employment, @Address, 
+                             (SELECT RoleId FROM role WHERE RoleName = @Role))";
 
                         MySqlCommand cmd = new MySqlCommand(query, con);
                         cmd.Parameters.AddWithValue("@FIO", textBoxFIO.Text);
                         cmd.Parameters.AddWithValue("@Login", textBoxLogin.Text);
-                        cmd.Parameters.AddWithValue("@Password", hashedPassword); // <-- хэш
+                        cmd.Parameters.AddWithValue("@Password", hashedPassword);
                         cmd.Parameters.AddWithValue("@Phone", userDigits);
                         cmd.Parameters.AddWithValue("@Email", textBoxEmail.Text);
                         cmd.Parameters.AddWithValue("@Birthday", dateTimePickerBirthday.Value);
@@ -243,23 +240,22 @@ namespace Restaurant
                         cmd.Parameters.AddWithValue("@Role", comboBoxRole.Text);
 
                         cmd.ExecuteNonQuery();
-                        MessageBox.Show("Сотрудник успешно добавлен!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show($"Сотрудник \"{textBoxFIO.Text}\" успешно добавлен!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else if (mode == "edit")
                     {
                         string query = @"UPDATE worker 
-                                 SET WorkerFIO = @FIO,
-                                     WorkerLogin = @Login,
-                                     WorkerPhone = @Phone,
-                                     WorkerEmail = @Email,
-                                     WorkerBirthday = @Birthday,
-                                     WorkerDateEmployment = @Employment,
-                                     WorkerAddress = @Address,
-                                     WorkerRole = (SELECT RoleId FROM role WHERE RoleName = @Role)
-                                     {0}
-                                 WHERE WorkerId = @Id";
+                         SET WorkerFIO = @FIO,
+                             WorkerLogin = @Login,
+                             WorkerPhone = @Phone,
+                             WorkerEmail = @Email,
+                             WorkerBirthday = @Birthday,
+                             WorkerDateEmployment = @Employment,
+                             WorkerAddress = @Address,
+                             WorkerRole = (SELECT RoleId FROM role WHERE RoleName = @Role)
+                             {0}
+                         WHERE WorkerId = @Id";
 
-                        // Если пароль введён, обновляем его, иначе оставляем старый
                         string passwordPart = !string.IsNullOrEmpty(hashedPassword) ? ", WorkerPassword = @Password" : "";
                         query = string.Format(query, passwordPart);
 
@@ -277,7 +273,7 @@ namespace Restaurant
                             cmd.Parameters.AddWithValue("@Password", hashedPassword);
 
                         cmd.ExecuteNonQuery();
-                        MessageBox.Show("Данные успешно обновлены!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show($"Данные сотрудника успешно обновлены!\nФИО: \"{textBoxFIO.Text}\"", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
 
                     this.DialogResult = DialogResult.OK;
@@ -288,6 +284,7 @@ namespace Restaurant
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
 
         private void textBoxFIO_KeyPress(object sender, KeyPressEventArgs e)
