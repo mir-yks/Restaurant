@@ -45,7 +45,7 @@ namespace Restaurant
             if (mode == "add")
             {
                 textBoxName.Text = "";
-                textBoxDiscount.Text = "0";
+                textBoxDiscount.Text = "1";
                 buttonWrite.Text = "Добавить";
                 this.Text = "Добавление предложения";
             }
@@ -63,38 +63,86 @@ namespace Restaurant
 
         private void buttonWrite_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(textBoxName.Text))
+            string offerName = textBoxName.Text.Trim();
+            string discountText = textBoxDiscount.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(offerName))
             {
-                MessageBox.Show("Введите название предложения.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Введите название предложения!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                textBoxName.Focus();
                 return;
             }
 
-            DialogResult confirm = MessageBox.Show("Вы действительно хотите сохранить запись?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (confirm != DialogResult.Yes) return;
+            if (string.IsNullOrWhiteSpace(discountText))
+            {
+                MessageBox.Show("Введите скидку!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                textBoxDiscount.Focus();
+                return;
+            }
+
+            if (!decimal.TryParse(discountText.Replace(',', '.'), out decimal discount))
+            {
+                MessageBox.Show("Введите корректное значение скидки.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (discount < 1 || discount > 100)
+            {
+                MessageBox.Show("Скидка должна быть не меньше 1% и не больше 100%.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
             try
             {
                 using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
                 {
                     con.Open();
+
+                    MySqlCommand checkCmd;
                     if (mode == "add")
                     {
-                        MySqlCommand cmd = new MySqlCommand("INSERT INTO OffersDish (OffersDishName, OffersDishDicsount) VALUES (@name, @discount)", con);
-                        cmd.Parameters.AddWithValue("@name", textBoxName.Text.Trim());
-                        cmd.Parameters.AddWithValue("@discount", OfferDiscount);
+                        checkCmd = new MySqlCommand("SELECT COUNT(*) FROM OffersDish WHERE OffersDishName = @name", con);
+                        checkCmd.Parameters.AddWithValue("@name", offerName);
+                    }
+                    else 
+                    {
+                        checkCmd = new MySqlCommand("SELECT COUNT(*) FROM OffersDish WHERE OffersDishName = @name AND OffersDishId <> @id", con);
+                        checkCmd.Parameters.AddWithValue("@name", offerName);
+                        checkCmd.Parameters.AddWithValue("@id", OfferID);
+                    }
+
+                    int count = Convert.ToInt32(checkCmd.ExecuteScalar());
+                    if (count > 0)
+                    {
+                        MessageBox.Show("Предложение с таким названием уже существует!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    DialogResult confirm = MessageBox.Show("Вы действительно хотите сохранить запись?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (confirm != DialogResult.Yes) return;
+
+                    if (mode == "add")
+                    {
+                        MySqlCommand cmd = new MySqlCommand(
+                            "INSERT INTO OffersDish (OffersDishName, OffersDishDicsount) VALUES (@name, @discount)",
+                            con);
+                        cmd.Parameters.AddWithValue("@name", offerName);
+                        cmd.Parameters.AddWithValue("@discount", discount);
                         cmd.ExecuteNonQuery();
 
-                        MessageBox.Show($"Предложение \"{textBoxName.Text}\" успешно добавлено!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show($"Предложение \"{offerName}\" успешно добавлено со скидкой {discount}%!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else if (mode == "edit")
                     {
-                        MySqlCommand cmd = new MySqlCommand("UPDATE OffersDish SET OffersDishName = @name, OffersDishDicsount = @discount WHERE OffersDishId = @id", con);
-                        cmd.Parameters.AddWithValue("@name", textBoxName.Text.Trim());
-                        cmd.Parameters.AddWithValue("@discount", OfferDiscount);
+                        MySqlCommand cmd = new MySqlCommand(
+                            "UPDATE OffersDish SET OffersDishName = @name, OffersDishDicsount = @discount WHERE OffersDishId = @id",
+                            con);
+                        cmd.Parameters.AddWithValue("@name", offerName);
+                        cmd.Parameters.AddWithValue("@discount", discount);
                         cmd.Parameters.AddWithValue("@id", OfferID);
                         cmd.ExecuteNonQuery();
 
-                        MessageBox.Show($"Предложение успешно обновлено!\nНазвание: \"{textBoxName.Text}\"", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show($"Предложение успешно обновлено!\nНазвание: \"{offerName}\", скидка: {discount}%", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
 
                     this.DialogResult = DialogResult.OK;
@@ -105,6 +153,8 @@ namespace Restaurant
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+
 
         private void textBoxName_KeyPress(object sender, KeyPressEventArgs e)
         {

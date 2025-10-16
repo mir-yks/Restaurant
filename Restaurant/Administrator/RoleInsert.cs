@@ -57,7 +57,7 @@ namespace Restaurant
         {
             if (string.IsNullOrWhiteSpace(textBoxRole.Text))
             {
-                MessageBox.Show("Введите наименование роли.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Введите название роли!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 

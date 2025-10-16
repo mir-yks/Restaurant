@@ -27,7 +27,13 @@ namespace Restaurant
             buttonBack.Font = Fonts.MontserratAlternatesBold(12f);
             buttonWrite.Font = Fonts.MontserratAlternatesBold(12f);
 
+            LoadStatuses();
             ApplyMode();
+        }
+        private void LoadStatuses()
+        {
+            comboBoxStatus.Items.Clear();
+            comboBoxStatus.Items.AddRange(new string[] { "Свободен", "Забронирован", "Занят" });
         }
 
         private void ApplyMode()
@@ -37,14 +43,14 @@ namespace Restaurant
                 case "add":
                     textBoxPlaceCount.Text = "";
                     comboBoxStatus.Text = "Свободен";
-                    comboBoxStatus.Enabled = false; // нельзя менять
+                    comboBoxStatus.Enabled = false;
                     buttonWrite.Visible = true;
                     buttonBack.Text = "Отмена";
                     break;
 
                 case "edit":
                     textBoxPlaceCount.ReadOnly = false;
-                    comboBoxStatus.Enabled = true; // можно менять статус
+                    comboBoxStatus.Enabled = true; 
                     buttonWrite.Visible = true;
                     buttonBack.Text = "Отмена";
                     break;
@@ -77,6 +83,26 @@ namespace Restaurant
 
             if (result != DialogResult.Yes) return;
 
+            if (string.IsNullOrWhiteSpace(textBoxPlaceCount.Text))
+            {
+                MessageBox.Show("Введите количество мест столика!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                textBoxPlaceCount.Focus();
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(comboBoxStatus.Text))
+            {
+                MessageBox.Show("Введите статус столика!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                comboBoxStatus.Focus();
+                return;
+            }
+
+            if (!int.TryParse(textBoxPlaceCount.Text, out int places) || places <= 0)
+            {
+                MessageBox.Show("Введите корректное количество мест (положительное число).", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             try
             {
                 using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
@@ -90,11 +116,11 @@ namespace Restaurant
                         int nextNumber = Convert.ToInt32(cmdNext.ExecuteScalar());
 
                         cmd = new MySqlCommand(@"INSERT INTO Tables 
-                            (TablesId, TablesCountPlace, TablesStatus)
-                            VALUES (@Number, @Places, 'Свободен')", con);
+                    (TablesId, TablesCountPlace, TablesStatus)
+                    VALUES (@Number, @Places, 'Свободен')", con);
 
                         cmd.Parameters.AddWithValue("@Number", nextNumber);
-                        cmd.Parameters.AddWithValue("@Places", TablePlaces);
+                        cmd.Parameters.AddWithValue("@Places", places);
 
                         cmd.ExecuteNonQuery();
                         MessageBox.Show($"Столик №{nextNumber} успешно добавлен!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -102,15 +128,19 @@ namespace Restaurant
                     else if (mode == "edit")
                     {
                         cmd = new MySqlCommand(@"UPDATE Tables
-                            SET TablesCountPlace = @Places, TablesStatus = @Status
-                            WHERE TablesId = @Id", con);
+                    SET TablesCountPlace = @Places, TablesStatus = @Status
+                    WHERE TablesId = @Id", con);
 
-                        cmd.Parameters.AddWithValue("@Places", TablePlaces);
-                        cmd.Parameters.AddWithValue("@Status", TableStatus);
+                        cmd.Parameters.AddWithValue("@Places", places);
+                        cmd.Parameters.AddWithValue("@Status", comboBoxStatus.Text);
                         cmd.Parameters.AddWithValue("@Id", TableID);
 
-                        cmd.ExecuteNonQuery();
-                        MessageBox.Show("Данные столика успешно обновлены!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        int rowsAffected = cmd.ExecuteNonQuery();
+
+                        if (rowsAffected > 0)
+                            MessageBox.Show("Данные столика успешно обновлены!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        else
+                            MessageBox.Show("Не удалось обновить данные. Возможно, столик не найден.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
 
                     this.DialogResult = DialogResult.OK;
@@ -121,6 +151,7 @@ namespace Restaurant
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         private void textBox_KeyPress(object sender, KeyPressEventArgs e)
         {

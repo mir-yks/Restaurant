@@ -28,6 +28,7 @@ namespace Restaurant
             buttonArrange.Font = Fonts.MontserratAlternatesBold(12f);
 
             LoadClients();
+            SetupDatePicker();
             ApplyMode();
         }
 
@@ -110,6 +111,7 @@ namespace Restaurant
 
         private void buttonArrange_Click(object sender, EventArgs e)
         {
+            // Проверка: выбран клиент
             if (comboBoxClient.SelectedItem == null)
             {
                 MessageBox.Show("Выберите клиента!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -117,9 +119,11 @@ namespace Restaurant
                 return;
             }
 
-            if (dateTimePickerBooking.Value < DateTime.Now.Date)
+            // Проверка: дата выбрана
+            DateTime selectedDate = dateTimePickerBooking.Value.Date;
+            if (selectedDate < DateTime.Today || selectedDate > DateTime.Today.AddDays(14))
             {
-                MessageBox.Show("Дата бронирования не может быть в прошлом!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Выберите корректную дату бронирования (от сегодня до двух недель вперед)!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 dateTimePickerBooking.Focus();
                 return;
             }
@@ -138,59 +142,51 @@ namespace Restaurant
                 {
                     con.Open();
 
-                    // Получаем ID выбранного клиента
                     int clientId = ((KeyValuePair<int, string>)comboBoxClient.SelectedItem).Key;
 
+                    // Проверка дублирования: клиент + дата
+                    MySqlCommand checkCmd;
                     if (mode == "add")
                     {
-                        // Проверяем, нет ли уже брони на эту дату для этого клиента
-                        MySqlCommand checkCmd = new MySqlCommand(
-                            "SELECT COUNT(*) FROM booking WHERE ClientId = @ClientId AND DATE(BookingDate) = DATE(@BookingDate)",
+                        checkCmd = new MySqlCommand(
+                            "SELECT COUNT(*) FROM booking WHERE ClientId = @ClientId AND DATE(BookingDate) = @BookingDate",
                             con);
-                        checkCmd.Parameters.AddWithValue("@ClientId", clientId);
-                        checkCmd.Parameters.AddWithValue("@BookingDate", dateTimePickerBooking.Value);
-                        int existingCount = Convert.ToInt32(checkCmd.ExecuteScalar());
-
-                        if (existingCount > 0)
-                        {
-                            MessageBox.Show("У этого клиента уже есть бронь на выбранную дату!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            return;
-                        }
-
-                        string query = @"INSERT INTO booking (ClientId, BookingDate) VALUES (@ClientId, @BookingDate)";
-                        MySqlCommand cmd = new MySqlCommand(query, con);
-                        cmd.Parameters.AddWithValue("@ClientId", clientId);
-                        cmd.Parameters.AddWithValue("@BookingDate", dateTimePickerBooking.Value);
-
-                        cmd.ExecuteNonQuery();
-                        MessageBox.Show("Бронь успешно добавлена!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-                    else if (mode == "edit")
+                    else // edit
                     {
-                        MySqlCommand checkCmd = new MySqlCommand(
-                            "SELECT COUNT(*) FROM booking WHERE ClientId = @ClientId AND DATE(BookingDate) = DATE(@BookingDate) AND BookingId != @BookingId",
+                        checkCmd = new MySqlCommand(
+                            "SELECT COUNT(*) FROM booking WHERE ClientId = @ClientId AND DATE(BookingDate) = @BookingDate AND BookingId != @BookingId",
                             con);
-                        checkCmd.Parameters.AddWithValue("@ClientId", clientId);
-                        checkCmd.Parameters.AddWithValue("@BookingDate", dateTimePickerBooking.Value);
                         checkCmd.Parameters.AddWithValue("@BookingId", BookingID);
-                        int existingCount = Convert.ToInt32(checkCmd.ExecuteScalar());
-
-                        if (existingCount > 0)
-                        {
-                            MessageBox.Show("У этого клиента уже есть бронь на выбранную дату!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            return;
-                        }
-
-                        string query = @"UPDATE booking SET ClientId = @ClientId, BookingDate = @BookingDate WHERE BookingId = @BookingId";
-                        MySqlCommand cmd = new MySqlCommand(query, con);
-                        cmd.Parameters.AddWithValue("@ClientId", clientId);
-                        cmd.Parameters.AddWithValue("@BookingDate", dateTimePickerBooking.Value);
-                        cmd.Parameters.AddWithValue("@BookingId", BookingID);
-
-                        cmd.ExecuteNonQuery();
-                        MessageBox.Show("Бронь успешно обновлена!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
 
+                    checkCmd.Parameters.AddWithValue("@ClientId", clientId);
+                    checkCmd.Parameters.AddWithValue("@BookingDate", selectedDate);
+
+                    int existingCount = Convert.ToInt32(checkCmd.ExecuteScalar());
+                    if (existingCount > 0)
+                    {
+                        MessageBox.Show("Этот клиент уже бронировал столик на выбранную дату!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    // Добавление или обновление брони
+                    MySqlCommand cmd;
+                    if (mode == "add")
+                    {
+                        cmd = new MySqlCommand("INSERT INTO booking (ClientId, BookingDate) VALUES (@ClientId, @BookingDate)", con);
+                    }
+                    else
+                    {
+                        cmd = new MySqlCommand("UPDATE booking SET ClientId = @ClientId, BookingDate = @BookingDate WHERE BookingId = @BookingId", con);
+                        cmd.Parameters.AddWithValue("@BookingId", BookingID);
+                    }
+
+                    cmd.Parameters.AddWithValue("@ClientId", clientId);
+                    cmd.Parameters.AddWithValue("@BookingDate", selectedDate);
+                    cmd.ExecuteNonQuery();
+
+                    MessageBox.Show(mode == "add" ? "Бронь успешно добавлена!" : "Бронь успешно обновлена!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.DialogResult = DialogResult.OK;
                 }
             }
@@ -198,6 +194,14 @@ namespace Restaurant
             {
                 MessageBox.Show($"Ошибка сохранения брони: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+
+        private void SetupDatePicker()
+        {
+            dateTimePickerBooking.MinDate = DateTime.Today;
+            dateTimePickerBooking.MaxDate = DateTime.Today.AddDays(14); 
+            dateTimePickerBooking.Value = DateTime.Today;
         }
     }
 }

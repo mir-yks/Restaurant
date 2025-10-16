@@ -69,6 +69,7 @@ namespace Restaurant
             };
 
             TablesInsert.ShowDialog();
+            LoadTables();
         }
 
         private void buttonBack_Click(object sender, EventArgs e)
@@ -102,7 +103,6 @@ namespace Restaurant
 
                     labelTotal.Text = $"Всего: {tablesTable.Rows.Count}";
 
-                    // Фильтры
                     comboBoxPlaceCount.Items.Clear();
                     comboBoxPlaceCount.Items.Add("");
                     MySqlCommand cmdSeats = new MySqlCommand("SELECT DISTINCT TablesCountPlace FROM Tables ORDER BY TablesCountPlace;", con);
@@ -207,8 +207,17 @@ namespace Restaurant
                     con.Open();
                     MySqlCommand cmd = new MySqlCommand("DELETE FROM Tables WHERE TablesId = @Id", con);
                     cmd.Parameters.AddWithValue("@Id", selectedTable);
-                    cmd.ExecuteNonQuery();
-                    LoadTables();
+                    int rows = cmd.ExecuteNonQuery();
+
+                    if (rows > 0)
+                    {
+                        MessageBox.Show($"Столик №{selectedTable} успешно удалён!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LoadTables();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Не удалось удалить запись — возможно, столик уже удалён.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
                 }
             }
             catch (Exception ex)
@@ -216,6 +225,7 @@ namespace Restaurant
                 MessageBox.Show(ex.Message, "Ошибка удаления", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         private void textBoxTable_KeyPress(object sender, KeyPressEventArgs e)
         {

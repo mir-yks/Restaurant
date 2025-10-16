@@ -55,36 +55,62 @@ namespace Restaurant
 
         private void buttonWrite_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(textBoxCategory.Text))
+            string categoryName = textBoxCategory.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(categoryName))
             {
-                MessageBox.Show("Введите название категории.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Введите название категории!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                textBoxCategory.Focus();
                 return;
             }
-
-            DialogResult confirm = MessageBox.Show("Вы действительно хотите сохранить запись?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (confirm != DialogResult.Yes) return;
 
             try
             {
                 using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
                 {
                     con.Open();
+
+                    MySqlCommand checkCmd;
+
+                    if (mode == "add")
+                    {
+                        checkCmd = new MySqlCommand("SELECT COUNT(*) FROM CategoryDish WHERE CategoryDishName = @name", con);
+                        checkCmd.Parameters.AddWithValue("@name", categoryName);
+                    }
+                    else 
+                    {
+                        checkCmd = new MySqlCommand("SELECT COUNT(*) FROM CategoryDish WHERE CategoryDishName = @name AND CategoryDishId <> @id", con);
+                        checkCmd.Parameters.AddWithValue("@name", categoryName);
+                        checkCmd.Parameters.AddWithValue("@id", CategoryID);
+                    }
+
+                    int count = Convert.ToInt32(checkCmd.ExecuteScalar());
+
+                    if (count > 0)
+                    {
+                        MessageBox.Show("Категория с таким названием уже существует!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    DialogResult confirm = MessageBox.Show("Вы действительно хотите сохранить запись?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (confirm != DialogResult.Yes) return;
+
                     if (mode == "add")
                     {
                         MySqlCommand cmd = new MySqlCommand("INSERT INTO CategoryDish (CategoryDishName) VALUES (@name)", con);
-                        cmd.Parameters.AddWithValue("@name", textBoxCategory.Text.Trim());
+                        cmd.Parameters.AddWithValue("@name", categoryName);
                         cmd.ExecuteNonQuery();
 
-                        MessageBox.Show($"Категория \"{textBoxCategory.Text}\" успешно добавлена!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show($"Категория \"{categoryName}\" успешно добавлена!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else if (mode == "edit")
                     {
                         MySqlCommand cmd = new MySqlCommand("UPDATE CategoryDish SET CategoryDishName = @name WHERE CategoryDishId = @id", con);
-                        cmd.Parameters.AddWithValue("@name", textBoxCategory.Text.Trim());
+                        cmd.Parameters.AddWithValue("@name", categoryName);
                         cmd.Parameters.AddWithValue("@id", CategoryID);
                         cmd.ExecuteNonQuery();
 
-                        MessageBox.Show($"Категория успешно обновлена!\nНазвание: \"{textBoxCategory.Text}\"", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show($"Категория успешно обновлена!\nНовое название: \"{categoryName}\"", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
 
                     this.DialogResult = DialogResult.OK;
@@ -95,6 +121,7 @@ namespace Restaurant
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         private void textBoxCategory_KeyPress(object sender, KeyPressEventArgs e)
         {

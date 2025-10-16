@@ -152,8 +152,24 @@ namespace Restaurant
 
         public string WorkerPhone
         {
-            get => maskedTextBoxPhone.Text;
-            set => maskedTextBoxPhone.Text = value;
+            get => new string(maskedTextBoxPhone.Text.Where(char.IsDigit).ToArray());
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    maskedTextBoxPhone.Text = "";
+                    return;
+                }
+
+                string digits = new string(value.Where(char.IsDigit).ToArray());
+
+                if (digits.StartsWith("7") && maskedTextBoxPhone.Mask.StartsWith("+7"))
+                {
+                    digits = digits.Substring(1);
+                }
+
+                maskedTextBoxPhone.Text = digits;
+            }
         }
 
         public string WorkerEmail
@@ -202,6 +218,79 @@ namespace Restaurant
 
             if (result != DialogResult.Yes) return;
 
+            if (string.IsNullOrWhiteSpace(textBoxFIO.Text))
+            {
+                MessageBox.Show("Введите ФИО!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                textBoxFIO.Focus();
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(textBoxLogin.Text))
+            {
+                MessageBox.Show("Введите логин!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                textBoxLogin.Focus();
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(textBoxPassword.Text) && mode == "add")
+            {
+                MessageBox.Show("Введите пароль!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                textBoxPassword.Focus();
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(textBoxConfPassword.Text) && mode == "add")
+            {
+                MessageBox.Show("Введите подтверждение пароля!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                textBoxConfPassword.Focus();
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(maskedTextBoxPhone.Text))
+            {
+                MessageBox.Show("Введите телефон!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                maskedTextBoxPhone.Focus();
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(textBoxEmail.Text))
+            {
+                MessageBox.Show("Введите почту!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                textBoxEmail.Focus();
+                return;
+            }
+            if (comboBoxRole.SelectedIndex == -1)
+            {
+                MessageBox.Show("Введите роль!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                comboBoxRole.Focus();
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(textBoxAddress.Text))
+            {
+                MessageBox.Show("Введите адрес!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                textBoxAddress.Focus();
+                return;
+            }
+
+            if (textBoxPassword.Visible && textBoxConfPassword.Visible)
+            {
+                string pass = textBoxPassword.Text.Trim();
+                string confPass = textBoxConfPassword.Text.Trim();
+
+                if (!string.IsNullOrEmpty(pass) || !string.IsNullOrEmpty(confPass))
+                {
+                    if (pass != confPass)
+                    {
+                        MessageBox.Show("Пароль и подтверждение пароля не совпадают!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+            }
+
+            var fioParts = WorkerFIO.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            if (fioParts.Length < 2)
+            {
+                MessageBox.Show("Введите полное ФИО (минимум фамилия и имя).", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                textBoxFIO.Focus();
+                return;
+            }
+
             try
             {
                 using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
@@ -216,6 +305,27 @@ namespace Restaurant
                         {
                             byte[] hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(textBoxPassword.Text));
                             hashedPassword = BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
+                        }
+                    }
+
+                    string duplicateQuery = @"SELECT COUNT(*) FROM worker 
+                                      WHERE (WorkerLogin = @Login OR WorkerPhone = @Phone)
+                                      {0}";
+                    string excludeId = mode == "edit" ? "AND WorkerId <> @Id" : "";
+                    duplicateQuery = string.Format(duplicateQuery, excludeId);
+
+                    using (MySqlCommand checkCmd = new MySqlCommand(duplicateQuery, con))
+                    {
+                        checkCmd.Parameters.AddWithValue("@Login", textBoxLogin.Text);
+                        checkCmd.Parameters.AddWithValue("@Phone", userDigits);
+                        if (mode == "edit")
+                            checkCmd.Parameters.AddWithValue("@Id", WorkerID);
+
+                        int count = Convert.ToInt32(checkCmd.ExecuteScalar());
+                        if (count > 0)
+                        {
+                            MessageBox.Show("Пользователь с таким логином или номером телефона уже существует!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
                         }
                     }
 
@@ -285,8 +395,6 @@ namespace Restaurant
             }
         }
 
-
-
         private void textBoxFIO_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) &&
@@ -317,7 +425,7 @@ namespace Restaurant
         private void textBoxAddress_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) &&
-                !System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"^[а-яА-Я-,.\s]$"))
+                !System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"^[а-яА-Я0-9-,.\s]$"))
             {
                 e.Handled = true;
             }

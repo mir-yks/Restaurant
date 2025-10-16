@@ -72,8 +72,24 @@ namespace Restaurant
 
         public string ClientPhone
         {
-            get => maskedTextBoxPhone.Text;
-            set => maskedTextBoxPhone.Text = value;
+            get => new string(maskedTextBoxPhone.Text.Where(char.IsDigit).ToArray());
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    maskedTextBoxPhone.Text = "";
+                    return;
+                }
+
+                string digits = new string(value.Where(char.IsDigit).ToArray());
+
+                if (digits.StartsWith("7") && maskedTextBoxPhone.Mask.StartsWith("+7"))
+                {
+                    digits = digits.Substring(1);
+                }
+
+                maskedTextBoxPhone.Text = digits;
+            }
         }
 
         private void buttonBack_Click(object sender, EventArgs e)
@@ -83,16 +99,26 @@ namespace Restaurant
 
         private void buttonWrite_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(textBoxFIO.Text))
+
+            if (string.IsNullOrWhiteSpace(ClientFIO))
             {
-                MessageBox.Show("Введите ФИО клиента!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Введите ФИО клиента.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 textBoxFIO.Focus();
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(maskedTextBoxPhone.Text.Replace(" ", "").Replace("(", "").Replace(")", "").Replace("-", "")))
+            var fioParts = ClientFIO.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            if (fioParts.Length < 2)
             {
-                MessageBox.Show("Введите номер телефона!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Введите полное ФИО (минимум фамилия и имя).", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                textBoxFIO.Focus();
+                return;
+            }
+
+            string phoneDigits = new string(maskedTextBoxPhone.Text.Where(char.IsDigit).ToArray());
+            if (string.IsNullOrWhiteSpace(phoneDigits) || phoneDigits.Length < 10)
+            {
+                MessageBox.Show("Введите корректный номер телефона.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 maskedTextBoxPhone.Focus();
                 return;
             }
@@ -111,58 +137,49 @@ namespace Restaurant
                 {
                     con.Open();
 
-                    string userDigits = new string(maskedTextBoxPhone.Text.Where(char.IsDigit).ToArray());
+                    MySqlCommand checkCmd = new MySqlCommand(
+                        "SELECT COUNT(*) FROM client WHERE ClientPhone = @Phone" +
+                        (mode == "edit" ? " AND ClientId != @Id" : ""),
+                        con);
 
+                    checkCmd.Parameters.AddWithValue("@Phone", phoneDigits);
+                    if (mode == "edit")
+                        checkCmd.Parameters.AddWithValue("@Id", ClientID);
+
+                    int existingCount = Convert.ToInt32(checkCmd.ExecuteScalar());
+
+                    if (existingCount > 0)
+                    {
+                        MessageBox.Show("Клиент с таким номером телефона уже существует!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    MySqlCommand cmd;
                     if (mode == "add")
                     {
-                        // Проверяем, существует ли уже клиент с таким телефоном
-                        MySqlCommand checkCmd = new MySqlCommand("SELECT COUNT(*) FROM client WHERE ClientPhone = @Phone", con);
-                        checkCmd.Parameters.AddWithValue("@Phone", userDigits);
-                        int existingCount = Convert.ToInt32(checkCmd.ExecuteScalar());
-
-                        if (existingCount > 0)
-                        {
-                            MessageBox.Show("Клиент с таким номером телефона уже существует!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            return;
-                        }
-
-                        string query = @"INSERT INTO client (ClientFIO, ClientPhone) VALUES (@FIO, @Phone)";
-                        MySqlCommand cmd = new MySqlCommand(query, con);
-                        cmd.Parameters.AddWithValue("@FIO", textBoxFIO.Text);
-                        cmd.Parameters.AddWithValue("@Phone", userDigits);
-
-                        cmd.ExecuteNonQuery();
-                        MessageBox.Show($"Клиент \"{textBoxFIO.Text}\" успешно добавлен!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        cmd = new MySqlCommand(
+                            "INSERT INTO client (ClientFIO, ClientPhone) VALUES (@FIO, @Phone)", con);
                     }
-                    else if (mode == "edit")
+                    else 
                     {
-                        MySqlCommand checkCmd = new MySqlCommand("SELECT COUNT(*) FROM client WHERE ClientPhone = @Phone AND ClientId != @Id", con);
-                        checkCmd.Parameters.AddWithValue("@Phone", userDigits);
-                        checkCmd.Parameters.AddWithValue("@Id", ClientID);
-                        int existingCount = Convert.ToInt32(checkCmd.ExecuteScalar());
-
-                        if (existingCount > 0)
-                        {
-                            MessageBox.Show("Другой клиент с таким номером телефона уже существует!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            return;
-                        }
-
-                        string query = @"UPDATE client SET ClientFIO = @FIO, ClientPhone = @Phone WHERE ClientId = @Id";
-                        MySqlCommand cmd = new MySqlCommand(query, con);
-                        cmd.Parameters.AddWithValue("@FIO", textBoxFIO.Text);
-                        cmd.Parameters.AddWithValue("@Phone", userDigits);
+                        cmd = new MySqlCommand(
+                            "UPDATE client SET ClientFIO = @FIO, ClientPhone = @Phone WHERE ClientId = @Id", con);
                         cmd.Parameters.AddWithValue("@Id", ClientID);
-
-                        cmd.ExecuteNonQuery();
-                        MessageBox.Show($"Данные клиента успешно обновлены!\nФИО: \"{textBoxFIO.Text}\"", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
+
+                    cmd.Parameters.AddWithValue("@FIO", ClientFIO);
+                    cmd.Parameters.AddWithValue("@Phone", phoneDigits);
+                    cmd.ExecuteNonQuery();
+
+                    string action = mode == "add" ? "добавлен" : "обновлён";
+                    MessageBox.Show($"Клиент \"{ClientFIO}\" успешно {action}!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     this.DialogResult = DialogResult.OK;
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Ошибка при сохранении", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
