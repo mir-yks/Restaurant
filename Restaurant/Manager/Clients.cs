@@ -38,39 +38,55 @@ namespace Restaurant
 
         private void buttonUpdate_Click(object sender, EventArgs e)
         {
-            ClientsInsert ClientsInsert = new ClientsInsert("edit");
-            this.Visible = true;
+            if (dataGridView1.CurrentRow == null) return;
+
+            DataGridViewRow row = dataGridView1.CurrentRow;
+
+            ClientsInsert ClientsInsert = new ClientsInsert("edit")
+            {
+                ClientFIO = row.Cells["ФИО"].Value.ToString(),
+                ClientPhone = row.Cells["Телефон"].Value.ToString(),
+                ClientID = Convert.ToInt32(row.Cells["ID"].Value)
+            };
+
             ClientsInsert.ShowDialog();
-            this.Visible = true;
+            LoadClients();
         }
 
         private void buttonNew_Click(object sender, EventArgs e)
         {
             ClientsInsert ClientsInsert = new ClientsInsert("add");
-            this.Visible = true;
             ClientsInsert.ShowDialog();
-            this.Visible = true;
+            LoadClients();
         }
 
         private void Clients_Load(object sender, EventArgs e)
         {
+            LoadClients();
+        }
+
+        private void LoadClients()
+        {
             try
             {
-                MySqlConnection con = new MySqlConnection(connStr.ConnectionString);
-                con.Open();
-                MySqlCommand cmd = new MySqlCommand(@"SELECT 
+                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                {
+                    con.Open();
+                    MySqlCommand cmd = new MySqlCommand(@"SELECT 
+                                                        ClientId AS 'ID',
                                                         ClientFIO AS 'ФИО',
                                                         ClientPhone AS 'Телефон'
                                                     FROM client;", con);
-                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-                clientTable = new DataTable();
-                da.Fill(clientTable);
-                dataGridView1.DataSource = clientTable;
+                    MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                    clientTable = new DataTable();
+                    da.Fill(clientTable);
+                    dataGridView1.DataSource = clientTable;
 
-                labelTotal.Text = $"Всего: {clientTable.Rows.Count}";
+                    if (dataGridView1.Columns.Contains("ID"))
+                        dataGridView1.Columns["ID"].Visible = false;
 
-                MySqlCommand client = new MySqlCommand("SELECT ClientFIO FROM client;", con);
-                MySqlDataReader reader = client.ExecuteReader();
+                    labelTotal.Text = $"Всего: {clientTable.Rows.Count}";
+                }
             }
             catch (Exception ex)
             {
@@ -211,11 +227,35 @@ namespace Restaurant
 
         private void buttonDelete_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("Вы действительно хотите удалить запись?", "Удаление записи", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            if (result == DialogResult.Yes)
+            if (dataGridView1.CurrentRow == null)
             {
+                MessageBox.Show("Выберите клиента для удаления!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
+            int selectedClientId = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID"].Value);
+            string clientFIO = dataGridView1.CurrentRow.Cells["ФИО"].Value.ToString();
+
+            DialogResult result = MessageBox.Show($"Вы действительно хотите удалить клиента \"{clientFIO}\"?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result != DialogResult.Yes) return;
+
+            try
+            {
+                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                {
+                    con.Open();
+                    MySqlCommand cmd = new MySqlCommand("DELETE FROM client WHERE ClientId = @id", con);
+                    cmd.Parameters.AddWithValue("@id", selectedClientId);
+                    cmd.ExecuteNonQuery();
+
+                    MessageBox.Show($"Клиент \"{clientFIO}\" успешно удалён!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadClients();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка удаления", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

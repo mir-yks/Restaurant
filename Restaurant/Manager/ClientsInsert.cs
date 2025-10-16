@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,6 +14,7 @@ namespace Restaurant
     public partial class ClientsInsert : Form
     {
         private string mode;
+        public int ClientID { get; set; }
         public ClientsInsert(string mode)
         {
             InitializeComponent();
@@ -81,11 +83,86 @@ namespace Restaurant
 
         private void buttonWrite_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("Вы действительно хотите сохранить запись?", "Подтверждение записи", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            if (result == DialogResult.Yes)
+            if (string.IsNullOrWhiteSpace(textBoxFIO.Text))
             {
+                MessageBox.Show("Введите ФИО клиента!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                textBoxFIO.Focus();
+                return;
+            }
 
+            if (string.IsNullOrWhiteSpace(maskedTextBoxPhone.Text.Replace(" ", "").Replace("(", "").Replace(")", "").Replace("-", "")))
+            {
+                MessageBox.Show("Введите номер телефона!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                maskedTextBoxPhone.Focus();
+                return;
+            }
+
+            DialogResult result = MessageBox.Show(
+                "Вы действительно хотите сохранить запись?",
+                "Подтверждение записи",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (result != DialogResult.Yes) return;
+
+            try
+            {
+                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                {
+                    con.Open();
+
+                    string userDigits = new string(maskedTextBoxPhone.Text.Where(char.IsDigit).ToArray());
+
+                    if (mode == "add")
+                    {
+                        // Проверяем, существует ли уже клиент с таким телефоном
+                        MySqlCommand checkCmd = new MySqlCommand("SELECT COUNT(*) FROM client WHERE ClientPhone = @Phone", con);
+                        checkCmd.Parameters.AddWithValue("@Phone", userDigits);
+                        int existingCount = Convert.ToInt32(checkCmd.ExecuteScalar());
+
+                        if (existingCount > 0)
+                        {
+                            MessageBox.Show("Клиент с таким номером телефона уже существует!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+
+                        string query = @"INSERT INTO client (ClientFIO, ClientPhone) VALUES (@FIO, @Phone)";
+                        MySqlCommand cmd = new MySqlCommand(query, con);
+                        cmd.Parameters.AddWithValue("@FIO", textBoxFIO.Text);
+                        cmd.Parameters.AddWithValue("@Phone", userDigits);
+
+                        cmd.ExecuteNonQuery();
+                        MessageBox.Show($"Клиент \"{textBoxFIO.Text}\" успешно добавлен!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else if (mode == "edit")
+                    {
+                        MySqlCommand checkCmd = new MySqlCommand("SELECT COUNT(*) FROM client WHERE ClientPhone = @Phone AND ClientId != @Id", con);
+                        checkCmd.Parameters.AddWithValue("@Phone", userDigits);
+                        checkCmd.Parameters.AddWithValue("@Id", ClientID);
+                        int existingCount = Convert.ToInt32(checkCmd.ExecuteScalar());
+
+                        if (existingCount > 0)
+                        {
+                            MessageBox.Show("Другой клиент с таким номером телефона уже существует!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+
+                        string query = @"UPDATE client SET ClientFIO = @FIO, ClientPhone = @Phone WHERE ClientId = @Id";
+                        MySqlCommand cmd = new MySqlCommand(query, con);
+                        cmd.Parameters.AddWithValue("@FIO", textBoxFIO.Text);
+                        cmd.Parameters.AddWithValue("@Phone", userDigits);
+                        cmd.Parameters.AddWithValue("@Id", ClientID);
+
+                        cmd.ExecuteNonQuery();
+                        MessageBox.Show($"Данные клиента успешно обновлены!\nФИО: \"{textBoxFIO.Text}\"", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+
+                    this.DialogResult = DialogResult.OK;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
