@@ -14,10 +14,12 @@ namespace Restaurant
     public partial class OrderItem : Form
     {
         private int roleId;
-        public OrderItem(int role)
+        private int orderId;
+        public OrderItem(int role, int orderId)
         {
             InitializeComponent();
             roleId = role;
+            this.orderId = orderId;
             ConfigureButtons();
 
             buttonBack.Font = Fonts.MontserratAlternatesBold(12f);
@@ -43,20 +45,29 @@ namespace Restaurant
         {
             try
             {
-                MySqlConnection con = new MySqlConnection(connStr.ConnectionString);
-                con.Open();
-                MySqlCommand cmd = new MySqlCommand(@"SELECT 
-                                                        o.OrderId AS 'Номер заказа',
-                                                        m.DishName AS 'Блюдо',
-                                                        i.DishCount AS 'Количество'
-                                                    FROM OrderItems i
-                                                    JOIN `Order` o ON i.OrderId = o.OrderId
-                                                    LEFT JOIN MenuDish m ON i.DishId = m.DishId;", con);
-                DataTable t = new DataTable();
-                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-                da.Fill(t);
-                dataGridView1.DataSource = t;
-                con.Close();
+                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                {
+                    con.Open();
+                    MySqlCommand cmd = new MySqlCommand(@"
+                    SELECT 
+                        o.OrderId AS 'Номер заказа',
+                        m.DishName AS 'Блюдо',
+                        i.DishCount AS 'Количество'
+                    FROM OrderItems i
+                    JOIN `Order` o ON i.OrderId = o.OrderId
+                    LEFT JOIN MenuDish m ON i.DishId = m.DishId
+                    WHERE o.OrderId = @OrderId;", con);
+
+                    cmd.Parameters.AddWithValue("@OrderId", orderId);
+
+                    DataTable t = new DataTable();
+                    MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                    da.Fill(t);
+                    dataGridView1.DataSource = t;
+
+                    if (dataGridView1.Columns.Contains("Номер заказа"))
+                        dataGridView1.Columns["Номер заказа"].Visible = false;
+                }
             }
             catch (Exception ex)
             {

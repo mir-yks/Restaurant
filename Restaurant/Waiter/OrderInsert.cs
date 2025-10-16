@@ -45,10 +45,6 @@ namespace Restaurant
 
         private void buttonOrderItem_Click(object sender, EventArgs e)
         {
-            OrderItem OrderItem = new OrderItem(1);
-            this.Visible = false;
-            OrderItem.ShowDialog();
-            this.Visible = true;
         }
     }
 }

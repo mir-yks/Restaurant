@@ -14,6 +14,7 @@ namespace Restaurant
     public partial class Order : Form
     {
         private int roleId;
+
         private DataTable orderTable;
         public Order(int role)
         {
@@ -39,32 +40,24 @@ namespace Restaurant
 
             buttonUpdate.Enabled = false;
             buttonDelete.Enabled = false;
+            buttonOrderItem.Enabled = false;
         }
 
         private void ConfigureButtons()
         {
             buttonReport.Visible = false;
-            buttonOrderItem.Visible = false;
             buttonNew.Visible = false;
             buttonUpdate.Visible = false;
             buttonCheck.Visible = false;
             buttonDelete.Visible = false;
+            buttonOrderItem.Visible = true;
             buttonBack.Visible = true;
 
-            if (roleId == 1)
+            if (roleId == 2)
             {
                 buttonReport.Visible = true;
-                buttonOrderItem.Visible = true;
-                buttonNew.Visible = true;
-                buttonUpdate.Visible = true;
-                buttonCheck.Visible = true;
-            }
-            else if (roleId == 2)
-            {
-                buttonReport.Visible = true;
-                buttonOrderItem.Visible = true;
-                buttonOrderItem.Location = new System.Drawing.Point(673, 533);
                 buttonReport.Location = new System.Drawing.Point(552, 533);
+                buttonOrderItem.Location = new System.Drawing.Point(673, 533);
             }
             else if (roleId == 3)
             {
@@ -72,7 +65,7 @@ namespace Restaurant
                 buttonUpdate.Visible = true;
                 buttonCheck.Visible = true;
                 buttonDelete.Visible = true;
-                buttonCheck.Location = new System.Drawing.Point(421, 533);
+                buttonOrderItem.Location = new System.Drawing.Point(431, 533);
                 buttonDelete.Location = new System.Drawing.Point(673, 472);
             }
         }
@@ -95,9 +88,17 @@ namespace Restaurant
 
         private void buttonOrderItem_Click(object sender, EventArgs e)
         {
-            OrderItem OrderItem = new OrderItem(roleId);
+            if (dataGridView1.CurrentRow == null)
+            {
+                MessageBox.Show("Выберите заказ для просмотра состава!", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            int selectedOrderId = Convert.ToInt32(dataGridView1.CurrentRow.Cells["Номер заказа"].Value);
+            OrderItem orderItemForm = new OrderItem(roleId, selectedOrderId);
+
             this.Visible = false;
-            OrderItem.ShowDialog();
+            orderItemForm.ShowDialog();
             this.Visible = true;
         }
 
@@ -310,6 +311,7 @@ namespace Restaurant
             {
                 buttonUpdate.Enabled = true;
                 buttonDelete.Enabled = true;
+                buttonOrderItem.Enabled = true;
             }
         }
     }
