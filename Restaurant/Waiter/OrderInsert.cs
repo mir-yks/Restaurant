@@ -33,8 +33,6 @@ namespace Restaurant
             buttonOrderItem.Font = Fonts.MontserratAlternatesBold(12f);
             dateTimePickerOder.Font = Fonts.MontserratAlternatesRegular(12f);
 
-            dateTimePickerOder.MaxDate = DateTime.Today;
-            dateTimePickerOder.MinDate = DateTime.Today.AddMonths(-3);
         }
 
 

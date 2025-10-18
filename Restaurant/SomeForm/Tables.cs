@@ -28,18 +28,10 @@ namespace Restaurant
             buttonUpdate.Font = Fonts.MontserratAlternatesBold(12f);
             buttonDelete.Font = Fonts.MontserratAlternatesBold(12f);
             dataGridView1.Font = Fonts.MontserratAlternatesRegular(12f);
-
-            buttonUpdate.Enabled = false;
-            buttonDelete.Enabled = false;
         }
 
         private void ConfigureButtons()
         {
-            buttonNew.Visible = false;
-            buttonUpdate.Visible = false;
-            buttonDelete.Visible = false;
-            buttonBack.Visible = true;
-
             if (roleId == 1)
             {
                 buttonNew.Visible = true;

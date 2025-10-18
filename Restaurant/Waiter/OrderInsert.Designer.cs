@@ -81,6 +81,7 @@
             this.dateTimePickerOder.CalendarForeColor = System.Drawing.Color.White;
             this.dateTimePickerOder.CalendarMonthBackground = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
             this.dateTimePickerOder.CalendarTitleBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.dateTimePickerOder.Enabled = false;
             this.dateTimePickerOder.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.dateTimePickerOder.Location = new System.Drawing.Point(313, 166);
             this.dateTimePickerOder.Name = "dateTimePickerOder";

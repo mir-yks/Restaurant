@@ -47,6 +47,7 @@
             this.buttonWrite.TabIndex = 7;
             this.buttonWrite.Text = "Записать";
             this.buttonWrite.UseVisualStyleBackColor = false;
+            this.buttonWrite.Visible = false;
             this.buttonWrite.Click += new System.EventHandler(this.buttonWrite_Click);
             // 
             // buttonBack

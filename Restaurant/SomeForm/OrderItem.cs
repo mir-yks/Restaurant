@@ -28,8 +28,6 @@ namespace Restaurant
         }
         private void ConfigureButtons()
         {
-            buttonWrite.Visible = false;
-            buttonBack.Visible = true;
 
             if (roleId == 3)
             {

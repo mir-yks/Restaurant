@@ -37,18 +37,6 @@ namespace Restaurant
         }
         private void ConfigureByRole()
         {
-            buttonMenu.Visible = false;
-            buttonOrders.Visible = false;
-            buttonTables.Visible = false;
-            buttonWorkers.Visible = false;
-            buttonClients.Visible = false;
-            buttonCategory.Visible = false;
-            buttonOffers.Visible = false;
-            buttonRoles.Visible = false;
-            buttonBooking.Visible = false;
-
-            buttonExit.Visible = true;
-
             if (currentRole == 1) 
             {
                 buttonTables.Visible = true;

@@ -72,6 +72,7 @@
             this.buttonWorkers.TabIndex = 9;
             this.buttonWorkers.Text = "Сотрудники";
             this.buttonWorkers.UseVisualStyleBackColor = false;
+            this.buttonWorkers.Visible = false;
             this.buttonWorkers.Click += new System.EventHandler(this.buttonWorkers_Click);
             // 
             // buttonTables
@@ -87,6 +88,7 @@
             this.buttonTables.TabIndex = 10;
             this.buttonTables.Text = "Столы";
             this.buttonTables.UseVisualStyleBackColor = false;
+            this.buttonTables.Visible = false;
             this.buttonTables.Click += new System.EventHandler(this.buttonTables_Click);
             // 
             // buttonOrders
@@ -102,6 +104,7 @@
             this.buttonOrders.TabIndex = 11;
             this.buttonOrders.Text = "Заказы";
             this.buttonOrders.UseVisualStyleBackColor = false;
+            this.buttonOrders.Visible = false;
             this.buttonOrders.Click += new System.EventHandler(this.buttonOrders_Click);
             // 
             // buttonMenu
@@ -117,6 +120,7 @@
             this.buttonMenu.TabIndex = 12;
             this.buttonMenu.Text = "Меню";
             this.buttonMenu.UseVisualStyleBackColor = false;
+            this.buttonMenu.Visible = false;
             this.buttonMenu.Click += new System.EventHandler(this.buttonMenu_Click);
             // 
             // buttonCategory
@@ -132,6 +136,7 @@
             this.buttonCategory.TabIndex = 8;
             this.buttonCategory.Text = "Категории блюд";
             this.buttonCategory.UseVisualStyleBackColor = false;
+            this.buttonCategory.Visible = false;
             this.buttonCategory.Click += new System.EventHandler(this.buttonCategory_Click);
             // 
             // buttonOffers
@@ -147,6 +152,7 @@
             this.buttonOffers.TabIndex = 8;
             this.buttonOffers.Text = "Предложения";
             this.buttonOffers.UseVisualStyleBackColor = false;
+            this.buttonOffers.Visible = false;
             this.buttonOffers.Click += new System.EventHandler(this.buttonOffers_Click);
             // 
             // buttonRoles
@@ -162,6 +168,7 @@
             this.buttonRoles.TabIndex = 8;
             this.buttonRoles.Text = "Роли";
             this.buttonRoles.UseVisualStyleBackColor = false;
+            this.buttonRoles.Visible = false;
             this.buttonRoles.Click += new System.EventHandler(this.buttonRoles_Click);
             // 
             // labelWelcome
@@ -202,6 +209,7 @@
             this.buttonClients.TabIndex = 9;
             this.buttonClients.Text = "Клиенты";
             this.buttonClients.UseVisualStyleBackColor = false;
+            this.buttonClients.Visible = false;
             this.buttonClients.Click += new System.EventHandler(this.buttonClients_Click);
             // 
             // buttonBooking
@@ -217,6 +225,7 @@
             this.buttonBooking.TabIndex = 8;
             this.buttonBooking.Text = "Бронь столиков";
             this.buttonBooking.UseVisualStyleBackColor = false;
+            this.buttonBooking.Visible = false;
             this.buttonBooking.Click += new System.EventHandler(this.buttonBooking_Click);
             // 
             // pictureBox2

@@ -177,6 +177,7 @@
             this.buttonReport.TabIndex = 44;
             this.buttonReport.Text = "Отчёт по выручке";
             this.buttonReport.UseVisualStyleBackColor = false;
+            this.buttonReport.Visible = false;
             this.buttonReport.Click += new System.EventHandler(this.buttonReport_Click);
             // 
             // buttonBack
@@ -223,6 +224,7 @@
             this.buttonNew.TabIndex = 44;
             this.buttonNew.Text = "Добавить";
             this.buttonNew.UseVisualStyleBackColor = false;
+            this.buttonNew.Visible = false;
             this.buttonNew.Click += new System.EventHandler(this.buttonNew_Click);
             // 
             // buttonUpdate
@@ -238,6 +240,7 @@
             this.buttonUpdate.TabIndex = 44;
             this.buttonUpdate.Text = "Изменить";
             this.buttonUpdate.UseVisualStyleBackColor = false;
+            this.buttonUpdate.Visible = false;
             this.buttonUpdate.Click += new System.EventHandler(this.buttonUpdate_Click);
             // 
             // buttonCheck
@@ -253,6 +256,7 @@
             this.buttonCheck.TabIndex = 54;
             this.buttonCheck.Text = "Оформить чек";
             this.buttonCheck.UseVisualStyleBackColor = false;
+            this.buttonCheck.Visible = false;
             // 
             // buttonClearFilters
             // 
@@ -282,6 +286,7 @@
             this.buttonDelete.TabIndex = 44;
             this.buttonDelete.Text = "Удалить";
             this.buttonDelete.UseVisualStyleBackColor = false;
+            this.buttonDelete.Visible = false;
             this.buttonDelete.Click += new System.EventHandler(this.buttonDelete_Click);
             // 
             // Order
