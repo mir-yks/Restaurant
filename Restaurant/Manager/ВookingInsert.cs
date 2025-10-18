@@ -27,6 +27,9 @@ namespace Restaurant
             buttonBack.Font = Fonts.MontserratAlternatesBold(12f);
             buttonArrange.Font = Fonts.MontserratAlternatesBold(12f);
 
+            dateTimePickerBooking.MinDate = DateTime.Today;
+            dateTimePickerBooking.MaxDate = DateTime.Today.AddDays(+14);
+
             LoadClients();
             SetupDatePicker();
             ApplyMode();

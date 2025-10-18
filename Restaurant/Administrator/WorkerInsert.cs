@@ -44,6 +44,10 @@ namespace Restaurant
             buttonBack.Font = Fonts.MontserratAlternatesBold(12f);
             buttonWrite.Font = Fonts.MontserratAlternatesBold(12f);
 
+            dateTimePickerBirthday.MaxDate = DateTime.Today.AddYears(-16);
+            dateTimePickerBirthday.MinDate = DateTime.Today.AddYears(-70);
+            dateTimePickerEmployment.MaxDate = DateTime.Today;
+
             LoadRoles();
             ApplyMode();
         }
@@ -112,7 +116,6 @@ namespace Restaurant
                     textBoxEmail.Text = "";
                     textBoxAddress.Text = "";
                     comboBoxRole.SelectedIndex = 0;
-                    dateTimePickerBirthday.Value = DateTime.Today;
                     dateTimePickerEmployment.Value = DateTime.Today;
 
                     buttonWrite.Visible = true; 

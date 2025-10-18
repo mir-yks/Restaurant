@@ -24,6 +24,11 @@ namespace Restaurant
             dateTimePickerPo.Font = Fonts.MontserratAlternatesRegular(12f);
             buttonBack.Font = Fonts.MontserratAlternatesBold(12f);
             buttonCreate.Font = Fonts.MontserratAlternatesBold(12f);
+
+            dateTimePickerS.MaxDate = DateTime.Today;
+            dateTimePickerS.MinDate = DateTime.Today.AddYears(-100);
+            dateTimePickerPo.MaxDate = DateTime.Today;
+            dateTimePickerPo.MinDate = DateTime.Today.AddYears(-100);
         }
 
         private void buttonBack_Click(object sender, EventArgs e)
