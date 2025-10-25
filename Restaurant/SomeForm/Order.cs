@@ -13,13 +13,15 @@ namespace Restaurant
 {
     public partial class Order : Form
     {
+        private int currentWorkerId;
         private int roleId;
-
         private DataTable orderTable;
-        public Order(int role)
+
+        public Order(int role, int currentWorkerId = 0)
         {
-            InitializeComponent(); 
+            InitializeComponent();
             roleId = role;
+            this.currentWorkerId = currentWorkerId;
             ConfigureButtons();
 
             labelOrder.Font = Fonts.MontserratAlternatesRegular(14f);
@@ -60,19 +62,36 @@ namespace Restaurant
 
         private void buttonNew_Click(object sender, EventArgs e)
         {
-            OrderInsert OrderInsert = new OrderInsert();
-            this.Visible = true;
+            OrderInsert OrderInsert = new OrderInsert("add", currentWorkerId);
             OrderInsert.ShowDialog();
-            this.Visible = true;
+            LoadOrders();
         }
 
         private void buttonUpdate_Click(object sender, EventArgs e)
         {
-            OrderInsert OrderInsert = new OrderInsert();
-            this.Visible = true;
+            if (dataGridView1.CurrentRow == null)
+            {
+                MessageBox.Show("Выберите заказ для редактирования!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DataGridViewRow row = dataGridView1.CurrentRow;
+
+            OrderInsert OrderInsert = new OrderInsert("edit")
+            {
+                OrderID = Convert.ToInt32(row.Cells["ID"].Value),
+                WorkerName = row.Cells["Сотрудник"].Value.ToString(),
+                ClientName = row.Cells["Клиент"].Value.ToString(),
+                TableNumber = row.Cells["Номер столика"].Value?.ToString() ?? "",
+                OrderDate = Convert.ToDateTime(row.Cells["Дата заказа"].Value),
+                OrderStatus = row.Cells["Статус заказа"].Value.ToString(),
+                OrderStatusPayment = row.Cells["Статус оплаты заказа"].Value.ToString()
+            };
+
             OrderInsert.ShowDialog();
-            this.Visible = true;
+            LoadOrders();
         }
+
 
         private void buttonOrderItem_Click(object sender, EventArgs e)
         {
@@ -85,26 +104,54 @@ namespace Restaurant
             int selectedOrderId = Convert.ToInt32(dataGridView1.CurrentRow.Cells["Номер заказа"].Value);
             OrderItem orderItemForm = new OrderItem(roleId, selectedOrderId);
 
-            this.Visible = false;
-            orderItemForm.ShowDialog();
-            this.Visible = true;
+            if (orderItemForm.ShowDialog() == DialogResult.OK)
+            {
+                LoadOrders(); 
+            }
         }
 
         private void buttonReport_Click(object sender, EventArgs e)
         {
             Revenue Revenue = new Revenue();
-            this.Visible = true;
             Revenue.ShowDialog();
-            this.Visible = true;
         }
 
         private void buttonDelete_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("Вы действительно хотите удалить запись?", "Удаление записи", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            if (result == DialogResult.Yes)
+            if (dataGridView1.CurrentRow == null)
             {
+                MessageBox.Show("Выберите заказ для удаления!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
+            int selectedOrderId = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID"].Value);
+            string orderNumber = dataGridView1.CurrentRow.Cells["Номер заказа"].Value.ToString();
+
+            DialogResult result = MessageBox.Show($"Вы действительно хотите удалить заказ №{orderNumber}?", "Удаление записи", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result != DialogResult.Yes) return;
+
+            try
+            {
+                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                {
+                    con.Open();
+
+                    MySqlCommand deleteOrderItemsCmd = new MySqlCommand("DELETE FROM OrderItems WHERE OrderId = @id", con);
+                    deleteOrderItemsCmd.Parameters.AddWithValue("@id", selectedOrderId);
+                    deleteOrderItemsCmd.ExecuteNonQuery();
+
+                    MySqlCommand cmd = new MySqlCommand("DELETE FROM `Order` WHERE OrderId = @id", con);
+                    cmd.Parameters.AddWithValue("@id", selectedOrderId);
+                    cmd.ExecuteNonQuery();
+
+                    MessageBox.Show($"Заказ №{orderNumber} успешно удалён!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadOrders();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при удалении: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -115,11 +162,18 @@ namespace Restaurant
 
         private void Order_Load(object sender, EventArgs e)
         {
+            LoadOrders();
+        }
+
+        private void LoadOrders()
+        {
             try
             {
-                MySqlConnection con = new MySqlConnection(connStr.ConnectionString);
-                con.Open();
-                MySqlCommand cmd = new MySqlCommand(@"SELECT 
+                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                {
+                    con.Open();
+                    MySqlCommand cmd = new MySqlCommand(@"SELECT 
+                                                        o.OrderId AS 'ID',
                                                         o.OrderId AS 'Номер заказа',
                                                         w.WorkerFIO AS 'Сотрудник',
                                                         c.ClientFIO AS 'Клиент',
@@ -132,39 +186,39 @@ namespace Restaurant
                                                     JOIN Worker w ON o.WorkerId = w.WorkerId
                                                     LEFT JOIN Client c ON o.ClientId = c.ClientId
                                                     LEFT JOIN Tables t ON o.TableId = t.TablesId;", con);
-                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-                orderTable = new DataTable();
-                da.Fill(orderTable);
-                dataGridView1.DataSource = orderTable;
+                    MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                    orderTable = new DataTable();
+                    da.Fill(orderTable);
+                    dataGridView1.DataSource = orderTable;
 
-                labelTotal.Text = $"Всего: {orderTable.Rows.Count}";
+                    if (dataGridView1.Columns.Contains("ID"))
+                        dataGridView1.Columns["ID"].Visible = false;
 
-                MySqlCommand cmdCategories = new MySqlCommand("SELECT CategoryDishName FROM CategoryDish;", con);
-                MySqlDataReader reader = cmdCategories.ExecuteReader();
+                    labelTotal.Text = $"Всего: {orderTable.Rows.Count}";
 
-                comboBoxStatus.Items.Clear();
-                comboBoxStatus.Items.Add("");
-                comboBoxStatus.Items.Add("Принят");
-                comboBoxStatus.Items.Add("В обработке");
-                comboBoxStatus.Items.Add("На кухне");
-                comboBoxStatus.Items.Add("Готов");
+                    comboBoxStatus.Items.Clear();
+                    comboBoxStatus.Items.Add("");
+                    comboBoxStatus.Items.Add("Принят");
+                    comboBoxStatus.Items.Add("В обработке");
+                    comboBoxStatus.Items.Add("На кухне");
+                    comboBoxStatus.Items.Add("Готов");
+                    comboBoxStatus.Items.Add("Оплачен");
+                    comboBoxStatus.Items.Add("Не оплачен");
+                    comboBoxStatus.SelectedIndex = 0;
 
-                comboBoxStatus.Items.Add("Оплачен");
-                comboBoxStatus.Items.Add("Не оплачен");
-                comboBoxStatus.SelectedIndex = 0;
-
-
-                comboBoxSum.Items.Clear();
-                comboBoxSum.Items.Add("");
-                comboBoxSum.Items.Add("По возрастанию");
-                comboBoxSum.Items.Add("По убыванию");
-                comboBoxSum.SelectedIndex = 0;
+                    comboBoxSum.Items.Clear();
+                    comboBoxSum.Items.Add("");
+                    comboBoxSum.Items.Add("По возрастанию");
+                    comboBoxSum.Items.Add("По убыванию");
+                    comboBoxSum.SelectedIndex = 0;
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message.ToString(), "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
         private void comboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             ApplyFilters();
@@ -172,55 +226,6 @@ namespace Restaurant
 
         private void textBoxOrder_TextChanged(object sender, EventArgs e)
         {
-            int cursorPos = textBoxOrder.SelectionStart;
-
-            string input = textBoxOrder.Text;
-            bool showSpaceWarning = false;
-            bool showDashWarning = false;
-
-            int spaceCount = input.Count(c => c == ' ');
-            if (spaceCount > 2)
-            {
-                int lastSpace = input.LastIndexOf(' ');
-                input = input.Remove(lastSpace, 1);
-                showSpaceWarning = true;
-            }
-
-            int dashCount = input.Count(c => c == '-');
-            if (dashCount > 1)
-            {
-                int lastDash = input.LastIndexOf('-');
-                input = input.Remove(lastDash, 1);
-                showDashWarning = true;
-            }
-
-            string[] parts = input
-                .Split(new char[] { ' ', '-' }, StringSplitOptions.RemoveEmptyEntries)
-                .Select(p => char.ToUpper(p[0]) + p.Substring(1).ToLower())
-                .ToArray();
-
-            string formatted = input;
-            int index = 0;
-            foreach (string part in parts)
-            {
-                int pos = formatted.IndexOf(part, index, StringComparison.OrdinalIgnoreCase);
-                if (pos >= 0)
-                {
-                    formatted = formatted.Remove(pos, part.Length).Insert(pos, part);
-                    index = pos + part.Length;
-                }
-            }
-
-            textBoxOrder.TextChanged -= textBoxOrder_TextChanged;
-            textBoxOrder.Text = formatted;
-            textBoxOrder.SelectionStart = Math.Min(cursorPos, textBoxOrder.Text.Length);
-            textBoxOrder.TextChanged += textBoxOrder_TextChanged;
-
-            if (showSpaceWarning)
-                InputTooltipHelper.Show(textBoxOrder, "Можно использовать не более двух пробелов.");
-            if (showDashWarning)
-                InputTooltipHelper.Show(textBoxOrder, "Можно использовать только одно тире.");
-
             ApplyFilters();
         }
 
@@ -300,7 +305,13 @@ namespace Restaurant
                 buttonUpdate.Enabled = true;
                 buttonDelete.Enabled = true;
                 buttonOrderItem.Enabled = true;
+                buttonCheck.Enabled = true;
             }
+        }
+
+        private void buttonCheck_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

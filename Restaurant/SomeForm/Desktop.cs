@@ -139,7 +139,7 @@ namespace Restaurant
 
         private void buttonOrders_Click(object sender, EventArgs e)
         {
-            Order Orders = new Order(currentRole);
+            Order Orders = new Order(currentRole, currentUserID);
             this.Visible = false;
             Orders.ShowDialog();
             this.Visible = true;
