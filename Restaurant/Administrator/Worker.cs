@@ -233,19 +233,60 @@ namespace Restaurant
 
                 if (phone.Length == 11 && phone.StartsWith("7"))
                 {
-                    string visiblePart = phone.Substring(0, 4);
-                    string hiddenPart = new string('*', phone.Length - 4);
-                    string maskedPhone = visiblePart + hiddenPart;
+                    string visiblePart = phone.Substring(0, 1); 
+                    string hiddenPart = new string('*', 70);
 
-                    e.Value = $"+{maskedPhone[0]}({maskedPhone.Substring(1, 3)}) {maskedPhone.Substring(4, 3)}-{maskedPhone.Substring(7, 2)}-{maskedPhone.Substring(9, 2)}";
+                    e.Value = $"+{visiblePart}(***) ***-**-**";
+                }
+                else
+                {
+                    string visiblePart = text.Length > 3 ? text.Substring(0, 3) : text;
+                    string hiddenPart = new string('*', 70);
+                    e.Value = visiblePart + hiddenPart;
                 }
             }
-            else
+            else if (columnName == "Email")
             {
-                if (text.Length > 4)
+                string visiblePart = text.Length > 3 ? text.Substring(0, 3) : text;
+                string hiddenPart = new string('*', 70);
+                e.Value = visiblePart + hiddenPart;
+            }
+            else if (columnName == "ФИО")
+            {
+                string visiblePart = text.Length > 3 ? text.Substring(0, 3) : text;
+                string hiddenPart = new string('*', 70);
+                e.Value = visiblePart + hiddenPart;
+            }
+            else if (columnName == "Логин")
+            {
+                string visiblePart = text.Length > 3 ? text.Substring(0, 3) : text;
+                string hiddenPart = new string('*', 70);
+                e.Value = visiblePart + hiddenPart;
+            }
+            else if (columnName == "Адрес")
+            {
+                string visiblePart = text.Length > 3 ? text.Substring(0, 3) : text;
+                string hiddenPart = new string('*', 70);
+                e.Value = visiblePart + hiddenPart;
+            }
+            else if (columnName == "Роль")
+            {
+                string visiblePart = text.Length > 3 ? text.Substring(0, 3) : text;
+                string hiddenPart = new string('*', 70);
+                e.Value = visiblePart + hiddenPart;
+            }
+            else if (columnName == "Дата рождения" || columnName == "Дата найма")
+            {
+                if (DateTime.TryParse(text, out DateTime date))
                 {
-                    string visiblePart = text.Substring(0, 4);
-                    string hiddenPart = new string('*', text.Length - 4);
+                    string day = date.Day.ToString("00");
+                    string monthFirstDigit = date.Month < 10 ? "0" : date.Month.ToString().Substring(0, 1);
+                    e.Value = $"{day}.{monthFirstDigit}******";
+                }
+                else
+                {
+                    string visiblePart = text.Length > 6 ? text.Substring(0, 6) : text;
+                    string hiddenPart = new string('*', 70);
                     e.Value = visiblePart + hiddenPart;
                 }
             }
