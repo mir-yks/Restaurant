@@ -18,7 +18,6 @@ namespace Restaurant
         private DataTable orderItemsTable;
         private DataTable dishesTable;
         private DataTable offersTable;
-        private bool isFirstLoad = true;
 
         public OrderItem(int role, int orderId)
         {
@@ -648,12 +647,6 @@ namespace Restaurant
         {
             e.ThrowException = false;
             Console.WriteLine($"DataError: {e.Exception.Message}");
-        }
-
-        protected override void OnShown(EventArgs e)
-        {
-            base.OnShown(e);
-            this.ActiveControl = buttonBack;
         }
     }
 }

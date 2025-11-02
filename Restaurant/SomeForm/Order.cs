@@ -77,6 +77,16 @@ namespace Restaurant
 
             DataGridViewRow row = dataGridView1.CurrentRow;
 
+            string orderStatus = row.Cells["Статус заказа"].Value.ToString();
+            string paymentStatus = row.Cells["Статус оплаты заказа"].Value.ToString();
+
+            if (orderStatus == "Завершен" && paymentStatus == "Оплачен")
+            {
+                MessageBox.Show("Заказ завершен и оплачен. Редактирование невозможно!", "Информация",
+                               MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
             OrderInsert OrderInsert = new OrderInsert("edit")
             {
                 OrderID = Convert.ToInt32(row.Cells["ID"].Value),
@@ -84,14 +94,13 @@ namespace Restaurant
                 ClientName = row.Cells["Клиент"].Value.ToString(),
                 TableNumber = row.Cells["Номер столика"].Value?.ToString() ?? "",
                 OrderDate = Convert.ToDateTime(row.Cells["Дата заказа"].Value),
-                OrderStatus = row.Cells["Статус заказа"].Value.ToString(),
-                OrderStatusPayment = row.Cells["Статус оплаты заказа"].Value.ToString()
+                OrderStatus = orderStatus,
+                OrderStatusPayment = paymentStatus
             };
 
             OrderInsert.ShowDialog();
             LoadOrders();
         }
-
 
         private void buttonOrderItem_Click(object sender, EventArgs e)
         {
@@ -102,11 +111,11 @@ namespace Restaurant
             }
 
             int selectedOrderId = Convert.ToInt32(dataGridView1.CurrentRow.Cells["Номер заказа"].Value);
-            OrderItem orderItemForm = new OrderItem(roleId, selectedOrderId);
+            OrderItem orderItemForm = new OrderItem(2, selectedOrderId);
 
             if (orderItemForm.ShowDialog() == DialogResult.OK)
             {
-                LoadOrders(); 
+                LoadOrders();
             }
         }
 
@@ -202,6 +211,7 @@ namespace Restaurant
                     comboBoxStatus.Items.Add("В обработке");
                     comboBoxStatus.Items.Add("На кухне");
                     comboBoxStatus.Items.Add("Готов");
+                    comboBoxStatus.Items.Add("Завершен");
                     comboBoxStatus.Items.Add("Оплачен");
                     comboBoxStatus.Items.Add("Не оплачен");
                     comboBoxStatus.SelectedIndex = 0;

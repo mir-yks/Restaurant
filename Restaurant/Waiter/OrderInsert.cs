@@ -14,6 +14,9 @@ namespace Restaurant
     public partial class OrderInsert : Form
     {
         private string mode;
+        private bool isUpdatingStatus = false;
+        private string initialOrderStatus;
+        private string initialOrderStatusPayment;
 
         public string WorkerName
         {
@@ -99,6 +102,38 @@ namespace Restaurant
                 comboBoxStatusPayment.Enabled = true;
                 comboBoxClient.Enabled = false;
                 comboBoxTable.Enabled = false;
+
+                UpdateControlsState();
+            }
+        }
+
+        private void UpdateControlsState()
+        {
+            UpdatePaymentStatusControlState();
+            UpdateOrderStatusControlState();
+        }
+
+        private void UpdatePaymentStatusControlState()
+        {
+            if (comboBoxStatusPayment.Text == "Оплачен")
+            {
+                comboBoxStatusPayment.Enabled = false;
+            }
+            else
+            {
+                comboBoxStatusPayment.Enabled = true;
+            }
+        }
+
+        private void UpdateOrderStatusControlState()
+        {
+            if (comboBoxStatusOrder.Text == "Завершен")
+            {
+                comboBoxStatusOrder.Enabled = false;
+            }
+            else
+            {
+                comboBoxStatusOrder.Enabled = true;
             }
         }
 
@@ -159,6 +194,7 @@ namespace Restaurant
                     comboBoxStatusOrder.Items.Add("В обработке");
                     comboBoxStatusOrder.Items.Add("На кухне");
                     comboBoxStatusOrder.Items.Add("Готов");
+                    comboBoxStatusOrder.Items.Add("Завершен");
 
                     comboBoxStatusPayment.Items.Clear();
                     comboBoxStatusPayment.Items.Add("Оплачен");
@@ -202,6 +238,9 @@ namespace Restaurant
                     {
                         comboBoxWaiter.SelectedValue = reader.GetInt32("WorkerId");
 
+                        initialOrderStatus = reader.GetString("OrderStatus");
+                        initialOrderStatusPayment = reader.GetString("OrderStatusPayment");
+
                         if (!reader.IsDBNull(reader.GetOrdinal("ClientId")))
                         {
                             int clientId = reader.GetInt32("ClientId");
@@ -220,10 +259,12 @@ namespace Restaurant
                         }
 
                         dateTimePickerOrder.Value = reader.GetDateTime("OrderDate");
-                        comboBoxStatusOrder.Text = reader.GetString("OrderStatus");
-                        comboBoxStatusPayment.Text = reader.GetString("OrderStatusPayment");
+                        comboBoxStatusOrder.Text = initialOrderStatus;
+                        comboBoxStatusPayment.Text = initialOrderStatusPayment;
                     }
                     reader.Close();
+
+                    UpdateControlsState();
                 }
             }
             catch (Exception ex)
@@ -239,11 +280,20 @@ namespace Restaurant
 
         private void buttonOrderItem_Click(object sender, EventArgs e)
         {
-            if (!ValidateInput())
-                return;
-
             if (mode == "add")
             {
+                if (!ValidateInput())
+                    return;
+
+                DialogResult confirmResult = MessageBox.Show(
+                    "Вы уверены, что хотите создать новый заказ?",
+                    "Подтверждение сохранения",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (confirmResult != DialogResult.Yes)
+                    return;
+
                 if (SaveOrder())
                 {
                     OrderItem orderItemForm = new OrderItem(3, OrderID);
@@ -254,8 +304,49 @@ namespace Restaurant
             }
             else if (mode == "edit")
             {
+                bool isCompletedNow = (comboBoxStatusOrder.Text == "Завершен" && comboBoxStatusPayment.Text == "Оплачен");
+                bool wasCompletedInitially = (initialOrderStatus == "Завершен" && initialOrderStatusPayment == "Оплачен");
+
+                if (!wasCompletedInitially && isCompletedNow)
+                {
+                    if (!ValidateInput())
+                        return;
+
+                    DialogResult confirmResult = MessageBox.Show(
+                        "Вы уверены, что хотите сохранить изменения?",
+                        "Подтверждение сохранения",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question);
+
+                    if (confirmResult != DialogResult.Yes)
+                        return;
+
+                    if (SaveOrder())
+                    {
+                        MessageBox.Show($"Заказ №{OrderID} успешно обновлен!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        this.DialogResult = DialogResult.OK;
+                        this.Close();
+                    }
+                    return;
+                }
+
+                if (!ValidateInput())
+                    return;
+
+                DialogResult confirmResultOther = MessageBox.Show(
+                    "Вы уверены, что хотите сохранить изменения?",
+                    "Подтверждение сохранения",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (confirmResultOther != DialogResult.Yes)
+                    return;
+
                 if (SaveOrder())
                 {
+                    MessageBox.Show($"Заказ №{OrderID} успешно обновлен!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                     DialogResult result = MessageBox.Show(
                         "Есть изменения в составе заказа?",
                         "Состав заказа",
@@ -365,7 +456,6 @@ namespace Restaurant
                         cmd.Parameters.AddWithValue("@OrderId", OrderID);
 
                         cmd.ExecuteNonQuery();
-                        MessageBox.Show($"Заказ №{OrderID} успешно обновлен!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
 
                     return true;
@@ -376,6 +466,36 @@ namespace Restaurant
                 MessageBox.Show($"Ошибка при сохранении: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
+        }
+
+        private void comboBoxStatusPayment_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (isUpdatingStatus) return;
+
+            isUpdatingStatus = true;
+
+            if (comboBoxStatusPayment.Text == "Оплачен" && comboBoxStatusOrder.Text != "Завершен")
+            {
+                comboBoxStatusOrder.Text = "Завершен";
+            }
+
+            UpdateControlsState();
+            isUpdatingStatus = false;
+        }
+
+        private void comboBoxStatusOrder_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (isUpdatingStatus) return;
+
+            isUpdatingStatus = true;
+
+            if (comboBoxStatusOrder.Text == "Завершен" && comboBoxStatusPayment.Text != "Оплачен")
+            {
+                comboBoxStatusPayment.Text = "Оплачен";
+            }
+
+            UpdateControlsState();
+            isUpdatingStatus = false;
         }
     }
 }
