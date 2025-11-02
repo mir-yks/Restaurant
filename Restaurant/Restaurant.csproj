@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\connStr.cs" />
+    <Compile Include="Classes\DatabaseCleanup.cs" />
     <Compile Include="Classes\Fonts.cs" />
     <Compile Include="Classes\InputTooltipHelper.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

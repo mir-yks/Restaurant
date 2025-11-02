@@ -57,6 +57,7 @@ namespace Restaurant
 
         private void Booking_Load(object sender, EventArgs e)
         {
+            DatabaseCleanup.CleanExpiredBookings();
             LoadBookings();
         }
 

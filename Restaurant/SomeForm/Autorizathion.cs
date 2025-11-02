@@ -84,6 +84,8 @@ namespace Restaurant
                         return;
                     }
 
+                    DatabaseCleanup.CleanExpiredBookings();
+
                     string roleName = "";
                     switch (userRole)
                     {
