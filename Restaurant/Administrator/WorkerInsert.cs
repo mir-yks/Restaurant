@@ -213,14 +213,6 @@ namespace Restaurant
 
         private void buttonWrite_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show(
-                "Вы действительно хотите сохранить запись?",
-                "Подтверждение записи",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question);
-
-            if (result != DialogResult.Yes) return;
-
             if (string.IsNullOrWhiteSpace(textBoxFIO.Text))
             {
                 MessageBox.Show("Введите ФИО!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -246,12 +238,15 @@ namespace Restaurant
                 textBoxConfPassword.Focus();
                 return;
             }
-            if (string.IsNullOrWhiteSpace(maskedTextBoxPhone.Text))
+
+            string userDigits = new string(maskedTextBoxPhone.Text.Where(char.IsDigit).ToArray());
+            if (string.IsNullOrWhiteSpace(maskedTextBoxPhone.Text) || userDigits.Length < 11)
             {
-                MessageBox.Show("Введите телефон!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Введите полный номер телефона!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 maskedTextBoxPhone.Focus();
                 return;
             }
+
             if (string.IsNullOrWhiteSpace(textBoxEmail.Text))
             {
                 MessageBox.Show("Введите почту!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -300,7 +295,65 @@ namespace Restaurant
                 {
                     con.Open();
 
-                    string userDigits = new string(maskedTextBoxPhone.Text.Where(char.IsDigit).ToArray());
+                    string checkLoginQuery = @"SELECT COUNT(*) FROM worker WHERE WorkerLogin = @Login {0}";
+                    string checkPhoneQuery = @"SELECT COUNT(*) FROM worker WHERE WorkerPhone = @Phone {0}";
+                    string checkEmailQuery = @"SELECT COUNT(*) FROM worker WHERE WorkerEmail = @Email {0}";
+
+                    string excludeCondition = mode == "edit" ? "AND WorkerId <> @Id" : "";
+
+                    using (MySqlCommand checkLoginCmd = new MySqlCommand(string.Format(checkLoginQuery, excludeCondition), con))
+                    {
+                        checkLoginCmd.Parameters.AddWithValue("@Login", textBoxLogin.Text);
+                        if (mode == "edit")
+                            checkLoginCmd.Parameters.AddWithValue("@Id", WorkerID);
+
+                        int loginCount = Convert.ToInt32(checkLoginCmd.ExecuteScalar());
+                        if (loginCount > 0)
+                        {
+                            MessageBox.Show("Пользователь с таким логином уже существует!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            textBoxLogin.Focus();
+                            return;
+                        }
+                    }
+
+                    using (MySqlCommand checkPhoneCmd = new MySqlCommand(string.Format(checkPhoneQuery, excludeCondition), con))
+                    {
+                        checkPhoneCmd.Parameters.AddWithValue("@Phone", userDigits);
+                        if (mode == "edit")
+                            checkPhoneCmd.Parameters.AddWithValue("@Id", WorkerID);
+
+                        int phoneCount = Convert.ToInt32(checkPhoneCmd.ExecuteScalar());
+                        if (phoneCount > 0)
+                        {
+                            MessageBox.Show("Пользователь с таким номером телефона уже существует!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            maskedTextBoxPhone.Focus();
+                            return;
+                        }
+                    }
+
+                    using (MySqlCommand checkEmailCmd = new MySqlCommand(string.Format(checkEmailQuery, excludeCondition), con))
+                    {
+                        checkEmailCmd.Parameters.AddWithValue("@Email", textBoxEmail.Text);
+                        if (mode == "edit")
+                            checkEmailCmd.Parameters.AddWithValue("@Id", WorkerID);
+
+                        int emailCount = Convert.ToInt32(checkEmailCmd.ExecuteScalar());
+                        if (emailCount > 0)
+                        {
+                            MessageBox.Show("Пользователь с такой почтой уже существует!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            textBoxEmail.Focus();
+                            return;
+                        }
+                    }
+
+                    DialogResult confirmResult = MessageBox.Show(
+                        "Вы действительно хотите сохранить запись?",
+                        "Подтверждение записи",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question);
+
+                    if (confirmResult != DialogResult.Yes) return;
+
                     string hashedPassword = "";
                     if (!string.IsNullOrEmpty(textBoxPassword.Text))
                     {
@@ -311,35 +364,14 @@ namespace Restaurant
                         }
                     }
 
-                    string duplicateQuery = @"SELECT COUNT(*) FROM worker 
-                                      WHERE (WorkerLogin = @Login OR WorkerPhone = @Phone)
-                                      {0}";
-                    string excludeId = mode == "edit" ? "AND WorkerId <> @Id" : "";
-                    duplicateQuery = string.Format(duplicateQuery, excludeId);
-
-                    using (MySqlCommand checkCmd = new MySqlCommand(duplicateQuery, con))
-                    {
-                        checkCmd.Parameters.AddWithValue("@Login", textBoxLogin.Text);
-                        checkCmd.Parameters.AddWithValue("@Phone", userDigits);
-                        if (mode == "edit")
-                            checkCmd.Parameters.AddWithValue("@Id", WorkerID);
-
-                        int count = Convert.ToInt32(checkCmd.ExecuteScalar());
-                        if (count > 0)
-                        {
-                            MessageBox.Show("Пользователь с таким логином или номером телефона уже существует!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            return;
-                        }
-                    }
-
                     if (mode == "add")
                     {
                         string query = @"INSERT INTO worker 
-                    (WorkerFIO, WorkerLogin, WorkerPassword, WorkerPhone, WorkerEmail, 
-                     WorkerBirthday, WorkerDateEmployment, WorkerAddress, WorkerRole)
-                     VALUES (@FIO, @Login, @Password, @Phone, @Email, 
-                             @Birthday, @Employment, @Address, 
-                             (SELECT RoleId FROM role WHERE RoleName = @Role))";
+                (WorkerFIO, WorkerLogin, WorkerPassword, WorkerPhone, WorkerEmail, 
+                 WorkerBirthday, WorkerDateEmployment, WorkerAddress, WorkerRole)
+                 VALUES (@FIO, @Login, @Password, @Phone, @Email, 
+                         @Birthday, @Employment, @Address, 
+                         (SELECT RoleId FROM role WHERE RoleName = @Role))";
 
                         MySqlCommand cmd = new MySqlCommand(query, con);
                         cmd.Parameters.AddWithValue("@FIO", textBoxFIO.Text);
@@ -358,16 +390,16 @@ namespace Restaurant
                     else if (mode == "edit")
                     {
                         string query = @"UPDATE worker 
-                         SET WorkerFIO = @FIO,
-                             WorkerLogin = @Login,
-                             WorkerPhone = @Phone,
-                             WorkerEmail = @Email,
-                             WorkerBirthday = @Birthday,
-                             WorkerDateEmployment = @Employment,
-                             WorkerAddress = @Address,
-                             WorkerRole = (SELECT RoleId FROM role WHERE RoleName = @Role)
-                             {0}
-                         WHERE WorkerId = @Id";
+                     SET WorkerFIO = @FIO,
+                         WorkerLogin = @Login,
+                         WorkerPhone = @Phone,
+                         WorkerEmail = @Email,
+                         WorkerBirthday = @Birthday,
+                         WorkerDateEmployment = @Employment,
+                         WorkerAddress = @Address,
+                         WorkerRole = (SELECT RoleId FROM role WHERE RoleName = @Role)
+                         {0}
+                     WHERE WorkerId = @Id";
 
                         string passwordPart = !string.IsNullOrEmpty(hashedPassword) ? ", WorkerPassword = @Password" : "";
                         query = string.Format(query, passwordPart);
@@ -397,7 +429,6 @@ namespace Restaurant
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         private void textBoxFIO_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) &&

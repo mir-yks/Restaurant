@@ -161,9 +161,6 @@ namespace Restaurant
 
             string offerValue = string.IsNullOrWhiteSpace(DishOffer) ? null : DishOffer;
 
-            DialogResult confirm = MessageBox.Show("Вы действительно хотите сохранить запись?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (confirm != DialogResult.Yes) return;
-
             try
             {
                 using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
@@ -176,7 +173,7 @@ namespace Restaurant
                         checkCmd = new MySqlCommand("SELECT COUNT(*) FROM MenuDish WHERE DishName = @name", con);
                         checkCmd.Parameters.AddWithValue("@name", DishName.Trim());
                     }
-                    else 
+                    else
                     {
                         checkCmd = new MySqlCommand("SELECT COUNT(*) FROM MenuDish WHERE DishName = @name AND DishId <> @id", con);
                         checkCmd.Parameters.AddWithValue("@name", DishName.Trim());
@@ -187,20 +184,24 @@ namespace Restaurant
                     if (count > 0)
                     {
                         MessageBox.Show("Блюдо с таким названием уже существует!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        textBoxName.Focus();
                         return;
                     }
+
+                    DialogResult confirm = MessageBox.Show("Вы действительно хотите сохранить запись?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (confirm != DialogResult.Yes) return;
 
                     if (mode == "add")
                     {
                         MySqlCommand cmd = new MySqlCommand(@"
-                    INSERT INTO MenuDish (DishName, DishDescription, DishPrice, DishCategory, OffersDish)
-                    VALUES (
-                        @name,
-                        @desc,
-                        @price,
-                        (SELECT CategoryDishId FROM CategoryDish WHERE CategoryDishName = @category),
-                        (SELECT OffersDishId FROM OffersDish WHERE OffersDishName = @offer)
-                    );", con);
+            INSERT INTO MenuDish (DishName, DishDescription, DishPrice, DishCategory, OffersDish)
+            VALUES (
+                @name,
+                @desc,
+                @price,
+                (SELECT CategoryDishId FROM CategoryDish WHERE CategoryDishName = @category),
+                (SELECT OffersDishId FROM OffersDish WHERE OffersDishName = @offer)
+            );", con);
 
                         cmd.Parameters.AddWithValue("@name", DishName.Trim());
                         cmd.Parameters.AddWithValue("@desc", DishDescription.Trim());
@@ -214,14 +215,14 @@ namespace Restaurant
                     else if (mode == "edit")
                     {
                         MySqlCommand cmd = new MySqlCommand(@"
-                    UPDATE MenuDish
-                    SET 
-                        DishName = @name,
-                        DishDescription = @desc,
-                        DishPrice = @price,
-                        DishCategory = (SELECT CategoryDishId FROM CategoryDish WHERE CategoryDishName = @category),
-                        OffersDish = (SELECT OffersDishId FROM OffersDish WHERE OffersDishName = @offer)
-                    WHERE DishId = @id;", con);
+            UPDATE MenuDish
+            SET 
+                DishName = @name,
+                DishDescription = @desc,
+                DishPrice = @price,
+                DishCategory = (SELECT CategoryDishId FROM CategoryDish WHERE CategoryDishName = @category),
+                OffersDish = (SELECT OffersDishId FROM OffersDish WHERE OffersDishName = @offer)
+            WHERE DishId = @id;", con);
 
                         cmd.Parameters.AddWithValue("@name", DishName.Trim());
                         cmd.Parameters.AddWithValue("@desc", DishDescription.Trim());
@@ -242,8 +243,6 @@ namespace Restaurant
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-
         private void textBoxName_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) &&

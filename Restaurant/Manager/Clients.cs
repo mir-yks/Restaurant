@@ -190,13 +190,19 @@ namespace Restaurant
                 if (phone.Length == 11 && phone.StartsWith("7"))
                 {
                     string visiblePart = phone.Substring(0, 1);
-                    e.Value = $"+{visiblePart}(***) ***-**-**";
+                    string lastTwoDigits = phone.Length >= 2 ? phone.Substring(phone.Length - 2) : "";
+                    e.Value = $"+{visiblePart}(***) ***-**-{lastTwoDigits}";
+                }
+                else if (text.Length > 5)
+                {
+                    string visiblePart = text.Substring(0, 3);
+                    string lastTwoDigits = text.Substring(text.Length - 2);
+                    string middlePart = new string('*', text.Length - 5);
+                    e.Value = $"{visiblePart}{middlePart}{lastTwoDigits}";
                 }
                 else
                 {
-                    string visiblePart = text.Length > 3 ? text.Substring(0, 3) : text;
-                    string hiddenPart = new string('*', 70);
-                    e.Value = visiblePart + hiddenPart;
+                    e.Value = text;
                 }
             }
             else if (columnName == "ФИО")
@@ -206,8 +212,6 @@ namespace Restaurant
                 e.Value = visiblePart + hiddenPart;
             }
         }
-
-
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)

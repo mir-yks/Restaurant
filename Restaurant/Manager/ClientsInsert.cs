@@ -99,7 +99,6 @@ namespace Restaurant
 
         private void buttonWrite_Click(object sender, EventArgs e)
         {
-
             if (string.IsNullOrWhiteSpace(ClientFIO))
             {
                 MessageBox.Show("Введите ФИО клиента.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -116,20 +115,12 @@ namespace Restaurant
             }
 
             string phoneDigits = new string(maskedTextBoxPhone.Text.Where(char.IsDigit).ToArray());
-            if (string.IsNullOrWhiteSpace(phoneDigits) || phoneDigits.Length < 10)
+            if (string.IsNullOrWhiteSpace(maskedTextBoxPhone.Text) || phoneDigits.Length < 11)
             {
-                MessageBox.Show("Введите корректный номер телефона.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Введите полный номер телефона!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 maskedTextBoxPhone.Focus();
                 return;
             }
-
-            DialogResult result = MessageBox.Show(
-                "Вы действительно хотите сохранить запись?",
-                "Подтверждение записи",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question);
-
-            if (result != DialogResult.Yes) return;
 
             try
             {
@@ -151,8 +142,17 @@ namespace Restaurant
                     if (existingCount > 0)
                     {
                         MessageBox.Show("Клиент с таким номером телефона уже существует!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        maskedTextBoxPhone.Focus();
                         return;
                     }
+
+                    DialogResult result = MessageBox.Show(
+                        "Вы действительно хотите сохранить запись?",
+                        "Подтверждение записи",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question);
+
+                    if (result != DialogResult.Yes) return;
 
                     MySqlCommand cmd;
                     if (mode == "add")
@@ -160,7 +160,7 @@ namespace Restaurant
                         cmd = new MySqlCommand(
                             "INSERT INTO client (ClientFIO, ClientPhone) VALUES (@FIO, @Phone)", con);
                     }
-                    else 
+                    else
                     {
                         cmd = new MySqlCommand(
                             "UPDATE client SET ClientFIO = @FIO, ClientPhone = @Phone WHERE ClientId = @Id", con);
@@ -182,7 +182,6 @@ namespace Restaurant
                 MessageBox.Show(ex.Message, "Ошибка при сохранении", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         private void textBoxFIO_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) &&

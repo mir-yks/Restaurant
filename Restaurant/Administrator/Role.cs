@@ -44,6 +44,8 @@ namespace Restaurant
                 RoleInsert.RoleId = id;
                 RoleInsert.RoleName = name;
                 RoleInsert.ShowDialog();
+
+                LoadRoles();
             }
         }
 
