@@ -50,14 +50,29 @@ namespace Restaurant
 
         private void buttonUpdate_Click(object sender, EventArgs e)
         {
-            if (dataGridView1.CurrentRow == null) return;
+            if (dataGridView1.CurrentRow == null)
+            {
+                MessageBox.Show("Выберите столик для редактирования!", "Внимание",
+                               MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
             DataGridViewRow row = dataGridView1.CurrentRow;
+            string tableStatus = row.Cells["Статус столика"].Value?.ToString() ?? "";
+
+            if (tableStatus == "Занят")
+            {
+                MessageBox.Show("В данный момент столик занят, редактирование невозможно!\nПопробуйте позже.",
+                               "Столик занят",
+                               MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             TablesInsert TablesInsert = new TablesInsert("edit")
             {
                 TableID = Convert.ToInt32(row.Cells["Номер столика"].Value),
                 TablePlaces = Convert.ToInt32(row.Cells["Количество мест"].Value),
-                TableStatus = row.Cells["Статус столика"].Value.ToString()
+                TableStatus = tableStatus
             };
 
             TablesInsert.ShowDialog();
@@ -185,10 +200,29 @@ namespace Restaurant
 
         private void buttonDelete_Click(object sender, EventArgs e)
         {
-            if (dataGridView1.CurrentRow == null) return;
+            if (dataGridView1.CurrentRow == null)
+            {
+                MessageBox.Show("Выберите столик для удаления!", "Внимание",
+                               MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
-            int selectedTable = Convert.ToInt32(dataGridView1.CurrentRow.Cells["Номер столика"].Value);
-            DialogResult result = MessageBox.Show($"Удалить столик №{selectedTable}?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DataGridViewRow row = dataGridView1.CurrentRow;
+            string tableStatus = row.Cells["Статус столика"].Value?.ToString() ?? "";
+            int selectedTable = Convert.ToInt32(row.Cells["Номер столика"].Value);
+
+            if (tableStatus == "Занят")
+            {
+                MessageBox.Show("В данный момент столик занят, удаление невозможно!\nПопробуйте позже.",
+                               "Столик занят",
+                               MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DialogResult result = MessageBox.Show($"Удалить столик №{selectedTable}?",
+                                                "Удаление",
+                                                MessageBoxButtons.YesNo,
+                                                MessageBoxIcon.Question);
 
             if (result != DialogResult.Yes) return;
 
@@ -203,21 +237,23 @@ namespace Restaurant
 
                     if (rows > 0)
                     {
-                        MessageBox.Show($"Столик №{selectedTable} успешно удалён!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show($"Столик №{selectedTable} успешно удалён!", "Успех",
+                                      MessageBoxButtons.OK, MessageBoxIcon.Information);
                         LoadTables();
                     }
                     else
                     {
-                        MessageBox.Show("Не удалось удалить запись — возможно, столик уже удалён.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("Не удалось удалить запись — возможно, столик уже удалён.",
+                                      "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ошибка удаления", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Ошибка удаления",
+                               MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
 
         private void textBoxTable_KeyPress(object sender, KeyPressEventArgs e)
         {

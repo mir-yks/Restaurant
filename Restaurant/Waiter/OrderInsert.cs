@@ -87,13 +87,15 @@ namespace Restaurant
                 comboBoxStatusOrder.Enabled = false;
                 comboBoxStatusPayment.Enabled = false;
                 comboBoxClient.Enabled = true;
-                comboBoxTable.Enabled = true;
+                comboBoxTable.Enabled = true; 
 
                 comboBoxStatusOrder.SelectedIndex = 0;
                 comboBoxStatusPayment.SelectedIndex = 1;
 
                 comboBoxClient.SelectedIndex = -1;
                 comboBoxClient.Text = "";
+                comboBoxTable.SelectedIndex = -1;
+                comboBoxTable.Text = "";
             }
             else if (mode == "edit")
             {
@@ -101,7 +103,7 @@ namespace Restaurant
                 comboBoxStatusOrder.Enabled = true;
                 comboBoxStatusPayment.Enabled = true;
                 comboBoxClient.Enabled = false;
-                comboBoxTable.Enabled = false;
+                comboBoxTable.Enabled = false; 
 
                 UpdateControlsState();
             }
@@ -177,7 +179,17 @@ namespace Restaurant
                     comboBoxClient.DisplayMember = "Value";
                     comboBoxClient.ValueMember = "Key";
 
-                    MySqlCommand cmdTables = new MySqlCommand("SELECT TablesId FROM Tables", con);
+                    string tablesQuery;
+                    if (mode == "add")
+                    {
+                        tablesQuery = "SELECT TablesId FROM Tables WHERE TablesStatus = 'Свободен'";
+                    }
+                    else
+                    {
+                        tablesQuery = "SELECT TablesId FROM Tables";
+                    }
+
+                    MySqlCommand cmdTables = new MySqlCommand(tablesQuery, con);
                     MySqlDataAdapter daTables = new MySqlDataAdapter(cmdTables);
                     DataTable tablesTable = new DataTable();
                     daTables.Fill(tablesTable);
@@ -190,8 +202,7 @@ namespace Restaurant
                     }
 
                     comboBoxStatusOrder.Items.Clear();
-                    comboBoxStatusOrder.Items.Add("Принят");
-                    comboBoxStatusOrder.Items.Add("В обработке");
+                    comboBoxStatusOrder.Items.Add("Новый");
                     comboBoxStatusOrder.Items.Add("На кухне");
                     comboBoxStatusOrder.Items.Add("Готов");
                     comboBoxStatusOrder.Items.Add("Завершен");
@@ -208,6 +219,10 @@ namespace Restaurant
                     {
                         dateTimePickerOrder.Value = DateTime.Now;
                         comboBoxClient.SelectedIndex = 0;
+                        comboBoxStatusOrder.SelectedIndex = 0;
+                        comboBoxStatusPayment.SelectedIndex = 1;
+                        comboBoxTable.SelectedIndex = -1; 
+                        comboBoxTable.Text = "";
                     }
 
                     SetControlsState();
@@ -258,6 +273,32 @@ namespace Restaurant
                             comboBoxClient.SelectedIndex = 0;
                         }
 
+                        if (!reader.IsDBNull(reader.GetOrdinal("TableId")))
+                        {
+                            int tableId = reader.GetInt32("TableId");
+
+                            bool found = false;
+                            for (int i = 0; i < comboBoxTable.Items.Count; i++)
+                            {
+                                if (comboBoxTable.Items[i].ToString() == tableId.ToString())
+                                {
+                                    comboBoxTable.SelectedIndex = i;
+                                    found = true;
+                                    break;
+                                }
+                            }
+
+                            if (!found)
+                            {
+                                comboBoxTable.Items.Add(tableId.ToString());
+                                comboBoxTable.SelectedItem = tableId.ToString();
+                            }
+                        }
+                        else
+                        {
+                            comboBoxTable.SelectedIndex = 0;
+                        }
+
                         dateTimePickerOrder.Value = reader.GetDateTime("OrderDate");
                         comboBoxStatusOrder.Text = initialOrderStatus;
                         comboBoxStatusPayment.Text = initialOrderStatusPayment;
@@ -285,6 +326,22 @@ namespace Restaurant
                 if (!ValidateInput())
                     return;
 
+                if (string.IsNullOrEmpty(comboBoxTable.Text))
+                {
+                    MessageBox.Show("Выберите столик для создания заказа!",
+                                   "Столик не выбран",
+                                   MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    comboBoxTable.Focus();
+                    return;
+                }
+
+                if (!IsTableAvailable())
+                {
+                    MessageBox.Show("Выбранный стол уже занят! Пожалуйста, выберите другой стол.",
+                                   "Стол занят", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
                 DialogResult confirmResult = MessageBox.Show(
                     "Вы уверены, что хотите создать новый заказ?",
                     "Подтверждение сохранения",
@@ -296,6 +353,8 @@ namespace Restaurant
 
                 if (SaveOrder())
                 {
+                    UpdateTableStatus(comboBoxTable.Text, "Занят");
+
                     OrderItem orderItemForm = new OrderItem(3, OrderID);
                     this.Hide();
                     orderItemForm.ShowDialog();
@@ -378,6 +437,13 @@ namespace Restaurant
                 return false;
             }
 
+            if (mode == "add" && string.IsNullOrEmpty(comboBoxTable.Text))
+            {
+                MessageBox.Show("Выберите столик!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                comboBoxTable.Focus();
+                return false;
+            }
+
             if (mode == "edit")
             {
                 if (comboBoxStatusOrder.SelectedIndex == -1)
@@ -400,23 +466,55 @@ namespace Restaurant
 
         private bool SaveOrder()
         {
+            bool wasCompletedInitially = false;
+            bool isCompletedNow = false;
+            int? tableId = null;
+
             try
             {
                 using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
                 {
                     con.Open();
 
+                    if (!string.IsNullOrEmpty(comboBoxTable.Text))
+                    {
+                        tableId = Convert.ToInt32(comboBoxTable.Text);
+                    }
+
+                    if (mode == "edit")
+                    {
+                        MySqlCommand checkCmd = new MySqlCommand(
+                            "SELECT OrderStatus, OrderStatusPayment, TableId FROM `Order` WHERE OrderId = @OrderId",
+                            con);
+                        checkCmd.Parameters.AddWithValue("@OrderId", OrderID);
+                        using (var reader = checkCmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                wasCompletedInitially = (reader.GetString("OrderStatus") == "Завершен" &&
+                                                       reader.GetString("OrderStatusPayment") == "Оплачен");
+
+                                if (!reader.IsDBNull(reader.GetOrdinal("TableId")))
+                                {
+                                    tableId = reader.GetInt32("TableId");
+                                }
+                            }
+                        }
+
+                        isCompletedNow = (OrderStatus == "Завершен" && OrderStatusPayment == "Оплачен");
+                    }
+
                     if (mode == "add")
                     {
                         string query = @"INSERT INTO `Order` 
-                            (WorkerId, ClientId, TableId, OrderDate, OrderPrice, OrderStatus, OrderStatusPayment)
-                            VALUES (@WorkerId, @ClientId, @TableId, @OrderDate, @OrderPrice, @OrderStatus, @OrderStatusPayment);
-                            SELECT LAST_INSERT_ID();";
+                    (WorkerId, ClientId, TableId, OrderDate, OrderPrice, OrderStatus, OrderStatusPayment)
+                    VALUES (@WorkerId, @ClientId, @TableId, @OrderDate, @OrderPrice, @OrderStatus, @OrderStatusPayment);
+                    SELECT LAST_INSERT_ID();";
 
                         MySqlCommand cmd = new MySqlCommand(query, con);
                         cmd.Parameters.AddWithValue("@WorkerId", comboBoxWaiter.SelectedValue);
 
-                        object clientIdParam = string.IsNullOrEmpty(comboBoxClient.Text) ? (object)DBNull.Value : comboBoxClient.SelectedValue;
+                        object clientIdParam = string.IsNullOrEmpty(comboBoxClient.Text) ? (object)DBNull.Value : ((KeyValuePair<int, string>)comboBoxClient.SelectedItem).Key;
                         cmd.Parameters.AddWithValue("@ClientId", clientIdParam);
 
                         object tableIdParam = string.IsNullOrEmpty(comboBoxTable.Text) ? (object)DBNull.Value : Convert.ToInt32(comboBoxTable.Text);
@@ -424,27 +522,33 @@ namespace Restaurant
 
                         cmd.Parameters.AddWithValue("@OrderDate", dateTimePickerOrder.Value);
                         cmd.Parameters.AddWithValue("@OrderPrice", 0);
-                        cmd.Parameters.AddWithValue("@OrderStatus", "Принят");
+                        cmd.Parameters.AddWithValue("@OrderStatus", "Новый");
                         cmd.Parameters.AddWithValue("@OrderStatusPayment", "Не оплачен");
 
                         OrderID = Convert.ToInt32(cmd.ExecuteScalar());
+
+                        if (tableId.HasValue)
+                        {
+                            UpdateTableStatus(tableId.Value, "Занят");
+                        }
+
                         MessageBox.Show($"Заказ №{OrderID} успешно создан!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else if (mode == "edit")
                     {
                         string query = @"UPDATE `Order` 
-                            SET WorkerId = @WorkerId,
-                                ClientId = @ClientId,
-                                TableId = @TableId,
-                                OrderDate = @OrderDate,
-                                OrderStatus = @OrderStatus,
-                                OrderStatusPayment = @OrderStatusPayment
-                            WHERE OrderId = @OrderId";
+                    SET WorkerId = @WorkerId,
+                        ClientId = @ClientId,
+                        TableId = @TableId,
+                        OrderDate = @OrderDate,
+                        OrderStatus = @OrderStatus,
+                        OrderStatusPayment = @OrderStatusPayment
+                    WHERE OrderId = @OrderId";
 
                         MySqlCommand cmd = new MySqlCommand(query, con);
                         cmd.Parameters.AddWithValue("@WorkerId", comboBoxWaiter.SelectedValue);
 
-                        object clientIdParam = string.IsNullOrEmpty(comboBoxClient.Text) ? (object)DBNull.Value : comboBoxClient.SelectedValue;
+                        object clientIdParam = string.IsNullOrEmpty(comboBoxClient.Text) ? (object)DBNull.Value : ((KeyValuePair<int, string>)comboBoxClient.SelectedItem).Key;
                         cmd.Parameters.AddWithValue("@ClientId", clientIdParam);
 
                         object tableIdParam = string.IsNullOrEmpty(comboBoxTable.Text) ? (object)DBNull.Value : Convert.ToInt32(comboBoxTable.Text);
@@ -456,6 +560,22 @@ namespace Restaurant
                         cmd.Parameters.AddWithValue("@OrderId", OrderID);
 
                         cmd.ExecuteNonQuery();
+
+                        if (tableId.HasValue)
+                        {
+                            if (isCompletedNow && !wasCompletedInitially)
+                            {
+                                UpdateTableStatus(tableId.Value, "Свободен");
+                            }
+                            else if (!isCompletedNow && wasCompletedInitially)
+                            {
+                                UpdateTableStatus(tableId.Value, "Занят");
+                            }
+                            else if (!isCompletedNow && !wasCompletedInitially)
+                            {
+                                UpdateTableStatus(tableId.Value, "Занят");
+                            }
+                        }
                     }
 
                     return true;
@@ -496,6 +616,94 @@ namespace Restaurant
 
             UpdateControlsState();
             isUpdatingStatus = false;
+        }
+
+        private void UpdateTableStatus(int tableId, string status)
+        {
+            try
+            {
+                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                {
+                    con.Open();
+                    MySqlCommand cmd = new MySqlCommand(
+                        "UPDATE Tables SET TablesStatus = @Status WHERE TablesId = @TableId",
+                        con);
+                    cmd.Parameters.AddWithValue("@Status", status);
+                    cmd.Parameters.AddWithValue("@TableId", tableId);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при обновлении статуса стола: {ex.Message}", "Ошибка",
+                               MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void UpdateTableStatus(string tableIdText, string status)
+        {
+            if (string.IsNullOrEmpty(tableIdText)) return;
+            UpdateTableStatus(Convert.ToInt32(tableIdText), status);
+        }
+
+        private bool IsTableAvailable()
+        {
+            if (string.IsNullOrEmpty(comboBoxTable.Text)) return true;
+
+            try
+            {
+                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                {
+                    con.Open();
+                    MySqlCommand cmd = new MySqlCommand(
+                        "SELECT TablesStatus FROM Tables WHERE TablesId = @TableId",
+                        con);
+                    cmd.Parameters.AddWithValue("@TableId", Convert.ToInt32(comboBoxTable.Text));
+                    var result = cmd.ExecuteScalar();
+
+                    return result?.ToString() != "Занят";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при проверке стола: {ex.Message}", "Ошибка",
+                               MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
+
+        private void OrderInsert_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (mode == "add" && OrderID > 0 && !string.IsNullOrEmpty(comboBoxTable.Text))
+            {
+                try
+                {
+                    using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                    {
+                        con.Open();
+                        MySqlCommand checkCmd = new MySqlCommand(
+                            "SELECT COUNT(*) FROM OrderItems WHERE OrderId = @OrderId",
+                            con);
+                        checkCmd.Parameters.AddWithValue("@OrderId", OrderID);
+                        int itemCount = Convert.ToInt32(checkCmd.ExecuteScalar());
+
+                        if (itemCount == 0)
+                        {
+                            UpdateTableStatus(comboBoxTable.Text, "Свободен");
+
+                            MySqlCommand deleteCmd = new MySqlCommand(
+                                "DELETE FROM `Order` WHERE OrderId = @OrderId",
+                                con);
+                            deleteCmd.Parameters.AddWithValue("@OrderId", OrderID);
+                            deleteCmd.ExecuteNonQuery();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Ошибка при очистке: {ex.Message}");
+                }
+            }
         }
     }
 }

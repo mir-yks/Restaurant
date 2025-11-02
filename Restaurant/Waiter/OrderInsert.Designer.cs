@@ -268,6 +268,7 @@
             this.Name = "OrderInsert";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Редактирование заказа";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.OrderInsert_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 

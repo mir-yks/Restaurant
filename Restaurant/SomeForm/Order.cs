@@ -133,10 +133,23 @@ namespace Restaurant
                 return;
             }
 
-            int selectedOrderId = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID"].Value);
-            string orderNumber = dataGridView1.CurrentRow.Cells["Номер заказа"].Value.ToString();
+            DataGridViewRow row = dataGridView1.CurrentRow;
+            string orderStatus = row.Cells["Статус заказа"].Value.ToString();
+            int selectedOrderId = Convert.ToInt32(row.Cells["ID"].Value);
+            string orderNumber = row.Cells["Номер заказа"].Value.ToString();
 
-            DialogResult result = MessageBox.Show($"Вы действительно хотите удалить заказ №{orderNumber}?", "Удаление записи", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (orderStatus != "Новый")
+            {
+                MessageBox.Show("Можно удалить только заказ со статусом 'Новый'!\nТекущий заказ имеет другой статус.",
+                               "Удаление невозможно",
+                               MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DialogResult result = MessageBox.Show($"Вы действительно хотите удалить заказ №{orderNumber}?",
+                                                "Удаление записи",
+                                                MessageBoxButtons.YesNo,
+                                                MessageBoxIcon.Question);
 
             if (result != DialogResult.Yes) return;
 
@@ -207,8 +220,7 @@ namespace Restaurant
 
                     comboBoxStatus.Items.Clear();
                     comboBoxStatus.Items.Add("");
-                    comboBoxStatus.Items.Add("Принят");
-                    comboBoxStatus.Items.Add("В обработке");
+                    comboBoxStatus.Items.Add("Новый");
                     comboBoxStatus.Items.Add("На кухне");
                     comboBoxStatus.Items.Add("Готов");
                     comboBoxStatus.Items.Add("Завершен");

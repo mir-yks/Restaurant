@@ -43,14 +43,12 @@ namespace Restaurant
                 case "add":
                     textBoxPlaceCount.Text = "";
                     comboBoxStatus.Text = "Свободен";
-                    comboBoxStatus.Enabled = false;
                     buttonWrite.Visible = true;
                     buttonBack.Text = "Отмена";
                     break;
 
                 case "edit":
                     textBoxPlaceCount.ReadOnly = false;
-                    comboBoxStatus.Enabled = true; 
                     buttonWrite.Visible = true;
                     buttonBack.Text = "Отмена";
                     break;

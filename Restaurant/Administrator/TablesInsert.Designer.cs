@@ -43,9 +43,10 @@
             this.buttonWrite.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonWrite.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonWrite.ForeColor = System.Drawing.Color.White;
-            this.buttonWrite.Location = new System.Drawing.Point(173, 181);
+            this.buttonWrite.Location = new System.Drawing.Point(231, 223);
+            this.buttonWrite.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonWrite.Name = "buttonWrite";
-            this.buttonWrite.Size = new System.Drawing.Size(115, 50);
+            this.buttonWrite.Size = new System.Drawing.Size(153, 62);
             this.buttonWrite.TabIndex = 19;
             this.buttonWrite.Text = "Записать";
             this.buttonWrite.UseVisualStyleBackColor = false;
@@ -58,9 +59,10 @@
             this.buttonBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonBack.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonBack.ForeColor = System.Drawing.Color.White;
-            this.buttonBack.Location = new System.Drawing.Point(12, 181);
+            this.buttonBack.Location = new System.Drawing.Point(16, 223);
+            this.buttonBack.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonBack.Name = "buttonBack";
-            this.buttonBack.Size = new System.Drawing.Size(110, 50);
+            this.buttonBack.Size = new System.Drawing.Size(147, 62);
             this.buttonBack.TabIndex = 18;
             this.buttonBack.Text = "Назад";
             this.buttonBack.UseVisualStyleBackColor = false;
@@ -72,10 +74,11 @@
             this.textBoxPlaceCount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxPlaceCount.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxPlaceCount.ForeColor = System.Drawing.Color.White;
-            this.textBoxPlaceCount.Location = new System.Drawing.Point(42, 43);
+            this.textBoxPlaceCount.Location = new System.Drawing.Point(56, 53);
+            this.textBoxPlaceCount.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBoxPlaceCount.MaxLength = 2;
             this.textBoxPlaceCount.Name = "textBoxPlaceCount";
-            this.textBoxPlaceCount.Size = new System.Drawing.Size(219, 31);
+            this.textBoxPlaceCount.Size = new System.Drawing.Size(291, 36);
             this.textBoxPlaceCount.TabIndex = 16;
             this.textBoxPlaceCount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_KeyPress);
             // 
@@ -85,22 +88,26 @@
             this.labelPlaceCount.BackColor = System.Drawing.Color.Transparent;
             this.labelPlaceCount.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelPlaceCount.ForeColor = System.Drawing.Color.White;
-            this.labelPlaceCount.Location = new System.Drawing.Point(38, 17);
+            this.labelPlaceCount.Location = new System.Drawing.Point(51, 21);
+            this.labelPlaceCount.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelPlaceCount.Name = "labelPlaceCount";
-            this.labelPlaceCount.Size = new System.Drawing.Size(183, 23);
+            this.labelPlaceCount.Size = new System.Drawing.Size(233, 29);
             this.labelPlaceCount.TabIndex = 17;
             this.labelPlaceCount.Text = "Количество мест:";
             // 
             // comboBoxStatus
             // 
             this.comboBoxStatus.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.comboBoxStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxStatus.Enabled = false;
             this.comboBoxStatus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.comboBoxStatus.Font = new System.Drawing.Font("Verdana", 14.25F);
             this.comboBoxStatus.ForeColor = System.Drawing.Color.White;
             this.comboBoxStatus.FormattingEnabled = true;
-            this.comboBoxStatus.Location = new System.Drawing.Point(42, 106);
+            this.comboBoxStatus.Location = new System.Drawing.Point(56, 130);
+            this.comboBoxStatus.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.comboBoxStatus.Name = "comboBoxStatus";
-            this.comboBoxStatus.Size = new System.Drawing.Size(219, 31);
+            this.comboBoxStatus.Size = new System.Drawing.Size(291, 37);
             this.comboBoxStatus.TabIndex = 20;
             // 
             // labelStatus
@@ -109,20 +116,21 @@
             this.labelStatus.BackColor = System.Drawing.Color.Transparent;
             this.labelStatus.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelStatus.ForeColor = System.Drawing.Color.White;
-            this.labelStatus.Location = new System.Drawing.Point(38, 80);
+            this.labelStatus.Location = new System.Drawing.Point(51, 98);
+            this.labelStatus.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelStatus.Name = "labelStatus";
-            this.labelStatus.Size = new System.Drawing.Size(166, 23);
+            this.labelStatus.Size = new System.Drawing.Size(212, 29);
             this.labelStatus.TabIndex = 17;
             this.labelStatus.Text = "Статус столика:";
             // 
             // TablesInsert
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImage = global::Restaurant.Properties.Resources.fonMain;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(300, 243);
+            this.ClientSize = new System.Drawing.Size(400, 299);
             this.ControlBox = false;
             this.Controls.Add(this.comboBoxStatus);
             this.Controls.Add(this.buttonWrite);
@@ -131,6 +139,7 @@
             this.Controls.Add(this.labelPlaceCount);
             this.Controls.Add(this.textBoxPlaceCount);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "TablesInsert";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Редактирование столика";
