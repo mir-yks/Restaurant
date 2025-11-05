@@ -95,14 +95,24 @@ namespace Restaurant
                 using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
                 {
                     con.Open();
+
                     string query = @"SELECT TablesId, TablesCountPlace 
                                    FROM Tables 
                                    WHERE TablesCountPlace >= @MinCapacity 
-                                   AND TablesStatus = 'Свободен'
+                                   AND (TablesStatus = 'Свободен' OR TablesId = @CurrentTableId)
                                    ORDER BY TablesCountPlace";
 
                     MySqlCommand cmd = new MySqlCommand(query, con);
                     cmd.Parameters.AddWithValue("@MinCapacity", minCapacity);
+
+                    if (mode == "edit" && SelectedTableId > 0)
+                    {
+                        cmd.Parameters.AddWithValue("@CurrentTableId", SelectedTableId);
+                    }
+                    else
+                    {
+                        cmd.Parameters.AddWithValue("@CurrentTableId", 0);
+                    }
 
                     MySqlDataReader reader = cmd.ExecuteReader();
 
@@ -113,7 +123,7 @@ namespace Restaurant
                         int capacity = reader.GetInt32("TablesCountPlace");
                         comboBoxTable.Items.Add(new KeyValuePair<int, string>(
                             tableId,
-                            $"Стол №{tableId} (вмещает {capacity} чел.)"
+                            $"Стол №{tableId} ({capacity} чел.)"
                         ));
                     }
                     reader.Close();
@@ -121,7 +131,11 @@ namespace Restaurant
                     comboBoxTable.DisplayMember = "Value";
                     comboBoxTable.ValueMember = "Key";
 
-                    if (comboBoxTable.Items.Count > 0)
+                    if (mode == "edit" && SelectedTableId > 0)
+                    {
+                        SelectedTableId = SelectedTableId; 
+                    }
+                    else if (comboBoxTable.Items.Count > 0)
                     {
                         comboBoxTable.SelectedIndex = 0;
                     }
@@ -172,23 +186,14 @@ namespace Restaurant
             switch (mode)
             {
                 case "add":
+                    this.Text = "Добавление новой брони";
                     comboBoxClient.Enabled = true;
-                    if (datePicker != null) datePicker.Enabled = true;
-                    if (timePicker != null) timePicker.Enabled = true;
-                    textBoxClientsCount.Enabled = true;
-                    comboBoxTable.Enabled = true;
-                    buttonArrange.Visible = true;
-                    buttonBack.Text = "Отмена";
                     break;
 
                 case "edit":
-                    comboBoxClient.Enabled = true;
-                    if (datePicker != null) datePicker.Enabled = true;
-                    if (timePicker != null) timePicker.Enabled = true;
-                    textBoxClientsCount.Enabled = true;
-                    comboBoxTable.Enabled = true;
-                    buttonArrange.Visible = true;
-                    buttonBack.Text = "Отмена";
+                    this.Text = "Редактирование брони";
+                    buttonArrange.Text = "Сохранить";
+                    comboBoxClient.Enabled = false;
                     break;
             }
         }
@@ -226,7 +231,14 @@ namespace Restaurant
                     return count;
                 return 0;
             }
-            set => textBoxClientsCount.Text = value.ToString();
+            set
+            {
+                textBoxClientsCount.Text = value.ToString();
+                if (value > 0)
+                {
+                    LoadTablesByCapacity(value);
+                }
+            }
         }
 
         public int SelectedTableId
@@ -302,8 +314,13 @@ namespace Restaurant
             }
 
             DialogResult result = MessageBox.Show(
-                $"Вы действительно хотите записать бронь?\nКлиент: {((KeyValuePair<int, string>)comboBoxClient.SelectedItem).Value}\nДата: {selectedDateTime:dd.MM.yyyy}\nВремя: {selectedDateTime:HH:mm}\nКоличество гостей: {clientsCount}\nСтолик: {((KeyValuePair<int, string>)comboBoxTable.SelectedItem).Value}",
-                "Подтверждение записи",
+                $"Вы действительно хотите {(mode == "add" ? "забронировать" : "сохранить изменения")}?\n" +
+                $"Клиент: {((KeyValuePair<int, string>)comboBoxClient.SelectedItem).Value}\n" +
+                $"Дата: {selectedDateTime:dd.MM.yyyy}\n" +
+                $"Время: {selectedDateTime:HH:mm}\n" +
+                $"Количество гостей: {clientsCount}\n" +
+                $"Столик: {((KeyValuePair<int, string>)comboBoxTable.SelectedItem).Value}",
+                mode == "add" ? "Подтверждение бронирования" : "Подтверждение изменений",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question);
 
@@ -343,9 +360,21 @@ namespace Restaurant
                         return;
                     }
 
-                    MySqlCommand checkTableCmd = new MySqlCommand(
-                        "SELECT COUNT(*) FROM booking WHERE TableId = @TableId AND BookingDate = @BookingDate",
-                        con);
+                    MySqlCommand checkTableCmd;
+                    if (mode == "add")
+                    {
+                        checkTableCmd = new MySqlCommand(
+                            "SELECT COUNT(*) FROM booking WHERE TableId = @TableId AND BookingDate = @BookingDate",
+                            con);
+                    }
+                    else
+                    {
+                        checkTableCmd = new MySqlCommand(
+                            "SELECT COUNT(*) FROM booking WHERE TableId = @TableId AND BookingDate = @BookingDate AND BookingId != @BookingId",
+                            con);
+                        checkTableCmd.Parameters.AddWithValue("@BookingId", BookingID);
+                    }
+
                     checkTableCmd.Parameters.AddWithValue("@TableId", tableId);
                     checkTableCmd.Parameters.AddWithValue("@BookingDate", selectedDateTime);
 

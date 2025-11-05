@@ -97,7 +97,13 @@ namespace Restaurant
             int id = Convert.ToInt32(dataGridView1.CurrentRow.Cells["OffersDishId"].Value);
             string name = dataGridView1.CurrentRow.Cells["Предложение"].Value.ToString();
 
-            DialogResult result = MessageBox.Show($"Вы действительно хотите удалить предложение \"{name}\"?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult result = MessageBox.Show(
+                $"Вы действительно хотите удалить предложение \"{name}\"?\n\n" +
+                $"У связанных блюд будет автоматически удалена привязка к этому предложению.",
+                "Удаление предложения",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
             if (result != DialogResult.Yes) return;
 
             try
@@ -105,9 +111,18 @@ namespace Restaurant
                 using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
                 {
                     con.Open();
-                    MySqlCommand cmd = new MySqlCommand("DELETE FROM OffersDish WHERE OffersDishId = @id", con);
-                    cmd.Parameters.AddWithValue("@id", id);
-                    cmd.ExecuteNonQuery();
+
+                    MySqlCommand clearCmd = new MySqlCommand(
+                        "UPDATE MenuDish SET OffersDish = NULL WHERE OffersDish = @id",
+                        con);
+                    clearCmd.Parameters.AddWithValue("@id", id);
+                    clearCmd.ExecuteNonQuery();
+
+                    MySqlCommand deleteCmd = new MySqlCommand(
+                        "DELETE FROM OffersDish WHERE OffersDishId = @id",
+                        con);
+                    deleteCmd.Parameters.AddWithValue("@id", id);
+                    deleteCmd.ExecuteNonQuery();
 
                     MessageBox.Show($"Предложение \"{name}\" успешно удалено!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LoadOffers();
@@ -115,10 +130,9 @@ namespace Restaurant
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ошибка удаления", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Ошибка при удалении: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)

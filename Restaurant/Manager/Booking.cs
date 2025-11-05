@@ -43,7 +43,9 @@ namespace Restaurant
             {
                 BookingID = Convert.ToInt32(row.Cells["ID"].Value),
                 ClientName = row.Cells["Клиент"].Value.ToString(),
-                BookingDate = Convert.ToDateTime(row.Cells["Дата брони"].Value)
+                BookingDate = Convert.ToDateTime(row.Cells["Дата брони"].Value),
+                ClientsCount = Convert.ToInt32(row.Cells["Количество гостей"].Value),
+                SelectedTableId = Convert.ToInt32(row.Cells["TableId"].Value)
             };
 
             bookingInsert.ShowDialog();
@@ -71,9 +73,14 @@ namespace Restaurant
                     MySqlCommand cmd = new MySqlCommand(@"SELECT 
                                                         b.BookingId AS 'ID',
                                                         c.ClientFIO AS 'Клиент',
-                                                        b.BookingDate AS 'Дата брони'
+                                                        b.BookingDate AS 'Дата брони',
+                                                        b.ClientsCount AS 'Количество гостей',
+                                                        b.TableId AS 'TableId',
+                                                        t.TablesCountPlace AS 'Вместимость стола',
+                                                        CONCAT('Стол №', b.TableId, ' (', t.TablesCountPlace, ' чел.)') AS 'Столик'
                                                     FROM booking b 
                                                     JOIN client c ON b.ClientId = c.ClientId
+                                                    JOIN tables t ON b.TableId = t.TablesId
                                                     ORDER BY b.BookingDate DESC;", con);
 
                     MySqlDataAdapter da = new MySqlDataAdapter(cmd);
@@ -83,6 +90,15 @@ namespace Restaurant
 
                     if (dataGridView1.Columns.Contains("ID"))
                         dataGridView1.Columns["ID"].Visible = false;
+                    if (dataGridView1.Columns.Contains("TableId"))
+                        dataGridView1.Columns["TableId"].Visible = false;
+                    if (dataGridView1.Columns.Contains("Вместимость стола"))
+                        dataGridView1.Columns["Вместимость стола"].Visible = false;
+
+                    if (dataGridView1.Columns.Contains("Дата брони"))
+                    {
+                        dataGridView1.Columns["Дата брони"].DefaultCellStyle.Format = "dd.MM.yyyy HH:mm";
+                    }
 
                     labelTotal.Text = $"Всего: {bookingTable.Rows.Count}";
                 }
@@ -104,9 +120,11 @@ namespace Restaurant
             int selectedBookingId = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID"].Value);
             string clientName = dataGridView1.CurrentRow.Cells["Клиент"].Value.ToString();
             string bookingDate = dataGridView1.CurrentRow.Cells["Дата брони"].Value.ToString();
+            string guestsCount = dataGridView1.CurrentRow.Cells["Количество гостей"].Value.ToString();
+            string tableInfo = dataGridView1.CurrentRow.Cells["Столик"].Value.ToString();
 
             DialogResult result = MessageBox.Show(
-                $"Вы действительно хотите удалить бронирование?\nКлиент: {clientName}\nДата: {bookingDate}",
+                $"Вы действительно хотите удалить бронирование?\nКлиент: {clientName}\nДата: {bookingDate}\nГости: {guestsCount}\nСтолик: {tableInfo}",
                 "Удаление бронирования",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question);

@@ -100,7 +100,7 @@
             this.buttonBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonBack.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonBack.ForeColor = System.Drawing.Color.White;
-            this.buttonBack.Location = new System.Drawing.Point(16, 348);
+            this.buttonBack.Location = new System.Drawing.Point(13, 350);
             this.buttonBack.Margin = new System.Windows.Forms.Padding(4);
             this.buttonBack.Name = "buttonBack";
             this.buttonBack.Size = new System.Drawing.Size(140, 68);
@@ -116,12 +116,12 @@
             this.buttonArrange.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonArrange.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonArrange.ForeColor = System.Drawing.Color.White;
-            this.buttonArrange.Location = new System.Drawing.Point(203, 348);
+            this.buttonArrange.Location = new System.Drawing.Point(201, 350);
             this.buttonArrange.Margin = new System.Windows.Forms.Padding(4);
             this.buttonArrange.Name = "buttonArrange";
-            this.buttonArrange.Size = new System.Drawing.Size(160, 68);
+            this.buttonArrange.Size = new System.Drawing.Size(165, 68);
             this.buttonArrange.TabIndex = 9;
-            this.buttonArrange.Text = "Оформить бронь";
+            this.buttonArrange.Text = "Добавить";
             this.buttonArrange.UseVisualStyleBackColor = false;
             this.buttonArrange.Click += new System.EventHandler(this.buttonArrange_Click);
             // 
