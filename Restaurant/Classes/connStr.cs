@@ -10,7 +10,7 @@ namespace Restaurant
     {
         public static string ConnectionString { get; } = @"host=localhost;
                                                            uid=root;
-                                                           pwd=;
+                                                           pwd=root;
                                                            database=restaurant;";
     }
 }

@@ -51,6 +51,11 @@ namespace Restaurant
 
             LoadRoles();
             ApplyMode();
+
+            if (mode == "edit")
+            {
+                CheckAndLockRoleComboBox();
+            }
         }
 
         private void LoadRoles()
@@ -126,7 +131,10 @@ namespace Restaurant
                     dateTimePickerBirthday.Enabled = false;
                     dateTimePickerEmployment.Enabled = false;
 
-                    originalRole = WorkerRole;
+                    if (string.IsNullOrEmpty(originalRole) && !string.IsNullOrEmpty(comboBoxRole.Text))
+                    {
+                        originalRole = comboBoxRole.Text;
+                    }
 
                     CheckAndLockRoleComboBox();
                     break;
@@ -139,11 +147,6 @@ namespace Restaurant
                 originalRole.Equals("Администратор", StringComparison.OrdinalIgnoreCase))
             {
                 comboBoxRole.Enabled = false;
-
-                if (comboBoxRole.Enabled)
-                {
-                    comboBoxRole.Enabled = false;
-                }
             }
             else if (mode == "edit")
             {
@@ -212,7 +215,15 @@ namespace Restaurant
         public string WorkerRole
         {
             get => comboBoxRole.Text;
-            set => comboBoxRole.Text = value;
+            set
+            {
+                comboBoxRole.Text = value;
+                if (mode == "edit" && string.IsNullOrEmpty(originalRole))
+                {
+                    originalRole = value;
+                }
+                CheckAndLockRoleComboBox();
+            }
         }
 
         private void buttonBack_Click(object sender, EventArgs e)

@@ -64,7 +64,6 @@ namespace Restaurant
             };
 
             WorkerInsert.ShowDialog();
-
             LoadWorkers();
         }
 
@@ -393,6 +392,7 @@ namespace Restaurant
 
                 if (workerRole.Equals("Администратор", StringComparison.OrdinalIgnoreCase))
                 {
+                    buttonUpdate.Enabled = true;
                     buttonDelete.Enabled = false;
                 }
                 else
