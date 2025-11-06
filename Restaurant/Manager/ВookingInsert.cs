@@ -305,13 +305,6 @@ namespace Restaurant
                 return;
             }
 
-            TimeSpan selectedTime = selectedDateTime.TimeOfDay;
-            if (selectedTime < new TimeSpan(10, 0, 0) || selectedTime > new TimeSpan(23, 0, 0))
-            {
-                MessageBox.Show("Ресторан работает с 10:00 до 23:00. Выберите время в этом интервале.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                timePicker?.Focus();
-                return;
-            }
             try
             {
                 using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))

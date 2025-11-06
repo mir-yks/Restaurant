@@ -28,6 +28,18 @@ namespace Restaurant
 
         private void buttonNew_Click(object sender, EventArgs e)
         {
+            DateTime currentTime = DateTime.Now;
+            TimeSpan currentTimeOfDay = currentTime.TimeOfDay;
+
+            if (currentTimeOfDay < new TimeSpan(10, 0, 0) || currentTimeOfDay > new TimeSpan(23, 0, 0))
+            {
+                MessageBox.Show("Создание брони возможно только в рабочее время!\nРесторан работает с 10:00 до 23:00.",
+                              "Вне рабочего времени",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Warning);
+                return;
+            }
+
             ВookingInsert bookingInsert = new ВookingInsert("add");
             bookingInsert.ShowDialog();
             LoadBookings();
