@@ -344,7 +344,6 @@ namespace Restaurant
                               MessageBoxIcon.Warning);
                 return;
             }
-
             if (selectedWorkerId == CurrentUserID)
             {
                 MessageBox.Show("Вы не можете удалить самого себя!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -374,7 +373,6 @@ namespace Restaurant
             }
         }
 
-
         private void textBoxWorker_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) &&
@@ -388,18 +386,8 @@ namespace Restaurant
         {
             if (e.RowIndex >= 0)
             {
-                string workerRole = dataGridView1.Rows[e.RowIndex].Cells["Роль"].Value.ToString();
-
-                if (workerRole.Equals("Администратор", StringComparison.OrdinalIgnoreCase))
-                {
-                    buttonUpdate.Enabled = true;
-                    buttonDelete.Enabled = false;
-                }
-                else
-                {
-                    buttonUpdate.Enabled = true;
-                    buttonDelete.Enabled = true;
-                }
+                buttonUpdate.Enabled = true;
+                buttonDelete.Enabled = true;           
             }
         }
     }

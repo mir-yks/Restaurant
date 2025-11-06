@@ -39,11 +39,22 @@ namespace Restaurant
 
             DataGridViewRow row = dataGridView1.CurrentRow;
 
+            DateTime bookingDate = Convert.ToDateTime(row.Cells["Дата брони"].Value);
+            
+            if (!CanEditBooking(bookingDate))
+            {
+                MessageBox.Show("Невозможно редактировать бронирование!\nРедактирование запрещено за 1 час до брони и после её начала.",
+                              "Редактирование запрещено",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Warning);
+                return;
+            }
+
             ВookingInsert bookingInsert = new ВookingInsert("edit")
             {
                 BookingID = Convert.ToInt32(row.Cells["ID"].Value),
                 ClientName = row.Cells["Клиент"].Value.ToString(),
-                BookingDate = Convert.ToDateTime(row.Cells["Дата брони"].Value),
+                BookingDate = bookingDate,
                 ClientsCount = Convert.ToInt32(row.Cells["Количество гостей"].Value),
                 SelectedTableId = Convert.ToInt32(row.Cells["TableId"].Value)
             };
@@ -59,7 +70,7 @@ namespace Restaurant
 
         private void Booking_Load(object sender, EventArgs e)
         {
-            
+
             LoadBookings();
         }
 
@@ -78,7 +89,8 @@ namespace Restaurant
                                                         b.ClientsCount AS 'Количество гостей',
                                                         b.TableId AS 'TableId',
                                                         t.TablesCountPlace AS 'Вместимость стола',
-                                                        CONCAT('Стол №', b.TableId, ' (', t.TablesCountPlace, ' чел.)') AS 'Столик'
+                                                        CONCAT('Стол №', b.TableId, ' (', t.TablesCountPlace, ' чел.)') AS 'Столик',
+                                                        TIMESTAMPDIFF(MINUTE, NOW(), b.BookingDate) as MinutesUntil
                                                     FROM booking b 
                                                     JOIN client c ON b.ClientId = c.ClientId
                                                     JOIN tables t ON b.TableId = t.TablesId
@@ -95,6 +107,8 @@ namespace Restaurant
                         dataGridView1.Columns["TableId"].Visible = false;
                     if (dataGridView1.Columns.Contains("Вместимость стола"))
                         dataGridView1.Columns["Вместимость стола"].Visible = false;
+                    if (dataGridView1.Columns.Contains("MinutesUntil"))
+                        dataGridView1.Columns["MinutesUntil"].Visible = false;
 
                     if (dataGridView1.Columns.Contains("Дата брони"))
                     {
@@ -118,14 +132,16 @@ namespace Restaurant
                 return;
             }
 
-            int selectedBookingId = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID"].Value);
-            string clientName = dataGridView1.CurrentRow.Cells["Клиент"].Value.ToString();
-            string bookingDate = dataGridView1.CurrentRow.Cells["Дата брони"].Value.ToString();
-            string guestsCount = dataGridView1.CurrentRow.Cells["Количество гостей"].Value.ToString();
-            string tableInfo = dataGridView1.CurrentRow.Cells["Столик"].Value.ToString();
+            DataGridViewRow row = dataGridView1.CurrentRow;
+
+            int selectedBookingId = Convert.ToInt32(row.Cells["ID"].Value);
+            string clientName = row.Cells["Клиент"].Value.ToString();
+            string bookingDateStr = row.Cells["Дата брони"].Value.ToString();
+            string guestsCount = row.Cells["Количество гостей"].Value.ToString();
+            string tableInfo = row.Cells["Столик"].Value.ToString();
 
             DialogResult result = MessageBox.Show(
-                $"Вы действительно хотите удалить бронирование?\nКлиент: {clientName}\nДата: {bookingDate}\nГости: {guestsCount}\nСтолик: {tableInfo}",
+                $"Вы действительно хотите удалить бронирование?\nКлиент: {clientName}\nДата: {bookingDateStr}\nГости: {guestsCount}\nСтолик: {tableInfo}",
                 "Удаление бронирования",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question);
@@ -158,9 +174,24 @@ namespace Restaurant
         {
             if (e.RowIndex >= 0)
             {
+                DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
+
                 buttonUpdate.Enabled = true;
                 buttonDelete.Enabled = true;
+
             }
+        }
+
+        private bool CanEditBooking(DateTime bookingDate)
+        {
+            TimeSpan timeUntilBooking = bookingDate - DateTime.Now;
+
+            if (timeUntilBooking.TotalMinutes <= 60 && timeUntilBooking.TotalMinutes > -30)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

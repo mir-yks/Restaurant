@@ -83,7 +83,7 @@ namespace Restaurant
             if (orderStatus == "Завершен" && paymentStatus == "Оплачен")
             {
                 MessageBox.Show("Заказ завершен и оплачен. Редактирование невозможно!", "Информация",
-                               MessageBoxButtons.OK, MessageBoxIcon.Information);
+                               MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -140,7 +140,7 @@ namespace Restaurant
 
             if (orderStatus != "Новый")
             {
-                MessageBox.Show("Можно удалить только заказ со статусом 'Новый'!\nТекущий заказ имеет другой статус.",
+                MessageBox.Show("Можно удалить только заказ со статусом 'Новый'!",
                                "Удаление невозможно",
                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;

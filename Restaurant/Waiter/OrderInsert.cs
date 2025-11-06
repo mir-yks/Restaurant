@@ -164,26 +164,24 @@ namespace Restaurant
 
                     LoadClientsWithTodayBooking(con);
 
-                    string tablesQuery;
-                    if (mode == "add")
+                    if (mode == "edit")
                     {
-                        tablesQuery = "SELECT TablesId FROM Tables WHERE TablesStatus = 'Свободен'";
-                    }
-                    else
-                    {
-                        tablesQuery = "SELECT TablesId FROM Tables";
-                    }
+                        string tablesQuery = "SELECT TablesId FROM Tables";
+                        MySqlCommand cmdTables = new MySqlCommand(tablesQuery, con);
+                        MySqlDataAdapter daTables = new MySqlDataAdapter(cmdTables);
+                        DataTable tablesTable = new DataTable();
+                        daTables.Fill(tablesTable);
 
-                    MySqlCommand cmdTables = new MySqlCommand(tablesQuery, con);
-                    MySqlDataAdapter daTables = new MySqlDataAdapter(cmdTables);
-                    DataTable tablesTable = new DataTable();
-                    daTables.Fill(tablesTable);
-
-                    comboBoxTable.Items.Clear();
-                    comboBoxTable.Items.Add("");
-                    foreach (DataRow row in tablesTable.Rows)
+                        comboBoxTable.Items.Clear();
+                        comboBoxTable.Items.Add("");
+                        foreach (DataRow row in tablesTable.Rows)
+                        {
+                            comboBoxTable.Items.Add(row["TablesId"].ToString());
+                        }
+                    }
+                    else if (mode == "add")
                     {
-                        comboBoxTable.Items.Add(row["TablesId"].ToString());
+                        LoadFreeTables(con);
                     }
 
                     comboBoxStatusOrder.Items.Clear();
@@ -218,7 +216,6 @@ namespace Restaurant
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         private void LoadClientsWithTodayBooking(MySqlConnection con)
         {
             try
@@ -226,11 +223,12 @@ namespace Restaurant
                 clientTableMap.Clear();
 
                 string query = @"
-                    SELECT DISTINCT c.ClientId, c.ClientFIO, b.TableId 
-                    FROM Client c 
-                    INNER JOIN Booking b ON c.ClientId = b.ClientId 
-                    WHERE DATE(b.BookingDate) = CURDATE() 
-                    ORDER BY c.ClientFIO";
+            SELECT DISTINCT c.ClientId, c.ClientFIO, b.TableId, b.BookingDate
+            FROM Client c 
+            INNER JOIN Booking b ON c.ClientId = b.ClientId 
+            WHERE DATE(b.BookingDate) = CURDATE() 
+            AND b.BookingDate BETWEEN DATE_SUB(NOW(), INTERVAL 30 MINUTE) AND DATE_ADD(NOW(), INTERVAL 1 HOUR)
+            ORDER BY c.ClientFIO";
 
                 MySqlCommand cmdClients = new MySqlCommand(query, con);
                 MySqlDataAdapter daClients = new MySqlDataAdapter(cmdClients);
@@ -254,12 +252,9 @@ namespace Restaurant
                 comboBoxClient.DisplayMember = "Value";
                 comboBoxClient.ValueMember = "Key";
 
-                if (comboBoxClient.Items.Count == 1) 
+                if (comboBoxClient.Items.Count == 1)
                 {
-                    MessageBox.Show("На сегодня нет клиентов с бронированием столов.",
-                                  "Информация",
-                                  MessageBoxButtons.OK,
-                                  MessageBoxIcon.Information);
+                    
                 }
             }
             catch (Exception ex)
@@ -270,7 +265,6 @@ namespace Restaurant
                               MessageBoxIcon.Error);
             }
         }
-
         private void LoadOrderDetails()
         {
             try
@@ -390,6 +384,8 @@ namespace Restaurant
 
                 if (SaveOrder())
                 {
+                    MessageBox.Show($"Заказ №{OrderID} успешно создан!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                     UpdateTableStatus(comboBoxTable.Text, "Занят");
 
                     OrderItem orderItemForm = new OrderItem(3, OrderID);
@@ -506,6 +502,8 @@ namespace Restaurant
             bool wasCompletedInitially = false;
             bool isCompletedNow = false;
             int? tableId = null;
+            int? clientId = null;
+            DateTime? bookingDateTime = null;
 
             try
             {
@@ -516,6 +514,16 @@ namespace Restaurant
                     if (!string.IsNullOrEmpty(comboBoxTable.Text))
                     {
                         tableId = Convert.ToInt32(comboBoxTable.Text);
+                    }
+
+                    if (comboBoxClient.SelectedItem != null && comboBoxClient.SelectedIndex > 0)
+                    {
+                        clientId = ((KeyValuePair<int, string>)comboBoxClient.SelectedItem).Key;
+
+                        if (clientId.HasValue && clientTableMap.ContainsKey(clientId.Value))
+                        {
+                            bookingDateTime = DateTime.Now;
+                        }
                     }
 
                     if (mode == "edit")
@@ -567,6 +575,11 @@ namespace Restaurant
                         if (tableId.HasValue)
                         {
                             UpdateTableStatus(tableId.Value, "Занят");
+                        }
+
+                        if (clientId.HasValue && tableId.HasValue)
+                        {
+                            DeleteCurrentClientBooking(con, clientId.Value, tableId.Value);
                         }
 
                         MessageBox.Show($"Заказ №{OrderID} успешно создан!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -625,6 +638,27 @@ namespace Restaurant
             }
         }
 
+        private void DeleteCurrentClientBooking(MySqlConnection con, int clientId, int tableId)
+        {
+            try
+            {
+                MySqlCommand deleteCmd = new MySqlCommand(@"
+            DELETE FROM booking 
+            WHERE ClientId = @ClientId 
+            AND TableId = @TableId 
+            AND DATE(BookingDate) = CURDATE() 
+            AND BookingDate BETWEEN DATE_SUB(NOW(), INTERVAL 30 MINUTE) AND DATE_ADD(NOW(), INTERVAL 1 HOUR)",
+                    con);
+                deleteCmd.Parameters.AddWithValue("@ClientId", clientId);
+                deleteCmd.Parameters.AddWithValue("@TableId", tableId);
+
+                int deletedCount = deleteCmd.ExecuteNonQuery();
+            }
+            catch (Exception)
+            {
+                
+            }
+        }
         private void comboBoxStatusPayment_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (isUpdatingStatus) return;
@@ -743,15 +777,55 @@ namespace Restaurant
             }
         }
 
+        private void LoadFreeTables(MySqlConnection con)
+        {
+            string tablesQuery = "SELECT TablesId FROM Tables WHERE TablesStatus = 'Свободен'";
+            MySqlCommand cmdTables = new MySqlCommand(tablesQuery, con);
+            MySqlDataAdapter daTables = new MySqlDataAdapter(cmdTables);
+            DataTable tablesTable = new DataTable();
+            daTables.Fill(tablesTable);
+
+            comboBoxTable.Items.Clear();
+            comboBoxTable.Items.Add("");
+            foreach (DataRow row in tablesTable.Rows)
+            {
+                comboBoxTable.Items.Add(row["TablesId"].ToString());
+            }
+        }
+
+        private void LoadSpecificTable(MySqlConnection con, int tableId)
+        {
+            comboBoxTable.Items.Clear();
+            comboBoxTable.Items.Add("");
+
+            comboBoxTable.Items.Add(tableId.ToString());
+
+            comboBoxTable.SelectedItem = tableId.ToString();
+        }
+
         private void comboBoxClient_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (mode != "add") return;
+
             if (comboBoxClient.SelectedItem == null ||
                 comboBoxClient.SelectedIndex == 0 ||
                 string.IsNullOrEmpty(comboBoxClient.Text))
             {
-                comboBoxTable.Enabled = true;
-                comboBoxTable.SelectedIndex = -1;
-                comboBoxTable.Text = "";
+                try
+                {
+                    using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                    {
+                        con.Open();
+                        LoadFreeTables(con);
+                        comboBoxTable.Enabled = true;
+                        comboBoxTable.SelectedIndex = -1;
+                        comboBoxTable.Text = "";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка при загрузке столов: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
                 return;
             }
 
@@ -762,26 +836,44 @@ namespace Restaurant
             {
                 int tableId = clientTableMap[clientId];
 
-                for (int i = 0; i < comboBoxTable.Items.Count; i++)
+                try
                 {
-                    if (comboBoxTable.Items[i].ToString() == tableId.ToString())
+                    using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
                     {
-                        comboBoxTable.SelectedIndex = i;
-                        break;
+                        con.Open();
+
+                        LoadSpecificTable(con, tableId);
+                        comboBoxTable.Enabled = false;
+
                     }
                 }
-
-                comboBoxTable.Enabled = false;
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка при установке стола: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             else
             {
-                comboBoxTable.Enabled = true;
-                comboBoxTable.SelectedIndex = -1;
-                comboBoxTable.Text = "";
-                MessageBox.Show("Для выбранного клиента не найден забронированный стол.",
-                              "Информация",
-                              MessageBoxButtons.OK,
-                              MessageBoxIcon.Information);
+                try
+                {
+                    using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                    {
+                        con.Open();
+                        LoadFreeTables(con);
+                        comboBoxTable.Enabled = true;
+                        comboBoxTable.SelectedIndex = -1;
+                        comboBoxTable.Text = "";
+
+                        MessageBox.Show("Для выбранного клиента не найден забронированный стол. Пожалуйста, выберите стол вручную.",
+                                      "Информация",
+                                      MessageBoxButtons.OK,
+                                      MessageBoxIcon.Information);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка при загрузке столов: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
     }
