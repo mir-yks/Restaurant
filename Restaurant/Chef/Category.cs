@@ -21,36 +21,15 @@ namespace Restaurant
             labelTotal.Font = Fonts.MontserratAlternatesRegular(14f);
             buttonBack.Font = Fonts.MontserratAlternatesBold(12f);
             buttonNew.Font = Fonts.MontserratAlternatesBold(12f);
-            buttonUpdate.Font = Fonts.MontserratAlternatesBold(12f);
-            buttonDelete.Font = Fonts.MontserratAlternatesBold(12f);
             dataGridView1.Font = Fonts.MontserratAlternatesRegular(12f);
         }
-
-        private void buttonUpdate_Click(object sender, EventArgs e)
-        {
-            if (dataGridView1.CurrentRow == null) return;
-
-            int id = Convert.ToInt32(dataGridView1.CurrentRow.Cells["CategoryDishId"].Value);
-            string name = dataGridView1.CurrentRow.Cells["Категория"].Value.ToString();
-
-            CategoryInsert CategoryInsert = new CategoryInsert("edit")
-            {
-                CategoryID = id,
-                CategoryName = name
-            };
-
-            CategoryInsert.ShowDialog();
-            LoadCategories();
-        }
-
         private void buttonNew_Click(object sender, EventArgs e)
         {
-            CategoryInsert CategoryInsert = new CategoryInsert("add");
+            CategoryInsert CategoryInsert = new CategoryInsert();
             CategoryInsert.ShowDialog();
 
             LoadCategories();
         }
-
         private void buttonBack_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
@@ -83,43 +62,6 @@ namespace Restaurant
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void buttonDelete_Click(object sender, EventArgs e)
-        {
-            if (dataGridView1.CurrentRow == null) return;
-
-            int id = Convert.ToInt32(dataGridView1.CurrentRow.Cells["CategoryDishId"].Value);
-            string name = dataGridView1.CurrentRow.Cells["Категория"].Value.ToString();
-
-            DialogResult result = MessageBox.Show($"Вы действительно хотите удалить категорию \"{name}\"?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (result != DialogResult.Yes) return;
-
-            try
-            {
-                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
-                {
-                    con.Open();
-                    MySqlCommand cmd = new MySqlCommand("DELETE FROM CategoryDish WHERE CategoryDishId = @id", con);
-                    cmd.Parameters.AddWithValue("@id", id);
-                    cmd.ExecuteNonQuery();
-
-                    MessageBox.Show($"Категория \"{name}\" успешно удалена!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    LoadCategories();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Ошибка удаления", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
-                buttonUpdate.Enabled = true;
-                buttonDelete.Enabled = true;
             }
         }
     }
