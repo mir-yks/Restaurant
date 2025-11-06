@@ -736,9 +736,9 @@ namespace Restaurant
                         }
                     }
                 }
-                catch (Exception ex)
+                catch (Exception )
                 {
-                    Console.WriteLine($"Ошибка при очистке: {ex.Message}");
+
                 }
             }
         }

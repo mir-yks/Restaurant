@@ -21,12 +21,9 @@ namespace Restaurant
             {
                 string basePath = Path.Combine(Application.StartupPath, "Resources", "Fonts");
 
-                // Загружаем все MontserratAlternates-файлы
                 fontCollection.AddFontFile(Path.Combine(basePath, "MontserratAlternates-Regular.ttf"));
                 fontCollection.AddFontFile(Path.Combine(basePath, "MontserratAlternates-Bold.ttf"));
-                fontCollection.AddFontFile(Path.Combine(basePath, "MontserratAlternates-Black.ttf"));
 
-                // Получаем первый доступный шрифт MontserratAlternates
                 MontserratAlternatesFamily = fontCollection.Families.FirstOrDefault();
 
                 if (MontserratAlternatesFamily == null)
@@ -34,9 +31,9 @@ namespace Restaurant
 
                 loaded = true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show("Ошибка загрузки шрифтов: " + ex.Message);
+
             }
         }
 
@@ -50,12 +47,6 @@ namespace Restaurant
         {
             Load();
             return new Font(MontserratAlternatesFamily, size, FontStyle.Bold);
-        }
-
-        public static Font MontserratAlternatesBlack(float size)
-        {
-            Load();
-            return new Font(MontserratAlternatesFamily, size, FontStyle.Bold | FontStyle.Italic);
         }
     }
 }

@@ -14,22 +14,15 @@ namespace Restaurant
                     con.Open();
 
                     MySqlCommand cmd = new MySqlCommand(
-                        "DELETE FROM booking WHERE BookingDate < NOW()",
-                        con);
+                        "DELETE FROM booking WHERE BookingDate < DATE_SUB(NOW(), INTERVAL 30 MINUTE)", con);
 
                     int deletedCount = cmd.ExecuteNonQuery();
-
-                    if (deletedCount > 0)
-                    {
-                        Console.WriteLine($"Автоматически удалено {deletedCount} устаревших бронирований");
-                    }
 
                     return deletedCount;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Console.WriteLine($"Ошибка при удалении устаревших бронирований: {ex.Message}");
                 return -1;
             }
         }

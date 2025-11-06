@@ -133,7 +133,7 @@ namespace Restaurant
 
                     if (mode == "edit" && SelectedTableId > 0)
                     {
-                        SelectedTableId = SelectedTableId; 
+                        SelectedTableId = SelectedTableId;
                     }
                     else if (comboBoxTable.Items.Count > 0)
                     {
@@ -312,20 +312,6 @@ namespace Restaurant
                 timePicker?.Focus();
                 return;
             }
-
-            DialogResult result = MessageBox.Show(
-                $"Вы действительно хотите {(mode == "add" ? "забронировать" : "сохранить изменения")}?\n" +
-                $"Клиент: {((KeyValuePair<int, string>)comboBoxClient.SelectedItem).Value}\n" +
-                $"Дата: {selectedDateTime:dd.MM.yyyy}\n" +
-                $"Время: {selectedDateTime:HH:mm}\n" +
-                $"Количество гостей: {clientsCount}\n" +
-                $"Столик: {((KeyValuePair<int, string>)comboBoxTable.SelectedItem).Value}",
-                mode == "add" ? "Подтверждение бронирования" : "Подтверждение изменений",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question);
-
-            if (result != DialogResult.Yes) return;
-
             try
             {
                 using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
@@ -384,6 +370,19 @@ namespace Restaurant
                         MessageBox.Show("Этот столик уже забронирован на выбранное время!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
+
+                    DialogResult result = MessageBox.Show(
+                        $"Вы действительно хотите {(mode == "add" ? "забронировать" : "сохранить изменения")}?\n" +
+                        $"Клиент: {((KeyValuePair<int, string>)comboBoxClient.SelectedItem).Value}\n" +
+                        $"Дата: {selectedDateTime:dd.MM.yyyy}\n" +
+                        $"Время: {selectedDateTime:HH:mm}\n" +
+                        $"Количество гостей: {clientsCount}\n" +
+                        $"Столик: {((KeyValuePair<int, string>)comboBoxTable.SelectedItem).Value}",
+                        mode == "add" ? "Подтверждение бронирования" : "Подтверждение изменений",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question);
+
+                    if (result != DialogResult.Yes) return;
 
                     MySqlCommand cmd;
                     if (mode == "add")

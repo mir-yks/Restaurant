@@ -271,9 +271,9 @@ namespace Restaurant
                                 e.FormattingApplied = true;
                             }
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
-                            Console.WriteLine($"Ошибка форматирования: {ex.Message}");
+
                         }
                     }
                 }
@@ -605,9 +605,9 @@ namespace Restaurant
                     UpdateTotalCount();
                     textBoxSum.Text = CalculateCurrentTotalSum().ToString("F2");
                 }
-                catch (Exception ex)
+                catch (Exception )
                 {
-                    Console.WriteLine($"Ошибка в CellValueChanged: {ex.Message}");
+
                 }
             }
         }
@@ -646,7 +646,6 @@ namespace Restaurant
         private void dataGridView1_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
             e.ThrowException = false;
-            Console.WriteLine($"DataError: {e.Exception.Message}");
         }
     }
 }
