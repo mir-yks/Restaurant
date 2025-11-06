@@ -300,6 +300,7 @@
             // 
             this.comboBoxRole.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
             this.comboBoxRole.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxRole.Enabled = false;
             this.comboBoxRole.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.comboBoxRole.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.comboBoxRole.ForeColor = System.Drawing.Color.White;

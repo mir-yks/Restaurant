@@ -15,6 +15,7 @@ namespace Restaurant
     public partial class WorkerInsert : Form
     {
         private string mode;
+        private string originalRole;
         public int WorkerID { get; set; }
         public WorkerInsert(string mode)
         {
@@ -98,13 +99,13 @@ namespace Restaurant
                     comboBoxRole.Enabled = false;
                     dateTimePickerBirthday.Enabled = false;
                     dateTimePickerEmployment.Enabled = false;
-                    
+
                     comboBoxRole.Location = new System.Drawing.Point(16, 235);
                     labelRole.Location = new System.Drawing.Point(12, 209);
                     textBoxAddress.Location = new System.Drawing.Point(16, 168);
                     labelAddress.Location = new System.Drawing.Point(12, 142);
 
-                    buttonBack.Text = "Закрыть"; 
+                    buttonBack.Text = "Закрыть";
                     break;
 
                 case "add":
@@ -118,26 +119,35 @@ namespace Restaurant
                     comboBoxRole.SelectedIndex = 0;
                     dateTimePickerEmployment.Value = DateTime.Today;
 
-                    buttonWrite.Visible = true; 
-                    buttonBack.Text = "Отмена";
+                    comboBoxRole.Enabled = true;
                     break;
 
                 case "edit":
-                    textBoxFIO.ReadOnly = false;
-                    textBoxLogin.ReadOnly = false;
-                    textBoxPassword.ReadOnly = false;
-                    textBoxConfPassword.ReadOnly = false;
-                    maskedTextBoxPhone.ReadOnly = false;
-                    textBoxEmail.ReadOnly = false;
-                    textBoxAddress.ReadOnly = false;
+                    dateTimePickerBirthday.Enabled = false;
+                    dateTimePickerEmployment.Enabled = false;
 
-                    comboBoxRole.Enabled = true;
-                    dateTimePickerBirthday.Enabled = true;
-                    dateTimePickerEmployment.Enabled = true;
+                    originalRole = WorkerRole;
 
-                    buttonWrite.Visible = true; 
-                    buttonBack.Text = "Отмена";
+                    CheckAndLockRoleComboBox();
                     break;
+            }
+        }
+
+        private void CheckAndLockRoleComboBox()
+        {
+            if (mode == "edit" && !string.IsNullOrEmpty(originalRole) &&
+                originalRole.Equals("Администратор", StringComparison.OrdinalIgnoreCase))
+            {
+                comboBoxRole.Enabled = false;
+
+                if (comboBoxRole.Enabled)
+                {
+                    comboBoxRole.Enabled = false;
+                }
+            }
+            else if (mode == "edit")
+            {
+                comboBoxRole.Enabled = true;
             }
         }
 
@@ -204,7 +214,6 @@ namespace Restaurant
             get => comboBoxRole.Text;
             set => comboBoxRole.Text = value;
         }
-
 
         private void buttonBack_Click(object sender, EventArgs e)
         {
@@ -412,7 +421,12 @@ namespace Restaurant
                         cmd.Parameters.AddWithValue("@Birthday", dateTimePickerBirthday.Value);
                         cmd.Parameters.AddWithValue("@Employment", dateTimePickerEmployment.Value);
                         cmd.Parameters.AddWithValue("@Address", textBoxAddress.Text);
-                        cmd.Parameters.AddWithValue("@Role", comboBoxRole.Text);
+
+                        string roleToUse = originalRole.Equals("Администратор", StringComparison.OrdinalIgnoreCase)
+                            ? originalRole
+                            : comboBoxRole.Text;
+                        cmd.Parameters.AddWithValue("@Role", roleToUse);
+
                         cmd.Parameters.AddWithValue("@Id", WorkerID);
                         if (!string.IsNullOrEmpty(hashedPassword))
                             cmd.Parameters.AddWithValue("@Password", hashedPassword);
@@ -429,6 +443,7 @@ namespace Restaurant
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
         private void textBoxFIO_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) &&

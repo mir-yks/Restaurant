@@ -17,6 +17,7 @@ namespace Restaurant
         private bool isUpdatingStatus = false;
         private string initialOrderStatus;
         private string initialOrderStatusPayment;
+        private Dictionary<int, int> clientTableMap = new Dictionary<int, int>();
 
         public string WorkerName
         {
@@ -87,7 +88,7 @@ namespace Restaurant
                 comboBoxStatusOrder.Enabled = false;
                 comboBoxStatusPayment.Enabled = false;
                 comboBoxClient.Enabled = true;
-                comboBoxTable.Enabled = true; 
+                comboBoxTable.Enabled = true;
 
                 comboBoxStatusOrder.SelectedIndex = 0;
                 comboBoxStatusPayment.SelectedIndex = 1;
@@ -103,7 +104,7 @@ namespace Restaurant
                 comboBoxStatusOrder.Enabled = true;
                 comboBoxStatusPayment.Enabled = true;
                 comboBoxClient.Enabled = false;
-                comboBoxTable.Enabled = false; 
+                comboBoxTable.Enabled = false;
 
                 UpdateControlsState();
             }
@@ -161,23 +162,7 @@ namespace Restaurant
                         comboBoxWaiter.SelectedValue = currentWorkerId;
                     }
 
-                    MySqlCommand cmdClients = new MySqlCommand("SELECT ClientId, ClientFIO FROM Client", con);
-                    MySqlDataAdapter daClients = new MySqlDataAdapter(cmdClients);
-                    DataTable clientsTable = new DataTable();
-                    daClients.Fill(clientsTable);
-
-                    comboBoxClient.Items.Clear();
-                    comboBoxClient.Items.Add("");
-                    foreach (DataRow row in clientsTable.Rows)
-                    {
-                        comboBoxClient.Items.Add(new KeyValuePair<int, string>(
-                            Convert.ToInt32(row["ClientId"]),
-                            row["ClientFIO"].ToString()
-                        ));
-                    }
-
-                    comboBoxClient.DisplayMember = "Value";
-                    comboBoxClient.ValueMember = "Key";
+                    LoadClientsWithTodayBooking(con);
 
                     string tablesQuery;
                     if (mode == "add")
@@ -221,7 +206,7 @@ namespace Restaurant
                         comboBoxClient.SelectedIndex = 0;
                         comboBoxStatusOrder.SelectedIndex = 0;
                         comboBoxStatusPayment.SelectedIndex = 1;
-                        comboBoxTable.SelectedIndex = -1; 
+                        comboBoxTable.SelectedIndex = -1;
                         comboBoxTable.Text = "";
                     }
 
@@ -231,6 +216,58 @@ namespace Restaurant
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void LoadClientsWithTodayBooking(MySqlConnection con)
+        {
+            try
+            {
+                clientTableMap.Clear();
+
+                string query = @"
+                    SELECT DISTINCT c.ClientId, c.ClientFIO, b.TableId 
+                    FROM Client c 
+                    INNER JOIN Booking b ON c.ClientId = b.ClientId 
+                    WHERE DATE(b.BookingDate) = CURDATE() 
+                    ORDER BY c.ClientFIO";
+
+                MySqlCommand cmdClients = new MySqlCommand(query, con);
+                MySqlDataAdapter daClients = new MySqlDataAdapter(cmdClients);
+                DataTable clientsTable = new DataTable();
+                daClients.Fill(clientsTable);
+
+                comboBoxClient.Items.Clear();
+                comboBoxClient.Items.Add("");
+
+                foreach (DataRow row in clientsTable.Rows)
+                {
+                    int clientId = Convert.ToInt32(row["ClientId"]);
+                    string clientName = row["ClientFIO"].ToString();
+                    int tableId = Convert.ToInt32(row["TableId"]);
+
+                    clientTableMap[clientId] = tableId;
+
+                    comboBoxClient.Items.Add(new KeyValuePair<int, string>(clientId, clientName));
+                }
+
+                comboBoxClient.DisplayMember = "Value";
+                comboBoxClient.ValueMember = "Key";
+
+                if (comboBoxClient.Items.Count == 1) 
+                {
+                    MessageBox.Show("На сегодня нет клиентов с бронированием столов.",
+                                  "Информация",
+                                  MessageBoxButtons.OK,
+                                  MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при загрузке клиентов: {ex.Message}",
+                              "Ошибка",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Error);
             }
         }
 
@@ -703,6 +740,48 @@ namespace Restaurant
                 {
                     Console.WriteLine($"Ошибка при очистке: {ex.Message}");
                 }
+            }
+        }
+
+        private void comboBoxClient_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBoxClient.SelectedItem == null ||
+                comboBoxClient.SelectedIndex == 0 ||
+                string.IsNullOrEmpty(comboBoxClient.Text))
+            {
+                comboBoxTable.Enabled = true;
+                comboBoxTable.SelectedIndex = -1;
+                comboBoxTable.Text = "";
+                return;
+            }
+
+            var selectedClient = (KeyValuePair<int, string>)comboBoxClient.SelectedItem;
+            int clientId = selectedClient.Key;
+
+            if (clientTableMap.ContainsKey(clientId))
+            {
+                int tableId = clientTableMap[clientId];
+
+                for (int i = 0; i < comboBoxTable.Items.Count; i++)
+                {
+                    if (comboBoxTable.Items[i].ToString() == tableId.ToString())
+                    {
+                        comboBoxTable.SelectedIndex = i;
+                        break;
+                    }
+                }
+
+                comboBoxTable.Enabled = false;
+            }
+            else
+            {
+                comboBoxTable.Enabled = true;
+                comboBoxTable.SelectedIndex = -1;
+                comboBoxTable.Text = "";
+                MessageBox.Show("Для выбранного клиента не найден забронированный стол.",
+                              "Информация",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Information);
             }
         }
     }

@@ -40,6 +40,15 @@ namespace Restaurant
                 int id = Convert.ToInt32(dataGridView1.CurrentRow.Cells["RoleId"].Value);
                 string name = dataGridView1.CurrentRow.Cells["Наименование"].Value.ToString();
 
+                if (name.Equals("Администратор", StringComparison.OrdinalIgnoreCase))
+                {
+                    MessageBox.Show("Нельзя изменить роль 'Администратор'!",
+                                  "Запрещено",
+                                  MessageBoxButtons.OK,
+                                  MessageBoxIcon.Warning);
+                    return;
+                }
+
                 RoleInsert RoleInsert = new RoleInsert("edit");
                 RoleInsert.RoleId = id;
                 RoleInsert.RoleName = name;
@@ -86,6 +95,15 @@ namespace Restaurant
 
             string roleName = dataGridView1.CurrentRow.Cells["Наименование"].Value.ToString();
 
+            if (roleName.Equals("Администратор", StringComparison.OrdinalIgnoreCase))
+            {
+                MessageBox.Show("Нельзя удалить роль 'Администратор'!",
+                              "Запрещено",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Warning);
+                return;
+            }
+
             DialogResult result = MessageBox.Show(
                 $"Вы действительно хотите удалить роль \"{roleName}\"?",
                 "Удаление записи",
@@ -116,13 +134,22 @@ namespace Restaurant
             }
         }
 
-
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
             {
-                buttonUpdate.Enabled = true;
-                buttonDelete.Enabled = true;
+                string roleName = dataGridView1.Rows[e.RowIndex].Cells["Наименование"].Value.ToString();
+
+                if (roleName.Equals("Администратор", StringComparison.OrdinalIgnoreCase))
+                {
+                    buttonUpdate.Enabled = false;
+                    buttonDelete.Enabled = false;
+                }
+                else
+                {
+                    buttonUpdate.Enabled = true;
+                    buttonDelete.Enabled = true;
+                }
             }
         }
     }

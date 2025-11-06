@@ -334,6 +334,17 @@ namespace Restaurant
             }
 
             int selectedWorkerId = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID"].Value);
+            string workerRole = dataGridView1.CurrentRow.Cells["Роль"].Value.ToString();
+            string workerFIO = dataGridView1.CurrentRow.Cells["ФИО"].Value.ToString();
+
+            if (workerRole.Equals("Администратор", StringComparison.OrdinalIgnoreCase))
+            {
+                MessageBox.Show("Нельзя удалить сотрудника с ролью 'Администратор'!",
+                              "Запрещено",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Warning);
+                return;
+            }
 
             if (selectedWorkerId == CurrentUserID)
             {
@@ -341,7 +352,6 @@ namespace Restaurant
                 return;
             }
 
-            string workerFIO = dataGridView1.CurrentRow.Cells["ФИО"].Value.ToString();
             DialogResult result = MessageBox.Show($"Вы действительно хотите удалить сотрудника \"{workerFIO}\"?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (result != DialogResult.Yes) return;
@@ -379,8 +389,17 @@ namespace Restaurant
         {
             if (e.RowIndex >= 0)
             {
-                buttonUpdate.Enabled = true;
-                buttonDelete.Enabled = true;
+                string workerRole = dataGridView1.Rows[e.RowIndex].Cells["Роль"].Value.ToString();
+
+                if (workerRole.Equals("Администратор", StringComparison.OrdinalIgnoreCase))
+                {
+                    buttonDelete.Enabled = false;
+                }
+                else
+                {
+                    buttonUpdate.Enabled = true;
+                    buttonDelete.Enabled = true;
+                }
             }
         }
     }
