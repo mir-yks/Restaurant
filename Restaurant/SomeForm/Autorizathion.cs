@@ -85,6 +85,7 @@ namespace Restaurant
                     }
 
                     DatabaseCleanup.CleanExpiredBookings();
+                    TableStatusUpdater.UpdateTablesStatus();
 
                     string roleName = "";
                     switch (userRole)

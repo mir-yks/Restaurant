@@ -54,6 +54,7 @@
     <Compile Include="Classes\DatabaseCleanup.cs" />
     <Compile Include="Classes\Fonts.cs" />
     <Compile Include="Classes\InputTooltipHelper.cs" />
+    <Compile Include="Classes\TableStatusUpdater.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

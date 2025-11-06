@@ -91,6 +91,7 @@ namespace Restaurant
 
         private void LoadTables()
         {
+            TableStatusUpdater.UpdateTablesStatus();
             try
             {
                 using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))

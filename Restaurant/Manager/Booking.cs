@@ -59,12 +59,13 @@ namespace Restaurant
 
         private void Booking_Load(object sender, EventArgs e)
         {
-            DatabaseCleanup.CleanExpiredBookings();
+            
             LoadBookings();
         }
 
         private void LoadBookings()
         {
+            DatabaseCleanup.CleanExpiredBookings();
             try
             {
                 using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
