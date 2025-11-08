@@ -434,6 +434,11 @@ namespace Restaurant
                     return;
                 }
 
+                if (!CheckTableBookingRestrictions())
+                {
+                    return;
+                }
+
                 DialogResult confirmResult = MessageBox.Show(
                     "Вы уверены, что хотите создать новый заказ?",
                     "Подтверждение сохранения",
@@ -934,6 +939,62 @@ namespace Restaurant
                 {
                     MessageBox.Show($"Ошибка при загрузке столов: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+            }
+        }
+
+        private bool CheckTableBookingRestrictions()
+        {
+            if (string.IsNullOrEmpty(comboBoxTable.Text))
+                return true;
+
+            try
+            {
+                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                {
+                    con.Open();
+                    int tableId = Convert.ToInt32(comboBoxTable.Text);
+
+                    MySqlCommand checkBookingCmd = new MySqlCommand(@"
+                SELECT 
+                    BookingDate,
+                    TIMESTAMPDIFF(MINUTE, NOW(), BookingDate) as MinutesUntilBooking,
+                    c.ClientFIO
+                FROM booking b
+                JOIN client c ON b.ClientId = c.ClientId
+                WHERE b.TableId = @TableId 
+                AND DATE(b.BookingDate) = CURDATE()
+                AND b.BookingDate > NOW()
+                ORDER BY b.BookingDate", con);
+
+                    checkBookingCmd.Parameters.AddWithValue("@TableId", tableId);
+
+                    using (MySqlDataReader reader = checkBookingCmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int minutesUntilBooking = reader.GetInt32("MinutesUntilBooking");
+
+                            if (minutesUntilBooking < 120)
+                            {
+                                MessageBox.Show(
+                                    $"Этот стол забронирован!\n" +
+                                    $"Создание заказа невозможно!",
+                                    "Стол забронирован",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning);
+                                return false;
+                            }
+                        }
+                    }
+
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при проверке бронирования стола: {ex.Message}",
+                              "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
         }
     }
