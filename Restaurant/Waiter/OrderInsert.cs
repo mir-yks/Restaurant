@@ -222,13 +222,25 @@ namespace Restaurant
             {
                 clientTableMap.Clear();
 
-                string query = @"
-            SELECT DISTINCT c.ClientId, c.ClientFIO, b.TableId, b.BookingDate
-            FROM Client c 
-            INNER JOIN Booking b ON c.ClientId = b.ClientId 
-            WHERE DATE(b.BookingDate) = CURDATE() 
-            AND b.BookingDate BETWEEN DATE_SUB(NOW(), INTERVAL 30 MINUTE) AND DATE_ADD(NOW(), INTERVAL 1 HOUR)
-            ORDER BY c.ClientFIO";
+                string query;
+
+                if (mode == "add")
+                {
+                    query = @"
+                SELECT DISTINCT c.ClientId, c.ClientFIO, b.TableId, b.BookingDate
+                FROM Client c 
+                INNER JOIN Booking b ON c.ClientId = b.ClientId 
+                WHERE DATE(b.BookingDate) = CURDATE() 
+                AND b.BookingDate BETWEEN DATE_SUB(NOW(), INTERVAL 30 MINUTE) AND DATE_ADD(NOW(), INTERVAL 1 HOUR)
+                ORDER BY c.ClientFIO";
+                }
+                else
+                {
+                    query = @"
+                SELECT ClientId, ClientFIO
+                FROM Client 
+                ORDER BY ClientFIO";
+                }
 
                 MySqlCommand cmdClients = new MySqlCommand(query, con);
                 MySqlDataAdapter daClients = new MySqlDataAdapter(cmdClients);
@@ -242,20 +254,18 @@ namespace Restaurant
                 {
                     int clientId = Convert.ToInt32(row["ClientId"]);
                     string clientName = row["ClientFIO"].ToString();
-                    int tableId = Convert.ToInt32(row["TableId"]);
 
-                    clientTableMap[clientId] = tableId;
+                    if (mode == "add" && row.Table.Columns.Contains("TableId"))
+                    {
+                        int tableId = Convert.ToInt32(row["TableId"]);
+                        clientTableMap[clientId] = tableId;
+                    }
 
                     comboBoxClient.Items.Add(new KeyValuePair<int, string>(clientId, clientName));
                 }
 
                 comboBoxClient.DisplayMember = "Value";
                 comboBoxClient.ValueMember = "Key";
-
-                if (comboBoxClient.Items.Count == 1)
-                {
-                    
-                }
             }
             catch (Exception ex)
             {
@@ -290,13 +300,23 @@ namespace Restaurant
                         if (!reader.IsDBNull(reader.GetOrdinal("ClientId")))
                         {
                             int clientId = reader.GetInt32("ClientId");
-                            foreach (KeyValuePair<int, string> item in comboBoxClient.Items)
+
+                            bool clientFound = false;
+                            for (int i = 0; i < comboBoxClient.Items.Count; i++)
                             {
-                                if (item.Key == clientId)
+                                if (comboBoxClient.Items[i] is KeyValuePair<int, string> item && item.Key == clientId)
                                 {
-                                    comboBoxClient.SelectedItem = item;
+                                    comboBoxClient.SelectedIndex = i;
+                                    clientFound = true;
                                     break;
                                 }
+                            }
+
+                            if (!clientFound)
+                            {
+                                reader.Close();
+                                LoadAllClients(con);
+                                SetClientSelection(clientId);
                             }
                         }
                         else
@@ -342,6 +362,47 @@ namespace Restaurant
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void LoadAllClients(MySqlConnection con)
+        {
+            try
+            {
+                string query = "SELECT ClientId, ClientFIO FROM Client ORDER BY ClientFIO";
+                MySqlCommand cmdClients = new MySqlCommand(query, con);
+                MySqlDataAdapter daClients = new MySqlDataAdapter(cmdClients);
+                DataTable clientsTable = new DataTable();
+                daClients.Fill(clientsTable);
+
+                comboBoxClient.Items.Clear();
+                comboBoxClient.Items.Add("");
+
+                foreach (DataRow row in clientsTable.Rows)
+                {
+                    int clientId = Convert.ToInt32(row["ClientId"]);
+                    string clientName = row["ClientFIO"].ToString();
+                    comboBoxClient.Items.Add(new KeyValuePair<int, string>(clientId, clientName));
+                }
+
+                comboBoxClient.DisplayMember = "Value";
+                comboBoxClient.ValueMember = "Key";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при загрузке клиентов: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void SetClientSelection(int clientId)
+        {
+            for (int i = 0; i < comboBoxClient.Items.Count; i++)
+            {
+                if (comboBoxClient.Items[i] is KeyValuePair<int, string> item && item.Key == clientId)
+                {
+                    comboBoxClient.SelectedIndex = i;
+                    break;
+                }
             }
         }
 
@@ -582,7 +643,6 @@ namespace Restaurant
                             DeleteCurrentClientBooking(con, clientId.Value, tableId.Value);
                         }
 
-                        MessageBox.Show($"Заказ №{OrderID} успешно создан!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else if (mode == "edit")
                     {

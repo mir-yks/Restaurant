@@ -45,8 +45,8 @@ namespace Restaurant
             buttonBack.Font = Fonts.MontserratAlternatesBold(12f);
             buttonWrite.Font = Fonts.MontserratAlternatesBold(12f);
 
-            dateTimePickerBirthday.MaxDate = DateTime.Today.AddYears(-16);
-            dateTimePickerBirthday.MinDate = DateTime.Today.AddYears(-70);
+            dateTimePickerBirthday.MaxDate = DateTime.Today.AddYears(-14);
+            dateTimePickerBirthday.MinDate = DateTime.Today.AddYears(-120);
             dateTimePickerEmployment.MaxDate = DateTime.Today;
 
             LoadRoles();
@@ -103,7 +103,6 @@ namespace Restaurant
 
                     comboBoxRole.Enabled = false;
                     dateTimePickerBirthday.Enabled = false;
-                    dateTimePickerEmployment.Enabled = false;
 
                     comboBoxRole.Location = new System.Drawing.Point(16, 235);
                     labelRole.Location = new System.Drawing.Point(12, 209);
@@ -129,7 +128,6 @@ namespace Restaurant
 
                 case "edit":
                     dateTimePickerBirthday.Enabled = false;
-                    dateTimePickerEmployment.Enabled = false;
 
                     if (string.IsNullOrEmpty(originalRole) && !string.IsNullOrEmpty(comboBoxRole.Text))
                     {

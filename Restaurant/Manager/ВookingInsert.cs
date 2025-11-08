@@ -365,7 +365,7 @@ namespace Restaurant
                     }
 
                     DialogResult result = MessageBox.Show(
-                        $"Вы действительно хотите {(mode == "add" ? "забронировать" : "сохранить изменения")}?\n" +
+                        $"Вы действительно хотите {(mode == "add" ? "забронировать" : "сохранить изменения")}?\n\n" +
                         $"Клиент: {((KeyValuePair<int, string>)comboBoxClient.SelectedItem).Value}\n" +
                         $"Дата: {selectedDateTime:dd.MM.yyyy}\n" +
                         $"Время: {selectedDateTime:HH:mm}\n" +
