@@ -100,7 +100,7 @@ namespace Restaurant
                                    FROM Tables 
                                    WHERE TablesCountPlace >= @MinCapacity 
                                    AND (TablesStatus = 'Свободен' OR TablesId = @CurrentTableId)
-                                   ORDER BY TablesCountPlace";
+                                   ORDER BY TablesCountPlace ASC, TablesId ASC";
 
                     MySqlCommand cmd = new MySqlCommand(query, con);
                     cmd.Parameters.AddWithValue("@MinCapacity", minCapacity);
@@ -336,6 +336,37 @@ namespace Restaurant
                     if (existingCount > 0)
                     {
                         MessageBox.Show("Этот клиент уже забронировал столик на выбранное время!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    MySqlCommand checkTimeIntervalCmd;
+                    if (mode == "add")
+                    {
+                        checkTimeIntervalCmd = new MySqlCommand(@"
+                    SELECT COUNT(*) FROM booking 
+                    WHERE TableId = @TableId 
+                    AND ABS(TIMESTAMPDIFF(MINUTE, BookingDate, @BookingDate)) < 120
+                    AND BookingId != @BookingId", con);
+                        checkTimeIntervalCmd.Parameters.AddWithValue("@BookingId", 0); 
+                    }
+                    else
+                    {
+                        checkTimeIntervalCmd = new MySqlCommand(@"
+                    SELECT COUNT(*) FROM booking 
+                    WHERE TableId = @TableId 
+                    AND ABS(TIMESTAMPDIFF(MINUTE, BookingDate, @BookingDate)) < 120
+                    AND BookingId != @BookingId", con);
+                        checkTimeIntervalCmd.Parameters.AddWithValue("@BookingId", BookingID);
+                    }
+
+                    checkTimeIntervalCmd.Parameters.AddWithValue("@TableId", tableId);
+                    checkTimeIntervalCmd.Parameters.AddWithValue("@BookingDate", selectedDateTime);
+
+                    int conflictingBookings = Convert.ToInt32(checkTimeIntervalCmd.ExecuteScalar());
+                    if (conflictingBookings > 0)
+                    {
+                        MessageBox.Show("Между бронями на один столик должен быть интервал не менее 2 часов.",
+                                      "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
 
