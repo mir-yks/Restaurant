@@ -40,8 +40,9 @@
             this.labelName = new System.Windows.Forms.Label();
             this.comboBoxOffers = new System.Windows.Forms.ComboBox();
             this.comboBoxCategory = new System.Windows.Forms.ComboBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.pictureBoxImage = new System.Windows.Forms.PictureBox();
+            this.buttonImage = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxImage)).BeginInit();
             this.SuspendLayout();
             // 
             // textBoxPrice
@@ -50,10 +51,11 @@
             this.textBoxPrice.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxPrice.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxPrice.ForeColor = System.Drawing.Color.White;
-            this.textBoxPrice.Location = new System.Drawing.Point(16, 169);
+            this.textBoxPrice.Location = new System.Drawing.Point(21, 208);
+            this.textBoxPrice.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBoxPrice.MaxLength = 5;
             this.textBoxPrice.Name = "textBoxPrice";
-            this.textBoxPrice.Size = new System.Drawing.Size(227, 31);
+            this.textBoxPrice.Size = new System.Drawing.Size(302, 36);
             this.textBoxPrice.TabIndex = 46;
             this.textBoxPrice.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxPrice_KeyPress);
             // 
@@ -63,9 +65,10 @@
             this.textBoxDescription.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxDescription.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxDescription.ForeColor = System.Drawing.Color.White;
-            this.textBoxDescription.Location = new System.Drawing.Point(16, 98);
+            this.textBoxDescription.Location = new System.Drawing.Point(21, 121);
+            this.textBoxDescription.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBoxDescription.Name = "textBoxDescription";
-            this.textBoxDescription.Size = new System.Drawing.Size(227, 31);
+            this.textBoxDescription.Size = new System.Drawing.Size(302, 36);
             this.textBoxDescription.TabIndex = 47;
             this.textBoxDescription.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxDescription_KeyPress);
             // 
@@ -75,10 +78,11 @@
             this.textBoxName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxName.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxName.ForeColor = System.Drawing.Color.White;
-            this.textBoxName.Location = new System.Drawing.Point(16, 34);
+            this.textBoxName.Location = new System.Drawing.Point(21, 42);
+            this.textBoxName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBoxName.MaxLength = 100;
             this.textBoxName.Name = "textBoxName";
-            this.textBoxName.Size = new System.Drawing.Size(227, 31);
+            this.textBoxName.Size = new System.Drawing.Size(302, 36);
             this.textBoxName.TabIndex = 48;
             this.textBoxName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxName_KeyPress);
             // 
@@ -89,11 +93,12 @@
             this.buttonWrite.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonWrite.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonWrite.ForeColor = System.Drawing.Color.White;
-            this.buttonWrite.Location = new System.Drawing.Point(407, 295);
+            this.buttonWrite.Location = new System.Drawing.Point(543, 363);
+            this.buttonWrite.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonWrite.Name = "buttonWrite";
-            this.buttonWrite.Size = new System.Drawing.Size(115, 50);
+            this.buttonWrite.Size = new System.Drawing.Size(153, 62);
             this.buttonWrite.TabIndex = 45;
-            this.buttonWrite.Text = "Записать";
+            this.buttonWrite.Text = "Добавить";
             this.buttonWrite.UseVisualStyleBackColor = false;
             this.buttonWrite.Click += new System.EventHandler(this.buttonWrite_Click);
             // 
@@ -104,9 +109,10 @@
             this.buttonBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonBack.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonBack.ForeColor = System.Drawing.Color.White;
-            this.buttonBack.Location = new System.Drawing.Point(12, 295);
+            this.buttonBack.Location = new System.Drawing.Point(16, 363);
+            this.buttonBack.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonBack.Name = "buttonBack";
-            this.buttonBack.Size = new System.Drawing.Size(110, 50);
+            this.buttonBack.Size = new System.Drawing.Size(147, 62);
             this.buttonBack.TabIndex = 44;
             this.buttonBack.Text = "Назад";
             this.buttonBack.UseVisualStyleBackColor = false;
@@ -118,9 +124,10 @@
             this.labelOffers.BackColor = System.Drawing.Color.Transparent;
             this.labelOffers.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelOffers.ForeColor = System.Drawing.Color.White;
-            this.labelOffers.Location = new System.Drawing.Point(274, 8);
+            this.labelOffers.Location = new System.Drawing.Point(365, 10);
+            this.labelOffers.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelOffers.Name = "labelOffers";
-            this.labelOffers.Size = new System.Drawing.Size(223, 23);
+            this.labelOffers.Size = new System.Drawing.Size(280, 29);
             this.labelOffers.TabIndex = 39;
             this.labelOffers.Text = "Предложение блюда:";
             // 
@@ -130,9 +137,10 @@
             this.labelCategory.BackColor = System.Drawing.Color.Transparent;
             this.labelCategory.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelCategory.ForeColor = System.Drawing.Color.White;
-            this.labelCategory.Location = new System.Drawing.Point(12, 213);
+            this.labelCategory.Location = new System.Drawing.Point(16, 262);
+            this.labelCategory.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelCategory.Name = "labelCategory";
-            this.labelCategory.Size = new System.Drawing.Size(189, 23);
+            this.labelCategory.Size = new System.Drawing.Size(238, 29);
             this.labelCategory.TabIndex = 40;
             this.labelCategory.Text = "Категория блюда:";
             // 
@@ -142,9 +150,10 @@
             this.labelPrice.BackColor = System.Drawing.Color.Transparent;
             this.labelPrice.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelPrice.ForeColor = System.Drawing.Color.White;
-            this.labelPrice.Location = new System.Drawing.Point(12, 143);
+            this.labelPrice.Location = new System.Drawing.Point(16, 176);
+            this.labelPrice.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelPrice.Name = "labelPrice";
-            this.labelPrice.Size = new System.Drawing.Size(67, 23);
+            this.labelPrice.Size = new System.Drawing.Size(85, 29);
             this.labelPrice.TabIndex = 41;
             this.labelPrice.Text = "Цена:";
             // 
@@ -154,9 +163,10 @@
             this.labelDescription.BackColor = System.Drawing.Color.Transparent;
             this.labelDescription.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelDescription.ForeColor = System.Drawing.Color.White;
-            this.labelDescription.Location = new System.Drawing.Point(12, 72);
+            this.labelDescription.Location = new System.Drawing.Point(16, 89);
+            this.labelDescription.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelDescription.Name = "labelDescription";
-            this.labelDescription.Size = new System.Drawing.Size(114, 23);
+            this.labelDescription.Size = new System.Drawing.Size(144, 29);
             this.labelDescription.TabIndex = 42;
             this.labelDescription.Text = "Описание:";
             // 
@@ -166,9 +176,10 @@
             this.labelName.BackColor = System.Drawing.Color.Transparent;
             this.labelName.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelName.ForeColor = System.Drawing.Color.White;
-            this.labelName.Location = new System.Drawing.Point(12, 8);
+            this.labelName.Location = new System.Drawing.Point(16, 10);
+            this.labelName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelName.Name = "labelName";
-            this.labelName.Size = new System.Drawing.Size(111, 23);
+            this.labelName.Size = new System.Drawing.Size(141, 29);
             this.labelName.TabIndex = 43;
             this.labelName.Text = "Название:";
             // 
@@ -180,9 +191,10 @@
             this.comboBoxOffers.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.comboBoxOffers.ForeColor = System.Drawing.Color.White;
             this.comboBoxOffers.FormattingEnabled = true;
-            this.comboBoxOffers.Location = new System.Drawing.Point(278, 34);
+            this.comboBoxOffers.Location = new System.Drawing.Point(371, 42);
+            this.comboBoxOffers.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.comboBoxOffers.Name = "comboBoxOffers";
-            this.comboBoxOffers.Size = new System.Drawing.Size(226, 31);
+            this.comboBoxOffers.Size = new System.Drawing.Size(300, 37);
             this.comboBoxOffers.TabIndex = 37;
             // 
             // comboBoxCategory
@@ -193,34 +205,54 @@
             this.comboBoxCategory.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.comboBoxCategory.ForeColor = System.Drawing.Color.White;
             this.comboBoxCategory.FormattingEnabled = true;
-            this.comboBoxCategory.Location = new System.Drawing.Point(16, 239);
+            this.comboBoxCategory.Location = new System.Drawing.Point(21, 294);
+            this.comboBoxCategory.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.comboBoxCategory.Name = "comboBoxCategory";
-            this.comboBoxCategory.Size = new System.Drawing.Size(226, 31);
+            this.comboBoxCategory.Size = new System.Drawing.Size(300, 37);
             this.comboBoxCategory.TabIndex = 38;
             // 
-            // pictureBox1
+            // pictureBoxImage
             // 
-            this.pictureBox1.BackgroundImage = global::Restaurant.Properties.Resources.plug;
-            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox1.Location = new System.Drawing.Point(287, 76);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(200, 200);
-            this.pictureBox1.TabIndex = 49;
-            this.pictureBox1.TabStop = false;
+            this.pictureBoxImage.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBoxImage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pictureBoxImage.Location = new System.Drawing.Point(371, 94);
+            this.pictureBoxImage.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pictureBoxImage.Name = "pictureBoxImage";
+            this.pictureBoxImage.Size = new System.Drawing.Size(300, 192);
+            this.pictureBoxImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxImage.TabIndex = 49;
+            this.pictureBoxImage.TabStop = false;
+            // 
+            // buttonImage
+            // 
+            this.buttonImage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.buttonImage.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(99)))), ((int)(((byte)(107)))));
+            this.buttonImage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonImage.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonImage.ForeColor = System.Drawing.Color.White;
+            this.buttonImage.Location = new System.Drawing.Point(370, 294);
+            this.buttonImage.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonImage.Name = "buttonImage";
+            this.buttonImage.Size = new System.Drawing.Size(301, 37);
+            this.buttonImage.TabIndex = 45;
+            this.buttonImage.Text = "Выбрать фото";
+            this.buttonImage.UseVisualStyleBackColor = false;
+            this.buttonImage.Click += new System.EventHandler(this.buttonImage_Click);
             // 
             // MenuInsert
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImage = global::Restaurant.Properties.Resources.fonMain;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(534, 357);
+            this.ClientSize = new System.Drawing.Size(712, 439);
             this.ControlBox = false;
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.pictureBoxImage);
             this.Controls.Add(this.textBoxPrice);
             this.Controls.Add(this.textBoxDescription);
             this.Controls.Add(this.textBoxName);
+            this.Controls.Add(this.buttonImage);
             this.Controls.Add(this.buttonWrite);
             this.Controls.Add(this.buttonBack);
             this.Controls.Add(this.labelOffers);
@@ -231,10 +263,12 @@
             this.Controls.Add(this.comboBoxOffers);
             this.Controls.Add(this.comboBoxCategory);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "MenuInsert";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Редактирование блюда";
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MenuInsert_FormClosing);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxImage)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -254,6 +288,7 @@
         private System.Windows.Forms.Label labelName;
         private System.Windows.Forms.ComboBox comboBoxOffers;
         private System.Windows.Forms.ComboBox comboBoxCategory;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pictureBoxImage;
+        private System.Windows.Forms.Button buttonImage;
     }
 }

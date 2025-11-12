@@ -59,18 +59,38 @@ namespace Restaurant
             string category = dataGridView1.CurrentRow.Cells["Категория блюда"].Value.ToString();
             string offer = dataGridView1.CurrentRow.Cells["Предложение блюда"].Value.ToString();
 
-            MenuInsert MenuInsert = new MenuInsert("edit")
-            {
-                DishID = id,
-                DishName = name,
-                DishDescription = desc,
-                DishPrice = price,
-                DishCategory = category,
-                DishOffer = offer
-            };
+            string photo = GetDishPhotoFromDatabase(id);
 
+            MenuInsert MenuInsert = new MenuInsert("edit", id, name, desc, price, category, offer, photo);
             MenuInsert.ShowDialog();
             LoadMenu();
+        }
+
+        private string GetDishPhotoFromDatabase(int dishId)
+        {
+            string photo = "plug.png"; 
+
+            try
+            {
+                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                {
+                    con.Open();
+                    MySqlCommand cmd = new MySqlCommand("SELECT DishPhoto FROM MenuDish WHERE DishId = @id", con);
+                    cmd.Parameters.AddWithValue("@id", dishId);
+
+                    object result = cmd.ExecuteScalar();
+                    if (result != null && result != DBNull.Value)
+                    {
+                        photo = result.ToString();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка при получении фото блюда: " + ex.Message);
+            }
+
+            return photo;
         }
 
         private void buttonNew_Click(object sender, EventArgs e)
