@@ -47,12 +47,10 @@ namespace Restaurant
                 textBoxName.Text = "";
                 textBoxDiscount.Text = "1";
                 buttonWrite.Text = "Добавить";
-                this.Text = "Добавление предложения";
             }
             else if (mode == "edit")
             {
                 buttonWrite.Text = "Обновить";
-                this.Text = "Редактирование предложения";
             }
         }
 
@@ -68,7 +66,7 @@ namespace Restaurant
 
             if (string.IsNullOrWhiteSpace(offerName))
             {
-                MessageBox.Show("Введите название предложения!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Введите название акции!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 textBoxName.Focus();
                 return;
             }
@@ -104,7 +102,7 @@ namespace Restaurant
                         checkCmd = new MySqlCommand("SELECT COUNT(*) FROM OffersDish WHERE OffersDishName = @name", con);
                         checkCmd.Parameters.AddWithValue("@name", offerName);
                     }
-                    else 
+                    else
                     {
                         checkCmd = new MySqlCommand("SELECT COUNT(*) FROM OffersDish WHERE OffersDishName = @name AND OffersDishId <> @id", con);
                         checkCmd.Parameters.AddWithValue("@name", offerName);
@@ -114,7 +112,7 @@ namespace Restaurant
                     int count = Convert.ToInt32(checkCmd.ExecuteScalar());
                     if (count > 0)
                     {
-                        MessageBox.Show("Предложение с таким названием уже существует!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("Акция с таким названием уже существует!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
 
@@ -130,7 +128,7 @@ namespace Restaurant
                         cmd.Parameters.AddWithValue("@discount", discount);
                         cmd.ExecuteNonQuery();
 
-                        MessageBox.Show($"Предложение \"{offerName}\" успешно добавлено со скидкой {discount}%!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show($"Акция \"{offerName}\" успешно добавлена со скидкой {discount}%!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else if (mode == "edit")
                     {
@@ -142,7 +140,7 @@ namespace Restaurant
                         cmd.Parameters.AddWithValue("@id", OfferID);
                         cmd.ExecuteNonQuery();
 
-                        MessageBox.Show($"Предложение успешно обновлено!\nНазвание: \"{offerName}\", скидка: {discount}%", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show($"Акция успешно обновлена!\nНазвание: \"{offerName}\", скидка: {discount}%", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
 
                     this.DialogResult = DialogResult.OK;
@@ -153,8 +151,6 @@ namespace Restaurant
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-
 
         private void textBoxName_KeyPress(object sender, KeyPressEventArgs e)
         {

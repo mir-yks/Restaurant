@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -57,7 +58,7 @@ namespace Restaurant
             string desc = dataGridView1.CurrentRow.Cells["Описание"].Value.ToString();
             decimal price = Convert.ToDecimal(dataGridView1.CurrentRow.Cells["Стоимость"].Value);
             string category = dataGridView1.CurrentRow.Cells["Категория блюда"].Value.ToString();
-            string offer = dataGridView1.CurrentRow.Cells["Предложение блюда"].Value.ToString();
+            string offer = dataGridView1.CurrentRow.Cells["Акция"].Value.ToString();
 
             string photo = GetDishPhotoFromDatabase(id);
 
@@ -68,7 +69,7 @@ namespace Restaurant
 
         private string GetDishPhotoFromDatabase(int dishId)
         {
-            string photo = "plug.png"; 
+            string photo = "plug.png";
 
             try
             {
@@ -115,22 +116,29 @@ namespace Restaurant
                 {
                     con.Open();
                     string query = @"SELECT 
-                                        m.DishId,
-                                        m.DishName AS 'Блюдо',
-                                        m.DishDescription AS 'Описание',
-                                        m.DishPrice AS 'Стоимость',
-                                        c.CategoryDishName AS 'Категория блюда',
-                                        o.OffersDishName AS 'Предложение блюда'
-                                     FROM MenuDish m
-                                     JOIN CategoryDish c ON m.DishCategory = c.CategoryDishId
-                                     LEFT JOIN OffersDish o ON m.OffersDish = o.OffersDishId;";
+                                m.DishId,
+                                m.DishName AS 'Блюдо',
+                                m.DishDescription AS 'Описание',
+                                m.DishPrice AS 'Стоимость',
+                                c.CategoryDishName AS 'Категория блюда',
+                                COALESCE(o.OffersDishName, '') AS 'Акция',
+                                m.DishPhoto
+                             FROM MenuDish m
+                             JOIN CategoryDish c ON m.DishCategory = c.CategoryDishId
+                             LEFT JOIN OffersDish o ON m.OffersDish = o.OffersDishId;";
                     MySqlDataAdapter da = new MySqlDataAdapter(query, con);
                     menuTable = new DataTable();
                     da.Fill(menuTable);
+
                     dataGridView1.DataSource = menuTable;
+
+                    if (dataGridView1.Columns.Contains("DishPhoto"))
+                        dataGridView1.Columns["DishPhoto"].Visible = false;
 
                     if (dataGridView1.Columns.Contains("DishId"))
                         dataGridView1.Columns["DishId"].Visible = false;
+
+                    LoadImagesToGrid();
 
                     labelTotal.Text = $"Всего: {menuTable.Rows.Count}";
                 }
@@ -141,6 +149,39 @@ namespace Restaurant
             }
         }
 
+        private void LoadImagesToGrid()
+        {
+            System.Threading.Thread.Sleep(50);
+
+            for (int i = 0; i < dataGridView1.Rows.Count; i++)
+            {
+                if (dataGridView1.Rows[i].IsNewRow) continue;
+
+                string photoName = dataGridView1.Rows[i].Cells["DishPhoto"].Value?.ToString() ?? "plug.png";
+
+                try
+                {
+                    string imagePath = Path.Combine(Application.StartupPath, "Resources", "image", "Menu", photoName);
+                    string plugPath = Path.Combine(Application.StartupPath, "Resources", "image", "plug.png");
+
+                    if (File.Exists(imagePath))
+                    {
+                        Image image = Image.FromFile(imagePath);
+                        dataGridView1.Rows[i].Cells["ColumnImage"].Value = image;
+                    }
+                    else if (File.Exists(plugPath))
+                    {
+                        Image plugImage = Image.FromFile(plugPath);
+                        dataGridView1.Rows[i].Cells["ColumnImage"].Value = plugImage;
+                    }
+                }
+                catch (Exception)
+                {
+
+                }
+            }
+            dataGridView1.Columns["Акция"].Width = 120;
+        }
         private void LoadFilters()
         {
             try
@@ -218,6 +259,7 @@ namespace Restaurant
 
             dataGridView1.DataSource = view;
 
+            LoadImagesToGrid();
             labelTotal.Text = $"Всего: {view.Count}";
         }
 
@@ -235,6 +277,7 @@ namespace Restaurant
                 view.Sort = "";
                 dataGridView1.DataSource = view;
 
+                LoadImagesToGrid();
                 labelTotal.Text = $"Всего: {view.Count}";
             }
         }

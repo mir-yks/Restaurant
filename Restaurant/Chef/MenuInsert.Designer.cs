@@ -52,7 +52,7 @@
             this.textBoxPrice.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxPrice.ForeColor = System.Drawing.Color.White;
             this.textBoxPrice.Location = new System.Drawing.Point(21, 208);
-            this.textBoxPrice.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxPrice.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxPrice.MaxLength = 5;
             this.textBoxPrice.Name = "textBoxPrice";
             this.textBoxPrice.Size = new System.Drawing.Size(302, 36);
@@ -66,7 +66,7 @@
             this.textBoxDescription.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxDescription.ForeColor = System.Drawing.Color.White;
             this.textBoxDescription.Location = new System.Drawing.Point(21, 121);
-            this.textBoxDescription.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxDescription.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxDescription.Name = "textBoxDescription";
             this.textBoxDescription.Size = new System.Drawing.Size(302, 36);
             this.textBoxDescription.TabIndex = 47;
@@ -79,7 +79,7 @@
             this.textBoxName.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxName.ForeColor = System.Drawing.Color.White;
             this.textBoxName.Location = new System.Drawing.Point(21, 42);
-            this.textBoxName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxName.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxName.MaxLength = 100;
             this.textBoxName.Name = "textBoxName";
             this.textBoxName.Size = new System.Drawing.Size(302, 36);
@@ -94,7 +94,7 @@
             this.buttonWrite.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonWrite.ForeColor = System.Drawing.Color.White;
             this.buttonWrite.Location = new System.Drawing.Point(543, 363);
-            this.buttonWrite.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonWrite.Margin = new System.Windows.Forms.Padding(4);
             this.buttonWrite.Name = "buttonWrite";
             this.buttonWrite.Size = new System.Drawing.Size(153, 62);
             this.buttonWrite.TabIndex = 45;
@@ -110,7 +110,7 @@
             this.buttonBack.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonBack.ForeColor = System.Drawing.Color.White;
             this.buttonBack.Location = new System.Drawing.Point(16, 363);
-            this.buttonBack.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonBack.Margin = new System.Windows.Forms.Padding(4);
             this.buttonBack.Name = "buttonBack";
             this.buttonBack.Size = new System.Drawing.Size(147, 62);
             this.buttonBack.TabIndex = 44;
@@ -127,9 +127,9 @@
             this.labelOffers.Location = new System.Drawing.Point(365, 10);
             this.labelOffers.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelOffers.Name = "labelOffers";
-            this.labelOffers.Size = new System.Drawing.Size(280, 29);
+            this.labelOffers.Size = new System.Drawing.Size(98, 29);
             this.labelOffers.TabIndex = 39;
-            this.labelOffers.Text = "Предложение блюда:";
+            this.labelOffers.Text = "Акция:";
             // 
             // labelCategory
             // 
@@ -192,7 +192,7 @@
             this.comboBoxOffers.ForeColor = System.Drawing.Color.White;
             this.comboBoxOffers.FormattingEnabled = true;
             this.comboBoxOffers.Location = new System.Drawing.Point(371, 42);
-            this.comboBoxOffers.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBoxOffers.Margin = new System.Windows.Forms.Padding(4);
             this.comboBoxOffers.Name = "comboBoxOffers";
             this.comboBoxOffers.Size = new System.Drawing.Size(300, 37);
             this.comboBoxOffers.TabIndex = 37;
@@ -206,7 +206,7 @@
             this.comboBoxCategory.ForeColor = System.Drawing.Color.White;
             this.comboBoxCategory.FormattingEnabled = true;
             this.comboBoxCategory.Location = new System.Drawing.Point(21, 294);
-            this.comboBoxCategory.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBoxCategory.Margin = new System.Windows.Forms.Padding(4);
             this.comboBoxCategory.Name = "comboBoxCategory";
             this.comboBoxCategory.Size = new System.Drawing.Size(300, 37);
             this.comboBoxCategory.TabIndex = 38;
@@ -216,7 +216,7 @@
             this.pictureBoxImage.BackColor = System.Drawing.Color.Transparent;
             this.pictureBoxImage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pictureBoxImage.Location = new System.Drawing.Point(371, 94);
-            this.pictureBoxImage.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pictureBoxImage.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBoxImage.Name = "pictureBoxImage";
             this.pictureBoxImage.Size = new System.Drawing.Size(300, 192);
             this.pictureBoxImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -263,7 +263,7 @@
             this.Controls.Add(this.comboBoxOffers);
             this.Controls.Add(this.comboBoxCategory);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "MenuInsert";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Редактирование блюда";

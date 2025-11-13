@@ -31,7 +31,7 @@ namespace Restaurant
             if (dataGridView1.CurrentRow == null) return;
 
             int id = Convert.ToInt32(dataGridView1.CurrentRow.Cells["OffersDishId"].Value);
-            string name = dataGridView1.CurrentRow.Cells["Предложение"].Value.ToString();
+            string name = dataGridView1.CurrentRow.Cells["Акция"].Value.ToString();
             decimal discount = Convert.ToDecimal(dataGridView1.CurrentRow.Cells["Скидка"].Value);
 
             OffersInsert OfferInsert = new OffersInsert("edit")
@@ -71,7 +71,7 @@ namespace Restaurant
                 {
                     con.Open();
                     MySqlCommand cmd = new MySqlCommand(
-                        "SELECT OffersDishId, OffersDishName AS 'Предложение', OffersDishDicsount AS 'Скидка' FROM OffersDish",
+                        "SELECT OffersDishId, OffersDishName AS 'Акция', OffersDishDicsount AS 'Скидка' FROM OffersDish",
                         con);
                     offersTable = new DataTable();
                     MySqlDataAdapter da = new MySqlDataAdapter(cmd);
@@ -95,12 +95,12 @@ namespace Restaurant
             if (dataGridView1.CurrentRow == null) return;
 
             int id = Convert.ToInt32(dataGridView1.CurrentRow.Cells["OffersDishId"].Value);
-            string name = dataGridView1.CurrentRow.Cells["Предложение"].Value.ToString();
+            string name = dataGridView1.CurrentRow.Cells["Акция"].Value.ToString();
 
             DialogResult result = MessageBox.Show(
-                $"Вы действительно хотите удалить предложение \"{name}\"?\n\n" +
-                $"У связанных блюд будет автоматически удалена привязка к этому предложению.",
-                "Удаление предложения",
+                $"Вы действительно хотите удалить акцию \"{name}\"?\n\n" +
+                $"У связанных блюд будет автоматически удалена привязка к этой акции.",
+                "Удаление акции",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question);
 
@@ -124,7 +124,7 @@ namespace Restaurant
                     deleteCmd.Parameters.AddWithValue("@id", id);
                     deleteCmd.ExecuteNonQuery();
 
-                    MessageBox.Show($"Предложение \"{name}\" успешно удалено!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show($"Акция \"{name}\" успешно удалена!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LoadOffers();
                 }
             }
