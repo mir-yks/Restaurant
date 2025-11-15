@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -21,6 +22,7 @@ namespace Restaurant
             InitializeComponent();
             roleId = role;
             ConfigureButtons();
+            ConfigureDataGridView();
 
             labelDish.Font = Fonts.MontserratAlternatesRegular(14f);
             labelTotal.Font = Fonts.MontserratAlternatesRegular(14f);
@@ -35,6 +37,7 @@ namespace Restaurant
             buttonDelete.Font = Fonts.MontserratAlternatesBold(12f);
             dataGridView1.Font = Fonts.MontserratAlternatesRegular(12f);
         }
+
         private void ConfigureButtons()
         {
             if (roleId == 4)
@@ -44,6 +47,14 @@ namespace Restaurant
                 buttonDelete.Visible = true;
             }
         }
+
+        private void ConfigureDataGridView()
+        {
+            dataGridView1.AllowUserToAddRows = false;
+            dataGridView1.AllowUserToDeleteRows = false;
+            dataGridView1.ReadOnly = true;
+        }
+
         private void buttonBack_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
@@ -60,16 +71,16 @@ namespace Restaurant
             string category = dataGridView1.CurrentRow.Cells["Категория блюда"].Value.ToString();
             string offer = dataGridView1.CurrentRow.Cells["Акция"].Value.ToString();
 
-            string photo = GetDishPhotoFromDatabase(id);
+            string photoHash = GetDishPhotoHashFromDatabase(id);
 
-            MenuInsert MenuInsert = new MenuInsert("edit", id, name, desc, price, category, offer, photo);
+            MenuInsert MenuInsert = new MenuInsert("edit", id, name, desc, price, category, offer, photoHash);
             MenuInsert.ShowDialog();
             LoadMenu();
         }
 
-        private string GetDishPhotoFromDatabase(int dishId)
+        private string GetDishPhotoHashFromDatabase(int dishId)
         {
-            string photo = "plug.png";
+            string photoHash = "";
 
             try
             {
@@ -82,7 +93,7 @@ namespace Restaurant
                     object result = cmd.ExecuteScalar();
                     if (result != null && result != DBNull.Value)
                     {
-                        photo = result.ToString();
+                        photoHash = result.ToString();
                     }
                 }
             }
@@ -91,14 +102,13 @@ namespace Restaurant
                 MessageBox.Show("Ошибка при получении фото блюда: " + ex.Message);
             }
 
-            return photo;
+            return photoHash;
         }
 
         private void buttonNew_Click(object sender, EventArgs e)
         {
             MenuInsert MenuInsert = new MenuInsert("add");
             MenuInsert.ShowDialog();
-
             LoadMenu();
         }
 
@@ -139,7 +149,6 @@ namespace Restaurant
                         dataGridView1.Columns["DishId"].Visible = false;
 
                     LoadImagesToGrid();
-
                     labelTotal.Text = $"Всего: {menuTable.Rows.Count}";
                 }
             }
@@ -151,20 +160,18 @@ namespace Restaurant
 
         private void LoadImagesToGrid()
         {
-            System.Threading.Thread.Sleep(50);
-
             for (int i = 0; i < dataGridView1.Rows.Count; i++)
             {
                 if (dataGridView1.Rows[i].IsNewRow) continue;
 
-                string photoName = dataGridView1.Rows[i].Cells["DishPhoto"].Value?.ToString() ?? "plug.png";
+                string photoHash = dataGridView1.Rows[i].Cells["DishPhoto"].Value?.ToString();
 
                 try
                 {
-                    string imagePath = Path.Combine(Application.StartupPath, "Resources", "image", "Menu", photoName);
-                    string plugPath = Path.Combine(Application.StartupPath, "Resources", "image", "plug.png");
+                    string imagePath = FindImageByHash(photoHash);
+                    string plugPath = GetPlugImagePath();
 
-                    if (File.Exists(imagePath))
+                    if (imagePath != null && File.Exists(imagePath))
                     {
                         Image image = Image.FromFile(imagePath);
                         dataGridView1.Rows[i].Cells["ColumnImage"].Value = image;
@@ -177,11 +184,80 @@ namespace Restaurant
                 }
                 catch (Exception)
                 {
-
+                   
                 }
             }
             dataGridView1.Columns["Акция"].Width = 120;
         }
+
+        private string FindImageByHash(string targetHash)
+        {
+            if (string.IsNullOrEmpty(targetHash)) return null;
+
+            string[] possibleDirs = {
+        Path.Combine(Application.StartupPath, "Resources", "image", "Menu"),
+        Path.Combine(Application.StartupPath, "..", "..", "Resources", "image", "Menu")
+    };
+
+            foreach (string dir in possibleDirs)
+            {
+                if (!Directory.Exists(dir)) continue;
+
+                try
+                {
+                    foreach (string filePath in Directory.GetFiles(dir, "*.*", SearchOption.TopDirectoryOnly)
+                        .Where(f => f.ToLower().EndsWith(".jpg") || f.ToLower().EndsWith(".jpeg") || f.ToLower().EndsWith(".png")))
+                    {
+                        try
+                        {
+                            byte[] fileData = File.ReadAllBytes(filePath);
+                            string fileHash = CalculateImageHash(fileData);
+
+                            if (fileHash == targetHash)
+                            {
+                                return filePath;
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            continue;
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    
+                }
+            }
+
+            return null;
+        }
+
+        private string CalculateImageHash(byte[] imageData)
+        {
+            using (var sha256 = SHA256.Create())
+            {
+                var hashBytes = sha256.ComputeHash(imageData);
+                return BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
+            }
+        }
+
+        private string GetPlugImagePath()
+        {
+            string[] possiblePaths = {
+                Path.Combine(Application.StartupPath, "Resources", "image", "plug.png"),
+                Path.Combine(Application.StartupPath, "..", "..", "Resources", "image", "plug.png")
+            };
+
+            foreach (string path in possiblePaths)
+            {
+                if (File.Exists(path))
+                    return path;
+            }
+
+            return null;
+        }
+
         private void LoadFilters()
         {
             try
@@ -212,6 +288,7 @@ namespace Restaurant
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
         private void comboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             ApplyFilters();
@@ -221,6 +298,7 @@ namespace Restaurant
         {
             ApplyFilters();
         }
+
         private void ApplyFilters()
         {
             if (menuTable == null) return;
@@ -258,7 +336,6 @@ namespace Restaurant
                 view.Sort = "";
 
             dataGridView1.DataSource = view;
-
             LoadImagesToGrid();
             labelTotal.Text = $"Всего: {view.Count}";
         }
@@ -266,7 +343,6 @@ namespace Restaurant
         private void buttonClearFilters_Click(object sender, EventArgs e)
         {
             textBoxDish.Text = "";
-
             comboBoxCategory.SelectedIndex = 0;
             comboBoxPrice.SelectedIndex = 0;
 
@@ -276,7 +352,6 @@ namespace Restaurant
                 view.RowFilter = "";
                 view.Sort = "";
                 dataGridView1.DataSource = view;
-
                 LoadImagesToGrid();
                 labelTotal.Text = $"Всего: {view.Count}";
             }

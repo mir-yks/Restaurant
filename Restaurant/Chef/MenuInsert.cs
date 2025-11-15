@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,8 +17,8 @@ namespace Restaurant
     {
         private string mode;
         private string selectedImageName = null;
-        private bool imageChanged = false;
-        private string oldImageName = null;
+        private string selectedImageHash = null;
+        private string oldImageHash = null;
 
         public int DishID { get; set; }
         public string DishName
@@ -45,14 +46,14 @@ namespace Restaurant
             get => comboBoxOffers.Text;
             set => comboBoxOffers.Text = value;
         }
-        public string DishPhoto
+        public string DishPhotoHash
         {
-            get => selectedImageName;
-            set => selectedImageName = value;
+            get => selectedImageHash;
+            set => selectedImageHash = value;
         }
 
         public MenuInsert(string mode, int dishId = 0, string name = "", string description = "", decimal price = 0,
-                 string category = "", string offer = "", string photo = "")
+                 string category = "", string offer = "", string photoHash = "")
         {
             InitializeComponent();
             this.mode = mode;
@@ -83,10 +84,10 @@ namespace Restaurant
                 DishPrice = price;
                 DishCategory = category;
                 DishOffer = offer;
-                selectedImageName = photo;
-                oldImageName = photo;
+                selectedImageHash = photoHash;
+                oldImageHash = photoHash;
 
-                LoadDishPhoto(photo);
+                LoadDishPhotoByHash(photoHash);
             }
             else
             {
@@ -102,9 +103,9 @@ namespace Restaurant
             }
         }
 
-        private void LoadDishPhoto(string photoName)
+        private void LoadDishPhotoByHash(string photoHash)
         {
-            if (string.IsNullOrWhiteSpace(photoName) || photoName == "plug.png")
+            if (string.IsNullOrWhiteSpace(photoHash))
             {
                 LoadDefaultImage();
                 return;
@@ -112,17 +113,13 @@ namespace Restaurant
 
             try
             {
-                string debugImagePath = Path.Combine(Application.StartupPath, "Resources", "image", "Menu", photoName);
-                string sourceImagePath = Path.Combine(Application.StartupPath, "..", "..", "Resources", "image", "Menu", photoName);
-
-                string imagePath = File.Exists(debugImagePath) ? debugImagePath :
-                                  File.Exists(sourceImagePath) ? sourceImagePath : null;
+                string imagePath = FindImageByHash(photoHash);
 
                 if (imagePath != null && File.Exists(imagePath))
                 {
                     byte[] imageData = File.ReadAllBytes(imagePath);
                     UpdatePictureBox(imageData);
-                    selectedImageName = photoName;
+                    selectedImageName = Path.GetFileName(imagePath);
                 }
                 else
                 {
@@ -136,21 +133,81 @@ namespace Restaurant
             }
         }
 
+        private string FindImageByHash(string targetHash)
+        {
+            if (string.IsNullOrEmpty(targetHash)) return null;
+
+            string[] possibleDirs = {
+                Path.Combine(Application.StartupPath, "Resources", "image", "Menu"),
+                Path.Combine(Application.StartupPath, "..", "..", "Resources", "image", "Menu")
+            };
+
+            foreach (string dir in possibleDirs)
+            {
+                if (!Directory.Exists(dir)) continue;
+
+                try
+                {
+                    foreach (string filePath in Directory.GetFiles(dir, "*.*", SearchOption.TopDirectoryOnly)
+                        .Where(f => f.ToLower().EndsWith(".jpg") || f.ToLower().EndsWith(".jpeg") || f.ToLower().EndsWith(".png")))
+                    {
+                        string fileNameWithoutExt = Path.GetFileNameWithoutExtension(filePath);
+                        if (fileNameWithoutExt == targetHash)
+                        {
+                            return filePath;
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    
+                }
+            }
+
+            return null;
+        }
+
         private void LoadDefaultImage()
         {
             try
             {
-                string plugImagePath = Path.Combine(Application.StartupPath, "Resources", "image", "plug.png");
-                if (File.Exists(plugImagePath))
+                string plugImagePath = GetPlugImagePath();
+                if (plugImagePath != null && File.Exists(plugImagePath))
                 {
                     byte[] imageData = File.ReadAllBytes(plugImagePath);
                     UpdatePictureBox(imageData);
                     selectedImageName = "plug.png";
+                    selectedImageHash = CalculateImageHash(imageData);
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Ошибка загрузки изображения-заглушки: " + ex.Message);
+            }
+        }
+
+        private string GetPlugImagePath()
+        {
+            string[] possiblePaths = {
+                Path.Combine(Application.StartupPath, "Resources", "image", "plug.png"),
+                Path.Combine(Application.StartupPath, "..", "..", "Resources", "image", "plug.png")
+            };
+
+            foreach (string path in possiblePaths)
+            {
+                if (File.Exists(path))
+                    return path;
+            }
+
+            return null;
+        }
+
+        private string CalculateImageHash(byte[] imageData)
+        {
+            using (var sha256 = SHA256.Create())
+            {
+                var hashBytes = sha256.ComputeHash(imageData);
+                return BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
             }
         }
 
@@ -264,6 +321,21 @@ namespace Restaurant
                         return;
                     }
 
+                    if (!string.IsNullOrEmpty(selectedImageHash) && selectedImageHash != oldImageHash)
+                    {
+                        MySqlCommand checkHashCmd = new MySqlCommand(
+                            "SELECT COUNT(*) FROM MenuDish WHERE DishPhoto = @hash AND DishId <> @id", con);
+                        checkHashCmd.Parameters.AddWithValue("@hash", selectedImageHash);
+                        checkHashCmd.Parameters.AddWithValue("@id", mode == "edit" ? DishID : 0);
+
+                        int hashCount = Convert.ToInt32(checkHashCmd.ExecuteScalar());
+                        if (hashCount > 0)
+                        {
+                            MessageBox.Show("Данное изображение уже используется для другого блюда!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+                    }
+
                     DialogResult confirm = MessageBox.Show("Вы действительно хотите сохранить запись?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (confirm != DialogResult.Yes) return;
 
@@ -277,7 +349,7 @@ namespace Restaurant
                                 @price,
                                 (SELECT CategoryDishId FROM CategoryDish WHERE CategoryDishName = @category),
                                 (SELECT OffersDishId FROM OffersDish WHERE OffersDishName = @offer),
-                                @photo
+                                @photoHash
                             );", con);
 
                         cmd.Parameters.AddWithValue("@name", DishName.Trim());
@@ -285,7 +357,7 @@ namespace Restaurant
                         cmd.Parameters.AddWithValue("@price", price);
                         cmd.Parameters.AddWithValue("@category", DishCategory);
                         cmd.Parameters.AddWithValue("@offer", offerValue);
-                        cmd.Parameters.AddWithValue("@photo", selectedImageName ?? "plug.png");
+                        cmd.Parameters.AddWithValue("@photoHash", selectedImageHash ?? "");
                         cmd.ExecuteNonQuery();
 
                         MessageBox.Show($"Блюдо \"{DishName}\" успешно добавлено!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -300,7 +372,7 @@ namespace Restaurant
                                 DishPrice = @price,
                                 DishCategory = (SELECT CategoryDishId FROM CategoryDish WHERE CategoryDishName = @category),
                                 OffersDish = (SELECT OffersDishId FROM OffersDish WHERE OffersDishName = @offer),
-                                DishPhoto = @photo
+                                DishPhoto = @photoHash
                             WHERE DishId = @id;", con);
 
                         cmd.Parameters.AddWithValue("@name", DishName.Trim());
@@ -308,7 +380,7 @@ namespace Restaurant
                         cmd.Parameters.AddWithValue("@price", price);
                         cmd.Parameters.AddWithValue("@category", DishCategory);
                         cmd.Parameters.AddWithValue("@offer", offerValue);
-                        cmd.Parameters.AddWithValue("@photo", selectedImageName ?? "plug.png");
+                        cmd.Parameters.AddWithValue("@photoHash", selectedImageHash ?? "");
                         cmd.Parameters.AddWithValue("@id", DishID);
                         cmd.ExecuteNonQuery();
 
@@ -376,50 +448,59 @@ namespace Restaurant
                         return;
                     }
 
-                    string fileName = Path.GetFileName(ofd.FileName);
-
                     try
                     {
+                        byte[] imageData = File.ReadAllBytes(ofd.FileName);
+                        string imageHash = CalculateImageHash(imageData);
+
                         using (var con = new MySqlConnection(connStr.ConnectionString))
                         {
                             con.Open();
                             using (var cmd = new MySqlCommand(
-                                "SELECT DishId FROM MenuDish WHERE DishPhoto = @photo AND DishId != @id;", con))
+                                "SELECT DishId FROM MenuDish WHERE DishPhoto = @hash AND DishId != @id;", con))
                             {
-                                cmd.Parameters.AddWithValue("@photo", fileName);
+                                cmd.Parameters.AddWithValue("@hash", imageHash);
                                 cmd.Parameters.AddWithValue("@id", mode == "edit" ? DishID : 0);
                                 object exists = cmd.ExecuteScalar();
                                 if (exists != null)
                                 {
-                                    MessageBox.Show("Данное фото уже используется для другого блюда.\nВыберите другое изображение.",
-                                        "Фото занято", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    MessageBox.Show("Данное изображение уже используется для другого блюда!\nВыберите другое изображение.",
+                                        "Изображение занято", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                     return;
                                 }
                             }
                         }
 
-                        byte[] imageData = File.ReadAllBytes(ofd.FileName);
+                        string existingFileName = FindExistingImageByHash(imageHash);
+                        string finalFileName;
+                        string originalFileName = Path.GetFileNameWithoutExtension(ofd.FileName);
+                        string extension = Path.GetExtension(ofd.FileName);
 
-                        string sourceDir = Path.Combine(Application.StartupPath, "..", "..", "Resources", "image", "Menu");
-                        string debugDir = Path.Combine(Application.StartupPath, "Resources", "image", "Menu");
+                        if (existingFileName != null)
+                        {
+                            finalFileName = existingFileName;
+                        }
+                        else
+                        {
+                            finalFileName = GenerateUniqueFileName(originalFileName, extension);
 
-                        Directory.CreateDirectory(sourceDir);
-                        Directory.CreateDirectory(debugDir);
+                            string sourceDir = Path.Combine(Application.StartupPath, "..", "..", "Resources", "image", "Menu");
+                            string debugDir = Path.Combine(Application.StartupPath, "Resources", "image", "Menu");
 
-                        string sourcePath = Path.Combine(sourceDir, fileName);
-                        string debugPath = Path.Combine(debugDir, fileName);
+                            Directory.CreateDirectory(sourceDir);
+                            Directory.CreateDirectory(debugDir);
 
-                        File.WriteAllBytes(sourcePath, imageData);
-                        File.WriteAllBytes(debugPath, imageData);
+                            string sourcePath = Path.Combine(sourceDir, finalFileName);
+                            string debugPath = Path.Combine(debugDir, finalFileName);
+
+                            File.WriteAllBytes(sourcePath, imageData);
+                            File.WriteAllBytes(debugPath, imageData);
+                        }
 
                         UpdatePictureBox(imageData);
 
-                        selectedImageName = fileName;
-
-                        if (mode == "edit" && oldImageName != fileName)
-                        {
-                            imageChanged = true;
-                        }
+                        selectedImageName = finalFileName;
+                        selectedImageHash = imageHash;
                     }
                     catch (Exception ex)
                     {
@@ -430,6 +511,72 @@ namespace Restaurant
             }
         }
 
+        private string GenerateUniqueFileName(string baseName, string extension)
+        {
+            string[] possibleDirs = {
+        Path.Combine(Application.StartupPath, "Resources", "image", "Menu"),
+        Path.Combine(Application.StartupPath, "..", "..", "Resources", "image", "Menu")
+    };
+
+            string fileName = baseName + extension;
+            int counter = 1;
+
+            foreach (string dir in possibleDirs)
+            {
+                if (!Directory.Exists(dir)) continue;
+
+                while (File.Exists(Path.Combine(dir, fileName)))
+                {
+                    fileName = $"{baseName}({counter}){extension}";
+                    counter++;
+                }
+            }
+
+            return fileName;
+        }
+
+        private string FindExistingImageByHash(string targetHash)
+        {
+            if (string.IsNullOrEmpty(targetHash)) return null;
+
+            string[] possibleDirs = {
+        Path.Combine(Application.StartupPath, "Resources", "image", "Menu"),
+        Path.Combine(Application.StartupPath, "..", "..", "Resources", "image", "Menu")
+    };
+
+            foreach (string dir in possibleDirs)
+            {
+                if (!Directory.Exists(dir)) continue;
+
+                try
+                {
+                    foreach (string filePath in Directory.GetFiles(dir, "*.*", SearchOption.TopDirectoryOnly)
+                        .Where(f => f.ToLower().EndsWith(".jpg") || f.ToLower().EndsWith(".jpeg") || f.ToLower().EndsWith(".png")))
+                    {
+                        try
+                        {
+                            byte[] fileData = File.ReadAllBytes(filePath);
+                            string fileHash = CalculateImageHash(fileData);
+
+                            if (fileHash == targetHash)
+                            {
+                                return Path.GetFileName(filePath);
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            continue;
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    
+                }
+            }
+
+            return null;
+        }
         private void UpdatePictureBox(byte[] imageData)
         {
             if (pictureBoxImage.Image != null)
