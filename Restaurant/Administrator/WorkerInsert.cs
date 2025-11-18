@@ -108,8 +108,6 @@ namespace Restaurant
                     labelRole.Location = new System.Drawing.Point(12, 209);
                     textBoxAddress.Location = new System.Drawing.Point(16, 168);
                     labelAddress.Location = new System.Drawing.Point(12, 142);
-
-                    buttonBack.Text = "Закрыть";
                     break;
 
                 case "add":
@@ -494,15 +492,12 @@ namespace Restaurant
             int cursorPos = textBoxFIO.SelectionStart;
 
             string input = textBoxFIO.Text;
-            bool showSpaceWarning = false;
-            bool showDashWarning = false;
 
             int spaceCount = input.Count(c => c == ' ');
             if (spaceCount > 2)
             {
                 int lastSpace = input.LastIndexOf(' ');
                 input = input.Remove(lastSpace, 1);
-                showSpaceWarning = true;
             }
 
             int dashCount = input.Count(c => c == '-');
@@ -510,7 +505,6 @@ namespace Restaurant
             {
                 int lastDash = input.LastIndexOf('-');
                 input = input.Remove(lastDash, 1);
-                showDashWarning = true;
             }
 
             string[] parts = input
@@ -535,10 +529,6 @@ namespace Restaurant
             textBoxFIO.SelectionStart = Math.Min(cursorPos, textBoxFIO.Text.Length);
             textBoxFIO.TextChanged += textBoxFIO_TextChanged;
 
-            if (showSpaceWarning)
-                InputTooltipHelper.Show(textBoxFIO, "Можно использовать не более двух пробелов.");
-            if (showDashWarning)
-                InputTooltipHelper.Show(textBoxFIO, "Можно использовать только одно тире.");
         }
     }
 }

@@ -132,15 +132,12 @@ namespace Restaurant
             int cursorPos = textBoxWorker.SelectionStart;
 
             string input = textBoxWorker.Text;
-            bool showSpaceWarning = false;
-            bool showDashWarning = false;
 
             int spaceCount = input.Count(c => c == ' ');
             if (spaceCount > 2)
             {
                 int lastSpace = input.LastIndexOf(' ');
                 input = input.Remove(lastSpace, 1);
-                showSpaceWarning = true;
             }
 
             int dashCount = input.Count(c => c == '-');
@@ -148,7 +145,6 @@ namespace Restaurant
             {
                 int lastDash = input.LastIndexOf('-');
                 input = input.Remove(lastDash, 1);
-                showDashWarning = true;
             }
 
             string[] parts = input
@@ -172,12 +168,6 @@ namespace Restaurant
             textBoxWorker.Text = formatted;
             textBoxWorker.SelectionStart = Math.Min(cursorPos, textBoxWorker.Text.Length);
             textBoxWorker.TextChanged += textBoxWorker_TextChanged;
-
-            if (showSpaceWarning)
-                InputTooltipHelper.Show(textBoxWorker, "Можно использовать не более двух пробелов.");
-            if (showDashWarning)
-                InputTooltipHelper.Show(textBoxWorker, "Можно использовать только одно тире.");
-
             ApplyFilters();
         }
         private void ApplyFilters()

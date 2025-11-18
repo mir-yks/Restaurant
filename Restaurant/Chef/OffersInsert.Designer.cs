@@ -47,7 +47,7 @@
             this.buttonWrite.Name = "buttonWrite";
             this.buttonWrite.Size = new System.Drawing.Size(115, 50);
             this.buttonWrite.TabIndex = 7;
-            this.buttonWrite.Text = "Записать";
+            this.buttonWrite.Text = "Добавить";
             this.buttonWrite.UseVisualStyleBackColor = false;
             this.buttonWrite.Click += new System.EventHandler(this.buttonWrite_Click);
             // 

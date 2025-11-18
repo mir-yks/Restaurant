@@ -47,10 +47,11 @@
             this.textBoxLogin.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxLogin.Font = new System.Drawing.Font("Verdana", 10.5F);
             this.textBoxLogin.ForeColor = System.Drawing.Color.White;
-            this.textBoxLogin.Location = new System.Drawing.Point(20, 180);
+            this.textBoxLogin.Location = new System.Drawing.Point(27, 222);
+            this.textBoxLogin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBoxLogin.MaxLength = 50;
             this.textBoxLogin.Name = "textBoxLogin";
-            this.textBoxLogin.Size = new System.Drawing.Size(240, 25);
+            this.textBoxLogin.Size = new System.Drawing.Size(319, 29);
             this.textBoxLogin.TabIndex = 1;
             this.textBoxLogin.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxLogin_KeyPress);
             // 
@@ -60,10 +61,11 @@
             this.textBoxPassword.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxPassword.Font = new System.Drawing.Font("Verdana", 10.5F);
             this.textBoxPassword.ForeColor = System.Drawing.Color.White;
-            this.textBoxPassword.Location = new System.Drawing.Point(20, 240);
+            this.textBoxPassword.Location = new System.Drawing.Point(27, 295);
+            this.textBoxPassword.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBoxPassword.MaxLength = 50;
             this.textBoxPassword.Name = "textBoxPassword";
-            this.textBoxPassword.Size = new System.Drawing.Size(240, 25);
+            this.textBoxPassword.Size = new System.Drawing.Size(319, 29);
             this.textBoxPassword.TabIndex = 2;
             this.textBoxPassword.UseSystemPasswordChar = true;
             this.textBoxPassword.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxPassword_KeyPress);
@@ -74,9 +76,10 @@
             this.labelLogin.BackColor = System.Drawing.Color.Transparent;
             this.labelLogin.Font = new System.Drawing.Font("Verdana", 14F);
             this.labelLogin.ForeColor = System.Drawing.Color.White;
-            this.labelLogin.Location = new System.Drawing.Point(16, 154);
+            this.labelLogin.Location = new System.Drawing.Point(21, 190);
+            this.labelLogin.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelLogin.Name = "labelLogin";
-            this.labelLogin.Size = new System.Drawing.Size(78, 23);
+            this.labelLogin.Size = new System.Drawing.Size(98, 29);
             this.labelLogin.TabIndex = 2;
             this.labelLogin.Text = "Логин:";
             // 
@@ -86,9 +89,10 @@
             this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.Font = new System.Drawing.Font("Verdana", 14F);
             this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(16, 214);
+            this.label2.Location = new System.Drawing.Point(21, 263);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(91, 23);
+            this.label2.Size = new System.Drawing.Size(115, 29);
             this.label2.TabIndex = 2;
             this.label2.Text = "Пароль:";
             // 
@@ -101,9 +105,10 @@
             this.buttonExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonExit.Font = new System.Drawing.Font("Verdana", 14F);
             this.buttonExit.ForeColor = System.Drawing.Color.White;
-            this.buttonExit.Location = new System.Drawing.Point(250, 0);
+            this.buttonExit.Location = new System.Drawing.Point(333, 0);
+            this.buttonExit.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonExit.Name = "buttonExit";
-            this.buttonExit.Size = new System.Drawing.Size(30, 30);
+            this.buttonExit.Size = new System.Drawing.Size(40, 37);
             this.buttonExit.TabIndex = 3;
             this.buttonExit.UseVisualStyleBackColor = false;
             this.buttonExit.Click += new System.EventHandler(this.buttonExit_Click);
@@ -115,9 +120,10 @@
             this.buttonEnter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonEnter.Font = new System.Drawing.Font("Verdana", 14F);
             this.buttonEnter.ForeColor = System.Drawing.Color.White;
-            this.buttonEnter.Location = new System.Drawing.Point(90, 280);
+            this.buttonEnter.Location = new System.Drawing.Point(120, 345);
+            this.buttonEnter.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonEnter.Name = "buttonEnter";
-            this.buttonEnter.Size = new System.Drawing.Size(100, 35);
+            this.buttonEnter.Size = new System.Drawing.Size(133, 43);
             this.buttonEnter.TabIndex = 3;
             this.buttonEnter.Text = "Войти";
             this.buttonEnter.UseVisualStyleBackColor = false;
@@ -128,9 +134,10 @@
             this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.BackgroundImage")));
             this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox1.Location = new System.Drawing.Point(65, 30);
+            this.pictureBox1.Location = new System.Drawing.Point(87, 37);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(160, 107);
+            this.pictureBox1.Size = new System.Drawing.Size(213, 132);
             this.pictureBox1.TabIndex = 4;
             this.pictureBox1.TabStop = false;
             // 
@@ -140,9 +147,10 @@
             this.pictureBox.BackgroundImage = global::Restaurant.Properties.Resources.eye_closed;
             this.pictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pictureBox.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBox.Location = new System.Drawing.Point(235, 241);
+            this.pictureBox.Location = new System.Drawing.Point(313, 297);
+            this.pictureBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(24, 24);
+            this.pictureBox.Size = new System.Drawing.Size(32, 30);
             this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox.TabIndex = 6;
             this.pictureBox.TabStop = false;
@@ -150,12 +158,12 @@
             // 
             // Autorizathion
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImage = global::Restaurant.Properties.Resources.fonAutorization;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(284, 361);
+            this.ClientSize = new System.Drawing.Size(379, 444);
             this.ControlBox = false;
             this.Controls.Add(this.pictureBox);
             this.Controls.Add(this.pictureBox1);
@@ -166,6 +174,8 @@
             this.Controls.Add(this.textBoxPassword);
             this.Controls.Add(this.textBoxLogin);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Autorizathion";

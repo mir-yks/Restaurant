@@ -46,7 +46,6 @@ namespace Restaurant
             {
                 textBoxName.Text = "";
                 textBoxDiscount.Text = "1";
-                buttonWrite.Text = "Добавить";
             }
             else if (mode == "edit")
             {

@@ -87,8 +87,6 @@ namespace Restaurant
                 buttonOrderItem.Text = "Состав заказа";
                 comboBoxStatusOrder.Enabled = false;
                 comboBoxStatusPayment.Enabled = false;
-                comboBoxClient.Enabled = true;
-                comboBoxTable.Enabled = true;
 
                 comboBoxStatusOrder.SelectedIndex = 0;
                 comboBoxStatusPayment.SelectedIndex = 1;
@@ -100,9 +98,6 @@ namespace Restaurant
             }
             else if (mode == "edit")
             {
-                buttonOrderItem.Text = "Сохранить";
-                comboBoxStatusOrder.Enabled = true;
-                comboBoxStatusPayment.Enabled = true;
                 comboBoxClient.Enabled = false;
                 comboBoxTable.Enabled = false;
 

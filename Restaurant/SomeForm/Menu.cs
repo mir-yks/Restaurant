@@ -22,7 +22,6 @@ namespace Restaurant
             InitializeComponent();
             roleId = role;
             ConfigureButtons();
-            ConfigureDataGridView();
 
             labelDish.Font = Fonts.MontserratAlternatesRegular(14f);
             labelTotal.Font = Fonts.MontserratAlternatesRegular(14f);
@@ -46,13 +45,6 @@ namespace Restaurant
                 buttonUpdate.Visible = true;
                 buttonDelete.Visible = true;
             }
-        }
-
-        private void ConfigureDataGridView()
-        {
-            dataGridView1.AllowUserToAddRows = false;
-            dataGridView1.AllowUserToDeleteRows = false;
-            dataGridView1.ReadOnly = true;
         }
 
         private void buttonBack_Click(object sender, EventArgs e)

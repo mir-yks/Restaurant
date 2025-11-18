@@ -185,13 +185,7 @@ namespace Restaurant
         {
             switch (mode)
             {
-                case "add":
-                    this.Text = "Добавление новой брони";
-                    comboBoxClient.Enabled = true;
-                    break;
-
                 case "edit":
-                    this.Text = "Редактирование брони";
                     buttonArrange.Text = "Сохранить";
                     comboBoxClient.Enabled = false;
                     break;
