@@ -1,5 +1,4 @@
-﻿using MySql.Data.MySqlClient;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,6 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MySql.Data.MySqlClient;
+using Word = Microsoft.Office.Interop.Word;
+using System.IO;
 
 namespace Restaurant
 {
@@ -58,6 +60,418 @@ namespace Restaurant
                 buttonOrderItem.Location = new System.Drawing.Point(431, 533);
                 buttonDelete.Location = new System.Drawing.Point(673, 472);
             }
+        }
+
+        private void buttonCheck_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.CurrentRow == null)
+            {
+                MessageBox.Show("Выберите заказ для формирования чека!", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            int selectedOrderId = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID"].Value);
+            GenerateOrderCheck(selectedOrderId);
+        }
+
+        private void GenerateOrderCheck(int orderId)
+        {
+            Word.Application wordApp = null;
+            Word.Document document = null;
+
+            try
+            {
+                var orderData = GetOrderData(orderId);
+                if (orderData == null)
+                {
+                    MessageBox.Show("Не удалось получить данные о заказе", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                var orderItems = GetOrderItemsWithDiscounts(orderId);
+
+                wordApp = new Word.Application();
+                wordApp.Visible = false;
+
+                document = wordApp.Documents.Add();
+
+                document.PageSetup.Orientation = Word.WdOrientation.wdOrientPortrait;
+                document.PageSetup.PageWidth = wordApp.CentimetersToPoints(8f);
+                document.PageSetup.PageHeight = wordApp.CentimetersToPoints(29.7f);
+                document.PageSetup.TopMargin = wordApp.CentimetersToPoints(0.5f);
+                document.PageSetup.BottomMargin = wordApp.CentimetersToPoints(0.5f);
+                document.PageSetup.LeftMargin = wordApp.CentimetersToPoints(0.5f);
+                document.PageSetup.RightMargin = wordApp.CentimetersToPoints(0.5f);
+
+                Word.Paragraph content = document.Content.Paragraphs.Add();
+                content.Format.SpaceAfter = 1f;
+                content.Format.SpaceBefore = 0f;
+                content.Format.LineSpacingRule = Word.WdLineSpacing.wdLineSpaceSingle;
+
+                content.Range.Text = "MIRYKS";
+                content.Range.Font.Name = "Courier New";
+                content.Range.Font.Size = 10;
+                content.Range.Font.Bold = 1;
+                content.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
+                content.Range.InsertParagraphAfter();
+
+                content.Range.Text = "Ресторан европейской кухни";
+                content.Range.Font.Name = "Courier New";
+                content.Range.Font.Size = 7;
+                content.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
+                content.Range.InsertParagraphAfter();
+
+                content.Range.Text = "----------------------";
+                content.Range.Font.Name = "Courier New";
+                content.Range.Font.Size = 7;
+                content.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
+                content.Range.InsertParagraphAfter();
+
+                content.Range.Text = $"Чек №{orderData.OrderNumber}";
+                content.Range.Font.Name = "Courier New";
+                content.Range.Font.Size = 7;
+                content.Alignment = Word.WdParagraphAlignment.wdAlignParagraphLeft;
+                content.Range.InsertParagraphAfter();
+
+                content.Range.Text = $"{orderData.OrderDate:dd.MM.yy HH:mm}";
+                content.Range.Font.Name = "Courier New";
+                content.Range.Font.Size = 7;
+                content.Alignment = Word.WdParagraphAlignment.wdAlignParagraphLeft;
+                content.Range.InsertParagraphAfter();
+
+                content.Range.Text = $"Официант: {orderData.WorkerName}";
+                content.Range.Font.Name = "Courier New";
+                content.Range.Font.Size = 7;
+                content.Alignment = Word.WdParagraphAlignment.wdAlignParagraphLeft;
+                content.Range.InsertParagraphAfter();
+
+                content.Range.Text = "----------------------";
+                content.Range.Font.Name = "Courier New";
+                content.Range.Font.Size = 7;
+                content.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
+                content.Range.InsertParagraphAfter();
+
+                decimal totalAmount = 0;
+                decimal totalDiscount = 0;
+
+                foreach (var item in orderItems)
+                {
+                    string dishName = item.DishName;
+                    if (item.Discount > 0)
+                    {
+                        dishName = $"★ {dishName}";
+                    }
+
+                    content.Range.Text = dishName;
+                    content.Range.Font.Name = "Courier New";
+                    content.Range.Font.Size = 7;
+                    content.Alignment = Word.WdParagraphAlignment.wdAlignParagraphLeft;
+                    content.Range.InsertParagraphAfter();
+
+                    string priceLine;
+                    if (item.Discount > 0)
+                    {
+                        decimal originalTotal = item.Quantity * item.OriginalPrice;
+                        decimal discountAmount = originalTotal - item.TotalPrice;
+                        priceLine = $"{item.Quantity} x {item.OriginalPrice:N0} = {item.TotalPrice:N0} (-{discountAmount:N0})";
+                        totalDiscount += discountAmount;
+                    }
+                    else
+                    {
+                        priceLine = $"{item.Quantity} x {item.OriginalPrice:N0} = {item.TotalPrice:N0}";
+                    }
+
+                    content.Range.Text = priceLine;
+                    content.Range.Font.Name = "Courier New";
+                    content.Range.Font.Size = 7;
+                    content.Alignment = Word.WdParagraphAlignment.wdAlignParagraphRight;
+                    content.Range.InsertParagraphAfter();
+
+                    totalAmount += item.TotalPrice;
+                }
+
+                content.Range.Text = "======================";
+                content.Range.Font.Name = "Courier New";
+                content.Range.Font.Size = 7;
+                content.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
+                content.Range.InsertParagraphAfter();
+
+                content.Range.Text = $"ИТОГО: {totalAmount:N0} руб.";
+                content.Range.Font.Name = "Courier New";
+                content.Range.Font.Size = 8;
+                content.Range.Font.Bold = 1;
+                content.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
+                content.Range.InsertParagraphAfter();
+
+                if (totalDiscount > 0)
+                {
+                    content.Range.Text = $"Скидка: -{totalDiscount:N0} руб.";
+                    content.Range.Font.Name = "Courier New";
+                    content.Range.Font.Size = 7;
+                    content.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
+                    content.Range.InsertParagraphAfter();
+                }
+
+                content.Range.Text = "======================";
+                content.Range.Font.Name = "Courier New";
+                content.Range.Font.Size = 7;
+                content.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
+                content.Range.InsertParagraphAfter();
+
+                content.Range.Text = "Спасибо за посещение!";
+                content.Range.Font.Name = "Courier New";
+                content.Range.Font.Size = 7;
+                content.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
+                content.Range.InsertParagraphAfter();
+
+                content.Range.Text = "Ждем Вас снова!";
+                content.Range.Font.Name = "Courier New";
+                content.Range.Font.Size = 7;
+                content.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
+
+                wordApp.Visible = true;
+
+                wordApp.Activate();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при создании чека: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                if (document != null)
+                {
+                    document.Close(false);
+                    document = null;
+                }
+                if (wordApp != null)
+                {
+                    wordApp.Quit();
+                    wordApp = null;
+                }
+            }
+            finally
+            {
+                try
+                {
+                    if (document != null)
+                    {
+                        if (!wordApp.Visible)
+                        {
+                            document.Close(false);
+                        }
+                        ReleaseObject(document);
+                        document = null;
+                    }
+
+                    if (wordApp != null)
+                    {
+                        if (wordApp.Documents.Count == 0)
+                        {
+                            wordApp.Quit();
+                        }
+                        ReleaseObject(wordApp);
+                        wordApp = null;
+                    }
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
+                    GC.Collect();
+                }
+                catch (Exception)
+                {
+
+                }
+            }
+        }
+
+        private void ReleaseObject(object obj)
+        {
+            try
+            {
+                if (obj != null)
+                {
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(obj);
+                    obj = null;
+                }
+            }
+            catch (Exception)
+            {
+                obj = null;
+            }
+            finally
+            {
+                obj = null;
+            }
+        }
+        private List<OrderItemWithDiscount> GetOrderItemsWithDiscounts(int orderId)
+        {
+            var items = new List<OrderItemWithDiscount>();
+
+            try
+            {
+                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                {
+                    con.Open();
+                    MySqlCommand cmd = new MySqlCommand(@"
+                SELECT 
+                    md.DishName,
+                    oi.DishCount,
+                    md.DishPrice as OriginalPrice,
+                    CASE 
+                        WHEN md.OffersDish IS NOT NULL AND md.OffersDish > 0 THEN
+                            (oi.DishCount * md.DishPrice * (100 - od.OffersDishDicsount) / 100)
+                        ELSE
+                            (oi.DishCount * md.DishPrice)
+                    END as TotalPrice,
+                    COALESCE(od.OffersDishDicsount, 0) as Discount
+                FROM OrderItems oi
+                JOIN MenuDish md ON oi.DishId = md.DishId
+                LEFT JOIN OffersDish od ON md.OffersDish = od.OffersDishId
+                WHERE oi.OrderId = @orderId", con);
+
+                    cmd.Parameters.AddWithValue("@orderId", orderId);
+
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            items.Add(new OrderItemWithDiscount
+                            {
+                                DishName = reader.GetString("DishName"),
+                                Quantity = reader.GetInt32("DishCount"),
+                                OriginalPrice = reader.GetDecimal("OriginalPrice"),
+                                TotalPrice = reader.GetDecimal("TotalPrice"),
+                                Discount = reader.GetInt32("Discount")
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при получении состава заказа: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return items;
+        }
+
+        private class OrderItemWithDiscount
+        {
+            public string DishName { get; set; }
+            public int Quantity { get; set; }
+            public decimal OriginalPrice { get; set; }
+            public decimal TotalPrice { get; set; }
+            public int Discount { get; set; }
+        }
+
+        private OrderData GetOrderData(int orderId)
+        {
+            try
+            {
+                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                {
+                    con.Open();
+                    MySqlCommand cmd = new MySqlCommand(@"SELECT 
+                                                        o.OrderId,
+                                                        o.OrderDate,
+                                                        w.WorkerFIO,
+                                                        c.ClientFIO,
+                                                        t.TablesId,
+                                                        o.OrderPrice,
+                                                        o.OrderStatus,
+                                                        o.OrderStatusPayment
+                                                    FROM `Order` o
+                                                    JOIN Worker w ON o.WorkerId = w.WorkerId
+                                                    LEFT JOIN Client c ON o.ClientId = c.ClientId
+                                                    LEFT JOIN Tables t ON o.TableId = t.TablesId
+                                                    WHERE o.OrderId = @orderId", con);
+                    cmd.Parameters.AddWithValue("@orderId", orderId);
+
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            return new OrderData
+                            {
+                                OrderNumber = reader.GetInt32("OrderId"),
+                                OrderDate = reader.GetDateTime("OrderDate"),
+                                WorkerName = reader.GetString("WorkerFIO"),
+                                ClientName = reader.IsDBNull(reader.GetOrdinal("ClientFIO")) ? null : reader.GetString("ClientFIO"),
+                                TableNumber = reader.GetInt32("TablesId"),
+                                TotalPrice = reader.GetDecimal("OrderPrice"),
+                                OrderStatus = reader.GetString("OrderStatus"),
+                                PaymentStatus = reader.GetString("OrderStatusPayment")
+                            };
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при получении данных заказа: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return null;
+        }
+
+        private List<OrderItemData> GetOrderItems(int orderId)
+        {
+            var items = new List<OrderItemData>();
+
+            try
+            {
+                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                {
+                    con.Open();
+                    MySqlCommand cmd = new MySqlCommand(@"SELECT 
+                                                        md.DishName,
+                                                        oi.DishCount,
+                                                        md.DishPrice,
+                                                        (md.DishPrice * oi.DishCount) as TotalPrice
+                                                    FROM OrderItems oi
+                                                    JOIN MenuDish md ON oi.DishId = md.DishId
+                                                    WHERE oi.OrderId = @orderId", con);
+                    cmd.Parameters.AddWithValue("@orderId", orderId);
+
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            items.Add(new OrderItemData
+                            {
+                                DishName = reader.GetString("DishName"),
+                                Quantity = reader.GetInt32("DishCount"),
+                                Price = reader.GetDecimal("DishPrice"),
+                                TotalPrice = reader.GetDecimal("TotalPrice")
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при получении состава заказа: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return items;
+        }
+        private class OrderData
+        {
+            public int OrderNumber { get; set; }
+            public DateTime OrderDate { get; set; }
+            public string WorkerName { get; set; }
+            public string ClientName { get; set; }
+            public int TableNumber { get; set; }
+            public decimal TotalPrice { get; set; }
+            public string OrderStatus { get; set; }
+            public string PaymentStatus { get; set; }
+        }
+
+        private class OrderItemData
+        {
+            public string DishName { get; set; }
+            public int Quantity { get; set; }
+            public decimal Price { get; set; }
+            public decimal TotalPrice { get; set; }
         }
 
         private void buttonNew_Click(object sender, EventArgs e)
@@ -329,11 +743,6 @@ namespace Restaurant
                 buttonOrderItem.Enabled = true;
                 buttonCheck.Enabled = true;
             }
-        }
-
-        private void buttonCheck_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }
