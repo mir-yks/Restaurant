@@ -39,7 +39,6 @@ namespace Restaurant
             buttonNew.Font = Fonts.MontserratAlternatesBold(12f);
             buttonUpdate.Font = Fonts.MontserratAlternatesBold(12f);
             buttonCheck.Font = Fonts.MontserratAlternatesBold(12f);
-            buttonDelete.Font = Fonts.MontserratAlternatesBold(12f);
             dataGridView1.Font = Fonts.MontserratAlternatesRegular(12f);
         }
 
@@ -56,9 +55,7 @@ namespace Restaurant
                 buttonNew.Visible = true;
                 buttonUpdate.Visible = true;
                 buttonCheck.Visible = true;
-                buttonDelete.Visible = true;
                 buttonOrderItem.Location = new System.Drawing.Point(431, 533);
-                buttonDelete.Location = new System.Drawing.Point(673, 472);
             }
         }
 
@@ -539,58 +536,6 @@ namespace Restaurant
             Revenue.ShowDialog();
         }
 
-        private void buttonDelete_Click(object sender, EventArgs e)
-        {
-            if (dataGridView1.CurrentRow == null)
-            {
-                MessageBox.Show("Выберите заказ для удаления!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            DataGridViewRow row = dataGridView1.CurrentRow;
-            string orderStatus = row.Cells["Статус заказа"].Value.ToString();
-            int selectedOrderId = Convert.ToInt32(row.Cells["ID"].Value);
-            string orderNumber = row.Cells["Номер заказа"].Value.ToString();
-
-            if (orderStatus != "Новый")
-            {
-                MessageBox.Show("Можно удалить только заказ со статусом 'Новый'!",
-                               "Удаление невозможно",
-                               MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            DialogResult result = MessageBox.Show($"Вы действительно хотите удалить заказ №{orderNumber}?",
-                                                "Удаление записи",
-                                                MessageBoxButtons.YesNo,
-                                                MessageBoxIcon.Question);
-
-            if (result != DialogResult.Yes) return;
-
-            try
-            {
-                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
-                {
-                    con.Open();
-
-                    MySqlCommand deleteOrderItemsCmd = new MySqlCommand("DELETE FROM OrderItems WHERE OrderId = @id", con);
-                    deleteOrderItemsCmd.Parameters.AddWithValue("@id", selectedOrderId);
-                    deleteOrderItemsCmd.ExecuteNonQuery();
-
-                    MySqlCommand cmd = new MySqlCommand("DELETE FROM `Order` WHERE OrderId = @id", con);
-                    cmd.Parameters.AddWithValue("@id", selectedOrderId);
-                    cmd.ExecuteNonQuery();
-
-                    MessageBox.Show($"Заказ №{orderNumber} успешно удалён!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    LoadOrders();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Ошибка при удалении: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
         private void buttonBack_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
@@ -739,7 +684,6 @@ namespace Restaurant
             if (e.RowIndex >= 0)
             {
                 buttonUpdate.Enabled = true;
-                buttonDelete.Enabled = true;
                 buttonOrderItem.Enabled = true;
                 buttonCheck.Enabled = true;
             }

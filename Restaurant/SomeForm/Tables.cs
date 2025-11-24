@@ -26,7 +26,6 @@ namespace Restaurant
             buttonBack.Font = Fonts.MontserratAlternatesBold(12f);
             buttonNew.Font = Fonts.MontserratAlternatesBold(12f);
             buttonUpdate.Font = Fonts.MontserratAlternatesBold(12f);
-            buttonDelete.Font = Fonts.MontserratAlternatesBold(12f);
             dataGridView1.Font = Fonts.MontserratAlternatesRegular(12f);
         }
 
@@ -36,7 +35,6 @@ namespace Restaurant
             {
                 buttonNew.Visible = true;
                 buttonUpdate.Visible = true;
-                buttonDelete.Visible = true;
             }
         }
 
@@ -199,62 +197,6 @@ namespace Restaurant
             }
         }
 
-        private void buttonDelete_Click(object sender, EventArgs e)
-        {
-            if (dataGridView1.CurrentRow == null)
-            {
-                MessageBox.Show("Выберите столик для удаления!", "Внимание",
-                               MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            DataGridViewRow row = dataGridView1.CurrentRow;
-            string tableStatus = row.Cells["Статус столика"].Value?.ToString() ?? "";
-            int selectedTable = Convert.ToInt32(row.Cells["Номер столика"].Value);
-
-            if (tableStatus == "Занят")
-            {
-                MessageBox.Show("В данный момент столик занят, удаление невозможно!\nПопробуйте позже.",
-                               "Столик занят",
-                               MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            DialogResult result = MessageBox.Show($"Удалить столик №{selectedTable}?",
-                                                "Удаление",
-                                                MessageBoxButtons.YesNo,
-                                                MessageBoxIcon.Question);
-
-            if (result != DialogResult.Yes) return;
-
-            try
-            {
-                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
-                {
-                    con.Open();
-                    MySqlCommand cmd = new MySqlCommand("DELETE FROM Tables WHERE TablesId = @Id", con);
-                    cmd.Parameters.AddWithValue("@Id", selectedTable);
-                    int rows = cmd.ExecuteNonQuery();
-
-                    if (rows > 0)
-                    {
-                        MessageBox.Show($"Столик №{selectedTable} успешно удалён!", "Успех",
-                                      MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        LoadTables();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Не удалось удалить запись — возможно, столик уже удалён.",
-                                      "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Ошибка удаления",
-                               MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
 
         private void textBoxTable_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -270,7 +212,6 @@ namespace Restaurant
             if (e.RowIndex >= 0)
             {
                 buttonUpdate.Enabled = true;
-                buttonDelete.Enabled = true;
             }
         }
     }

@@ -143,7 +143,7 @@ namespace Restaurant
                 {
                     con.Open();
 
-                    MySqlCommand cmdWorkers = new MySqlCommand("SELECT WorkerId, WorkerFIO FROM Worker", con);
+                    MySqlCommand cmdWorkers = new MySqlCommand("SELECT WorkerId, WorkerFIO FROM Worker WHERE IsActive = 1", con);
                     MySqlDataAdapter daWorkers = new MySqlDataAdapter(cmdWorkers);
                     DataTable workersTable = new DataTable();
                     daWorkers.Fill(workersTable);
@@ -227,6 +227,7 @@ namespace Restaurant
                 INNER JOIN Booking b ON c.ClientId = b.ClientId 
                 WHERE DATE(b.BookingDate) = CURDATE() 
                 AND b.BookingDate BETWEEN DATE_SUB(NOW(), INTERVAL 30 MINUTE) AND DATE_ADD(NOW(), INTERVAL 1 HOUR)
+                AND c.IsActive = 1
                 ORDER BY c.ClientFIO";
                 }
                 else
@@ -234,6 +235,7 @@ namespace Restaurant
                     query = @"
                 SELECT ClientId, ClientFIO
                 FROM Client 
+                WHERE IsActive = 1 
                 ORDER BY ClientFIO";
                 }
 
@@ -364,7 +366,7 @@ namespace Restaurant
         {
             try
             {
-                string query = "SELECT ClientId, ClientFIO FROM Client ORDER BY ClientFIO";
+                string query = "SELECT ClientId, ClientFIO FROM Client WHERE IsActive = 1 ORDER BY ClientFIO";
                 MySqlCommand cmdClients = new MySqlCommand(query, con);
                 MySqlDataAdapter daClients = new MySqlDataAdapter(cmdClients);
                 DataTable clientsTable = new DataTable();
@@ -716,7 +718,7 @@ namespace Restaurant
             }
             catch (Exception)
             {
-                
+
             }
         }
         private void comboBoxStatusPayment_SelectedIndexChanged(object sender, EventArgs e)
@@ -830,7 +832,7 @@ namespace Restaurant
                         }
                     }
                 }
-                catch (Exception )
+                catch (Exception)
                 {
 
                 }
@@ -959,6 +961,7 @@ namespace Restaurant
                 WHERE b.TableId = @TableId 
                 AND DATE(b.BookingDate) = CURDATE()
                 AND b.BookingDate > NOW()
+                AND c.IsActive = 1 
                 ORDER BY b.BookingDate", con);
 
                     checkBookingCmd.Parameters.AddWithValue("@TableId", tableId);

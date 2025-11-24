@@ -127,7 +127,9 @@ namespace Restaurant
                                 m.DishPhoto
                              FROM MenuDish m
                              JOIN CategoryDish c ON m.DishCategory = c.CategoryDishId
-                             LEFT JOIN OffersDish o ON m.OffersDish = o.OffersDishId;";
+                             LEFT JOIN OffersDish o ON m.OffersDish = o.OffersDishId
+                             WHERE m.IsActive = 1;";
+
                     MySqlDataAdapter da = new MySqlDataAdapter(query, con);
                     menuTable = new DataTable();
                     da.Fill(menuTable);
@@ -176,7 +178,7 @@ namespace Restaurant
                 }
                 catch (Exception)
                 {
-                   
+
                 }
             }
             dataGridView1.Columns["Акция"].Width = 120;
@@ -218,7 +220,7 @@ namespace Restaurant
                 }
                 catch (Exception)
                 {
-                    
+
                 }
             }
 
@@ -356,7 +358,12 @@ namespace Restaurant
             int id = Convert.ToInt32(dataGridView1.CurrentRow.Cells["DishId"].Value);
             string name = dataGridView1.CurrentRow.Cells["Блюдо"].Value.ToString();
 
-            DialogResult result = MessageBox.Show($"Вы действительно хотите удалить блюдо \"{name}\"?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult result = MessageBox.Show(
+                $"Вы действительно хотите удалить блюдо \"{name}\"?",
+                "Удаление",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
             if (result != DialogResult.Yes) return;
 
             try
@@ -364,12 +371,15 @@ namespace Restaurant
                 using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
                 {
                     con.Open();
-                    MySqlCommand cmd = new MySqlCommand("DELETE FROM MenuDish WHERE DishId = @id", con);
+                    MySqlCommand cmd = new MySqlCommand("UPDATE MenuDish SET IsActive = 0 WHERE DishId = @id", con);
                     cmd.Parameters.AddWithValue("@id", id);
-                    cmd.ExecuteNonQuery();
+                    int rowsAffected = cmd.ExecuteNonQuery();
 
-                    MessageBox.Show($"Блюдо \"{name}\" успешно удалено!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    LoadMenu();
+                    if (rowsAffected > 0)
+                    {
+                        MessageBox.Show($"Блюдо \"{name}\" успешно удалено!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LoadMenu();
+                    }
                 }
             }
             catch (Exception ex)

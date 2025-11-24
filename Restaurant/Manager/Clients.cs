@@ -73,7 +73,8 @@ namespace Restaurant
                                                         ClientId AS 'ID',
                                                         ClientFIO AS 'ФИО',
                                                         ClientPhone AS 'Телефон'
-                                                    FROM client;", con);
+                                                    FROM client 
+                                                    WHERE IsActive = 1;", con); 
                     MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                     clientTable = new DataTable();
                     da.Fill(clientTable);
@@ -228,7 +229,12 @@ namespace Restaurant
             int selectedClientId = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID"].Value);
             string clientFIO = dataGridView1.CurrentRow.Cells["ФИО"].Value.ToString();
 
-            DialogResult result = MessageBox.Show($"Вы действительно хотите удалить клиента \"{clientFIO}\"?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult result = MessageBox.Show(
+                $"Вы действительно хотите удалить клиента \"{clientFIO}\"?\n\n" +
+                "Клиент будет помечен как неактивный и скрыт из списка.",
+                "Удаление",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
 
             if (result != DialogResult.Yes) return;
 
@@ -237,12 +243,19 @@ namespace Restaurant
                 using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
                 {
                     con.Open();
-                    MySqlCommand cmd = new MySqlCommand("DELETE FROM client WHERE ClientId = @id", con);
+                    MySqlCommand cmd = new MySqlCommand("UPDATE client SET IsActive = 0 WHERE ClientId = @id", con);
                     cmd.Parameters.AddWithValue("@id", selectedClientId);
-                    cmd.ExecuteNonQuery();
+                    int rowsAffected = cmd.ExecuteNonQuery();
 
-                    MessageBox.Show($"Клиент \"{clientFIO}\" успешно удалён!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    LoadClients();
+                    if (rowsAffected > 0)
+                    {
+                        MessageBox.Show($"Клиент \"{clientFIO}\" успешно удалён!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LoadClients(); 
+                    }
+                    else
+                    {
+                        MessageBox.Show("Не удалось удалить клиента.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
             catch (Exception ex)

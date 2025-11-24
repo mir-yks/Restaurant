@@ -40,7 +40,6 @@
             this.labelStatus = new System.Windows.Forms.Label();
             this.comboBoxStatus = new System.Windows.Forms.ComboBox();
             this.buttonClearFilters = new System.Windows.Forms.Button();
-            this.buttonDelete = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -52,9 +51,10 @@
             this.comboBoxPlaceCount.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.comboBoxPlaceCount.ForeColor = System.Drawing.Color.White;
             this.comboBoxPlaceCount.FormattingEnabled = true;
-            this.comboBoxPlaceCount.Location = new System.Drawing.Point(200, 461);
+            this.comboBoxPlaceCount.Location = new System.Drawing.Point(267, 567);
+            this.comboBoxPlaceCount.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.comboBoxPlaceCount.Name = "comboBoxPlaceCount";
-            this.comboBoxPlaceCount.Size = new System.Drawing.Size(190, 31);
+            this.comboBoxPlaceCount.Size = new System.Drawing.Size(252, 37);
             this.comboBoxPlaceCount.TabIndex = 29;
             this.comboBoxPlaceCount.SelectedIndexChanged += new System.EventHandler(this.comboBox_SelectedIndexChanged);
             // 
@@ -65,10 +65,10 @@
             this.buttonBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonBack.Font = new System.Drawing.Font("Verdana", 14F);
             this.buttonBack.ForeColor = System.Drawing.Color.White;
-            this.buttonBack.Location = new System.Drawing.Point(13, 536);
-            this.buttonBack.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.buttonBack.Location = new System.Drawing.Point(17, 660);
+            this.buttonBack.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.buttonBack.Name = "buttonBack";
-            this.buttonBack.Size = new System.Drawing.Size(110, 50);
+            this.buttonBack.Size = new System.Drawing.Size(147, 62);
             this.buttonBack.TabIndex = 28;
             this.buttonBack.Text = "Назад";
             this.buttonBack.UseVisualStyleBackColor = false;
@@ -83,9 +83,10 @@
             this.labelTotal.BackColor = System.Drawing.Color.Transparent;
             this.labelTotal.Font = new System.Drawing.Font("Verdana", 14F);
             this.labelTotal.ForeColor = System.Drawing.Color.White;
-            this.labelTotal.Location = new System.Drawing.Point(670, 420);
+            this.labelTotal.Location = new System.Drawing.Point(893, 517);
+            this.labelTotal.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelTotal.Name = "labelTotal";
-            this.labelTotal.Size = new System.Drawing.Size(74, 23);
+            this.labelTotal.Size = new System.Drawing.Size(93, 29);
             this.labelTotal.TabIndex = 26;
             this.labelTotal.Text = "Всего:";
             // 
@@ -95,10 +96,11 @@
             this.textBoxTable.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxTable.Font = new System.Drawing.Font("Verdana", 14F);
             this.textBoxTable.ForeColor = System.Drawing.Color.White;
-            this.textBoxTable.Location = new System.Drawing.Point(14, 461);
+            this.textBoxTable.Location = new System.Drawing.Point(19, 567);
+            this.textBoxTable.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBoxTable.MaxLength = 2;
             this.textBoxTable.Name = "textBoxTable";
-            this.textBoxTable.Size = new System.Drawing.Size(180, 30);
+            this.textBoxTable.Size = new System.Drawing.Size(239, 36);
             this.textBoxTable.TabIndex = 25;
             this.textBoxTable.TextChanged += new System.EventHandler(this.textBoxTable_TextChanged);
             this.textBoxTable.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxTable_KeyPress);
@@ -112,9 +114,10 @@
             this.labelPlaceCount.BackColor = System.Drawing.Color.Transparent;
             this.labelPlaceCount.Font = new System.Drawing.Font("Verdana", 14F);
             this.labelPlaceCount.ForeColor = System.Drawing.Color.White;
-            this.labelPlaceCount.Location = new System.Drawing.Point(196, 435);
+            this.labelPlaceCount.Location = new System.Drawing.Point(261, 535);
+            this.labelPlaceCount.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelPlaceCount.Name = "labelPlaceCount";
-            this.labelPlaceCount.Size = new System.Drawing.Size(183, 23);
+            this.labelPlaceCount.Size = new System.Drawing.Size(233, 29);
             this.labelPlaceCount.TabIndex = 23;
             this.labelPlaceCount.Text = "Количество мест:";
             // 
@@ -127,9 +130,10 @@
             this.labelTable.BackColor = System.Drawing.Color.Transparent;
             this.labelTable.Font = new System.Drawing.Font("Verdana", 14F);
             this.labelTable.ForeColor = System.Drawing.Color.White;
-            this.labelTable.Location = new System.Drawing.Point(10, 435);
+            this.labelTable.Location = new System.Drawing.Point(13, 535);
+            this.labelTable.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelTable.Name = "labelTable";
-            this.labelTable.Size = new System.Drawing.Size(88, 23);
+            this.labelTable.Size = new System.Drawing.Size(112, 29);
             this.labelTable.TabIndex = 24;
             this.labelTable.Text = "Столик:";
             // 
@@ -142,11 +146,13 @@
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Top;
             this.dataGridView1.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(800, 410);
+            this.dataGridView1.Size = new System.Drawing.Size(1067, 505);
             this.dataGridView1.TabIndex = 22;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             // 
@@ -158,10 +164,10 @@
             this.buttonUpdate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonUpdate.Font = new System.Drawing.Font("Verdana", 14F);
             this.buttonUpdate.ForeColor = System.Drawing.Color.White;
-            this.buttonUpdate.Location = new System.Drawing.Point(549, 536);
-            this.buttonUpdate.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.buttonUpdate.Location = new System.Drawing.Point(732, 660);
+            this.buttonUpdate.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.buttonUpdate.Name = "buttonUpdate";
-            this.buttonUpdate.Size = new System.Drawing.Size(115, 50);
+            this.buttonUpdate.Size = new System.Drawing.Size(153, 62);
             this.buttonUpdate.TabIndex = 27;
             this.buttonUpdate.Text = "Изменить";
             this.buttonUpdate.UseVisualStyleBackColor = false;
@@ -175,10 +181,10 @@
             this.buttonNew.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonNew.Font = new System.Drawing.Font("Verdana", 14F);
             this.buttonNew.ForeColor = System.Drawing.Color.White;
-            this.buttonNew.Location = new System.Drawing.Point(672, 536);
-            this.buttonNew.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.buttonNew.Location = new System.Drawing.Point(896, 660);
+            this.buttonNew.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.buttonNew.Name = "buttonNew";
-            this.buttonNew.Size = new System.Drawing.Size(115, 50);
+            this.buttonNew.Size = new System.Drawing.Size(153, 62);
             this.buttonNew.TabIndex = 27;
             this.buttonNew.Text = "Добавить";
             this.buttonNew.UseVisualStyleBackColor = false;
@@ -194,9 +200,10 @@
             this.labelStatus.BackColor = System.Drawing.Color.Transparent;
             this.labelStatus.Font = new System.Drawing.Font("Verdana", 14F);
             this.labelStatus.ForeColor = System.Drawing.Color.White;
-            this.labelStatus.Location = new System.Drawing.Point(391, 435);
+            this.labelStatus.Location = new System.Drawing.Point(521, 535);
+            this.labelStatus.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelStatus.Name = "labelStatus";
-            this.labelStatus.Size = new System.Drawing.Size(82, 23);
+            this.labelStatus.Size = new System.Drawing.Size(106, 29);
             this.labelStatus.TabIndex = 23;
             this.labelStatus.Text = "Cтатус:";
             // 
@@ -208,9 +215,10 @@
             this.comboBoxStatus.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.comboBoxStatus.ForeColor = System.Drawing.Color.White;
             this.comboBoxStatus.FormattingEnabled = true;
-            this.comboBoxStatus.Location = new System.Drawing.Point(395, 461);
+            this.comboBoxStatus.Location = new System.Drawing.Point(527, 567);
+            this.comboBoxStatus.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.comboBoxStatus.Name = "comboBoxStatus";
-            this.comboBoxStatus.Size = new System.Drawing.Size(190, 31);
+            this.comboBoxStatus.Size = new System.Drawing.Size(252, 37);
             this.comboBoxStatus.TabIndex = 29;
             this.comboBoxStatus.SelectedIndexChanged += new System.EventHandler(this.comboBox_SelectedIndexChanged);
             // 
@@ -222,40 +230,23 @@
             this.buttonClearFilters.FlatAppearance.BorderSize = 0;
             this.buttonClearFilters.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonClearFilters.ForeColor = System.Drawing.Color.Transparent;
-            this.buttonClearFilters.Location = new System.Drawing.Point(591, 463);
+            this.buttonClearFilters.Location = new System.Drawing.Point(788, 570);
+            this.buttonClearFilters.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonClearFilters.Name = "buttonClearFilters";
-            this.buttonClearFilters.Size = new System.Drawing.Size(30, 30);
+            this.buttonClearFilters.Size = new System.Drawing.Size(40, 37);
             this.buttonClearFilters.TabIndex = 56;
             this.buttonClearFilters.UseVisualStyleBackColor = false;
             this.buttonClearFilters.Click += new System.EventHandler(this.buttonClearFilters_Click);
             // 
-            // buttonDelete
-            // 
-            this.buttonDelete.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.buttonDelete.Enabled = false;
-            this.buttonDelete.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(99)))), ((int)(((byte)(107)))));
-            this.buttonDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonDelete.Font = new System.Drawing.Font("Verdana", 14F);
-            this.buttonDelete.ForeColor = System.Drawing.Color.White;
-            this.buttonDelete.Location = new System.Drawing.Point(672, 473);
-            this.buttonDelete.Name = "buttonDelete";
-            this.buttonDelete.Size = new System.Drawing.Size(115, 55);
-            this.buttonDelete.TabIndex = 57;
-            this.buttonDelete.Text = "Удалить";
-            this.buttonDelete.UseVisualStyleBackColor = false;
-            this.buttonDelete.Visible = false;
-            this.buttonDelete.Click += new System.EventHandler(this.buttonDelete_Click);
-            // 
             // Tables
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImage = global::Restaurant.Properties.Resources.fonMain;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(800, 600);
+            this.ClientSize = new System.Drawing.Size(1067, 738);
             this.ControlBox = false;
-            this.Controls.Add(this.buttonDelete);
             this.Controls.Add(this.buttonClearFilters);
             this.Controls.Add(this.comboBoxStatus);
             this.Controls.Add(this.comboBoxPlaceCount);
@@ -269,6 +260,7 @@
             this.Controls.Add(this.labelTable);
             this.Controls.Add(this.dataGridView1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Tables";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Столы";
@@ -293,6 +285,5 @@
         private System.Windows.Forms.Label labelStatus;
         private System.Windows.Forms.ComboBox comboBoxStatus;
         private System.Windows.Forms.Button buttonClearFilters;
-        private System.Windows.Forms.Button buttonDelete;
     }
 }

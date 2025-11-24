@@ -15,6 +15,7 @@ namespace Restaurant
     {
         private DataTable workersTable;
         public int CurrentUserID { get; set; }
+
         public Worker()
         {
             InitializeComponent();
@@ -89,9 +90,11 @@ namespace Restaurant
                             w.WorkerBirthday AS 'Дата рождения',
                             w.WorkerDateEmployment AS 'Дата найма',
                             w.WorkerAddress AS 'Адрес',
-                            r.RoleName AS 'Роль'
+                            r.RoleName AS 'Роль',
+                            w.IsActive AS 'Активен'
                         FROM worker w
-                        JOIN role r ON w.WorkerRole = r.RoleId;", con);
+                        JOIN role r ON w.WorkerRole = r.RoleId
+                        WHERE w.IsActive = 1;", con); 
 
                     MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                     workersTable = new DataTable();
@@ -100,6 +103,8 @@ namespace Restaurant
 
                     if (dataGridView1.Columns.Contains("ID"))
                         dataGridView1.Columns["ID"].Visible = false;
+                    if (dataGridView1.Columns.Contains("Активен"))
+                        dataGridView1.Columns["Активен"].Visible = false;
 
                     labelTotal.Text = $"Всего: {workersTable.Rows.Count}";
 
@@ -122,6 +127,7 @@ namespace Restaurant
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
         private void comboBoxCategory_SelectedIndexChanged(object sender, EventArgs e)
         {
             ApplyFilters();
@@ -170,6 +176,7 @@ namespace Restaurant
             textBoxWorker.TextChanged += textBoxWorker_TextChanged;
             ApplyFilters();
         }
+
         private void ApplyFilters()
         {
             if (workersTable == null) return;
@@ -195,6 +202,7 @@ namespace Restaurant
 
             labelTotal.Text = $"Всего: {view.Count}";
         }
+
         private void buttonClearFilters_Click(object sender, EventArgs e)
         {
             textBoxWorker.Text = "";
@@ -209,6 +217,7 @@ namespace Restaurant
                 labelTotal.Text = $"Всего: {view.Count}";
             }
         }
+
         private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.Value == null) return;
@@ -292,6 +301,7 @@ namespace Restaurant
                 }
             }
         }
+
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
@@ -310,7 +320,6 @@ namespace Restaurant
                 form.WorkerRole = row.Cells["Роль"].Value.ToString();
 
                 form.ShowDialog();
-
             }
         }
 
@@ -334,13 +343,18 @@ namespace Restaurant
                               MessageBoxIcon.Warning);
                 return;
             }
+
             if (selectedWorkerId == CurrentUserID)
             {
                 MessageBox.Show("Вы не можете удалить самого себя!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            DialogResult result = MessageBox.Show($"Вы действительно хотите удалить сотрудника \"{workerFIO}\"?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult result = MessageBox.Show(
+                $"Вы действительно хотите удалить сотрудника \"{workerFIO}\"",
+                "Удаление",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
 
             if (result != DialogResult.Yes) return;
 
@@ -349,12 +363,19 @@ namespace Restaurant
                 using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
                 {
                     con.Open();
-                    MySqlCommand cmd = new MySqlCommand("DELETE FROM worker WHERE WorkerId = @id", con);
-                    cmd.Parameters.AddWithValue("@id", selectedWorkerId);
-                    cmd.ExecuteNonQuery();
 
-                    MessageBox.Show($"Сотрудник \"{workerFIO}\" успешно удалён!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    LoadWorkers();
+                    MySqlCommand cmd = new MySqlCommand(
+                        "UPDATE worker SET IsActive = 0 WHERE WorkerId = @id",
+                        con);
+                    cmd.Parameters.AddWithValue("@id", selectedWorkerId);
+
+                    int rowsAffected = cmd.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        MessageBox.Show($"Сотрудник \"{workerFIO}\" успешно удалён!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LoadWorkers(); 
+                    }
                 }
             }
             catch (Exception ex)
@@ -377,7 +398,7 @@ namespace Restaurant
             if (e.RowIndex >= 0)
             {
                 buttonUpdate.Enabled = true;
-                buttonDelete.Enabled = true;           
+                buttonDelete.Enabled = true;
             }
         }
     }
