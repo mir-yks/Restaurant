@@ -23,8 +23,6 @@ namespace Restaurant
             labelS.Font = Fonts.MontserratAlternatesRegular(14f);
             labelPo.Font = Fonts.MontserratAlternatesRegular(14f);
             labelPeriod.Font = Fonts.MontserratAlternatesRegular(14f);
-            dateTimePickerMin.Font = Fonts.MontserratAlternatesRegular(12f);
-            dateTimePickerMax.Font = Fonts.MontserratAlternatesRegular(12f);
             buttonBack.Font = Fonts.MontserratAlternatesBold(12f);
             buttonCreate.Font = Fonts.MontserratAlternatesBold(12f);
 

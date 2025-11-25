@@ -59,7 +59,7 @@
             this.textBoxConfPassword.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxConfPassword.ForeColor = System.Drawing.Color.White;
             this.textBoxConfPassword.Location = new System.Drawing.Point(21, 289);
-            this.textBoxConfPassword.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxConfPassword.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxConfPassword.MaxLength = 50;
             this.textBoxConfPassword.Name = "textBoxConfPassword";
             this.textBoxConfPassword.Size = new System.Drawing.Size(377, 36);
@@ -73,7 +73,7 @@
             this.textBoxPassword.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxPassword.ForeColor = System.Drawing.Color.White;
             this.textBoxPassword.Location = new System.Drawing.Point(21, 207);
-            this.textBoxPassword.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxPassword.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxPassword.MaxLength = 50;
             this.textBoxPassword.Name = "textBoxPassword";
             this.textBoxPassword.Size = new System.Drawing.Size(377, 36);
@@ -87,7 +87,7 @@
             this.textBoxAddress.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxAddress.ForeColor = System.Drawing.Color.White;
             this.textBoxAddress.Location = new System.Drawing.Point(449, 289);
-            this.textBoxAddress.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxAddress.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxAddress.Name = "textBoxAddress";
             this.textBoxAddress.Size = new System.Drawing.Size(377, 36);
             this.textBoxAddress.TabIndex = 48;
@@ -100,7 +100,7 @@
             this.textBoxEmail.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxEmail.ForeColor = System.Drawing.Color.White;
             this.textBoxEmail.Location = new System.Drawing.Point(449, 44);
-            this.textBoxEmail.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxEmail.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxEmail.MaxLength = 100;
             this.textBoxEmail.Name = "textBoxEmail";
             this.textBoxEmail.Size = new System.Drawing.Size(377, 36);
@@ -114,7 +114,7 @@
             this.textBoxLogin.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxLogin.ForeColor = System.Drawing.Color.White;
             this.textBoxLogin.Location = new System.Drawing.Point(21, 126);
-            this.textBoxLogin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxLogin.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxLogin.MaxLength = 50;
             this.textBoxLogin.Name = "textBoxLogin";
             this.textBoxLogin.Size = new System.Drawing.Size(377, 36);
@@ -128,7 +128,7 @@
             this.textBoxFIO.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxFIO.ForeColor = System.Drawing.Color.White;
             this.textBoxFIO.Location = new System.Drawing.Point(21, 44);
-            this.textBoxFIO.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxFIO.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxFIO.MaxLength = 50;
             this.textBoxFIO.Name = "textBoxFIO";
             this.textBoxFIO.Size = new System.Drawing.Size(377, 36);
@@ -235,7 +235,7 @@
             this.buttonWrite.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonWrite.ForeColor = System.Drawing.Color.White;
             this.buttonWrite.Location = new System.Drawing.Point(697, 441);
-            this.buttonWrite.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonWrite.Margin = new System.Windows.Forms.Padding(4);
             this.buttonWrite.Name = "buttonWrite";
             this.buttonWrite.Size = new System.Drawing.Size(153, 62);
             this.buttonWrite.TabIndex = 34;
@@ -251,7 +251,7 @@
             this.buttonBack.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonBack.ForeColor = System.Drawing.Color.White;
             this.buttonBack.Location = new System.Drawing.Point(16, 441);
-            this.buttonBack.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonBack.Margin = new System.Windows.Forms.Padding(4);
             this.buttonBack.Name = "buttonBack";
             this.buttonBack.Size = new System.Drawing.Size(147, 62);
             this.buttonBack.TabIndex = 33;
@@ -262,18 +262,20 @@
             // dateTimePickerEmployment
             // 
             this.dateTimePickerEmployment.Enabled = false;
-            this.dateTimePickerEmployment.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.dateTimePickerEmployment.Font = new System.Drawing.Font("Segoe UI", 13F);
+            this.dateTimePickerEmployment.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dateTimePickerEmployment.Location = new System.Drawing.Point(449, 207);
-            this.dateTimePickerEmployment.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dateTimePickerEmployment.Margin = new System.Windows.Forms.Padding(4);
             this.dateTimePickerEmployment.Name = "dateTimePickerEmployment";
             this.dateTimePickerEmployment.Size = new System.Drawing.Size(376, 36);
             this.dateTimePickerEmployment.TabIndex = 32;
             // 
             // dateTimePickerBirthday
             // 
-            this.dateTimePickerBirthday.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.dateTimePickerBirthday.Font = new System.Drawing.Font("Segoe UI", 13F);
+            this.dateTimePickerBirthday.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dateTimePickerBirthday.Location = new System.Drawing.Point(449, 126);
-            this.dateTimePickerBirthday.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dateTimePickerBirthday.Margin = new System.Windows.Forms.Padding(4);
             this.dateTimePickerBirthday.Name = "dateTimePickerBirthday";
             this.dateTimePickerBirthday.Size = new System.Drawing.Size(376, 36);
             this.dateTimePickerBirthday.TabIndex = 31;
@@ -327,7 +329,7 @@
             this.comboBoxRole.ForeColor = System.Drawing.Color.White;
             this.comboBoxRole.FormattingEnabled = true;
             this.comboBoxRole.Location = new System.Drawing.Point(449, 374);
-            this.comboBoxRole.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBoxRole.Margin = new System.Windows.Forms.Padding(4);
             this.comboBoxRole.Name = "comboBoxRole";
             this.comboBoxRole.Size = new System.Drawing.Size(376, 37);
             this.comboBoxRole.TabIndex = 27;
@@ -339,7 +341,7 @@
             this.maskedTextBoxPhone.Font = new System.Drawing.Font("Verdana", 14.25F);
             this.maskedTextBoxPhone.ForeColor = System.Drawing.Color.White;
             this.maskedTextBoxPhone.Location = new System.Drawing.Point(21, 374);
-            this.maskedTextBoxPhone.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.maskedTextBoxPhone.Margin = new System.Windows.Forms.Padding(4);
             this.maskedTextBoxPhone.Mask = "+7 (000) 000-00-00";
             this.maskedTextBoxPhone.Name = "maskedTextBoxPhone";
             this.maskedTextBoxPhone.Size = new System.Drawing.Size(377, 36);
@@ -377,7 +379,7 @@
             this.Controls.Add(this.labelBirthday);
             this.Controls.Add(this.comboBoxRole);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "WorkerInsert";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Редактирование сотрудника";

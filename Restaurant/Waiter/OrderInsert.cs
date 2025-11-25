@@ -74,7 +74,6 @@ namespace Restaurant
             comboBoxStatusPayment.Font = Fonts.MontserratAlternatesRegular(14f);
             buttonBack.Font = Fonts.MontserratAlternatesBold(12f);
             buttonOrderItem.Font = Fonts.MontserratAlternatesBold(12f);
-            dateTimePickerOrder.Font = Fonts.MontserratAlternatesRegular(12f);
 
             LoadComboBoxData(currentWorkerId);
             SetControlsState();
@@ -222,21 +221,21 @@ namespace Restaurant
                 if (mode == "add")
                 {
                     query = @"
-                SELECT DISTINCT c.ClientId, c.ClientFIO, b.TableId, b.BookingDate
-                FROM Client c 
-                INNER JOIN Booking b ON c.ClientId = b.ClientId 
-                WHERE DATE(b.BookingDate) = CURDATE() 
-                AND b.BookingDate BETWEEN DATE_SUB(NOW(), INTERVAL 30 MINUTE) AND DATE_ADD(NOW(), INTERVAL 1 HOUR)
-                AND c.IsActive = 1
-                ORDER BY c.ClientFIO";
+            SELECT DISTINCT c.ClientId, c.ClientFIO, b.TableId, b.BookingDate
+            FROM Client c 
+            INNER JOIN Booking b ON c.ClientId = b.ClientId 
+            WHERE DATE(b.BookingDate) = CURDATE() 
+            AND b.BookingDate BETWEEN DATE_SUB(NOW(), INTERVAL 30 MINUTE) AND DATE_ADD(NOW(), INTERVAL 5 MINUTE)
+            AND c.IsActive = 1
+            ORDER BY c.ClientFIO";
                 }
                 else
                 {
                     query = @"
-                SELECT ClientId, ClientFIO
-                FROM Client 
-                WHERE IsActive = 1 
-                ORDER BY ClientFIO";
+            SELECT ClientId, ClientFIO
+            FROM Client 
+            WHERE IsActive = 1 
+            ORDER BY ClientFIO";
                 }
 
                 MySqlCommand cmdClients = new MySqlCommand(query, con);
@@ -705,11 +704,11 @@ namespace Restaurant
             try
             {
                 MySqlCommand deleteCmd = new MySqlCommand(@"
-            DELETE FROM booking 
-            WHERE ClientId = @ClientId 
-            AND TableId = @TableId 
-            AND DATE(BookingDate) = CURDATE() 
-            AND BookingDate BETWEEN DATE_SUB(NOW(), INTERVAL 30 MINUTE) AND DATE_ADD(NOW(), INTERVAL 1 HOUR)",
+        DELETE FROM booking 
+        WHERE ClientId = @ClientId 
+        AND TableId = @TableId 
+        AND DATE(BookingDate) = CURDATE() 
+        AND BookingDate BETWEEN DATE_SUB(NOW(), INTERVAL 5 MINUTE) AND DATE_ADD(NOW(), INTERVAL 2 HOUR)",
                     con);
                 deleteCmd.Parameters.AddWithValue("@ClientId", clientId);
                 deleteCmd.Parameters.AddWithValue("@TableId", tableId);
@@ -718,7 +717,7 @@ namespace Restaurant
             }
             catch (Exception)
             {
-
+                
             }
         }
         private void comboBoxStatusPayment_SelectedIndexChanged(object sender, EventArgs e)
@@ -952,30 +951,45 @@ namespace Restaurant
                     int tableId = Convert.ToInt32(comboBoxTable.Text);
 
                     MySqlCommand checkBookingCmd = new MySqlCommand(@"
-                SELECT 
-                    BookingDate,
-                    TIMESTAMPDIFF(MINUTE, NOW(), BookingDate) as MinutesUntilBooking,
-                    c.ClientFIO
-                FROM booking b
-                JOIN client c ON b.ClientId = c.ClientId
-                WHERE b.TableId = @TableId 
-                AND DATE(b.BookingDate) = CURDATE()
-                AND b.BookingDate > NOW()
-                AND c.IsActive = 1 
-                ORDER BY b.BookingDate", con);
+            SELECT 
+                BookingDate,
+                TIMESTAMPDIFF(MINUTE, NOW(), BookingDate) as MinutesUntilBooking,
+                c.ClientFIO
+            FROM booking b
+            JOIN client c ON b.ClientId = c.ClientId
+            WHERE b.TableId = @TableId 
+            AND DATE(b.BookingDate) = CURDATE()
+            AND b.BookingDate BETWEEN DATE_SUB(NOW(), INTERVAL 5 MINUTE) AND DATE_ADD(NOW(), INTERVAL 2 HOUR)
+            AND c.IsActive = 1 
+            ORDER BY b.BookingDate", con);
 
                     checkBookingCmd.Parameters.AddWithValue("@TableId", tableId);
 
                     using (MySqlDataReader reader = checkBookingCmd.ExecuteReader())
                     {
-                        while (reader.Read())
+                        if (reader.HasRows)
                         {
-                            int minutesUntilBooking = reader.GetInt32("MinutesUntilBooking");
+                            var currentClientId = comboBoxClient.SelectedItem is KeyValuePair<int, string> selectedClient ? selectedClient.Key : -1;
 
-                            if (minutesUntilBooking < 120)
+                            reader.Close();
+
+                            MySqlCommand checkClientBookingCmd = new MySqlCommand(@"
+                    SELECT ClientId
+                    FROM booking 
+                    WHERE TableId = @TableId 
+                    AND DATE(BookingDate) = CURDATE()
+                    AND BookingDate BETWEEN DATE_SUB(NOW(), INTERVAL 5 MINUTE) AND DATE_ADD(NOW(), INTERVAL 2 HOUR)
+                    AND ClientId = @ClientId", con);
+
+                            checkClientBookingCmd.Parameters.AddWithValue("@TableId", tableId);
+                            checkClientBookingCmd.Parameters.AddWithValue("@ClientId", currentClientId);
+
+                            var result = checkClientBookingCmd.ExecuteScalar();
+
+                            if (result == null)
                             {
                                 MessageBox.Show(
-                                    $"Этот стол забронирован!\n" +
+                                    $"Этот стол забронирован другим клиентом!\n" +
                                     $"Создание заказа невозможно!",
                                     "Стол забронирован",
                                     MessageBoxButtons.OK,

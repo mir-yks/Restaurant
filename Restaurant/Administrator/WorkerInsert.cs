@@ -40,8 +40,6 @@ namespace Restaurant
             textBoxAddress.Font = Fonts.MontserratAlternatesRegular(14f);
             maskedTextBoxPhone.Font = Fonts.MontserratAlternatesRegular(14f);
             comboBoxRole.Font = Fonts.MontserratAlternatesRegular(14f);
-            dateTimePickerBirthday.Font = Fonts.MontserratAlternatesRegular(14f);
-            dateTimePickerEmployment.Font = Fonts.MontserratAlternatesRegular(14f);
             buttonBack.Font = Fonts.MontserratAlternatesBold(12f);
             buttonWrite.Font = Fonts.MontserratAlternatesBold(12f);
 

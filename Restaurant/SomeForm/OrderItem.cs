@@ -62,6 +62,49 @@ namespace Restaurant
             LoadOrderItems();
             LoadOrderTotalSum();
             UpdateTotalCount();
+
+            ConfigureComboBoxColumn();
+        }
+
+        private void ConfigureComboBoxColumn()
+        {
+            if (dataGridView1.Columns["ColumnDish"] is DataGridViewComboBoxColumn dishColumn)
+            {
+                DataTable displayTable = dishesTable.Copy();
+                if (!displayTable.Columns.Contains("DisplayName"))
+                {
+                    displayTable.Columns.Add("DisplayName", typeof(string));
+                }
+
+                foreach (DataRow row in displayTable.Rows)
+                {
+                    string dishName = row["DishName"].ToString();
+                    object offersDish = row["OffersDish"];
+
+                    if (offersDish != null && offersDish != DBNull.Value && Convert.ToInt32(offersDish) > 0)
+                    {
+                        int offerId = Convert.ToInt32(offersDish);
+                        DataRow[] offerRows = offersTable.Select($"OffersDishId = {offerId}");
+                        if (offerRows.Length > 0)
+                        {
+                            int discount = Convert.ToInt32(offerRows[0]["OffersDishDicsount"]);
+                            row["DisplayName"] = $"★ {dishName} (-{discount}%)";
+                        }
+                        else
+                        {
+                            row["DisplayName"] = $"★ {dishName}";
+                        }
+                    }
+                    else
+                    {
+                        row["DisplayName"] = dishName;
+                    }
+                }
+
+                dishColumn.DataSource = displayTable;
+                dishColumn.DisplayMember = "DisplayName";
+                dishColumn.ValueMember = "DishId";
+            }
         }
 
         private void LoadDishesData()
@@ -124,20 +167,20 @@ namespace Restaurant
                 {
                     con.Open();
                     MySqlCommand cmd = new MySqlCommand(@"
-    SELECT 
-        i.DishId AS 'DishId',
-        i.DishCount AS 'Количество',
-        COALESCE(m.DishPrice, 0) AS 'Цена',
-        CASE 
-            WHEN m.OffersDish IS NOT NULL AND m.OffersDish > 0 THEN
-                ROUND(i.DishCount * COALESCE(m.DishPrice, 0) * (100 - od.OffersDishDicsount) / 100, 2)
-            ELSE
-                ROUND(i.DishCount * COALESCE(m.DishPrice, 0), 2)
-        END AS 'Сумма'
-    FROM OrderItems i
-    LEFT JOIN MenuDish m ON i.DishId = m.DishId
-    LEFT JOIN OffersDish od ON m.OffersDish = od.OffersDishId
-    WHERE i.OrderId = @OrderId;", con);
+SELECT
+    i.DishId AS 'DishId',
+    i.DishCount AS 'Количество', 
+    COALESCE(m.DishPrice, 0) AS 'Цена',  
+    CASE
+        WHEN m.OffersDish IS NOT NULL AND m.OffersDish > 0 THEN
+            ROUND(i.DishCount * m.DishPrice * (100 - od.OffersDishDicsount) / 100, 2)
+        ELSE
+            ROUND(i.DishCount * m.DishPrice, 2)
+    END AS 'Сумма' 
+FROM OrderItems i
+LEFT JOIN MenuDish m ON i.DishId = m.DishId
+LEFT JOIN OffersDish od ON m.OffersDish = od.OffersDishId
+WHERE i.OrderId = @OrderId;", con);
 
                     cmd.Parameters.AddWithValue("@OrderId", orderId);
 
@@ -153,10 +196,22 @@ namespace Restaurant
                         }
                     }
 
-                    ConfigureDataGridView();
                     dataGridView1.DataSource = orderItemsTable;
 
+                    foreach (DataGridViewRow row in dataGridView1.Rows)
+                    {
+                        if (row.IsNewRow) continue;
+
+                        if (row.DataBoundItem != null)
+                        {
+                            var dataRow = ((DataRowView)row.DataBoundItem).Row;
+                            row.Cells["ColumnPrice"].Value = dataRow["Цена"];
+                            row.Cells["ColumnSum"].Value = dataRow["Сумма"];
+                        }
+                    }
+
                     UpdateTotalCount();
+                    SetReadOnlyForOriginalDishes();
                 }
             }
             catch (Exception ex)
@@ -165,136 +220,95 @@ namespace Restaurant
             }
         }
 
-        private void ConfigureDataGridView()
+        private void DataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            dataGridView1.AutoGenerateColumns = false;
-            dataGridView1.Columns.Clear();
+            if (e.RowIndex < 0 || e.RowIndex >= dataGridView1.Rows.Count) return;
 
-            DataGridViewComboBoxColumn dishColumn = new DataGridViewComboBoxColumn();
-            dishColumn.HeaderText = "Блюдо";
-            dishColumn.Name = "Блюдо";
-            dishColumn.DataPropertyName = "DishId";
+            if (!dataGridView1.Columns.Contains("ColumnDish")) return;
 
-            DataTable displayTable = dishesTable.Copy();
-            if (!displayTable.Columns.Contains("DisplayName"))
+            if (e.ColumnIndex != dataGridView1.Columns["ColumnDish"].Index) return;
+
+            DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
+
+            if (row == null) return;
+
+            if (row.Cells["ColumnDish"] == null) return;
+
+            object dishIdValue = row.Cells["ColumnDish"].Value;
+
+            if (dishIdValue != null && dishIdValue != DBNull.Value)
             {
-                displayTable.Columns.Add("DisplayName", typeof(string));
-            }
-
-            foreach (DataRow row in displayTable.Rows)
-            {
-                string dishName = row["DishName"].ToString();
-                object offersDish = row["OffersDish"];
-
-                if (offersDish != null && offersDish != DBNull.Value && Convert.ToInt32(offersDish) > 0)
+                try
                 {
-                    int offerId = Convert.ToInt32(offersDish);
-                    DataRow[] offerRows = offersTable.Select($"OffersDishId = {offerId}");
-                    if (offerRows.Length > 0)
+                    int dishId = Convert.ToInt32(dishIdValue);
+
+                    if (allDishesTable == null) return;
+
+                    DataRow[] rows = allDishesTable.Select($"DishId = {dishId}");
+
+                    if (rows.Length > 0)
                     {
-                        int discount = Convert.ToInt32(offerRows[0]["OffersDishDicsount"]);
-                        row["DisplayName"] = $"★ {dishName} (-{discount}%)";
+                        string dishName = rows[0]["DishName"].ToString();
+                        object offersDish = rows[0]["OffersDish"];
+
+                        string displayName = dishName;
+
+                        if (offersDish != null && offersDish != DBNull.Value && Convert.ToInt32(offersDish) > 0)
+                        {
+                            int offerId = Convert.ToInt32(offersDish);
+                            DataRow[] offerRows = offersTable.Select($"OffersDishId = {offerId}");
+                            if (offerRows.Length > 0)
+                            {
+                                int discount = Convert.ToInt32(offerRows[0]["OffersDishDicsount"]);
+                                displayName = $"★ {dishName} (-{discount}%)";
+                            }
+                            else
+                            {
+                                displayName = $"★ {dishName}";
+                            }
+                        }
+
+                        e.Value = displayName;
+                        e.FormattingApplied = true;
                     }
                     else
                     {
-                        row["DisplayName"] = $"★ {dishName}";
+                        e.Value = $"Блюдо удалено (ID: {dishId})";
+                        e.FormattingApplied = true;
                     }
                 }
-                else
+                catch (Exception)
                 {
-                    row["DisplayName"] = dishName;
+                    e.Value = $"Ошибка (ID: {dishIdValue})";
+                    e.FormattingApplied = true;
                 }
             }
-
-            dishColumn.DataSource = displayTable;
-            dishColumn.DisplayMember = "DisplayName";
-            dishColumn.ValueMember = "DishId";
-            dishColumn.DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing;
-            dishColumn.DisplayStyleForCurrentCellOnly = true;
-            dishColumn.FlatStyle = FlatStyle.Flat;
-            dataGridView1.Columns.Add(dishColumn);
-
-            DataGridViewTextBoxColumn countColumn = new DataGridViewTextBoxColumn();
-            countColumn.HeaderText = "Количество";
-            countColumn.Name = "Количество";
-            countColumn.DataPropertyName = "Количество";
-            dataGridView1.Columns.Add(countColumn);
-
-            DataGridViewTextBoxColumn priceColumn = new DataGridViewTextBoxColumn();
-            priceColumn.HeaderText = "Цена";
-            priceColumn.Name = "Цена";
-            priceColumn.DataPropertyName = "Цена";
-            priceColumn.ReadOnly = true;
-            dataGridView1.Columns.Add(priceColumn);
-
-            DataGridViewTextBoxColumn sumColumn = new DataGridViewTextBoxColumn();
-            sumColumn.HeaderText = "Сумма";
-            sumColumn.Name = "Сумма";
-            sumColumn.DataPropertyName = "Сумма";
-            sumColumn.ReadOnly = true;
-            dataGridView1.Columns.Add(sumColumn);
-
-            dataGridView1.CellFormatting += DataGridView1_CellFormatting;
-            dataGridView1.EditingControlShowing += DataGridView1_EditingControlShowing;
-            dataGridView1.CellEndEdit += DataGridView1_CellEndEdit;
-
-            this.ActiveControl = buttonBack;
         }
 
-        private void DataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        private void SetReadOnlyForOriginalDishes()
         {
-            if (e.RowIndex >= 0 && e.ColumnIndex == dataGridView1.Columns["Блюдо"].Index)
-            {
-                DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
-                object dishIdValue = row.Cells["Блюдо"].Value;
+            if (!dataGridView1.Columns.Contains("ColumnDish")) return;
 
+            int dishColumnIndex = dataGridView1.Columns["ColumnDish"].Index;
+
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                if (row.IsNewRow || row.Cells["ColumnDish"] == null) continue;
+
+                object dishIdValue = row.Cells["ColumnDish"].Value;
                 if (dishIdValue != null && dishIdValue != DBNull.Value)
                 {
                     try
                     {
                         int dishId = Convert.ToInt32(dishIdValue);
-                        DataRow[] rows = allDishesTable.Select($"DishId = {dishId}");
-
-                        if (rows.Length > 0)
+                        if (originalDishIds.Contains(dishId))
                         {
-                            string dishName = rows[0]["DishName"].ToString();
-                            object offersDish = rows[0]["OffersDish"];
-
-                            string displayName = dishName;
-
-                            if (offersDish != null && offersDish != DBNull.Value && Convert.ToInt32(offersDish) > 0)
-                            {
-                                int offerId = Convert.ToInt32(offersDish);
-                                DataRow[] offerRows = offersTable.Select($"OffersDishId = {offerId}");
-                                if (offerRows.Length > 0)
-                                {
-                                    int discount = Convert.ToInt32(offerRows[0]["OffersDishDicsount"]);
-                                    displayName = $"★ {dishName} (-{discount}%)";
-                                }
-                                else
-                                {
-                                    displayName = $"★ {dishName}";
-                                }
-                            }
-
-                            e.Value = displayName;
-                            e.FormattingApplied = true;
-
-                            if (originalDishIds.Contains(dishId))
-                            {
-                                row.Cells["Блюдо"].ReadOnly = true;
-                            }
-                        }
-                        else
-                        {
-                            e.Value = $"Блюдо удалено (ID: {dishId})";
-                            e.FormattingApplied = true;
+                            row.Cells["ColumnDish"].ReadOnly = true;
                         }
                     }
-                    catch (Exception)
+                    catch
                     {
-                        e.Value = $"Ошибка (ID: {dishIdValue})";
-                        e.FormattingApplied = true;
+                        
                     }
                 }
             }
@@ -302,7 +316,7 @@ namespace Restaurant
 
         private void DataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
-            if (dataGridView1.CurrentCell.ColumnIndex == dataGridView1.Columns["Блюдо"].Index)
+            if (dataGridView1.CurrentCell.ColumnIndex == dataGridView1.Columns["ColumnDish"].Index)
             {
                 ComboBox combo = e.Control as ComboBox;
                 if (combo != null)
@@ -342,7 +356,7 @@ namespace Restaurant
 
         private void DataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == dataGridView1.Columns["Блюдо"].Index)
+            if (e.ColumnIndex == dataGridView1.Columns["ColumnDish"].Index)
             {
                 dataGridView1.InvalidateCell(e.ColumnIndex, e.RowIndex);
             }
@@ -354,8 +368,8 @@ namespace Restaurant
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
                 if (!row.IsNewRow &&
-                    row.Cells["Блюдо"].Value != null &&
-                    row.Cells["Блюдо"].Value != DBNull.Value)
+                    row.Cells["ColumnDish"].Value != null &&
+                    row.Cells["ColumnDish"].Value != DBNull.Value)
                 {
                     totalCount++;
                 }
@@ -467,9 +481,9 @@ namespace Restaurant
             {
                 if (row.IsNewRow) continue;
 
-                if (row.Cells["Сумма"].Value != null && row.Cells["Сумма"].Value != DBNull.Value)
+                if (row.Cells["ColumnSum"].Value != null && row.Cells["ColumnSum"].Value != DBNull.Value) 
                 {
-                    total += Convert.ToDecimal(row.Cells["Сумма"].Value);
+                    total += Convert.ToDecimal(row.Cells["ColumnSum"].Value); 
                 }
             }
             return Math.Round(total, 2);
@@ -506,17 +520,17 @@ namespace Restaurant
                     {
                         if (row.IsNewRow) continue;
 
-                        if (row.Cells["Блюдо"].Value != null &&
-                            row.Cells["Блюдо"].Value != DBNull.Value &&
-                            row.Cells["Количество"].Value != null &&
-                            row.Cells["Количество"].Value != DBNull.Value)
+                        if (row.Cells["ColumnDish"].Value != null && 
+                            row.Cells["ColumnDish"].Value != DBNull.Value &&
+                            row.Cells["ColumnQuantity"].Value != null && 
+                            row.Cells["ColumnQuantity"].Value != DBNull.Value)
                         {
-                            int dishId = Convert.ToInt32(row.Cells["Блюдо"].Value);
-                            int quantity = Convert.ToInt32(row.Cells["Количество"].Value);
+                            int dishId = Convert.ToInt32(row.Cells["ColumnDish"].Value); 
+                            int quantity = Convert.ToInt32(row.Cells["ColumnQuantity"].Value); 
 
                             string insertQuery = @"INSERT INTO OrderItems 
-                                        (OrderId, DishId, DishCount) 
-                                        VALUES (@OrderId, @DishId, @DishCount)";
+                                (OrderId, DishId, DishCount) 
+                                VALUES (@OrderId, @DishId, @DishCount)";
 
                             MySqlCommand cmd = new MySqlCommand(insertQuery, con);
                             cmd.Parameters.AddWithValue("@OrderId", orderId);
@@ -547,11 +561,11 @@ namespace Restaurant
 
                 try
                 {
-                    if (e.ColumnIndex == dataGridView1.Columns["Блюдо"].Index)
+                    if (e.ColumnIndex == dataGridView1.Columns["ColumnDish"].Index) 
                     {
-                        if (row.Cells["Блюдо"].Value != null && row.Cells["Блюдо"].Value != DBNull.Value)
+                        if (row.Cells["ColumnDish"].Value != null && row.Cells["ColumnDish"].Value != DBNull.Value) 
                         {
-                            int dishId = Convert.ToInt32(row.Cells["Блюдо"].Value);
+                            int dishId = Convert.ToInt32(row.Cells["ColumnDish"].Value); 
                             DataRow[] dishRows = dishesTable.Select($"DishId = {dishId}");
                             if (dishRows.Length > 0)
                             {
@@ -560,65 +574,65 @@ namespace Restaurant
                                 int discount = GetDiscountForDish(dishId);
                                 decimal finalPrice = CalculatePriceWithDiscount(originalPrice, discount);
 
-                                row.Cells["Цена"].Value = Math.Round(originalPrice, 2);
+                                row.Cells["ColumnPrice"].Value = Math.Round(originalPrice, 2); 
 
-                                if (row.Cells["Количество"].Value != null && row.Cells["Количество"].Value != DBNull.Value)
+                                if (row.Cells["ColumnQuantity"].Value != null && row.Cells["ColumnQuantity"].Value != DBNull.Value) 
                                 {
-                                    int quantity = Convert.ToInt32(row.Cells["Количество"].Value);
+                                    int quantity = Convert.ToInt32(row.Cells["ColumnQuantity"].Value); 
                                     decimal totalSum = Math.Round(quantity * finalPrice, 2);
-                                    row.Cells["Сумма"].Value = totalSum;
+                                    row.Cells["ColumnSum"].Value = totalSum; 
 
                                     if (discount > 0)
                                     {
-                                        row.Cells["Сумма"].ToolTipText = $"Цена со скидкой {discount}%: {finalPrice:F2} × {quantity} = {totalSum:F2}";
+                                        row.Cells["ColumnSum"].ToolTipText = $"Цена со скидкой {discount}%: {finalPrice:F2} × {quantity} = {totalSum:F2}"; 
                                     }
                                     else
                                     {
-                                        row.Cells["Сумма"].ToolTipText = null;
+                                        row.Cells["ColumnSum"].ToolTipText = null; 
                                     }
                                 }
                                 else
                                 {
-                                    row.Cells["Количество"].Value = 1;
+                                    row.Cells["ColumnQuantity"].Value = 1; 
                                     decimal totalSum = Math.Round(finalPrice, 2);
-                                    row.Cells["Сумма"].Value = totalSum;
+                                    row.Cells["ColumnSum"].Value = totalSum; 
 
                                     if (discount > 0)
                                     {
-                                        row.Cells["Сумма"].ToolTipText = $"Цена со скидкой {discount}%: {finalPrice:F2}";
+                                        row.Cells["ColumnSum"].ToolTipText = $"Цена со скидкой {discount}%: {finalPrice:F2}"; 
                                     }
                                     else
                                     {
-                                        row.Cells["Сумма"].ToolTipText = null;
+                                        row.Cells["ColumnSum"].ToolTipText = null; 
                                     }
                                 }
                             }
                         }
                     }
 
-                    if (e.ColumnIndex == dataGridView1.Columns["Количество"].Index)
+                    if (e.ColumnIndex == dataGridView1.Columns["ColumnQuantity"].Index) 
                     {
-                        if (row.Cells["Количество"].Value != null && row.Cells["Количество"].Value != DBNull.Value &&
-                            row.Cells["Цена"].Value != null && row.Cells["Цена"].Value != DBNull.Value &&
-                            row.Cells["Блюдо"].Value != null && row.Cells["Блюдо"].Value != DBNull.Value)
+                        if (row.Cells["ColumnQuantity"].Value != null && row.Cells["ColumnQuantity"].Value != DBNull.Value && 
+                            row.Cells["ColumnPrice"].Value != null && row.Cells["ColumnPrice"].Value != DBNull.Value && 
+                            row.Cells["ColumnDish"].Value != null && row.Cells["ColumnDish"].Value != DBNull.Value) 
                         {
-                            int dishId = Convert.ToInt32(row.Cells["Блюдо"].Value);
-                            int quantity = Convert.ToInt32(row.Cells["Количество"].Value);
-                            decimal originalPrice = Convert.ToDecimal(row.Cells["Цена"].Value);
+                            int dishId = Convert.ToInt32(row.Cells["ColumnDish"].Value); 
+                            int quantity = Convert.ToInt32(row.Cells["ColumnQuantity"].Value); 
+                            decimal originalPrice = Convert.ToDecimal(row.Cells["ColumnPrice"].Value); 
 
                             int discount = GetDiscountForDish(dishId);
                             decimal finalPrice = CalculatePriceWithDiscount(originalPrice, discount);
                             decimal totalSum = Math.Round(quantity * finalPrice, 2);
 
-                            row.Cells["Сумма"].Value = totalSum;
+                            row.Cells["ColumnSum"].Value = totalSum; 
 
                             if (discount > 0)
                             {
-                                row.Cells["Сумма"].ToolTipText = $"Цена со скидкой {discount}%: {finalPrice:F2} × {quantity} = {totalSum:F2}";
+                                row.Cells["ColumnSum"].ToolTipText = $"Цена со скидкой {discount}%: {finalPrice:F2} × {quantity} = {totalSum:F2}"; 
                             }
                             else
                             {
-                                row.Cells["Сумма"].ToolTipText = null;
+                                row.Cells["ColumnSum"].ToolTipText = null; 
                             }
                         }
                     }
@@ -628,7 +642,7 @@ namespace Restaurant
                 }
                 catch (Exception)
                 {
-
+                    
                 }
             }
         }
@@ -645,14 +659,14 @@ namespace Restaurant
 
         private void dataGridView1_DefaultValuesNeeded(object sender, DataGridViewRowEventArgs e)
         {
-            e.Row.Cells["Количество"].Value = 1;
+            e.Row.Cells["ColumnQuantity"].Value = 1; 
         }
 
         private void dataGridView1_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
         {
             if (e.RowIndex >= 0 && e.RowIndex < dataGridView1.Rows.Count - 1)
             {
-                if (e.ColumnIndex == dataGridView1.Columns["Количество"].Index)
+                if (e.ColumnIndex == dataGridView1.Columns["ColumnQuantity"].Index) 
                 {
                     if (string.IsNullOrEmpty(e.FormattedValue.ToString()) ||
                         !int.TryParse(e.FormattedValue.ToString(), out int quantity) || quantity <= 0)

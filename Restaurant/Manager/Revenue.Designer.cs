@@ -40,9 +40,10 @@
             // 
             // dateTimePickerMin
             // 
-            this.dateTimePickerMin.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.dateTimePickerMin.Font = new System.Drawing.Font("Segoe UI", 13F);
+            this.dateTimePickerMin.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dateTimePickerMin.Location = new System.Drawing.Point(76, 153);
-            this.dateTimePickerMin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dateTimePickerMin.Margin = new System.Windows.Forms.Padding(4);
             this.dateTimePickerMin.Name = "dateTimePickerMin";
             this.dateTimePickerMin.Size = new System.Drawing.Size(265, 36);
             this.dateTimePickerMin.TabIndex = 0;
@@ -89,9 +90,10 @@
             // 
             // dateTimePickerMax
             // 
-            this.dateTimePickerMax.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.dateTimePickerMax.Font = new System.Drawing.Font("Segoe UI", 13F);
+            this.dateTimePickerMax.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dateTimePickerMax.Location = new System.Drawing.Point(76, 217);
-            this.dateTimePickerMax.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dateTimePickerMax.Margin = new System.Windows.Forms.Padding(4);
             this.dateTimePickerMax.Name = "dateTimePickerMax";
             this.dateTimePickerMax.Size = new System.Drawing.Size(265, 36);
             this.dateTimePickerMax.TabIndex = 2;
@@ -105,7 +107,7 @@
             this.buttonCreate.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonCreate.ForeColor = System.Drawing.Color.White;
             this.buttonCreate.Location = new System.Drawing.Point(211, 362);
-            this.buttonCreate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonCreate.Margin = new System.Windows.Forms.Padding(4);
             this.buttonCreate.Name = "buttonCreate";
             this.buttonCreate.Size = new System.Drawing.Size(147, 68);
             this.buttonCreate.TabIndex = 10;
@@ -121,7 +123,7 @@
             this.buttonBack.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonBack.ForeColor = System.Drawing.Color.White;
             this.buttonBack.Location = new System.Drawing.Point(16, 362);
-            this.buttonBack.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonBack.Margin = new System.Windows.Forms.Padding(4);
             this.buttonBack.Name = "buttonBack";
             this.buttonBack.Size = new System.Drawing.Size(147, 68);
             this.buttonBack.TabIndex = 11;
@@ -160,7 +162,7 @@
             this.Controls.Add(this.labelReport);
             this.Controls.Add(this.dateTimePickerMin);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Revenue";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Выручка";
