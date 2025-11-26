@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TablesInsert));
             this.buttonWrite = new System.Windows.Forms.Button();
             this.buttonBack = new System.Windows.Forms.Button();
             this.textBoxPlaceCount = new System.Windows.Forms.TextBox();
@@ -44,7 +45,7 @@
             this.buttonWrite.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonWrite.ForeColor = System.Drawing.Color.White;
             this.buttonWrite.Location = new System.Drawing.Point(231, 223);
-            this.buttonWrite.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonWrite.Margin = new System.Windows.Forms.Padding(4);
             this.buttonWrite.Name = "buttonWrite";
             this.buttonWrite.Size = new System.Drawing.Size(153, 62);
             this.buttonWrite.TabIndex = 19;
@@ -60,7 +61,7 @@
             this.buttonBack.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonBack.ForeColor = System.Drawing.Color.White;
             this.buttonBack.Location = new System.Drawing.Point(16, 223);
-            this.buttonBack.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonBack.Margin = new System.Windows.Forms.Padding(4);
             this.buttonBack.Name = "buttonBack";
             this.buttonBack.Size = new System.Drawing.Size(147, 62);
             this.buttonBack.TabIndex = 18;
@@ -75,7 +76,7 @@
             this.textBoxPlaceCount.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxPlaceCount.ForeColor = System.Drawing.Color.White;
             this.textBoxPlaceCount.Location = new System.Drawing.Point(56, 53);
-            this.textBoxPlaceCount.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxPlaceCount.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxPlaceCount.MaxLength = 2;
             this.textBoxPlaceCount.Name = "textBoxPlaceCount";
             this.textBoxPlaceCount.Size = new System.Drawing.Size(291, 36);
@@ -105,7 +106,7 @@
             this.comboBoxStatus.ForeColor = System.Drawing.Color.White;
             this.comboBoxStatus.FormattingEnabled = true;
             this.comboBoxStatus.Location = new System.Drawing.Point(56, 130);
-            this.comboBoxStatus.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBoxStatus.Margin = new System.Windows.Forms.Padding(4);
             this.comboBoxStatus.Name = "comboBoxStatus";
             this.comboBoxStatus.Size = new System.Drawing.Size(291, 37);
             this.comboBoxStatus.TabIndex = 20;
@@ -139,7 +140,8 @@
             this.Controls.Add(this.labelPlaceCount);
             this.Controls.Add(this.textBoxPlaceCount);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "TablesInsert";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Редактирование столика";

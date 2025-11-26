@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Order));
             this.buttonOrderItem = new System.Windows.Forms.Button();
             this.comboBoxSum = new System.Windows.Forms.ComboBox();
             this.labelSum = new System.Windows.Forms.Label();
@@ -55,7 +56,7 @@
             this.buttonOrderItem.Font = new System.Drawing.Font("Verdana", 14F);
             this.buttonOrderItem.ForeColor = System.Drawing.Color.White;
             this.buttonOrderItem.Location = new System.Drawing.Point(897, 581);
-            this.buttonOrderItem.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonOrderItem.Margin = new System.Windows.Forms.Padding(4);
             this.buttonOrderItem.Name = "buttonOrderItem";
             this.buttonOrderItem.Size = new System.Drawing.Size(153, 68);
             this.buttonOrderItem.TabIndex = 53;
@@ -72,7 +73,7 @@
             this.comboBoxSum.ForeColor = System.Drawing.Color.White;
             this.comboBoxSum.FormattingEnabled = true;
             this.comboBoxSum.Location = new System.Drawing.Point(515, 566);
-            this.comboBoxSum.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBoxSum.Margin = new System.Windows.Forms.Padding(4);
             this.comboBoxSum.Name = "comboBoxSum";
             this.comboBoxSum.Size = new System.Drawing.Size(239, 37);
             this.comboBoxSum.TabIndex = 52;
@@ -103,7 +104,7 @@
             this.comboBoxStatus.ForeColor = System.Drawing.Color.White;
             this.comboBoxStatus.FormattingEnabled = true;
             this.comboBoxStatus.Location = new System.Drawing.Point(267, 567);
-            this.comboBoxStatus.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBoxStatus.Margin = new System.Windows.Forms.Padding(4);
             this.comboBoxStatus.Name = "comboBoxStatus";
             this.comboBoxStatus.Size = new System.Drawing.Size(239, 37);
             this.comboBoxStatus.TabIndex = 50;
@@ -148,7 +149,7 @@
             this.textBoxOrder.Font = new System.Drawing.Font("Verdana", 14F);
             this.textBoxOrder.ForeColor = System.Drawing.Color.White;
             this.textBoxOrder.Location = new System.Drawing.Point(19, 567);
-            this.textBoxOrder.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxOrder.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxOrder.MaxLength = 50;
             this.textBoxOrder.Name = "textBoxOrder";
             this.textBoxOrder.Size = new System.Drawing.Size(239, 36);
@@ -180,7 +181,7 @@
             this.buttonReport.Font = new System.Drawing.Font("Verdana", 14F);
             this.buttonReport.ForeColor = System.Drawing.Color.White;
             this.buttonReport.Location = new System.Drawing.Point(575, 656);
-            this.buttonReport.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonReport.Margin = new System.Windows.Forms.Padding(4);
             this.buttonReport.Name = "buttonReport";
             this.buttonReport.Size = new System.Drawing.Size(153, 68);
             this.buttonReport.TabIndex = 44;
@@ -197,7 +198,7 @@
             this.buttonBack.Font = new System.Drawing.Font("Verdana", 14F);
             this.buttonBack.ForeColor = System.Drawing.Color.White;
             this.buttonBack.Location = new System.Drawing.Point(16, 656);
-            this.buttonBack.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonBack.Margin = new System.Windows.Forms.Padding(4);
             this.buttonBack.Name = "buttonBack";
             this.buttonBack.Size = new System.Drawing.Size(153, 68);
             this.buttonBack.TabIndex = 45;
@@ -213,7 +214,7 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Top;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(4);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
@@ -222,6 +223,7 @@
             this.dataGridView1.Size = new System.Drawing.Size(1067, 505);
             this.dataGridView1.TabIndex = 43;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
+            this.dataGridView1.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dataGridView1_CellFormatting);
             // 
             // buttonNew
             // 
@@ -231,7 +233,7 @@
             this.buttonNew.Font = new System.Drawing.Font("Verdana", 14F);
             this.buttonNew.ForeColor = System.Drawing.Color.White;
             this.buttonNew.Location = new System.Drawing.Point(897, 656);
-            this.buttonNew.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonNew.Margin = new System.Windows.Forms.Padding(4);
             this.buttonNew.Name = "buttonNew";
             this.buttonNew.Size = new System.Drawing.Size(153, 68);
             this.buttonNew.TabIndex = 44;
@@ -249,7 +251,7 @@
             this.buttonUpdate.Font = new System.Drawing.Font("Verdana", 14F);
             this.buttonUpdate.ForeColor = System.Drawing.Color.White;
             this.buttonUpdate.Location = new System.Drawing.Point(736, 656);
-            this.buttonUpdate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonUpdate.Margin = new System.Windows.Forms.Padding(4);
             this.buttonUpdate.Name = "buttonUpdate";
             this.buttonUpdate.Size = new System.Drawing.Size(153, 68);
             this.buttonUpdate.TabIndex = 44;
@@ -267,7 +269,7 @@
             this.buttonCheck.Font = new System.Drawing.Font("Verdana", 14F);
             this.buttonCheck.ForeColor = System.Drawing.Color.White;
             this.buttonCheck.Location = new System.Drawing.Point(400, 656);
-            this.buttonCheck.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonCheck.Margin = new System.Windows.Forms.Padding(4);
             this.buttonCheck.Name = "buttonCheck";
             this.buttonCheck.Size = new System.Drawing.Size(167, 68);
             this.buttonCheck.TabIndex = 54;
@@ -285,7 +287,7 @@
             this.buttonClearFilters.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonClearFilters.ForeColor = System.Drawing.Color.Transparent;
             this.buttonClearFilters.Location = new System.Drawing.Point(763, 566);
-            this.buttonClearFilters.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonClearFilters.Margin = new System.Windows.Forms.Padding(4);
             this.buttonClearFilters.Name = "buttonClearFilters";
             this.buttonClearFilters.Size = new System.Drawing.Size(40, 37);
             this.buttonClearFilters.TabIndex = 55;
@@ -317,7 +319,8 @@
             this.Controls.Add(this.buttonBack);
             this.Controls.Add(this.dataGridView1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Order";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Заказы";

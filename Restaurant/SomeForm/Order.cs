@@ -688,5 +688,29 @@ namespace Restaurant
                 buttonCheck.Enabled = true;
             }
         }
+
+        private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.Value == null) return;
+
+            string columnName = dataGridView1.Columns[e.ColumnIndex].HeaderText;
+            string text = e.Value.ToString();
+
+            if (columnName == "Сотрудник")
+            {
+                string visiblePart = text.Length > 3 ? text.Substring(0, 3) : text.PadRight(3, '*');
+                string hiddenPart = new string('*', 70);
+                e.Value = visiblePart + hiddenPart;
+            }
+            else if (columnName == "Клиент")
+            {
+                if (!string.IsNullOrEmpty(text))
+                {
+                    string visiblePart = text.Length > 3 ? text.Substring(0, 3) : text.PadRight(3, '*');
+                    string hiddenPart = new string('*', 70);
+                    e.Value = visiblePart + hiddenPart;
+                }
+            }
+        }
     }
 }

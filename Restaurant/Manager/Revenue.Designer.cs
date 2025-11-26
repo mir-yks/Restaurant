@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Revenue));
             this.dateTimePickerMin = new System.Windows.Forms.DateTimePicker();
             this.labelReport = new System.Windows.Forms.Label();
             this.labelS = new System.Windows.Forms.Label();
@@ -162,6 +163,7 @@
             this.Controls.Add(this.labelReport);
             this.Controls.Add(this.dateTimePickerMin);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Revenue";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

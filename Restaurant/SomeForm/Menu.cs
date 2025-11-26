@@ -1,13 +1,10 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -43,12 +40,12 @@ namespace Restaurant
 
         private void LoadPlugImage()
         {
-            string plugPath = GetPlugImagePath();
+            string plugPath = ImageManager.Instance.GetPlugImagePath();
             if (File.Exists(plugPath))
             {
                 try
                 {
-                    plugImage = Image.FromFile(plugPath);
+                    plugImage = ImageManager.Instance.LoadImageFromFile(plugPath);
                 }
                 catch (Exception)
                 {
@@ -195,7 +192,7 @@ namespace Restaurant
 
                 if (!string.IsNullOrEmpty(photoHash))
                 {
-                    Image image = await LoadImageByHashAsync(photoHash);
+                    Image image = await ImageManager.Instance.LoadImageByHashAsync(photoHash);
                     if (image != null)
                     {
                         if (dataGridView1.InvokeRequired)
@@ -220,107 +217,6 @@ namespace Restaurant
 
                 await Task.Delay(50);
             }
-        }
-
-        private async Task<Image> LoadImageByHashAsync(string photoHash)
-        {
-            if (string.IsNullOrEmpty(photoHash)) return null;
-
-            if (imageCache.ContainsKey(photoHash))
-            {
-                return imageCache[photoHash];
-            }
-
-            string imagePath = await Task.Run(() => FindImageByHash(photoHash));
-            if (imagePath != null && File.Exists(imagePath))
-            {
-                try
-                {
-                    using (var fileStream = new FileStream(imagePath, FileMode.Open, FileAccess.Read))
-                    {
-                        var image = Image.FromStream(fileStream);
-                        imageCache[photoHash] = image;
-                        return image;
-                    }
-                }
-                catch (Exception)
-                {
-                    return null;
-                }
-            }
-
-            return null;
-        }
-
-        private string FindImageByHash(string targetHash)
-        {
-            if (string.IsNullOrEmpty(targetHash)) return null;
-
-            string[] possibleDirs = {
-                Path.Combine(Application.StartupPath, "Resources", "image", "Menu"),
-                Path.Combine(Application.StartupPath, "..", "..", "Resources", "image", "Menu")
-            };
-
-            foreach (string dir in possibleDirs)
-            {
-                if (!Directory.Exists(dir)) continue;
-
-                try
-                {
-                    var files = Directory.GetFiles(dir, "*.*", SearchOption.TopDirectoryOnly)
-                        .Where(f => f.ToLower().EndsWith(".jpg") || f.ToLower().EndsWith(".jpeg") || f.ToLower().EndsWith(".png"))
-                        .ToList();
-
-                    foreach (string filePath in files)
-                    {
-                        try
-                        {
-                            byte[] fileData = File.ReadAllBytes(filePath);
-                            string fileHash = CalculateImageHash(fileData);
-
-                            if (fileHash == targetHash)
-                            {
-                                return filePath;
-                            }
-                        }
-                        catch (Exception)
-                        {
-                            continue;
-                        }
-                    }
-                }
-                catch (Exception)
-                {
-                   
-                }
-            }
-
-            return null;
-        }
-
-        private string CalculateImageHash(byte[] imageData)
-        {
-            using (var sha256 = SHA256.Create())
-            {
-                var hashBytes = sha256.ComputeHash(imageData);
-                return BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
-            }
-        }
-
-        private string GetPlugImagePath()
-        {
-            string[] possiblePaths = {
-                Path.Combine(Application.StartupPath, "Resources", "image", "plug.png"),
-                Path.Combine(Application.StartupPath, "..", "..", "Resources", "image", "plug.png")
-            };
-
-            foreach (string path in possiblePaths)
-            {
-                if (File.Exists(path))
-                    return path;
-            }
-
-            return null;
         }
 
         private void LoadFilters()
@@ -466,7 +362,7 @@ namespace Restaurant
         private void textBoxDish_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) &&
-                !System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"^[а-яА-Я-,.\s]$"))
+                !Regex.IsMatch(e.KeyChar.ToString(), @"^[а-яА-Я-,.\s]$"))
             {
                 e.Handled = true;
             }

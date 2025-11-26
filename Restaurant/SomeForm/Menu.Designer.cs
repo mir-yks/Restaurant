@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Menu));
             this.comboBoxPrice = new System.Windows.Forms.ComboBox();
             this.labelPrice = new System.Windows.Forms.Label();
             this.comboBoxCategory = new System.Windows.Forms.ComboBox();
@@ -37,11 +38,11 @@
             this.textBoxDish = new System.Windows.Forms.TextBox();
             this.labelDish = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.ColumnImage = new System.Windows.Forms.DataGridViewImageColumn();
             this.buttonNew = new System.Windows.Forms.Button();
             this.buttonUpdate = new System.Windows.Forms.Button();
             this.buttonClearFilters = new System.Windows.Forms.Button();
             this.buttonDelete = new System.Windows.Forms.Button();
-            this.ColumnImage = new System.Windows.Forms.DataGridViewImageColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -54,7 +55,7 @@
             this.comboBoxPrice.ForeColor = System.Drawing.Color.White;
             this.comboBoxPrice.FormattingEnabled = true;
             this.comboBoxPrice.Location = new System.Drawing.Point(513, 567);
-            this.comboBoxPrice.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBoxPrice.Margin = new System.Windows.Forms.Padding(4);
             this.comboBoxPrice.Name = "comboBoxPrice";
             this.comboBoxPrice.Size = new System.Drawing.Size(239, 37);
             this.comboBoxPrice.TabIndex = 34;
@@ -85,7 +86,7 @@
             this.comboBoxCategory.ForeColor = System.Drawing.Color.White;
             this.comboBoxCategory.FormattingEnabled = true;
             this.comboBoxCategory.Location = new System.Drawing.Point(265, 567);
-            this.comboBoxCategory.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBoxCategory.Margin = new System.Windows.Forms.Padding(4);
             this.comboBoxCategory.Name = "comboBoxCategory";
             this.comboBoxCategory.Size = new System.Drawing.Size(239, 37);
             this.comboBoxCategory.TabIndex = 32;
@@ -146,7 +147,7 @@
             this.textBoxDish.Font = new System.Drawing.Font("Verdana", 14F);
             this.textBoxDish.ForeColor = System.Drawing.Color.White;
             this.textBoxDish.Location = new System.Drawing.Point(19, 567);
-            this.textBoxDish.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxDish.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxDish.MaxLength = 100;
             this.textBoxDish.Name = "textBoxDish";
             this.textBoxDish.Size = new System.Drawing.Size(239, 36);
@@ -181,7 +182,7 @@
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Top;
             this.dataGridView1.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(4);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
@@ -191,6 +192,14 @@
             this.dataGridView1.Size = new System.Drawing.Size(1067, 505);
             this.dataGridView1.TabIndex = 26;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
+            // 
+            // ColumnImage
+            // 
+            this.ColumnImage.HeaderText = "Фото";
+            this.ColumnImage.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            this.ColumnImage.MinimumWidth = 6;
+            this.ColumnImage.Name = "ColumnImage";
+            this.ColumnImage.ReadOnly = true;
             // 
             // buttonNew
             // 
@@ -236,7 +245,7 @@
             this.buttonClearFilters.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonClearFilters.ForeColor = System.Drawing.Color.Transparent;
             this.buttonClearFilters.Location = new System.Drawing.Point(761, 570);
-            this.buttonClearFilters.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonClearFilters.Margin = new System.Windows.Forms.Padding(4);
             this.buttonClearFilters.Name = "buttonClearFilters";
             this.buttonClearFilters.Size = new System.Drawing.Size(40, 37);
             this.buttonClearFilters.TabIndex = 35;
@@ -252,7 +261,7 @@
             this.buttonDelete.Font = new System.Drawing.Font("Verdana", 14F);
             this.buttonDelete.ForeColor = System.Drawing.Color.White;
             this.buttonDelete.Location = new System.Drawing.Point(896, 582);
-            this.buttonDelete.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonDelete.Margin = new System.Windows.Forms.Padding(4);
             this.buttonDelete.Name = "buttonDelete";
             this.buttonDelete.Size = new System.Drawing.Size(153, 68);
             this.buttonDelete.TabIndex = 58;
@@ -260,14 +269,6 @@
             this.buttonDelete.UseVisualStyleBackColor = false;
             this.buttonDelete.Visible = false;
             this.buttonDelete.Click += new System.EventHandler(this.buttonDelete_Click);
-            // 
-            // ColumnImage
-            // 
-            this.ColumnImage.HeaderText = "Фото";
-            this.ColumnImage.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
-            this.ColumnImage.MinimumWidth = 6;
-            this.ColumnImage.Name = "ColumnImage";
-            this.ColumnImage.ReadOnly = true;
             // 
             // Menu
             // 
@@ -292,7 +293,8 @@
             this.Controls.Add(this.labelDish);
             this.Controls.Add(this.dataGridView1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Menu";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Меню";

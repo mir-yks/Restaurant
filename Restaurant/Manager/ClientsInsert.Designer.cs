@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ClientsInsert));
             this.textBoxFIO = new System.Windows.Forms.TextBox();
             this.labelPhone = new System.Windows.Forms.Label();
             this.labelFIO = new System.Windows.Forms.Label();
@@ -42,10 +43,11 @@
             this.textBoxFIO.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxFIO.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxFIO.ForeColor = System.Drawing.Color.White;
-            this.textBoxFIO.Location = new System.Drawing.Point(42, 63);
+            this.textBoxFIO.Location = new System.Drawing.Point(56, 78);
+            this.textBoxFIO.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBoxFIO.MaxLength = 100;
             this.textBoxFIO.Name = "textBoxFIO";
-            this.textBoxFIO.Size = new System.Drawing.Size(283, 31);
+            this.textBoxFIO.Size = new System.Drawing.Size(377, 36);
             this.textBoxFIO.TabIndex = 30;
             this.textBoxFIO.TextChanged += new System.EventHandler(this.textBoxFIO_TextChanged);
             this.textBoxFIO.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxFIO_KeyPress);
@@ -56,9 +58,10 @@
             this.labelPhone.BackColor = System.Drawing.Color.Transparent;
             this.labelPhone.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelPhone.ForeColor = System.Drawing.Color.White;
-            this.labelPhone.Location = new System.Drawing.Point(38, 103);
+            this.labelPhone.Location = new System.Drawing.Point(51, 127);
+            this.labelPhone.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelPhone.Name = "labelPhone";
-            this.labelPhone.Size = new System.Drawing.Size(105, 23);
+            this.labelPhone.Size = new System.Drawing.Size(132, 29);
             this.labelPhone.TabIndex = 23;
             this.labelPhone.Text = "Телефон:";
             // 
@@ -68,9 +71,10 @@
             this.labelFIO.BackColor = System.Drawing.Color.Transparent;
             this.labelFIO.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelFIO.ForeColor = System.Drawing.Color.White;
-            this.labelFIO.Location = new System.Drawing.Point(38, 37);
+            this.labelFIO.Location = new System.Drawing.Point(51, 46);
+            this.labelFIO.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelFIO.Name = "labelFIO";
-            this.labelFIO.Size = new System.Drawing.Size(64, 23);
+            this.labelFIO.Size = new System.Drawing.Size(81, 29);
             this.labelFIO.TabIndex = 24;
             this.labelFIO.Text = "ФИО:";
             // 
@@ -82,9 +86,10 @@
             this.buttonWrite.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonWrite.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonWrite.ForeColor = System.Drawing.Color.White;
-            this.buttonWrite.Location = new System.Drawing.Point(223, 188);
+            this.buttonWrite.Location = new System.Drawing.Point(297, 231);
+            this.buttonWrite.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonWrite.Name = "buttonWrite";
-            this.buttonWrite.Size = new System.Drawing.Size(115, 50);
+            this.buttonWrite.Size = new System.Drawing.Size(153, 62);
             this.buttonWrite.TabIndex = 26;
             this.buttonWrite.Text = "Записать";
             this.buttonWrite.UseVisualStyleBackColor = false;
@@ -98,9 +103,10 @@
             this.buttonBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonBack.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonBack.ForeColor = System.Drawing.Color.White;
-            this.buttonBack.Location = new System.Drawing.Point(12, 188);
+            this.buttonBack.Location = new System.Drawing.Point(16, 231);
+            this.buttonBack.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonBack.Name = "buttonBack";
-            this.buttonBack.Size = new System.Drawing.Size(115, 50);
+            this.buttonBack.Size = new System.Drawing.Size(153, 62);
             this.buttonBack.TabIndex = 25;
             this.buttonBack.Text = "Назад";
             this.buttonBack.UseVisualStyleBackColor = false;
@@ -112,20 +118,21 @@
             this.maskedTextBoxPhone.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.maskedTextBoxPhone.Font = new System.Drawing.Font("Verdana", 14.25F);
             this.maskedTextBoxPhone.ForeColor = System.Drawing.Color.White;
-            this.maskedTextBoxPhone.Location = new System.Drawing.Point(42, 129);
+            this.maskedTextBoxPhone.Location = new System.Drawing.Point(56, 159);
+            this.maskedTextBoxPhone.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.maskedTextBoxPhone.Mask = "+7 (000) 000-00-00";
             this.maskedTextBoxPhone.Name = "maskedTextBoxPhone";
-            this.maskedTextBoxPhone.Size = new System.Drawing.Size(283, 31);
+            this.maskedTextBoxPhone.Size = new System.Drawing.Size(377, 36);
             this.maskedTextBoxPhone.TabIndex = 53;
             // 
             // ClientsInsert
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImage = global::Restaurant.Properties.Resources.fonMain;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(350, 250);
+            this.ClientSize = new System.Drawing.Size(467, 308);
             this.ControlBox = false;
             this.Controls.Add(this.maskedTextBoxPhone);
             this.Controls.Add(this.textBoxFIO);
@@ -134,6 +141,8 @@
             this.Controls.Add(this.labelPhone);
             this.Controls.Add(this.labelFIO);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "ClientsInsert";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Редактирование клиента";

@@ -53,6 +53,8 @@
     <Compile Include="Classes\connStr.cs" />
     <Compile Include="Classes\DatabaseCleanup.cs" />
     <Compile Include="Classes\Fonts.cs" />
+    <Compile Include="Classes\ImageManager.cs" />
+    <Compile Include="Classes\PriceCalculator.cs" />
     <Compile Include="Classes\TableStatusUpdater.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -337,6 +339,7 @@
     <Content Include="Resources\image\fonMain.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\image\logo.ico" />
     <Content Include="Resources\image\logo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

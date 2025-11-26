@@ -1,14 +1,12 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace Restaurant
@@ -113,13 +111,14 @@ namespace Restaurant
 
             try
             {
-                string imagePath = FindImageByHash(photoHash);
+                string imagePath = ImageManager.Instance.FindImageByHash(photoHash);
 
                 if (imagePath != null && File.Exists(imagePath))
                 {
                     byte[] imageData = File.ReadAllBytes(imagePath);
                     UpdatePictureBox(imageData);
                     selectedImageName = Path.GetFileName(imagePath);
+                    selectedImageHash = photoHash;
                 }
                 else
                 {
@@ -133,81 +132,22 @@ namespace Restaurant
             }
         }
 
-        private string FindImageByHash(string targetHash)
-        {
-            if (string.IsNullOrEmpty(targetHash)) return null;
-
-            string[] possibleDirs = {
-                Path.Combine(Application.StartupPath, "Resources", "image", "Menu"),
-                Path.Combine(Application.StartupPath, "..", "..", "Resources", "image", "Menu")
-            };
-
-            foreach (string dir in possibleDirs)
-            {
-                if (!Directory.Exists(dir)) continue;
-
-                try
-                {
-                    foreach (string filePath in Directory.GetFiles(dir, "*.*", SearchOption.TopDirectoryOnly)
-                        .Where(f => f.ToLower().EndsWith(".jpg") || f.ToLower().EndsWith(".jpeg") || f.ToLower().EndsWith(".png")))
-                    {
-                        string fileNameWithoutExt = Path.GetFileNameWithoutExtension(filePath);
-                        if (fileNameWithoutExt == targetHash)
-                        {
-                            return filePath;
-                        }
-                    }
-                }
-                catch (Exception)
-                {
-                    
-                }
-            }
-
-            return null;
-        }
-
         private void LoadDefaultImage()
         {
             try
             {
-                string plugImagePath = GetPlugImagePath();
+                string plugImagePath = ImageManager.Instance.GetPlugImagePath();
                 if (plugImagePath != null && File.Exists(plugImagePath))
                 {
                     byte[] imageData = File.ReadAllBytes(plugImagePath);
                     UpdatePictureBox(imageData);
                     selectedImageName = "plug.png";
-                    selectedImageHash = CalculateImageHash(imageData);
+                    selectedImageHash = ImageManager.Instance.CalculateImageHash(imageData);
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Ошибка загрузки изображения-заглушки: " + ex.Message);
-            }
-        }
-
-        private string GetPlugImagePath()
-        {
-            string[] possiblePaths = {
-                Path.Combine(Application.StartupPath, "Resources", "image", "plug.png"),
-                Path.Combine(Application.StartupPath, "..", "..", "Resources", "image", "plug.png")
-            };
-
-            foreach (string path in possiblePaths)
-            {
-                if (File.Exists(path))
-                    return path;
-            }
-
-            return null;
-        }
-
-        private string CalculateImageHash(byte[] imageData)
-        {
-            using (var sha256 = SHA256.Create())
-            {
-                var hashBytes = sha256.ComputeHash(imageData);
-                return BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
             }
         }
 
@@ -399,7 +339,7 @@ namespace Restaurant
         private void textBoxName_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) &&
-                !System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"^[а-яА-Я-,\s]$"))
+                !Regex.IsMatch(e.KeyChar.ToString(), @"^[а-яА-Я-,\s]$"))
             {
                 e.Handled = true;
             }
@@ -408,7 +348,7 @@ namespace Restaurant
         private void textBoxDescription_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) &&
-                !System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"^[а-яА-Я-,.\s]$"))
+                !Regex.IsMatch(e.KeyChar.ToString(), @"^[а-яА-Я-,.\s]$"))
             {
                 e.Handled = true;
             }
@@ -417,7 +357,7 @@ namespace Restaurant
         private void textBoxPrice_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) &&
-                !System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"^[0-9,]$"))
+                !Regex.IsMatch(e.KeyChar.ToString(), @"^[0-9,]$"))
             {
                 e.Handled = true;
             }
@@ -432,18 +372,9 @@ namespace Restaurant
 
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
-                    string fileExtension = Path.GetExtension(ofd.FileName).ToLower();
-                    if (fileExtension != ".jpg" && fileExtension != ".jpeg" && fileExtension != ".png")
+                    if (!ImageManager.Instance.ValidateImageFile(ofd.FileName))
                     {
-                        MessageBox.Show("Недопустимый тип файла! Разрешены только JPG и PNG изображения.",
-                            "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
-
-                    FileInfo fileInfo = new FileInfo(ofd.FileName);
-                    if (fileInfo.Length > 3 * 1024 * 1024)
-                    {
-                        MessageBox.Show("Размер изображения превышает 3 МБ! Выберите файл меньшего размера.",
+                        MessageBox.Show("Недопустимый тип файла или размер превышает 3 МБ! Разрешены только JPG и PNG изображения.",
                             "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
@@ -451,7 +382,7 @@ namespace Restaurant
                     try
                     {
                         byte[] imageData = File.ReadAllBytes(ofd.FileName);
-                        string imageHash = CalculateImageHash(imageData);
+                        string imageHash = ImageManager.Instance.CalculateImageHash(imageData);
 
                         using (var con = new MySqlConnection(connStr.ConnectionString))
                         {
@@ -471,7 +402,7 @@ namespace Restaurant
                             }
                         }
 
-                        string existingFileName = FindExistingImageByHash(imageHash);
+                        string existingFileName = ImageManager.Instance.FindExistingImageByHash(imageHash);
                         string finalFileName;
                         string originalFileName = Path.GetFileNameWithoutExtension(ofd.FileName);
                         string extension = Path.GetExtension(ofd.FileName);
@@ -482,19 +413,8 @@ namespace Restaurant
                         }
                         else
                         {
-                            finalFileName = GenerateUniqueFileName(originalFileName, extension);
-
-                            string sourceDir = Path.Combine(Application.StartupPath, "..", "..", "Resources", "image", "Menu");
-                            string debugDir = Path.Combine(Application.StartupPath, "Resources", "image", "Menu");
-
-                            Directory.CreateDirectory(sourceDir);
-                            Directory.CreateDirectory(debugDir);
-
-                            string sourcePath = Path.Combine(sourceDir, finalFileName);
-                            string debugPath = Path.Combine(debugDir, finalFileName);
-
-                            File.WriteAllBytes(sourcePath, imageData);
-                            File.WriteAllBytes(debugPath, imageData);
+                            finalFileName = ImageManager.Instance.GenerateUniqueFileName(originalFileName, extension);
+                            ImageManager.Instance.SaveImageToMenuDirectory(imageData, finalFileName);
                         }
 
                         UpdatePictureBox(imageData);
@@ -511,72 +431,6 @@ namespace Restaurant
             }
         }
 
-        private string GenerateUniqueFileName(string baseName, string extension)
-        {
-            string[] possibleDirs = {
-        Path.Combine(Application.StartupPath, "Resources", "image", "Menu"),
-        Path.Combine(Application.StartupPath, "..", "..", "Resources", "image", "Menu")
-    };
-
-            string fileName = baseName + extension;
-            int counter = 1;
-
-            foreach (string dir in possibleDirs)
-            {
-                if (!Directory.Exists(dir)) continue;
-
-                while (File.Exists(Path.Combine(dir, fileName)))
-                {
-                    fileName = $"{baseName}({counter}){extension}";
-                    counter++;
-                }
-            }
-
-            return fileName;
-        }
-
-        private string FindExistingImageByHash(string targetHash)
-        {
-            if (string.IsNullOrEmpty(targetHash)) return null;
-
-            string[] possibleDirs = {
-        Path.Combine(Application.StartupPath, "Resources", "image", "Menu"),
-        Path.Combine(Application.StartupPath, "..", "..", "Resources", "image", "Menu")
-    };
-
-            foreach (string dir in possibleDirs)
-            {
-                if (!Directory.Exists(dir)) continue;
-
-                try
-                {
-                    foreach (string filePath in Directory.GetFiles(dir, "*.*", SearchOption.TopDirectoryOnly)
-                        .Where(f => f.ToLower().EndsWith(".jpg") || f.ToLower().EndsWith(".jpeg") || f.ToLower().EndsWith(".png")))
-                    {
-                        try
-                        {
-                            byte[] fileData = File.ReadAllBytes(filePath);
-                            string fileHash = CalculateImageHash(fileData);
-
-                            if (fileHash == targetHash)
-                            {
-                                return Path.GetFileName(filePath);
-                            }
-                        }
-                        catch (Exception)
-                        {
-                            continue;
-                        }
-                    }
-                }
-                catch (Exception)
-                {
-                    
-                }
-            }
-
-            return null;
-        }
         private void UpdatePictureBox(byte[] imageData)
         {
             if (pictureBoxImage.Image != null)

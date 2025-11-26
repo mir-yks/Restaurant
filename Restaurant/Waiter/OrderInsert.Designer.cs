@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OrderInsert));
             this.buttonOrderItem = new System.Windows.Forms.Button();
             this.buttonBack = new System.Windows.Forms.Button();
             this.dateTimePickerOrder = new System.Windows.Forms.DateTimePicker();
@@ -52,7 +53,7 @@
             this.buttonOrderItem.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonOrderItem.ForeColor = System.Drawing.Color.White;
             this.buttonOrderItem.Location = new System.Drawing.Point(596, 362);
-            this.buttonOrderItem.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonOrderItem.Margin = new System.Windows.Forms.Padding(4);
             this.buttonOrderItem.Name = "buttonOrderItem";
             this.buttonOrderItem.Size = new System.Drawing.Size(167, 68);
             this.buttonOrderItem.TabIndex = 33;
@@ -68,7 +69,7 @@
             this.buttonBack.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonBack.ForeColor = System.Drawing.Color.White;
             this.buttonBack.Location = new System.Drawing.Point(16, 362);
-            this.buttonBack.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonBack.Margin = new System.Windows.Forms.Padding(4);
             this.buttonBack.Name = "buttonBack";
             this.buttonBack.Size = new System.Drawing.Size(147, 68);
             this.buttonBack.TabIndex = 32;
@@ -85,7 +86,7 @@
             this.dateTimePickerOrder.Font = new System.Drawing.Font("Segoe UI", 13F);
             this.dateTimePickerOrder.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dateTimePickerOrder.Location = new System.Drawing.Point(417, 204);
-            this.dateTimePickerOrder.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dateTimePickerOrder.Margin = new System.Windows.Forms.Padding(4);
             this.dateTimePickerOrder.Name = "dateTimePickerOrder";
             this.dateTimePickerOrder.Size = new System.Drawing.Size(300, 36);
             this.dateTimePickerOrder.TabIndex = 31;
@@ -177,7 +178,7 @@
             this.comboBoxStatusPayment.ForeColor = System.Drawing.Color.White;
             this.comboBoxStatusPayment.FormattingEnabled = true;
             this.comboBoxStatusPayment.Location = new System.Drawing.Point(417, 122);
-            this.comboBoxStatusPayment.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBoxStatusPayment.Margin = new System.Windows.Forms.Padding(4);
             this.comboBoxStatusPayment.Name = "comboBoxStatusPayment";
             this.comboBoxStatusPayment.Size = new System.Drawing.Size(300, 37);
             this.comboBoxStatusPayment.TabIndex = 20;
@@ -192,7 +193,7 @@
             this.comboBoxStatusOrder.ForeColor = System.Drawing.Color.White;
             this.comboBoxStatusOrder.FormattingEnabled = true;
             this.comboBoxStatusOrder.Location = new System.Drawing.Point(417, 41);
-            this.comboBoxStatusOrder.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBoxStatusOrder.Margin = new System.Windows.Forms.Padding(4);
             this.comboBoxStatusOrder.Name = "comboBoxStatusOrder";
             this.comboBoxStatusOrder.Size = new System.Drawing.Size(300, 37);
             this.comboBoxStatusOrder.TabIndex = 21;
@@ -207,7 +208,7 @@
             this.comboBoxTable.ForeColor = System.Drawing.Color.White;
             this.comboBoxTable.FormattingEnabled = true;
             this.comboBoxTable.Location = new System.Drawing.Point(40, 204);
-            this.comboBoxTable.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBoxTable.Margin = new System.Windows.Forms.Padding(4);
             this.comboBoxTable.Name = "comboBoxTable";
             this.comboBoxTable.Size = new System.Drawing.Size(300, 37);
             this.comboBoxTable.TabIndex = 22;
@@ -221,7 +222,7 @@
             this.comboBoxClient.ForeColor = System.Drawing.Color.White;
             this.comboBoxClient.FormattingEnabled = true;
             this.comboBoxClient.Location = new System.Drawing.Point(40, 122);
-            this.comboBoxClient.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBoxClient.Margin = new System.Windows.Forms.Padding(4);
             this.comboBoxClient.Name = "comboBoxClient";
             this.comboBoxClient.Size = new System.Drawing.Size(300, 37);
             this.comboBoxClient.TabIndex = 23;
@@ -237,7 +238,7 @@
             this.comboBoxWaiter.ForeColor = System.Drawing.Color.White;
             this.comboBoxWaiter.FormattingEnabled = true;
             this.comboBoxWaiter.Location = new System.Drawing.Point(40, 41);
-            this.comboBoxWaiter.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBoxWaiter.Margin = new System.Windows.Forms.Padding(4);
             this.comboBoxWaiter.Name = "comboBoxWaiter";
             this.comboBoxWaiter.Size = new System.Drawing.Size(300, 37);
             this.comboBoxWaiter.TabIndex = 24;
@@ -266,7 +267,8 @@
             this.Controls.Add(this.comboBoxClient);
             this.Controls.Add(this.comboBoxWaiter);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "OrderInsert";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Редактирование заказа";

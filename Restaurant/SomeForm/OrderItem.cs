@@ -38,7 +38,6 @@ namespace Restaurant
 
         private void ConfigureButtons()
         {
-
             if (roleId == 3)
             {
                 buttonWrite.Visible = true;
@@ -80,25 +79,7 @@ namespace Restaurant
                 {
                     string dishName = row["DishName"].ToString();
                     object offersDish = row["OffersDish"];
-
-                    if (offersDish != null && offersDish != DBNull.Value && Convert.ToInt32(offersDish) > 0)
-                    {
-                        int offerId = Convert.ToInt32(offersDish);
-                        DataRow[] offerRows = offersTable.Select($"OffersDishId = {offerId}");
-                        if (offerRows.Length > 0)
-                        {
-                            int discount = Convert.ToInt32(offerRows[0]["OffersDishDicsount"]);
-                            row["DisplayName"] = $"★ {dishName} (-{discount}%)";
-                        }
-                        else
-                        {
-                            row["DisplayName"] = $"★ {dishName}";
-                        }
-                    }
-                    else
-                    {
-                        row["DisplayName"] = dishName;
-                    }
+                    row["DisplayName"] = PriceCalculator.Instance.GetDishDisplayName(dishName, offersDish, offersTable);
                 }
 
                 dishColumn.DataSource = displayTable;
@@ -169,17 +150,8 @@ namespace Restaurant
                     MySqlCommand cmd = new MySqlCommand(@"
 SELECT
     i.DishId AS 'DishId',
-    i.DishCount AS 'Количество', 
-    COALESCE(m.DishPrice, 0) AS 'Цена',  
-    CASE
-        WHEN m.OffersDish IS NOT NULL AND m.OffersDish > 0 THEN
-            ROUND(i.DishCount * m.DishPrice * (100 - od.OffersDishDicsount) / 100, 2)
-        ELSE
-            ROUND(i.DishCount * m.DishPrice, 2)
-    END AS 'Сумма' 
+    i.DishCount AS 'Количество'
 FROM OrderItems i
-LEFT JOIN MenuDish m ON i.DishId = m.DishId
-LEFT JOIN OffersDish od ON m.OffersDish = od.OffersDishId
 WHERE i.OrderId = @OrderId;", con);
 
                     cmd.Parameters.AddWithValue("@OrderId", orderId);
@@ -202,11 +174,20 @@ WHERE i.OrderId = @OrderId;", con);
                     {
                         if (row.IsNewRow) continue;
 
-                        if (row.DataBoundItem != null)
+                        if (row.Cells["ColumnDish"].Value != null && row.Cells["ColumnDish"].Value != DBNull.Value)
                         {
-                            var dataRow = ((DataRowView)row.DataBoundItem).Row;
-                            row.Cells["ColumnPrice"].Value = dataRow["Цена"];
-                            row.Cells["ColumnSum"].Value = dataRow["Сумма"];
+                            int dishId = Convert.ToInt32(row.Cells["ColumnDish"].Value);
+                            DataRow[] dishRows = allDishesTable.Select($"DishId = {dishId}");
+                            if (dishRows.Length > 0)
+                            {
+                                decimal originalPrice = Convert.ToDecimal(dishRows[0]["DishPrice"]);
+                                int quantity = Convert.ToInt32(row.Cells["ColumnQuantity"].Value);
+                                int discount = PriceCalculator.Instance.GetDiscountForDish(dishId, allDishesTable, offersTable);
+                                decimal totalSum = PriceCalculator.Instance.CalculateTotalSumForDish(originalPrice, quantity, discount);
+
+                                row.Cells["ColumnPrice"].Value = originalPrice;
+                                row.Cells["ColumnSum"].Value = totalSum;
+                            }
                         }
                     }
 
@@ -250,24 +231,7 @@ WHERE i.OrderId = @OrderId;", con);
                     {
                         string dishName = rows[0]["DishName"].ToString();
                         object offersDish = rows[0]["OffersDish"];
-
-                        string displayName = dishName;
-
-                        if (offersDish != null && offersDish != DBNull.Value && Convert.ToInt32(offersDish) > 0)
-                        {
-                            int offerId = Convert.ToInt32(offersDish);
-                            DataRow[] offerRows = offersTable.Select($"OffersDishId = {offerId}");
-                            if (offerRows.Length > 0)
-                            {
-                                int discount = Convert.ToInt32(offerRows[0]["OffersDishDicsount"]);
-                                displayName = $"★ {dishName} (-{discount}%)";
-                            }
-                            else
-                            {
-                                displayName = $"★ {dishName}";
-                            }
-                        }
-
+                        string displayName = PriceCalculator.Instance.GetDishDisplayName(dishName, offersDish, offersTable);
                         e.Value = displayName;
                         e.FormattingApplied = true;
                     }
@@ -308,7 +272,7 @@ WHERE i.OrderId = @OrderId;", con);
                     }
                     catch
                     {
-                        
+
                     }
                 }
             }
@@ -384,38 +348,14 @@ WHERE i.OrderId = @OrderId;", con);
                 using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
                 {
                     con.Open();
-                    MySqlCommand cmd = new MySqlCommand(@"
-                SELECT 
-                    SUM(
-                        CASE 
-                            WHEN m.OffersDish IS NOT NULL AND m.OffersDish > 0 THEN
-                                ROUND(i.DishCount * m.DishPrice * (100 - od.OffersDishDicsount) / 100, 2)
-                            ELSE
-                                ROUND(i.DishCount * m.DishPrice, 2)
-                        END
-                    ) AS TotalSum
-                FROM OrderItems i
-                JOIN MenuDish m ON i.DishId = m.DishId
-                LEFT JOIN OffersDish od ON m.OffersDish = od.OffersDishId
-                WHERE i.OrderId = @OrderId;", con);
-
-                    cmd.Parameters.AddWithValue("@OrderId", orderId);
-
-                    object result = cmd.ExecuteScalar();
-                    if (result != null && result != DBNull.Value)
-                    {
-                        decimal totalSum = Convert.ToDecimal(result);
-                        textBoxSum.Text = totalSum.ToString("F2");
-                    }
-                    else
-                    {
-                        textBoxSum.Text = "0.00";
-                    }
+                    decimal totalSum = PriceCalculator.Instance.CalculateOrderTotalSumFromDatabase(orderId, con);
+                    textBoxSum.Text = totalSum.ToString("F2");
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Ошибка при загрузке суммы: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                textBoxSum.Text = "0.00";
             }
         }
 
@@ -423,7 +363,7 @@ WHERE i.OrderId = @OrderId;", con);
         {
             try
             {
-                decimal totalSum = CalculateCurrentTotalSum();
+                decimal totalSum = PriceCalculator.Instance.CalculateCurrentTotalSum(dataGridView1);
 
                 using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
                 {
@@ -443,50 +383,6 @@ WHERE i.OrderId = @OrderId;", con);
             {
                 MessageBox.Show($"Ошибка при обновлении суммы заказа: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        private int GetDiscountForDish(int dishId)
-        {
-            DataRow[] dishRows = allDishesTable.Select($"DishId = {dishId}");
-
-            if (dishRows.Length > 0)
-            {
-                object offersDish = dishRows[0]["OffersDish"];
-                if (offersDish != null && offersDish != DBNull.Value && Convert.ToInt32(offersDish) > 0)
-                {
-                    int offerId = Convert.ToInt32(offersDish);
-                    DataRow[] offerRows = offersTable.Select($"OffersDishId = {offerId}");
-                    if (offerRows.Length > 0)
-                    {
-                        return Convert.ToInt32(offerRows[0]["OffersDishDicsount"]);
-                    }
-                }
-            }
-            return 0;
-        }
-
-        private decimal CalculatePriceWithDiscount(decimal originalPrice, int discount)
-        {
-            if (discount > 0)
-            {
-                return Math.Round(originalPrice * (100 - discount) / 100, 2);
-            }
-            return Math.Round(originalPrice, 2);
-        }
-
-        private decimal CalculateCurrentTotalSum()
-        {
-            decimal total = 0;
-            foreach (DataGridViewRow row in dataGridView1.Rows)
-            {
-                if (row.IsNewRow) continue;
-
-                if (row.Cells["ColumnSum"].Value != null && row.Cells["ColumnSum"].Value != DBNull.Value) 
-                {
-                    total += Convert.ToDecimal(row.Cells["ColumnSum"].Value); 
-                }
-            }
-            return Math.Round(total, 2);
         }
 
         private void buttonWrite_Click(object sender, EventArgs e)
@@ -520,13 +416,13 @@ WHERE i.OrderId = @OrderId;", con);
                     {
                         if (row.IsNewRow) continue;
 
-                        if (row.Cells["ColumnDish"].Value != null && 
+                        if (row.Cells["ColumnDish"].Value != null &&
                             row.Cells["ColumnDish"].Value != DBNull.Value &&
-                            row.Cells["ColumnQuantity"].Value != null && 
+                            row.Cells["ColumnQuantity"].Value != null &&
                             row.Cells["ColumnQuantity"].Value != DBNull.Value)
                         {
-                            int dishId = Convert.ToInt32(row.Cells["ColumnDish"].Value); 
-                            int quantity = Convert.ToInt32(row.Cells["ColumnQuantity"].Value); 
+                            int dishId = Convert.ToInt32(row.Cells["ColumnDish"].Value);
+                            int quantity = Convert.ToInt32(row.Cells["ColumnQuantity"].Value);
 
                             string insertQuery = @"INSERT INTO OrderItems 
                                 (OrderId, DishId, DishCount) 
@@ -561,88 +457,70 @@ WHERE i.OrderId = @OrderId;", con);
 
                 try
                 {
-                    if (e.ColumnIndex == dataGridView1.Columns["ColumnDish"].Index) 
+                    if (e.ColumnIndex == dataGridView1.Columns["ColumnDish"].Index)
                     {
-                        if (row.Cells["ColumnDish"].Value != null && row.Cells["ColumnDish"].Value != DBNull.Value) 
+                        if (row.Cells["ColumnDish"].Value != null && row.Cells["ColumnDish"].Value != DBNull.Value)
                         {
-                            int dishId = Convert.ToInt32(row.Cells["ColumnDish"].Value); 
+                            int dishId = Convert.ToInt32(row.Cells["ColumnDish"].Value);
                             DataRow[] dishRows = dishesTable.Select($"DishId = {dishId}");
                             if (dishRows.Length > 0)
                             {
                                 decimal originalPrice = Convert.ToDecimal(dishRows[0]["DishPrice"]);
 
-                                int discount = GetDiscountForDish(dishId);
-                                decimal finalPrice = CalculatePriceWithDiscount(originalPrice, discount);
+                                int discount = PriceCalculator.Instance.GetDiscountForDish(dishId, allDishesTable, offersTable);
+                                decimal finalPrice = PriceCalculator.Instance.CalculatePriceWithDiscount(originalPrice, discount);
 
-                                row.Cells["ColumnPrice"].Value = Math.Round(originalPrice, 2); 
+                                row.Cells["ColumnPrice"].Value = Math.Round(originalPrice, 2);
 
-                                if (row.Cells["ColumnQuantity"].Value != null && row.Cells["ColumnQuantity"].Value != DBNull.Value) 
+                                if (row.Cells["ColumnQuantity"].Value != null && row.Cells["ColumnQuantity"].Value != DBNull.Value)
                                 {
-                                    int quantity = Convert.ToInt32(row.Cells["ColumnQuantity"].Value); 
-                                    decimal totalSum = Math.Round(quantity * finalPrice, 2);
-                                    row.Cells["ColumnSum"].Value = totalSum; 
+                                    int quantity = Convert.ToInt32(row.Cells["ColumnQuantity"].Value);
+                                    decimal totalSum = PriceCalculator.Instance.CalculateTotalSumForDish(originalPrice, quantity, discount);
+                                    row.Cells["ColumnSum"].Value = totalSum;
 
-                                    if (discount > 0)
-                                    {
-                                        row.Cells["ColumnSum"].ToolTipText = $"Цена со скидкой {discount}%: {finalPrice:F2} × {quantity} = {totalSum:F2}"; 
-                                    }
-                                    else
-                                    {
-                                        row.Cells["ColumnSum"].ToolTipText = null; 
-                                    }
+                                    string toolTipText = PriceCalculator.Instance.GetToolTipText(discount, finalPrice, quantity, totalSum);
+                                    row.Cells["ColumnSum"].ToolTipText = toolTipText;
                                 }
                                 else
                                 {
-                                    row.Cells["ColumnQuantity"].Value = 1; 
-                                    decimal totalSum = Math.Round(finalPrice, 2);
-                                    row.Cells["ColumnSum"].Value = totalSum; 
+                                    row.Cells["ColumnQuantity"].Value = 1;
+                                    decimal totalSum = PriceCalculator.Instance.CalculateTotalSumForDish(originalPrice, 1, discount);
+                                    row.Cells["ColumnSum"].Value = totalSum;
 
-                                    if (discount > 0)
-                                    {
-                                        row.Cells["ColumnSum"].ToolTipText = $"Цена со скидкой {discount}%: {finalPrice:F2}"; 
-                                    }
-                                    else
-                                    {
-                                        row.Cells["ColumnSum"].ToolTipText = null; 
-                                    }
+                                    string toolTipText = PriceCalculator.Instance.GetToolTipText(discount, finalPrice, 1, totalSum);
+                                    row.Cells["ColumnSum"].ToolTipText = toolTipText;
                                 }
                             }
                         }
                     }
 
-                    if (e.ColumnIndex == dataGridView1.Columns["ColumnQuantity"].Index) 
+                    if (e.ColumnIndex == dataGridView1.Columns["ColumnQuantity"].Index)
                     {
-                        if (row.Cells["ColumnQuantity"].Value != null && row.Cells["ColumnQuantity"].Value != DBNull.Value && 
-                            row.Cells["ColumnPrice"].Value != null && row.Cells["ColumnPrice"].Value != DBNull.Value && 
-                            row.Cells["ColumnDish"].Value != null && row.Cells["ColumnDish"].Value != DBNull.Value) 
+                        if (row.Cells["ColumnQuantity"].Value != null && row.Cells["ColumnQuantity"].Value != DBNull.Value &&
+                            row.Cells["ColumnPrice"].Value != null && row.Cells["ColumnPrice"].Value != DBNull.Value &&
+                            row.Cells["ColumnDish"].Value != null && row.Cells["ColumnDish"].Value != DBNull.Value)
                         {
-                            int dishId = Convert.ToInt32(row.Cells["ColumnDish"].Value); 
-                            int quantity = Convert.ToInt32(row.Cells["ColumnQuantity"].Value); 
-                            decimal originalPrice = Convert.ToDecimal(row.Cells["ColumnPrice"].Value); 
+                            int dishId = Convert.ToInt32(row.Cells["ColumnDish"].Value);
+                            int quantity = Convert.ToInt32(row.Cells["ColumnQuantity"].Value);
+                            decimal originalPrice = Convert.ToDecimal(row.Cells["ColumnPrice"].Value);
 
-                            int discount = GetDiscountForDish(dishId);
-                            decimal finalPrice = CalculatePriceWithDiscount(originalPrice, discount);
-                            decimal totalSum = Math.Round(quantity * finalPrice, 2);
+                            int discount = PriceCalculator.Instance.GetDiscountForDish(dishId, allDishesTable, offersTable);
+                            decimal totalSum = PriceCalculator.Instance.CalculateTotalSumForDish(originalPrice, quantity, discount);
 
-                            row.Cells["ColumnSum"].Value = totalSum; 
+                            row.Cells["ColumnSum"].Value = totalSum;
 
-                            if (discount > 0)
-                            {
-                                row.Cells["ColumnSum"].ToolTipText = $"Цена со скидкой {discount}%: {finalPrice:F2} × {quantity} = {totalSum:F2}"; 
-                            }
-                            else
-                            {
-                                row.Cells["ColumnSum"].ToolTipText = null; 
-                            }
+                            decimal finalPrice = PriceCalculator.Instance.CalculatePriceWithDiscount(originalPrice, discount);
+                            string toolTipText = PriceCalculator.Instance.GetToolTipText(discount, finalPrice, quantity, totalSum);
+                            row.Cells["ColumnSum"].ToolTipText = toolTipText;
                         }
                     }
 
                     UpdateTotalCount();
-                    textBoxSum.Text = CalculateCurrentTotalSum().ToString("F2");
+                    textBoxSum.Text = PriceCalculator.Instance.CalculateCurrentTotalSum(dataGridView1).ToString("F2");
                 }
                 catch (Exception)
                 {
-                    
+
                 }
             }
         }
@@ -659,14 +537,14 @@ WHERE i.OrderId = @OrderId;", con);
 
         private void dataGridView1_DefaultValuesNeeded(object sender, DataGridViewRowEventArgs e)
         {
-            e.Row.Cells["ColumnQuantity"].Value = 1; 
+            e.Row.Cells["ColumnQuantity"].Value = 1;
         }
 
         private void dataGridView1_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
         {
             if (e.RowIndex >= 0 && e.RowIndex < dataGridView1.Rows.Count - 1)
             {
-                if (e.ColumnIndex == dataGridView1.Columns["ColumnQuantity"].Index) 
+                if (e.ColumnIndex == dataGridView1.Columns["ColumnQuantity"].Index)
                 {
                     if (string.IsNullOrEmpty(e.FormattedValue.ToString()) ||
                         !int.TryParse(e.FormattedValue.ToString(), out int quantity) || quantity <= 0)
