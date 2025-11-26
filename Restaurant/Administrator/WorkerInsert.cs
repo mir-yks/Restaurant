@@ -361,10 +361,10 @@ namespace Restaurant
                     }
 
                     DialogResult confirmResult = MessageBox.Show(
-                        "Вы действительно хотите сохранить запись?",
-                        "Подтверждение записи",
-                        MessageBoxButtons.YesNo,
-                        MessageBoxIcon.Question);
+                "Вы действительно хотите сохранить запись?",
+                "Подтверждение записи",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
 
                     if (confirmResult != DialogResult.Yes) return;
 
@@ -381,14 +381,15 @@ namespace Restaurant
                     if (mode == "add")
                     {
                         string query = @"INSERT INTO worker 
-                (WorkerFIO, WorkerLogin, WorkerPassword, WorkerPhone, WorkerEmail, 
-                 WorkerBirthday, WorkerDateEmployment, WorkerAddress, WorkerRole)
-                 VALUES (@FIO, @Login, @Password, @Phone, @Email, 
-                         @Birthday, @Employment, @Address, 
-                         (SELECT RoleId FROM role WHERE RoleName = @Role))";
+                    (WorkerFIO, OriginalWorkerFIO, WorkerLogin, WorkerPassword, WorkerPhone, WorkerEmail, 
+                     WorkerBirthday, WorkerDateEmployment, WorkerAddress, WorkerRole)
+                     VALUES (@FIO, @OriginalFIO, @Login, @Password, @Phone, @Email, 
+                             @Birthday, @Employment, @Address, 
+                             (SELECT RoleId FROM role WHERE RoleName = @Role))";
 
                         MySqlCommand cmd = new MySqlCommand(query, con);
                         cmd.Parameters.AddWithValue("@FIO", textBoxFIO.Text);
+                        cmd.Parameters.AddWithValue("@OriginalFIO", textBoxFIO.Text); 
                         cmd.Parameters.AddWithValue("@Login", textBoxLogin.Text);
                         cmd.Parameters.AddWithValue("@Password", hashedPassword);
                         cmd.Parameters.AddWithValue("@Phone", userDigits);
@@ -403,8 +404,37 @@ namespace Restaurant
                     }
                     else if (mode == "edit")
                     {
+                        bool fioChanged = false;
+                        string originalFIO = textBoxFIO.Text; 
+
+                        MySqlCommand getOriginalCmd = new MySqlCommand(
+                            "SELECT WorkerFIO, OriginalWorkerFIO FROM Worker WHERE WorkerId = @Id", con);
+                        getOriginalCmd.Parameters.AddWithValue("@Id", WorkerID);
+
+                        using (var reader = getOriginalCmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                string currentFIO = reader.GetString("WorkerFIO");
+                                string storedOriginalFIO = reader.IsDBNull(reader.GetOrdinal("OriginalWorkerFIO"))
+                                    ? currentFIO
+                                    : reader.GetString("OriginalWorkerFIO");
+
+                                if (currentFIO != textBoxFIO.Text)
+                                {
+                                    fioChanged = true;
+                                    originalFIO = storedOriginalFIO;
+                                }
+                                else
+                                {
+                                    originalFIO = storedOriginalFIO;
+                                }
+                            }
+                        }
+
                         string query = @"UPDATE worker 
                      SET WorkerFIO = @FIO,
+                         OriginalWorkerFIO = @OriginalFIO,
                          WorkerLogin = @Login,
                          WorkerPhone = @Phone,
                          WorkerEmail = @Email,
@@ -420,6 +450,7 @@ namespace Restaurant
 
                         MySqlCommand cmd = new MySqlCommand(query, con);
                         cmd.Parameters.AddWithValue("@FIO", textBoxFIO.Text);
+                        cmd.Parameters.AddWithValue("@OriginalFIO", originalFIO);
                         cmd.Parameters.AddWithValue("@Login", textBoxLogin.Text);
                         cmd.Parameters.AddWithValue("@Phone", userDigits);
                         cmd.Parameters.AddWithValue("@Email", textBoxEmail.Text);
@@ -437,7 +468,12 @@ namespace Restaurant
                             cmd.Parameters.AddWithValue("@Password", hashedPassword);
 
                         cmd.ExecuteNonQuery();
-                        MessageBox.Show($"Данные сотрудника успешно обновлены!\nФИО: \"{textBoxFIO.Text}\"", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        string message = fioChanged
+                            ? $"Данные сотрудника успешно обновлены!\nФИО: \"{textBoxFIO.Text}\"\n\nПримечание: в существующих заказах останется предыдущее ФИО сотрудника."
+                            : $"Данные сотрудника успешно обновлены!\nФИО: \"{textBoxFIO.Text}\"";
+
+                        MessageBox.Show(message, "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
 
                     this.DialogResult = DialogResult.OK;

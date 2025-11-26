@@ -97,16 +97,26 @@ namespace Restaurant
                     con.Open();
 
                     MySqlCommand cmdAll = new MySqlCommand(@"
-                        SELECT DishId, DishName, DishPrice, OffersDish, IsActive
-                        FROM MenuDish", con);
+                SELECT 
+                    DishId, 
+                    COALESCE(OriginalDishName, DishName) as DisplayName,
+                    DishName as CurrentName,
+                    DishPrice, 
+                    OffersDish, 
+                    IsActive
+                FROM MenuDish", con);
                     allDishesTable = new DataTable();
                     MySqlDataAdapter daAll = new MySqlDataAdapter(cmdAll);
                     daAll.Fill(allDishesTable);
 
                     MySqlCommand cmdActive = new MySqlCommand(@"
-                        SELECT DishId, DishName, DishPrice, OffersDish
-                        FROM MenuDish 
-                        WHERE IsActive = 1", con);
+                SELECT 
+                    DishId, 
+                    DishName,
+                    DishPrice, 
+                    OffersDish
+                FROM MenuDish 
+                WHERE IsActive = 1", con);
                     dishesTable = new DataTable();
                     MySqlDataAdapter daActive = new MySqlDataAdapter(cmdActive);
                     daActive.Fill(dishesTable);
@@ -148,11 +158,11 @@ namespace Restaurant
                 {
                     con.Open();
                     MySqlCommand cmd = new MySqlCommand(@"
-SELECT
-    i.DishId AS 'DishId',
-    i.DishCount AS 'Количество'
-FROM OrderItems i
-WHERE i.OrderId = @OrderId;", con);
+                SELECT
+                    i.DishId AS 'DishId',
+                    i.DishCount AS 'Количество'
+                FROM OrderItems i
+                WHERE i.OrderId = @OrderId;", con);
 
                     cmd.Parameters.AddWithValue("@OrderId", orderId);
 
@@ -229,10 +239,11 @@ WHERE i.OrderId = @OrderId;", con);
 
                     if (rows.Length > 0)
                     {
-                        string dishName = rows[0]["DishName"].ToString();
+                        string displayName = rows[0]["DisplayName"].ToString();
                         object offersDish = rows[0]["OffersDish"];
-                        string displayName = PriceCalculator.Instance.GetDishDisplayName(dishName, offersDish, offersTable);
-                        e.Value = displayName;
+
+                        string finalDisplayName = PriceCalculator.Instance.GetDishDisplayName(displayName, offersDish, offersTable);
+                        e.Value = finalDisplayName;
                         e.FormattingApplied = true;
                     }
                     else

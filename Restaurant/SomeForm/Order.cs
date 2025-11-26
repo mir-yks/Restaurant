@@ -480,33 +480,19 @@ namespace Restaurant
 
         private void buttonUpdate_Click(object sender, EventArgs e)
         {
-            if (dataGridView1.CurrentRow == null)
-            {
-                MessageBox.Show("Выберите заказ для редактирования!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+            if (dataGridView1.CurrentRow == null) return;
 
             DataGridViewRow row = dataGridView1.CurrentRow;
-
-            string orderStatus = row.Cells["Статус заказа"].Value.ToString();
-            string paymentStatus = row.Cells["Статус оплаты заказа"].Value.ToString();
-
-            if (orderStatus == "Завершен" && paymentStatus == "Оплачен")
-            {
-                MessageBox.Show("Заказ завершен и оплачен. Редактирование невозможно!", "Информация",
-                               MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
 
             OrderInsert OrderInsert = new OrderInsert("edit")
             {
                 OrderID = Convert.ToInt32(row.Cells["ID"].Value),
-                WorkerName = row.Cells["Сотрудник"].Value.ToString(),
+                WorkerName = row.Cells["Сотрудник"].Value.ToString(), 
                 ClientName = row.Cells["Клиент"].Value.ToString(),
                 TableNumber = row.Cells["Номер столика"].Value?.ToString() ?? "",
                 OrderDate = Convert.ToDateTime(row.Cells["Дата заказа"].Value),
-                OrderStatus = orderStatus,
-                OrderStatusPayment = paymentStatus
+                OrderStatus = row.Cells["Статус заказа"].Value.ToString(),
+                OrderStatusPayment = row.Cells["Статус оплаты заказа"].Value.ToString()
             };
 
             OrderInsert.ShowDialog();
@@ -554,19 +540,25 @@ namespace Restaurant
                 {
                     con.Open();
                     MySqlCommand cmd = new MySqlCommand(@"SELECT 
-                                                        o.OrderId AS 'ID',
-                                                        o.OrderId AS 'Номер заказа',
-                                                        w.WorkerFIO AS 'Сотрудник',
-                                                        c.ClientFIO AS 'Клиент',
-                                                        t.TablesId AS 'Номер столика',
-                                                        o.OrderDate AS 'Дата заказа',
-                                                        o.OrderPrice AS 'Стоимость заказа',
-                                                        o.OrderStatus AS 'Статус заказа',
-                                                        o.OrderStatusPayment AS 'Статус оплаты заказа'
-                                                    FROM `Order` o
-                                                    JOIN Worker w ON o.WorkerId = w.WorkerId
-                                                    LEFT JOIN Client c ON o.ClientId = c.ClientId
-                                                    LEFT JOIN Tables t ON o.TableId = t.TablesId;", con);
+                                                o.OrderId AS 'ID',
+                                                o.OrderId AS 'Номер заказа',
+                                                COALESCE(
+                                                    w.OriginalWorkerFIO, 
+                                                    w.WorkerFIO
+                                                ) AS 'Сотрудник',
+                                                COALESCE(
+                                                    c.OriginalClientFIO,
+                                                    c.ClientFIO
+                                                ) AS 'Клиент',
+                                                t.TablesId AS 'Номер столика',
+                                                o.OrderDate AS 'Дата заказа',
+                                                o.OrderPrice AS 'Стоимость заказа',
+                                                o.OrderStatus AS 'Статус заказа',
+                                                o.OrderStatusPayment AS 'Статус оплаты заказа'
+                                            FROM `Order` o
+                                            JOIN Worker w ON o.WorkerId = w.WorkerId
+                                            LEFT JOIN Client c ON o.ClientId = c.ClientId
+                                            LEFT JOIN Tables t ON o.TableId = t.TablesId;", con);
                     MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                     orderTable = new DataTable();
                     da.Fill(orderTable);

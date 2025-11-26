@@ -135,17 +135,17 @@ namespace Restaurant
                 {
                     await con.OpenAsync();
                     string query = @"SELECT 
-                                m.DishId,
-                                m.DishName AS 'Блюдо',
-                                m.DishDescription AS 'Описание',
-                                m.DishPrice AS 'Стоимость',
-                                c.CategoryDishName AS 'Категория блюда',
-                                COALESCE(o.OffersDishName, '') AS 'Акция',
-                                m.DishPhoto
-                             FROM MenuDish m
-                             JOIN CategoryDish c ON m.DishCategory = c.CategoryDishId
-                             LEFT JOIN OffersDish o ON m.OffersDish = o.OffersDishId
-                             WHERE m.IsActive = 1;";
+                        m.DishId,
+                        m.DishName AS 'Блюдо',
+                        m.DishDescription AS 'Описание',
+                        m.DishPrice AS 'Стоимость',
+                        c.CategoryDishName AS 'Категория блюда',
+                        COALESCE(o.OffersDishName, '') AS 'Акция',
+                        m.DishPhoto
+                     FROM MenuDish m
+                     JOIN CategoryDish c ON m.DishCategory = c.CategoryDishId
+                     LEFT JOIN OffersDish o ON m.OffersDish = o.OffersDishId
+                     WHERE m.IsActive = 1;";
 
                     MySqlDataAdapter da = new MySqlDataAdapter(query, con);
                     menuTable = new DataTable();

@@ -138,25 +138,61 @@ namespace Restaurant
 
                     if (result != DialogResult.Yes) return;
 
-                    MySqlCommand cmd;
                     if (mode == "add")
                     {
-                        cmd = new MySqlCommand(
-                            "INSERT INTO client (ClientFIO, ClientPhone) VALUES (@FIO, @Phone)", con);
+                        MySqlCommand cmd = new MySqlCommand(
+                            "INSERT INTO client (ClientFIO, OriginalClientFIO, ClientPhone) VALUES (@FIO, @OriginalFIO, @Phone)", con);
+                        cmd.Parameters.AddWithValue("@FIO", ClientFIO);
+                        cmd.Parameters.AddWithValue("@OriginalFIO", ClientFIO); 
+                        cmd.Parameters.AddWithValue("@Phone", phoneDigits);
+                        cmd.ExecuteNonQuery();
+
+                        MessageBox.Show($"Клиент \"{ClientFIO}\" успешно добавлен!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-                    else
+                    else if (mode == "edit")
                     {
-                        cmd = new MySqlCommand(
-                            "UPDATE client SET ClientFIO = @FIO, ClientPhone = @Phone WHERE ClientId = @Id", con);
+                        bool fioChanged = false;
+                        string originalFIO = ClientFIO; 
+
+                        MySqlCommand getOriginalCmd = new MySqlCommand(
+                            "SELECT ClientFIO, OriginalClientFIO FROM Client WHERE ClientId = @Id", con);
+                        getOriginalCmd.Parameters.AddWithValue("@Id", ClientID);
+
+                        using (var reader = getOriginalCmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                string currentFIO = reader.GetString("ClientFIO");
+                                string storedOriginalFIO = reader.IsDBNull(reader.GetOrdinal("OriginalClientFIO"))
+                                    ? currentFIO
+                                    : reader.GetString("OriginalClientFIO");
+
+                                if (currentFIO != ClientFIO)
+                                {
+                                    fioChanged = true;
+                                    originalFIO = storedOriginalFIO; 
+                                }
+                                else
+                                {
+                                    originalFIO = storedOriginalFIO;
+                                }
+                            }
+                        }
+
+                        MySqlCommand cmd = new MySqlCommand(
+                            "UPDATE client SET ClientFIO = @FIO, OriginalClientFIO = @OriginalFIO, ClientPhone = @Phone WHERE ClientId = @Id", con);
+                        cmd.Parameters.AddWithValue("@FIO", ClientFIO);
+                        cmd.Parameters.AddWithValue("@OriginalFIO", originalFIO);
+                        cmd.Parameters.AddWithValue("@Phone", phoneDigits);
                         cmd.Parameters.AddWithValue("@Id", ClientID);
+                        cmd.ExecuteNonQuery();
+
+                        string message = fioChanged
+                            ? $"Данные клиента успешно обновлены!\nФИО: \"{ClientFIO}\"\n\nПримечание: в существующих заказах останется предыдущее ФИО клиента."
+                            : $"Данные клиента успешно обновлены!\nФИО: \"{ClientFIO}\"";
+
+                        MessageBox.Show(message, "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-
-                    cmd.Parameters.AddWithValue("@FIO", ClientFIO);
-                    cmd.Parameters.AddWithValue("@Phone", phoneDigits);
-                    cmd.ExecuteNonQuery();
-
-                    string action = mode == "add" ? "добавлен" : "обновлён";
-                    MessageBox.Show($"Клиент \"{ClientFIO}\" успешно {action}!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     this.DialogResult = DialogResult.OK;
                 }

@@ -282,17 +282,19 @@ namespace Restaurant
                     if (mode == "add")
                     {
                         MySqlCommand cmd = new MySqlCommand(@"
-                            INSERT INTO MenuDish (DishName, DishDescription, DishPrice, DishCategory, OffersDish, DishPhoto)
-                            VALUES (
-                                @name,
-                                @desc,
-                                @price,
-                                (SELECT CategoryDishId FROM CategoryDish WHERE CategoryDishName = @category),
-                                (SELECT OffersDishId FROM OffersDish WHERE OffersDishName = @offer),
-                                @photoHash
-                            );", con);
+                    INSERT INTO MenuDish (DishName, OriginalDishName, DishDescription, DishPrice, DishCategory, OffersDish, DishPhoto)
+                    VALUES (
+                        @name,
+                        @originalName,
+                        @desc,
+                        @price,
+                        (SELECT CategoryDishId FROM CategoryDish WHERE CategoryDishName = @category),
+                        (SELECT OffersDishId FROM OffersDish WHERE OffersDishName = @offer),
+                        @photoHash
+                    );", con);
 
                         cmd.Parameters.AddWithValue("@name", DishName.Trim());
+                        cmd.Parameters.AddWithValue("@originalName", DishName.Trim()); 
                         cmd.Parameters.AddWithValue("@desc", DishDescription.Trim());
                         cmd.Parameters.AddWithValue("@price", price);
                         cmd.Parameters.AddWithValue("@category", DishCategory);
@@ -304,18 +306,48 @@ namespace Restaurant
                     }
                     else if (mode == "edit")
                     {
+                        bool nameChanged = false;
+                        string originalName = DishName; 
+
+                        MySqlCommand getOriginalCmd = new MySqlCommand(
+                            "SELECT DishName, OriginalDishName FROM MenuDish WHERE DishId = @Id", con);
+                        getOriginalCmd.Parameters.AddWithValue("@Id", DishID);
+
+                        using (var reader = getOriginalCmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                string currentName = reader.GetString("DishName");
+                                string storedOriginalName = reader.IsDBNull(reader.GetOrdinal("OriginalDishName"))
+                                    ? currentName
+                                    : reader.GetString("OriginalDishName");
+
+                                if (currentName != DishName)
+                                {
+                                    nameChanged = true;
+                                    originalName = storedOriginalName; 
+                                }
+                                else
+                                {
+                                    originalName = storedOriginalName;
+                                }
+                            }
+                        }
+
                         MySqlCommand cmd = new MySqlCommand(@"
-                            UPDATE MenuDish
-                            SET 
-                                DishName = @name,
-                                DishDescription = @desc,
-                                DishPrice = @price,
-                                DishCategory = (SELECT CategoryDishId FROM CategoryDish WHERE CategoryDishName = @category),
-                                OffersDish = (SELECT OffersDishId FROM OffersDish WHERE OffersDishName = @offer),
-                                DishPhoto = @photoHash
-                            WHERE DishId = @id;", con);
+                    UPDATE MenuDish
+                    SET 
+                        DishName = @name,
+                        OriginalDishName = @originalName,
+                        DishDescription = @desc,
+                        DishPrice = @price,
+                        DishCategory = (SELECT CategoryDishId FROM CategoryDish WHERE CategoryDishName = @category),
+                        OffersDish = (SELECT OffersDishId FROM OffersDish WHERE OffersDishName = @offer),
+                        DishPhoto = @photoHash
+                    WHERE DishId = @id;", con);
 
                         cmd.Parameters.AddWithValue("@name", DishName.Trim());
+                        cmd.Parameters.AddWithValue("@originalName", originalName);
                         cmd.Parameters.AddWithValue("@desc", DishDescription.Trim());
                         cmd.Parameters.AddWithValue("@price", price);
                         cmd.Parameters.AddWithValue("@category", DishCategory);
@@ -324,7 +356,11 @@ namespace Restaurant
                         cmd.Parameters.AddWithValue("@id", DishID);
                         cmd.ExecuteNonQuery();
 
-                        MessageBox.Show($"Блюдо \"{DishName}\" успешно обновлено!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        string message = nameChanged
+                            ? $"Блюдо \"{DishName}\" успешно обновлено!\n\nПримечание: в существующих заказах останется предыдущее название блюда."
+                            : $"Блюдо \"{DishName}\" успешно обновлено!";
+
+                        MessageBox.Show(message, "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
 
                     this.DialogResult = DialogResult.OK;

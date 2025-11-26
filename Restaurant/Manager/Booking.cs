@@ -40,7 +40,7 @@ namespace Restaurant
             DataGridViewRow row = dataGridView1.CurrentRow;
 
             DateTime bookingDate = Convert.ToDateTime(row.Cells["Дата брони"].Value);
-            
+
             if (!CanEditBooking(bookingDate))
             {
                 MessageBox.Show("Невозможно редактировать бронирование!\nРедактирование запрещено за 1 час до брони и после её начала.",
@@ -83,18 +83,18 @@ namespace Restaurant
                 {
                     con.Open();
                     MySqlCommand cmd = new MySqlCommand(@"SELECT 
-                                                        b.BookingId AS 'ID',
-                                                        c.ClientFIO AS 'Клиент',
-                                                        b.BookingDate AS 'Дата брони',
-                                                        b.ClientsCount AS 'Количество гостей',
-                                                        b.TableId AS 'TableId',
-                                                        t.TablesCountPlace AS 'Вместимость стола',
-                                                        CONCAT('Стол №', b.TableId, ' (', t.TablesCountPlace, ' чел.)') AS 'Столик',
-                                                        TIMESTAMPDIFF(MINUTE, NOW(), b.BookingDate) as MinutesUntil
-                                                    FROM booking b 
-                                                    JOIN client c ON b.ClientId = c.ClientId
-                                                    JOIN tables t ON b.TableId = t.TablesId
-                                                    ORDER BY b.BookingDate DESC;", con);
+                                                    b.BookingId AS 'ID',
+                                                    COALESCE(c.OriginalClientFIO, c.ClientFIO) AS 'Клиент',
+                                                    b.BookingDate AS 'Дата брони',
+                                                    b.ClientsCount AS 'Количество гостей',
+                                                    b.TableId AS 'TableId',
+                                                    t.TablesCountPlace AS 'Вместимость стола',
+                                                    CONCAT('Стол №', b.TableId, ' (', t.TablesCountPlace, ' чел.)') AS 'Столик',
+                                                    TIMESTAMPDIFF(MINUTE, NOW(), b.BookingDate) as MinutesUntil
+                                                FROM booking b 
+                                                JOIN client c ON b.ClientId = c.ClientId
+                                                JOIN tables t ON b.TableId = t.TablesId
+                                                ORDER BY b.BookingDate DESC;", con);
 
                     MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                     bookingTable = new DataTable();

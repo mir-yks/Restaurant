@@ -158,7 +158,12 @@ namespace Restaurant
                 using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
                 {
                     con.Open();
-                    MySqlCommand cmd = new MySqlCommand("SELECT ClientId, ClientFIO FROM client WHERE IsActive = 1 ORDER BY ClientFIO", con); 
+
+                    string query = mode == "add"
+                        ? "SELECT ClientId, ClientFIO FROM client WHERE IsActive = 1 ORDER BY ClientFIO"
+                        : "SELECT ClientId, COALESCE(OriginalClientFIO, ClientFIO) as ClientFIO FROM client WHERE IsActive = 1 ORDER BY ClientFIO";
+
+                    MySqlCommand cmd = new MySqlCommand(query, con);
                     MySqlDataReader reader = cmd.ExecuteReader();
 
                     comboBoxClient.Items.Clear();

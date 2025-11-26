@@ -70,11 +70,11 @@ namespace Restaurant
                 {
                     con.Open();
                     MySqlCommand cmd = new MySqlCommand(@"SELECT 
-                                                        ClientId AS 'ID',
-                                                        ClientFIO AS 'ФИО',
-                                                        ClientPhone AS 'Телефон'
-                                                    FROM client 
-                                                    WHERE IsActive = 1;", con); 
+                                                    ClientId AS 'ID',
+                                                    ClientFIO AS 'ФИО',
+                                                    ClientPhone AS 'Телефон'
+                                                FROM client 
+                                                WHERE IsActive = 1;", con);
                     MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                     clientTable = new DataTable();
                     da.Fill(clientTable);

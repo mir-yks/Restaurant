@@ -18,6 +18,7 @@ namespace Restaurant
         private string initialOrderStatus;
         private string initialOrderStatusPayment;
         private Dictionary<int, int> clientTableMap = new Dictionary<int, int>();
+        private string originalWorkerData;
 
         public string WorkerName
         {
@@ -142,12 +143,16 @@ namespace Restaurant
                 {
                     con.Open();
 
-                    MySqlCommand cmdWorkers = new MySqlCommand("SELECT WorkerId, WorkerFIO FROM Worker WHERE IsActive = 1", con);
+                    string workerQuery = mode == "edit"
+                        ? "SELECT WorkerId, COALESCE(OriginalWorkerFIO, WorkerFIO) as DisplayFIO FROM Worker WHERE IsActive = 1"
+                        : "SELECT WorkerId, WorkerFIO as DisplayFIO FROM Worker WHERE IsActive = 1";
+
+                    MySqlCommand cmdWorkers = new MySqlCommand(workerQuery, con);
                     MySqlDataAdapter daWorkers = new MySqlDataAdapter(cmdWorkers);
                     DataTable workersTable = new DataTable();
                     daWorkers.Fill(workersTable);
 
-                    comboBoxWaiter.DisplayMember = "WorkerFIO";
+                    comboBoxWaiter.DisplayMember = "DisplayFIO";
                     comboBoxWaiter.ValueMember = "WorkerId";
                     comboBoxWaiter.DataSource = workersTable;
 
@@ -221,21 +226,21 @@ namespace Restaurant
                 if (mode == "add")
                 {
                     query = @"
-            SELECT DISTINCT c.ClientId, c.ClientFIO, b.TableId, b.BookingDate
-            FROM Client c 
-            INNER JOIN Booking b ON c.ClientId = b.ClientId 
-            WHERE DATE(b.BookingDate) = CURDATE() 
-            AND b.BookingDate BETWEEN DATE_SUB(NOW(), INTERVAL 30 MINUTE) AND DATE_ADD(NOW(), INTERVAL 5 MINUTE)
-            AND c.IsActive = 1
-            ORDER BY c.ClientFIO";
+        SELECT DISTINCT c.ClientId, c.ClientFIO as ClientFIO, b.TableId, b.BookingDate
+        FROM Client c 
+        INNER JOIN Booking b ON c.ClientId = b.ClientId 
+        WHERE DATE(b.BookingDate) = CURDATE() 
+        AND b.BookingDate BETWEEN DATE_SUB(NOW(), INTERVAL 30 MINUTE) AND DATE_ADD(NOW(), INTERVAL 5 MINUTE)
+        AND c.IsActive = 1
+        ORDER BY ClientFIO";
                 }
                 else
                 {
                     query = @"
-            SELECT ClientId, ClientFIO
-            FROM Client 
-            WHERE IsActive = 1 
-            ORDER BY ClientFIO";
+        SELECT ClientId, COALESCE(OriginalClientFIO, ClientFIO) as ClientFIO
+        FROM Client 
+        WHERE IsActive = 1 
+        ORDER BY ClientFIO";
                 }
 
                 MySqlCommand cmdClients = new MySqlCommand(query, con);
@@ -288,69 +293,105 @@ namespace Restaurant
                     MySqlDataReader reader = cmd.ExecuteReader();
                     if (reader.Read())
                     {
-                        comboBoxWaiter.SelectedValue = reader.GetInt32("WorkerId");
+                        int workerId = reader.GetInt32("WorkerId");
 
                         initialOrderStatus = reader.GetString("OrderStatus");
                         initialOrderStatusPayment = reader.GetString("OrderStatusPayment");
 
-                        if (!reader.IsDBNull(reader.GetOrdinal("ClientId")))
-                        {
-                            int clientId = reader.GetInt32("ClientId");
+                        reader.Close();
 
-                            bool clientFound = false;
-                            for (int i = 0; i < comboBoxClient.Items.Count; i++)
+                        MySqlCommand workerCmd = new MySqlCommand(@"
+                    SELECT COALESCE(OriginalWorkerFIO, WorkerFIO) as DisplayFIO, WorkerFIO as CurrentFIO 
+                    FROM Worker 
+                    WHERE WorkerId = @WorkerId", con);
+                        workerCmd.Parameters.AddWithValue("@WorkerId", workerId);
+
+                        using (var workerReader = workerCmd.ExecuteReader())
+                        {
+                            if (workerReader.Read())
                             {
-                                if (comboBoxClient.Items[i] is KeyValuePair<int, string> item && item.Key == clientId)
+                                string displayFIO = workerReader.GetString("DisplayFIO");
+                                string currentFIO = workerReader.GetString("CurrentFIO");
+
+                                originalWorkerData = displayFIO;
+
+                                comboBoxWaiter.Text = displayFIO;
+                            }
+                        }
+
+                        cmd = new MySqlCommand(@"
+                    SELECT ClientId, TableId, OrderDate
+                    FROM `Order` 
+                    WHERE OrderId = @OrderId", con);
+                        cmd.Parameters.AddWithValue("@OrderId", OrderID);
+
+                        using (var orderReader = cmd.ExecuteReader())
+                        {
+                            if (orderReader.Read())
+                            {
+                                if (!orderReader.IsDBNull(orderReader.GetOrdinal("ClientId")))
                                 {
-                                    comboBoxClient.SelectedIndex = i;
-                                    clientFound = true;
-                                    break;
+                                    int clientId = orderReader.GetInt32("ClientId");
+
+                                    bool clientFound = false;
+                                    for (int i = 0; i < comboBoxClient.Items.Count; i++)
+                                    {
+                                        if (comboBoxClient.Items[i] is KeyValuePair<int, string> item && item.Key == clientId)
+                                        {
+                                            comboBoxClient.SelectedIndex = i;
+                                            clientFound = true;
+                                            break;
+                                        }
+                                    }
+
+                                    if (!clientFound)
+                                    {
+                                        LoadAllClients(con);
+                                        SetClientSelection(clientId);
+                                    }
                                 }
-                            }
-
-                            if (!clientFound)
-                            {
-                                reader.Close();
-                                LoadAllClients(con);
-                                SetClientSelection(clientId);
-                            }
-                        }
-                        else
-                        {
-                            comboBoxClient.SelectedIndex = 0;
-                        }
-
-                        if (!reader.IsDBNull(reader.GetOrdinal("TableId")))
-                        {
-                            int tableId = reader.GetInt32("TableId");
-
-                            bool found = false;
-                            for (int i = 0; i < comboBoxTable.Items.Count; i++)
-                            {
-                                if (comboBoxTable.Items[i].ToString() == tableId.ToString())
+                                else
                                 {
-                                    comboBoxTable.SelectedIndex = i;
-                                    found = true;
-                                    break;
+                                    comboBoxClient.SelectedIndex = 0;
                                 }
-                            }
 
-                            if (!found)
-                            {
-                                comboBoxTable.Items.Add(tableId.ToString());
-                                comboBoxTable.SelectedItem = tableId.ToString();
+                                if (!orderReader.IsDBNull(orderReader.GetOrdinal("TableId")))
+                                {
+                                    int tableId = orderReader.GetInt32("TableId");
+
+                                    bool found = false;
+                                    for (int i = 0; i < comboBoxTable.Items.Count; i++)
+                                    {
+                                        if (comboBoxTable.Items[i].ToString() == tableId.ToString())
+                                        {
+                                            comboBoxTable.SelectedIndex = i;
+                                            found = true;
+                                            break;
+                                        }
+                                    }
+
+                                    if (!found)
+                                    {
+                                        comboBoxTable.Items.Add(tableId.ToString());
+                                        comboBoxTable.SelectedItem = tableId.ToString();
+                                    }
+                                }
+                                else
+                                {
+                                    comboBoxTable.SelectedIndex = 0;
+                                }
+
+                                dateTimePickerOrder.Value = orderReader.GetDateTime("OrderDate");
                             }
                         }
-                        else
-                        {
-                            comboBoxTable.SelectedIndex = 0;
-                        }
 
-                        dateTimePickerOrder.Value = reader.GetDateTime("OrderDate");
                         comboBoxStatusOrder.Text = initialOrderStatus;
                         comboBoxStatusPayment.Text = initialOrderStatusPayment;
                     }
-                    reader.Close();
+                    else
+                    {
+                        reader.Close();
+                    }
 
                     UpdateControlsState();
                 }
@@ -365,7 +406,10 @@ namespace Restaurant
         {
             try
             {
-                string query = "SELECT ClientId, ClientFIO FROM Client WHERE IsActive = 1 ORDER BY ClientFIO";
+                string query = mode == "add"
+                    ? "SELECT ClientId, ClientFIO FROM Client WHERE IsActive = 1 ORDER BY ClientFIO"
+                    : "SELECT ClientId, COALESCE(OriginalClientFIO, ClientFIO) as ClientFIO FROM Client WHERE IsActive = 1 ORDER BY ClientFIO";
+
                 MySqlCommand cmdClients = new MySqlCommand(query, con);
                 MySqlDataAdapter daClients = new MySqlDataAdapter(cmdClients);
                 DataTable clientsTable = new DataTable();
@@ -573,6 +617,9 @@ namespace Restaurant
                 {
                     con.Open();
 
+                    int workerId = Convert.ToInt32(comboBoxWaiter.SelectedValue);
+                    string workerDisplayFIO = comboBoxWaiter.Text;
+
                     if (!string.IsNullOrEmpty(comboBoxTable.Text))
                     {
                         tableId = Convert.ToInt32(comboBoxTable.Text);
@@ -619,7 +666,7 @@ namespace Restaurant
                     SELECT LAST_INSERT_ID();";
 
                         MySqlCommand cmd = new MySqlCommand(query, con);
-                        cmd.Parameters.AddWithValue("@WorkerId", comboBoxWaiter.SelectedValue);
+                        cmd.Parameters.AddWithValue("@WorkerId", workerId);
 
                         object clientIdParam = string.IsNullOrEmpty(comboBoxClient.Text) ? (object)DBNull.Value : ((KeyValuePair<int, string>)comboBoxClient.SelectedItem).Key;
                         cmd.Parameters.AddWithValue("@ClientId", clientIdParam);
@@ -643,7 +690,6 @@ namespace Restaurant
                         {
                             DeleteCurrentClientBooking(con, clientId.Value, tableId.Value);
                         }
-
                     }
                     else if (mode == "edit")
                     {
@@ -657,7 +703,7 @@ namespace Restaurant
                     WHERE OrderId = @OrderId";
 
                         MySqlCommand cmd = new MySqlCommand(query, con);
-                        cmd.Parameters.AddWithValue("@WorkerId", comboBoxWaiter.SelectedValue);
+                        cmd.Parameters.AddWithValue("@WorkerId", workerId);
 
                         object clientIdParam = string.IsNullOrEmpty(comboBoxClient.Text) ? (object)DBNull.Value : ((KeyValuePair<int, string>)comboBoxClient.SelectedItem).Key;
                         cmd.Parameters.AddWithValue("@ClientId", clientIdParam);
