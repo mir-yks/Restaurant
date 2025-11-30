@@ -199,23 +199,42 @@ namespace Restaurant
                         {
                             dataGridView1.Invoke(new Action<int, Image>((rowIndex, img) =>
                             {
-                                if (rowIndex < dataGridView1.Rows.Count && !dataGridView1.Rows[rowIndex].IsNewRow)
-                                {
-                                    dataGridView1.Rows[rowIndex].Cells["ColumnImage"].Value = img;
-                                }
+                                SafeSetImage(rowIndex, img);
                             }), i, image);
                         }
                         else
                         {
-                            if (i < dataGridView1.Rows.Count && !dataGridView1.Rows[i].IsNewRow)
-                            {
-                                dataGridView1.Rows[i].Cells["ColumnImage"].Value = image;
-                            }
+                            SafeSetImage(i, image);
                         }
                     }
+                    else
+                    {
+                        SafeSetImage(i, plugImage);
+                    }
+                }
+                else
+                {
+                    SafeSetImage(i, plugImage);
                 }
 
-                await Task.Delay(50);
+                await Task.Delay(30);
+            }
+        }
+
+        private void SafeSetImage(int rowIndex, Image image)
+        {
+            try
+            {
+                if (rowIndex < dataGridView1.Rows.Count &&
+                    !dataGridView1.Rows[rowIndex].IsNewRow &&
+                    dataGridView1.Rows[rowIndex].Cells["ColumnImage"] != null)
+                {
+                    dataGridView1.Rows[rowIndex].Cells["ColumnImage"].Value = image;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Ошибка установки изображения: {ex.Message}");
             }
         }
 
@@ -375,6 +394,12 @@ namespace Restaurant
                 buttonUpdate.Enabled = true;
                 buttonDelete.Enabled = true;
             }
+        }
+
+        private void dataGridView1_Sorted(object sender, EventArgs e)
+        {
+            SetPlugImagesToAllRows();
+            _ = Task.Run(() => LoadImagesGraduallyAsync());
         }
     }
 }
