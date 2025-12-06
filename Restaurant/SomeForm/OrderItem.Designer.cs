@@ -35,13 +35,13 @@
             this.buttonWrite = new System.Windows.Forms.Button();
             this.buttonBack = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.textBoxSum = new System.Windows.Forms.TextBox();
+            this.labelSum = new System.Windows.Forms.Label();
+            this.labelTotal = new System.Windows.Forms.Label();
             this.ColumnDish = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.ColumnQuantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnSum = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.textBoxSum = new System.Windows.Forms.TextBox();
-            this.labelSum = new System.Windows.Forms.Label();
-            this.labelTotal = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -108,46 +108,6 @@
             this.dataGridView1.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridView1_RowsAdded);
             this.dataGridView1.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dataGridView1_RowsRemoved);
             // 
-            // ColumnDish
-            // 
-            this.ColumnDish.DataPropertyName = "DishId";
-            this.ColumnDish.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
-            this.ColumnDish.DisplayStyleForCurrentCellOnly = true;
-            this.ColumnDish.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ColumnDish.HeaderText = "Блюдо";
-            this.ColumnDish.MinimumWidth = 6;
-            this.ColumnDish.Name = "ColumnDish";
-            // 
-            // ColumnQuantity
-            // 
-            this.ColumnQuantity.DataPropertyName = "Количество";
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.ColumnQuantity.DefaultCellStyle = dataGridViewCellStyle1;
-            this.ColumnQuantity.HeaderText = "Количество";
-            this.ColumnQuantity.MinimumWidth = 6;
-            this.ColumnQuantity.Name = "ColumnQuantity";
-            // 
-            // ColumnPrice
-            // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle2.Format = "N2";
-            this.ColumnPrice.DefaultCellStyle = dataGridViewCellStyle2;
-            this.ColumnPrice.HeaderText = "Цена";
-            this.ColumnPrice.MinimumWidth = 6;
-            this.ColumnPrice.Name = "ColumnPrice";
-            this.ColumnPrice.ReadOnly = true;
-            // 
-            // ColumnSum
-            // 
-            this.ColumnSum.DataPropertyName = "Сумма";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle3.Format = "N2";
-            this.ColumnSum.DefaultCellStyle = dataGridViewCellStyle3;
-            this.ColumnSum.HeaderText = "Сумма";
-            this.ColumnSum.MinimumWidth = 6;
-            this.ColumnSum.Name = "ColumnSum";
-            this.ColumnSum.ReadOnly = true;
-            // 
             // textBoxSum
             // 
             this.textBoxSum.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
@@ -190,6 +150,47 @@
             this.labelTotal.TabIndex = 49;
             this.labelTotal.Text = "Всего:";
             // 
+            // ColumnDish
+            // 
+            this.ColumnDish.DataPropertyName = "DishId";
+            this.ColumnDish.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
+            this.ColumnDish.DisplayStyleForCurrentCellOnly = true;
+            this.ColumnDish.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ColumnDish.HeaderText = "Блюдо";
+            this.ColumnDish.MinimumWidth = 6;
+            this.ColumnDish.Name = "ColumnDish";
+            // 
+            // ColumnQuantity
+            // 
+            this.ColumnQuantity.DataPropertyName = "Количество";
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.ColumnQuantity.DefaultCellStyle = dataGridViewCellStyle1;
+            this.ColumnQuantity.HeaderText = "Количество";
+            this.ColumnQuantity.MinimumWidth = 6;
+            this.ColumnQuantity.Name = "ColumnQuantity";
+            this.ColumnQuantity.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // ColumnPrice
+            // 
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle2.Format = "N2";
+            this.ColumnPrice.DefaultCellStyle = dataGridViewCellStyle2;
+            this.ColumnPrice.HeaderText = "Цена";
+            this.ColumnPrice.MinimumWidth = 6;
+            this.ColumnPrice.Name = "ColumnPrice";
+            this.ColumnPrice.ReadOnly = true;
+            // 
+            // ColumnSum
+            // 
+            this.ColumnSum.DataPropertyName = "Сумма";
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle3.Format = "N2";
+            this.ColumnSum.DefaultCellStyle = dataGridViewCellStyle3;
+            this.ColumnSum.HeaderText = "Сумма";
+            this.ColumnSum.MinimumWidth = 6;
+            this.ColumnSum.Name = "ColumnSum";
+            this.ColumnSum.ReadOnly = true;
+            // 
             // OrderItem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -227,8 +228,8 @@
         private System.Windows.Forms.Label labelSum;
         private System.Windows.Forms.Label labelTotal;
         private System.Windows.Forms.DataGridViewComboBoxColumn ColumnDish;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnSum;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnQuantity;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnPrice;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnSum;
     }
 }

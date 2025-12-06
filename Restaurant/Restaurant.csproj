@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>logo.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="MySql.Data, Version=9.4.0.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -139,12 +142,6 @@
     <Compile Include="SomeForm\Order.Designer.cs">
       <DependentUpon>Order.cs</DependentUpon>
     </Compile>
-    <Compile Include="Administrator\RoleInsert.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Administrator\RoleInsert.Designer.cs">
-      <DependentUpon>RoleInsert.cs</DependentUpon>
-    </Compile>
     <Compile Include="SomeForm\OrderItem.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -234,9 +231,6 @@
     <EmbeddedResource Include="SomeForm\Order.resx">
       <DependentUpon>Order.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Administrator\RoleInsert.resx">
-      <DependentUpon>RoleInsert.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="SomeForm\OrderItem.resx">
       <DependentUpon>OrderItem.cs</DependentUpon>
     </EmbeddedResource>
@@ -324,6 +318,7 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="logo.ico" />
     <Content Include="Resources\image\exit.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -502,6 +497,7 @@
     <Content Include="Resources\image\plug.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\image\Restaurant.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

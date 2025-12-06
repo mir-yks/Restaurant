@@ -489,5 +489,14 @@ namespace Restaurant
                 pictureBoxImage.Image = null;
             }
         }
+
+        private void comboBoxCategory_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) &&
+                !Regex.IsMatch(e.KeyChar.ToString(), @"^[а-яА-Я\s]$"))
+            {
+                e.Handled = true;
+            }
+        }
     }
 }

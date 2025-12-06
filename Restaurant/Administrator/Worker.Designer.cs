@@ -51,10 +51,9 @@
             this.comboBoxCategory.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.comboBoxCategory.ForeColor = System.Drawing.Color.White;
             this.comboBoxCategory.FormattingEnabled = true;
-            this.comboBoxCategory.Location = new System.Drawing.Point(331, 566);
-            this.comboBoxCategory.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBoxCategory.Location = new System.Drawing.Point(248, 460);
             this.comboBoxCategory.Name = "comboBoxCategory";
-            this.comboBoxCategory.Size = new System.Drawing.Size(305, 37);
+            this.comboBoxCategory.Size = new System.Drawing.Size(230, 31);
             this.comboBoxCategory.TabIndex = 43;
             this.comboBoxCategory.SelectedIndexChanged += new System.EventHandler(this.comboBoxCategory_SelectedIndexChanged);
             // 
@@ -67,12 +66,11 @@
             this.labelCategory.BackColor = System.Drawing.Color.Transparent;
             this.labelCategory.Font = new System.Drawing.Font("Verdana", 14F);
             this.labelCategory.ForeColor = System.Drawing.Color.White;
-            this.labelCategory.Location = new System.Drawing.Point(325, 534);
-            this.labelCategory.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelCategory.Location = new System.Drawing.Point(244, 434);
             this.labelCategory.Name = "labelCategory";
-            this.labelCategory.Size = new System.Drawing.Size(151, 29);
+            this.labelCategory.Size = new System.Drawing.Size(65, 23);
             this.labelCategory.TabIndex = 42;
-            this.labelCategory.Text = "Категория:";
+            this.labelCategory.Text = "Роль:";
             // 
             // buttonUpdate
             // 
@@ -82,10 +80,10 @@
             this.buttonUpdate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonUpdate.Font = new System.Drawing.Font("Verdana", 14F);
             this.buttonUpdate.ForeColor = System.Drawing.Color.White;
-            this.buttonUpdate.Location = new System.Drawing.Point(732, 660);
-            this.buttonUpdate.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
+            this.buttonUpdate.Location = new System.Drawing.Point(549, 536);
+            this.buttonUpdate.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonUpdate.Name = "buttonUpdate";
-            this.buttonUpdate.Size = new System.Drawing.Size(153, 62);
+            this.buttonUpdate.Size = new System.Drawing.Size(115, 50);
             this.buttonUpdate.TabIndex = 39;
             this.buttonUpdate.Text = "Изменить";
             this.buttonUpdate.UseVisualStyleBackColor = false;
@@ -98,10 +96,10 @@
             this.buttonNew.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonNew.Font = new System.Drawing.Font("Verdana", 14F);
             this.buttonNew.ForeColor = System.Drawing.Color.White;
-            this.buttonNew.Location = new System.Drawing.Point(896, 660);
-            this.buttonNew.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
+            this.buttonNew.Location = new System.Drawing.Point(672, 536);
+            this.buttonNew.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonNew.Name = "buttonNew";
-            this.buttonNew.Size = new System.Drawing.Size(153, 62);
+            this.buttonNew.Size = new System.Drawing.Size(115, 50);
             this.buttonNew.TabIndex = 40;
             this.buttonNew.Text = "Добавить";
             this.buttonNew.UseVisualStyleBackColor = false;
@@ -114,10 +112,10 @@
             this.buttonBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonBack.Font = new System.Drawing.Font("Verdana", 14F);
             this.buttonBack.ForeColor = System.Drawing.Color.White;
-            this.buttonBack.Location = new System.Drawing.Point(17, 660);
-            this.buttonBack.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
+            this.buttonBack.Location = new System.Drawing.Point(13, 536);
+            this.buttonBack.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonBack.Name = "buttonBack";
-            this.buttonBack.Size = new System.Drawing.Size(147, 62);
+            this.buttonBack.Size = new System.Drawing.Size(110, 50);
             this.buttonBack.TabIndex = 41;
             this.buttonBack.Text = "Назад";
             this.buttonBack.UseVisualStyleBackColor = false;
@@ -132,10 +130,9 @@
             this.labelTotal.BackColor = System.Drawing.Color.Transparent;
             this.labelTotal.Font = new System.Drawing.Font("Verdana", 14F);
             this.labelTotal.ForeColor = System.Drawing.Color.White;
-            this.labelTotal.Location = new System.Drawing.Point(893, 517);
-            this.labelTotal.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelTotal.Location = new System.Drawing.Point(670, 420);
             this.labelTotal.Name = "labelTotal";
-            this.labelTotal.Size = new System.Drawing.Size(93, 29);
+            this.labelTotal.Size = new System.Drawing.Size(74, 23);
             this.labelTotal.TabIndex = 38;
             this.labelTotal.Text = "Всего:";
             // 
@@ -145,11 +142,10 @@
             this.textBoxWorker.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxWorker.Font = new System.Drawing.Font("Verdana", 14F);
             this.textBoxWorker.ForeColor = System.Drawing.Color.White;
-            this.textBoxWorker.Location = new System.Drawing.Point(19, 567);
-            this.textBoxWorker.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxWorker.Location = new System.Drawing.Point(14, 461);
             this.textBoxWorker.MaxLength = 50;
             this.textBoxWorker.Name = "textBoxWorker";
-            this.textBoxWorker.Size = new System.Drawing.Size(306, 36);
+            this.textBoxWorker.Size = new System.Drawing.Size(230, 30);
             this.textBoxWorker.TabIndex = 37;
             this.textBoxWorker.TextChanged += new System.EventHandler(this.textBoxWorker_TextChanged);
             this.textBoxWorker.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxWorker_KeyPress);
@@ -163,10 +159,9 @@
             this.labelWorker.BackColor = System.Drawing.Color.Transparent;
             this.labelWorker.Font = new System.Drawing.Font("Verdana", 14F);
             this.labelWorker.ForeColor = System.Drawing.Color.White;
-            this.labelWorker.Location = new System.Drawing.Point(13, 535);
-            this.labelWorker.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelWorker.Location = new System.Drawing.Point(10, 435);
             this.labelWorker.Name = "labelWorker";
-            this.labelWorker.Size = new System.Drawing.Size(156, 29);
+            this.labelWorker.Size = new System.Drawing.Size(123, 23);
             this.labelWorker.TabIndex = 36;
             this.labelWorker.Text = "Сотрудник:";
             // 
@@ -179,13 +174,12 @@
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Top;
             this.dataGridView1.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(1067, 505);
+            this.dataGridView1.Size = new System.Drawing.Size(800, 410);
             this.dataGridView1.TabIndex = 35;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
@@ -199,10 +193,9 @@
             this.buttonClearFilters.FlatAppearance.BorderSize = 0;
             this.buttonClearFilters.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonClearFilters.ForeColor = System.Drawing.Color.Transparent;
-            this.buttonClearFilters.Location = new System.Drawing.Point(645, 566);
-            this.buttonClearFilters.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonClearFilters.Location = new System.Drawing.Point(484, 460);
             this.buttonClearFilters.Name = "buttonClearFilters";
-            this.buttonClearFilters.Size = new System.Drawing.Size(40, 37);
+            this.buttonClearFilters.Size = new System.Drawing.Size(30, 30);
             this.buttonClearFilters.TabIndex = 44;
             this.buttonClearFilters.UseVisualStyleBackColor = false;
             this.buttonClearFilters.Click += new System.EventHandler(this.buttonClearFilters_Click);
@@ -215,10 +208,9 @@
             this.buttonDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonDelete.Font = new System.Drawing.Font("Verdana", 14F);
             this.buttonDelete.ForeColor = System.Drawing.Color.White;
-            this.buttonDelete.Location = new System.Drawing.Point(899, 582);
-            this.buttonDelete.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonDelete.Location = new System.Drawing.Point(674, 473);
             this.buttonDelete.Name = "buttonDelete";
-            this.buttonDelete.Size = new System.Drawing.Size(153, 68);
+            this.buttonDelete.Size = new System.Drawing.Size(115, 55);
             this.buttonDelete.TabIndex = 45;
             this.buttonDelete.Text = "Удалить";
             this.buttonDelete.UseVisualStyleBackColor = false;
@@ -226,12 +218,12 @@
             // 
             // Worker
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImage = global::Restaurant.Properties.Resources.fonMain;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(1067, 738);
+            this.ClientSize = new System.Drawing.Size(800, 600);
             this.ControlBox = false;
             this.Controls.Add(this.buttonDelete);
             this.Controls.Add(this.buttonClearFilters);
@@ -246,7 +238,6 @@
             this.Controls.Add(this.dataGridView1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Worker";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Сотрудники";

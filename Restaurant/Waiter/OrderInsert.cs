@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -1053,6 +1054,15 @@ namespace Restaurant
                 MessageBox.Show($"Ошибка при проверке бронирования стола: {ex.Message}",
                               "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
+            }
+        }
+
+        private void comboBoxTable_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) &&
+                !Regex.IsMatch(e.KeyChar.ToString(), @"^[0-9]$"))
+            {
+                e.Handled = true;
             }
         }
     }

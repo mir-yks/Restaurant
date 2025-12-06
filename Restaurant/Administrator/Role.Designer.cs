@@ -29,28 +29,11 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Role));
-            this.buttonNew = new System.Windows.Forms.Button();
             this.buttonBack = new System.Windows.Forms.Button();
             this.labelTotal = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // buttonNew
-            // 
-            this.buttonNew.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.buttonNew.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(99)))), ((int)(((byte)(107)))));
-            this.buttonNew.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonNew.Font = new System.Drawing.Font("Verdana", 14F);
-            this.buttonNew.ForeColor = System.Drawing.Color.White;
-            this.buttonNew.Location = new System.Drawing.Point(896, 660);
-            this.buttonNew.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
-            this.buttonNew.Name = "buttonNew";
-            this.buttonNew.Size = new System.Drawing.Size(153, 62);
-            this.buttonNew.TabIndex = 36;
-            this.buttonNew.Text = "Добавить";
-            this.buttonNew.UseVisualStyleBackColor = false;
-            this.buttonNew.Click += new System.EventHandler(this.buttonNew_Click);
             // 
             // buttonBack
             // 
@@ -111,7 +94,6 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1067, 738);
             this.ControlBox = false;
-            this.Controls.Add(this.buttonNew);
             this.Controls.Add(this.buttonBack);
             this.Controls.Add(this.labelTotal);
             this.Controls.Add(this.dataGridView1);
@@ -129,7 +111,6 @@
         }
 
         #endregion
-        private System.Windows.Forms.Button buttonNew;
         private System.Windows.Forms.Button buttonBack;
         private System.Windows.Forms.Label labelTotal;
         private System.Windows.Forms.DataGridView dataGridView1;

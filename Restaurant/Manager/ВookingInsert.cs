@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -346,7 +347,7 @@ namespace Restaurant
                     WHERE TableId = @TableId 
                     AND ABS(TIMESTAMPDIFF(MINUTE, BookingDate, @BookingDate)) < 120
                     AND BookingId != @BookingId", con);
-                        checkTimeIntervalCmd.Parameters.AddWithValue("@BookingId", 0); 
+                        checkTimeIntervalCmd.Parameters.AddWithValue("@BookingId", 0);
                     }
                     else
                     {
@@ -436,6 +437,116 @@ namespace Restaurant
             catch (Exception ex)
             {
                 MessageBox.Show($"Ошибка сохранения брони: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void comboBoxClient_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) &&
+                !Regex.IsMatch(e.KeyChar.ToString(), @"^[а-яА-Я-\s]$"))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void comboBoxTable_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) &&
+                !Regex.IsMatch(e.KeyChar.ToString(), @"^[а-яА-Я0-9№\s]$"))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void comboBoxClient_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(comboBoxClient.Text)) return;
+
+            int cursorPos = comboBoxClient.SelectionStart;
+            string input = comboBoxClient.Text;
+
+            int spaceCount = input.Count(c => c == ' ');
+            int dashCount = input.Count(c => c == '-');
+
+            if (spaceCount > 2)
+            {
+                int spaceCounter = 0;
+                StringBuilder sb = new StringBuilder();
+
+                for (int i = 0; i < input.Length; i++)
+                {
+                    if (input[i] == ' ')
+                    {
+                        spaceCounter++;
+                        if (spaceCounter <= 2)
+                        {
+                            sb.Append(input[i]);
+                        }
+                        else
+                        {
+                            if (i < cursorPos) cursorPos--;
+                        }
+                    }
+                    else
+                    {
+                        sb.Append(input[i]);
+                    }
+                }
+
+                input = sb.ToString();
+            }
+
+            if (dashCount > 1)
+            {
+                bool firstDashFound = false;
+                StringBuilder sb = new StringBuilder();
+
+                for (int i = 0; i < input.Length; i++)
+                {
+                    if (input[i] == '-')
+                    {
+                        if (!firstDashFound)
+                        {
+                            sb.Append(input[i]);
+                            firstDashFound = true;
+                        }
+                        else
+                        {
+                            if (i < cursorPos) cursorPos--;
+                        }
+                    }
+                    else
+                    {
+                        sb.Append(input[i]);
+                    }
+                }
+
+                input = sb.ToString();
+            }
+
+            string[] parts = input
+                .Split(new char[] { ' ', '-' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(p => p.Length > 0 ? char.ToUpper(p[0]) + p.Substring(1).ToLower() : "")
+                .ToArray();
+
+            string result = input;
+            int index = 0;
+            foreach (string part in parts)
+            {
+                if (string.IsNullOrEmpty(part)) continue;
+
+                int pos = result.IndexOf(part, index, StringComparison.OrdinalIgnoreCase);
+                if (pos >= 0)
+                {
+                    result = result.Remove(pos, part.Length).Insert(pos, part);
+                    index = pos + part.Length;
+                }
+            }
+            if (comboBoxClient.Text != result)
+            {
+                comboBoxClient.TextChanged -= comboBoxClient_TextChanged;
+                comboBoxClient.Text = result;
+                comboBoxClient.SelectionStart = Math.Min(cursorPos, result.Length);
+                comboBoxClient.TextChanged += comboBoxClient_TextChanged;
             }
         }
     }

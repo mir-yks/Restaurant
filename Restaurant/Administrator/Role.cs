@@ -14,7 +14,6 @@ namespace Restaurant
 
             labelTotal.Font = Fonts.MontserratAlternatesRegular(14f);
             buttonBack.Font = Fonts.MontserratAlternatesBold(12f);
-            buttonNew.Font = Fonts.MontserratAlternatesBold(12f);
             dataGridView1.Font = Fonts.MontserratAlternatesRegular(12f);
         }
 
@@ -23,20 +22,7 @@ namespace Restaurant
             this.DialogResult = DialogResult.OK;
         }
 
-        private void buttonNew_Click(object sender, EventArgs e)
-        {
-            RoleInsert RoleInsert = new RoleInsert();
-            RoleInsert.ShowDialog();
-
-            LoadRoles();
-        }
-
         private void Role_Load(object sender, EventArgs e)
-        {
-            LoadRoles();
-        }
-
-        private void LoadRoles()
         {
             try
             {
@@ -50,8 +36,6 @@ namespace Restaurant
                     dataGridView1.DataSource = rolesTable;
 
                     dataGridView1.Columns["RoleId"].Visible = false;
-                    dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-                    dataGridView1.MultiSelect = false;
 
                     labelTotal.Text = $"Всего: {rolesTable.Rows.Count}";
                 }
