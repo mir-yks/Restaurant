@@ -170,38 +170,102 @@ namespace Restaurant
         }
         private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (e.Value == null) return;
+            if (e.Value == null || e.Value == DBNull.Value) return;
 
             string columnName = dataGridView1.Columns[e.ColumnIndex].HeaderText;
             string text = e.Value.ToString();
 
-            if (columnName == "Телефон")
+            if (columnName == "ФИО")
             {
-                string phone = new string(text.Where(char.IsDigit).ToArray());
-
-                if (phone.Length == 11 && phone.StartsWith("7"))
+                if (!string.IsNullOrEmpty(text))
                 {
-                    string visiblePart = phone.Substring(0, 1);
-                    string lastTwoDigits = phone.Length >= 2 ? phone.Substring(phone.Length - 2) : "";
-                    e.Value = $"+{visiblePart}(***) ***-**-{lastTwoDigits}";
+                    e.Value = ConvertToInitials(text);
                 }
-                else if (text.Length > 5)
+            }
+            else if (columnName == "Телефон")
+            {
+                if (!string.IsNullOrEmpty(text))
                 {
-                    string visiblePart = text.Substring(0, 3);
-                    string lastTwoDigits = text.Substring(text.Length - 2);
-                    string middlePart = new string('*', text.Length - 5);
-                    e.Value = $"{visiblePart}{middlePart}{lastTwoDigits}";
+                    e.Value = MaskPhoneNumber(text);
+                }
+            }
+        }
+
+        private string ConvertToInitials(string fullName)
+        {
+            if (string.IsNullOrEmpty(fullName))
+                return string.Empty;
+
+            string[] parts = fullName.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+            if (parts.Length >= 3)
+            {
+                return $"{parts[0]} {parts[1][0]}.{parts[2][0]}.";
+            }
+            else if (parts.Length == 2)
+            {
+                return $"{parts[0]} {parts[1][0]}.";
+            }
+            else
+            {
+                return fullName;
+            }
+        }
+
+        private string MaskPhoneNumber(string phone)
+        {
+            if (string.IsNullOrEmpty(phone))
+                return string.Empty;
+
+            string digitsOnly = new string(phone.Where(char.IsDigit).ToArray());
+
+            if (digitsOnly.Length == 11 && digitsOnly.StartsWith("7"))
+            {
+                string visiblePrefix = "+7";
+                string firstHidden = "***";  
+                string secondHidden = "***"; 
+                string lastFourDigits = digitsOnly.Substring(digitsOnly.Length - 4);
+
+                string formattedLastDigits = $"{lastFourDigits.Substring(0, 2)}-{lastFourDigits.Substring(2)}";
+
+                return $"{visiblePrefix}({firstHidden}) {secondHidden}-{formattedLastDigits}";
+            }
+            else if (digitsOnly.Length == 11 && digitsOnly.StartsWith("8"))
+            {
+                string visiblePrefix = "8";
+                string firstHidden = "***";
+                string secondHidden = "***";
+                string lastFourDigits = digitsOnly.Substring(digitsOnly.Length - 4);
+                string formattedLastDigits = $"{lastFourDigits.Substring(0, 2)}-{lastFourDigits.Substring(2)}";
+
+                return $"{visiblePrefix}({firstHidden}) {secondHidden}-{formattedLastDigits}";
+            }
+            else if (digitsOnly.Length >= 6)
+            {
+                int visibleStartCount = Math.Min(2, digitsOnly.Length - 4);
+                string visibleStart = digitsOnly.Substring(0, visibleStartCount);
+                string lastFourDigits = digitsOnly.Length >= 4
+                    ? digitsOnly.Substring(digitsOnly.Length - 4)
+                    : digitsOnly;
+
+                string formattedLastDigits = lastFourDigits.Length == 4
+                    ? $"{lastFourDigits.Substring(0, 2)}-{lastFourDigits.Substring(2)}"
+                    : lastFourDigits;
+
+                int hiddenCount = digitsOnly.Length - visibleStartCount - 4;
+                if (hiddenCount > 0)
+                {
+                    string hiddenPart = new string('*', hiddenCount);
+                    return $"{visibleStart}{hiddenPart}-{formattedLastDigits}";
                 }
                 else
                 {
-                    e.Value = text;
+                    return $"{visibleStart}-{formattedLastDigits}";
                 }
             }
-            else if (columnName == "ФИО")
+            else
             {
-                string visiblePart = text.Length > 3 ? text.Substring(0, 3) : text;
-                string hiddenPart = new string('*', 70);
-                e.Value = visiblePart + hiddenPart;
+                return phone;
             }
         }
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
