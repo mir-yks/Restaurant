@@ -688,20 +688,33 @@ namespace Restaurant
             string columnName = dataGridView1.Columns[e.ColumnIndex].HeaderText;
             string text = e.Value.ToString();
 
-            if (columnName == "Сотрудник")
-            {
-                string visiblePart = text.Length > 3 ? text.Substring(0, 3) : text.PadRight(3, '*');
-                string hiddenPart = new string('*', 70);
-                e.Value = visiblePart + hiddenPart;
-            }
-            else if (columnName == "Клиент")
+            if (columnName == "Сотрудник" || columnName == "Клиент")
             {
                 if (!string.IsNullOrEmpty(text))
                 {
-                    string visiblePart = text.Length > 3 ? text.Substring(0, 3) : text.PadRight(3, '*');
-                    string hiddenPart = new string('*', 70);
-                    e.Value = visiblePart + hiddenPart;
+                    e.Value = ConvertToInitials(text);
                 }
+            }
+        }
+
+        private string ConvertToInitials(string fullName)
+        {
+            if (string.IsNullOrEmpty(fullName))
+                return string.Empty;
+
+            string[] parts = fullName.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+            if (parts.Length >= 3)
+            {
+                return $"{parts[0]} {parts[1][0]}.{parts[2][0]}.";
+            }
+            else if (parts.Length == 2)
+            {
+                return $"{parts[0]} {parts[1][0]}.";
+            }
+            else
+            {
+                return fullName;
             }
         }
     }
