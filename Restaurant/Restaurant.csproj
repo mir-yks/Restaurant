@@ -57,6 +57,7 @@
     <Compile Include="Classes\DatabaseCleanup.cs" />
     <Compile Include="Classes\Fonts.cs" />
     <Compile Include="Classes\ImageManager.cs" />
+    <Compile Include="Classes\InactivityManager.cs" />
     <Compile Include="Classes\PriceCalculator.cs" />
     <Compile Include="Classes\TableStatusUpdater.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

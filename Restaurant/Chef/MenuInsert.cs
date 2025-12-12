@@ -55,6 +55,7 @@ namespace Restaurant
         {
             InitializeComponent();
             this.mode = mode;
+            InactivityManager.Init();
 
             labelName.Font = Fonts.MontserratAlternatesRegular(14f);
             labelDescription.Font = Fonts.MontserratAlternatesRegular(14f);
@@ -406,8 +407,12 @@ namespace Restaurant
                 ofd.Filter = "Изображения (*.jpg;*.jpeg;*.png)|*.jpg;*.jpeg;*.png";
                 ofd.Title = "Выберите фото для блюда";
 
+                InactivityManager.PauseTimer();
+
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
+                    InactivityManager.ResumeTimer();
+
                     if (!ImageManager.Instance.ValidateImageFile(ofd.FileName))
                     {
                         MessageBox.Show("Недопустимый тип файла или размер превышает 3 МБ! Разрешены только JPG и PNG изображения.",
@@ -460,6 +465,7 @@ namespace Restaurant
                     }
                     catch (Exception ex)
                     {
+                        InactivityManager.ResumeTimer();
                         MessageBox.Show("Ошибка при выборе изображения: " + ex.Message,
                             "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
