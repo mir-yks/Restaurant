@@ -21,6 +21,7 @@ namespace Restaurant
         {
             InitializeComponent();
             this.mode = mode;
+            InactivityManager.Init();
 
             InitializeDateTimePickers();
 

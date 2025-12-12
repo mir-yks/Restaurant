@@ -25,6 +25,7 @@ namespace Restaurant
             roleId = role;
             this.currentWorkerId = currentWorkerId;
             ConfigureButtons();
+            InactivityManager.Init();
 
             labelOrder.Font = Fonts.MontserratAlternatesRegular(14f);
             labelTotal.Font = Fonts.MontserratAlternatesRegular(14f);

@@ -19,6 +19,7 @@ namespace Restaurant
         {
             InitializeComponent();
             this.mode = mode;
+            InactivityManager.Init();
 
             labelFIO.Font = Fonts.MontserratAlternatesRegular(14f);
             labelPhone.Font = Fonts.MontserratAlternatesRegular(14f);

@@ -11,6 +11,7 @@ namespace Restaurant
         public Role()
         {
             InitializeComponent();
+            InactivityManager.Init();
 
             labelTotal.Font = Fonts.MontserratAlternatesRegular(14f);
             buttonBack.Font = Fonts.MontserratAlternatesBold(12f);

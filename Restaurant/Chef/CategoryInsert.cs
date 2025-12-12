@@ -16,6 +16,7 @@ namespace Restaurant
         public CategoryInsert()
         {
             InitializeComponent();
+            InactivityManager.Init();
 
             labelName.Font = Fonts.MontserratAlternatesRegular(14f);
             textBoxCategory.Font = Fonts.MontserratAlternatesRegular(14f);

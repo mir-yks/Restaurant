@@ -18,6 +18,7 @@ namespace Restaurant
         public Revenue()
         {
             InitializeComponent();
+            InactivityManager.Init();
 
             labelReport.Font = Fonts.MontserratAlternatesRegular(14f);
             labelS.Font = Fonts.MontserratAlternatesRegular(14f);

@@ -19,6 +19,7 @@ namespace Restaurant
         public Worker()
         {
             InitializeComponent();
+            InactivityManager.Init();
 
             labelWorker.Font = Fonts.MontserratAlternatesRegular(14f);
             labelTotal.Font = Fonts.MontserratAlternatesRegular(14f);

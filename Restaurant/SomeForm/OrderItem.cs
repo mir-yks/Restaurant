@@ -27,6 +27,7 @@ namespace Restaurant
             roleId = role;
             this.orderId = orderId;
             ConfigureButtons();
+            InactivityManager.Init();
 
             textBoxSum.Font = Fonts.MontserratAlternatesRegular(12f);
             labelSum.Font = Fonts.MontserratAlternatesBold(12f);

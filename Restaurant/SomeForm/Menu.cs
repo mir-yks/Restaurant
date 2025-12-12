@@ -23,6 +23,7 @@ namespace Restaurant
             roleId = role;
             ConfigureButtons();
             LoadPlugImage();
+            InactivityManager.Init();
 
             labelDish.Font = Fonts.MontserratAlternatesRegular(14f);
             labelTotal.Font = Fonts.MontserratAlternatesRegular(14f);
