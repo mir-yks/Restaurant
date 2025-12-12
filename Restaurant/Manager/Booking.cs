@@ -193,5 +193,42 @@ namespace Restaurant
 
             return true;
         }
+
+        private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.Value == null) return;
+
+            string columnName = dataGridView1.Columns[e.ColumnIndex].HeaderText;
+            string text = e.Value.ToString();
+
+            if (columnName == "Клиент")
+            {
+                if (!string.IsNullOrEmpty(text))
+                {
+                    e.Value = ConvertToInitials(text);
+                }
+            }
+        }
+
+        private string ConvertToInitials(string fullName)
+        {
+            if (string.IsNullOrEmpty(fullName))
+                return string.Empty;
+
+            string[] parts = fullName.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+            if (parts.Length >= 3)
+            {
+                return $"{parts[0]} {parts[1][0]}.{parts[2][0]}.";
+            }
+            else if (parts.Length == 2)
+            {
+                return $"{parts[0]} {parts[1][0]}.";
+            }
+            else
+            {
+                return fullName;
+            }
+        }
     }
 }
