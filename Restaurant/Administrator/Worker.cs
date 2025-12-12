@@ -220,86 +220,197 @@ namespace Restaurant
 
         private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (e.Value == null) return;
+            if (e.Value == null || e.Value == DBNull.Value) return;
 
             string columnName = dataGridView1.Columns[e.ColumnIndex].HeaderText;
             string text = e.Value.ToString();
 
-            if (columnName == "Телефон")
+            if (columnName == "ФИО")
             {
-                string phone = new string(text.Where(char.IsDigit).ToArray());
-
-                if (phone.Length == 11 && phone.StartsWith("7"))
+                if (!string.IsNullOrEmpty(text))
                 {
-                    string visiblePart = phone.Substring(0, 1);
-                    string lastTwoDigits = phone.Length >= 2 ? phone.Substring(phone.Length - 2) : "";
-                    e.Value = $"+{visiblePart}(***) ***-**-{lastTwoDigits}";
+                    e.Value = ConvertToInitials(text);
                 }
-                else if (text.Length > 5)
+            }
+            else if (columnName == "Телефон")
+            {
+                if (!string.IsNullOrEmpty(text))
                 {
-                    string visiblePart = text.Substring(0, 3);
-                    string lastTwoDigits = text.Substring(text.Length - 2);
-                    string middlePart = new string('*', text.Length - 5);
-                    e.Value = $"{visiblePart}{middlePart}{lastTwoDigits}";
-                }
-                else
-                {
-                    e.Value = text;
+                    e.Value = MaskPhoneNumber(text);
                 }
             }
             else if (columnName == "Email")
             {
-                if (text.Length > 5)
+                if (!string.IsNullOrEmpty(text))
                 {
-                    string visiblePart = text.Substring(0, 3);
-                    string lastTwoChars = text.Substring(text.Length - 2);
-                    string middlePart = new string('*', text.Length - 5);
-                    e.Value = $"{visiblePart}{middlePart}{lastTwoChars}";
+                    e.Value = MaskEmail(text);
                 }
-                else
-                {
-                    e.Value = text;
-                }
-            }
-            else if (columnName == "ФИО")
-            {
-                string visiblePart = text.Length > 3 ? text.Substring(0, 3) : text;
-                string hiddenPart = new string('*', 70);
-                e.Value = visiblePart + hiddenPart;
             }
             else if (columnName == "Логин")
             {
-                string visiblePart = text.Length > 3 ? text.Substring(0, 3) : text;
-                string hiddenPart = new string('*', 70);
-                e.Value = visiblePart + hiddenPart;
+                if (!string.IsNullOrEmpty(text))
+                {
+                    e.Value = MaskLogin(text);
+                }
             }
             else if (columnName == "Адрес")
             {
-                string visiblePart = text.Length > 3 ? text.Substring(0, 3) : text;
-                string hiddenPart = new string('*', 70);
-                e.Value = visiblePart + hiddenPart;
-            }
-            else if (columnName == "Роль")
-            {
-                string visiblePart = text.Length > 3 ? text.Substring(0, 3) : text;
-                string hiddenPart = new string('*', 70);
-                e.Value = visiblePart + hiddenPart;
+                if (!string.IsNullOrEmpty(text))
+                {
+                    e.Value = MaskAddress(text);
+                }
             }
             else if (columnName == "Дата рождения" || columnName == "Дата найма")
             {
-                if (DateTime.TryParse(text, out DateTime date))
+                if (!string.IsNullOrEmpty(text) && DateTime.TryParse(text, out DateTime date))
                 {
-                    string day = date.Day.ToString("00");
-                    string monthFirstDigit = date.Month < 10 ? "0" : date.Month.ToString().Substring(0, 1);
-                    e.Value = $"{day}.{monthFirstDigit}******";
+                    e.Value = MaskDate(date);
+                }
+            }
+        }
+
+        private string ConvertToInitials(string fullName)
+        {
+            if (string.IsNullOrEmpty(fullName))
+                return string.Empty;
+
+            string[] parts = fullName.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+            if (parts.Length >= 3)
+            {
+                return $"{parts[0]} {parts[1][0]}.{parts[2][0]}.";
+            }
+            else if (parts.Length == 2)
+            {
+                return $"{parts[0]} {parts[1][0]}.";
+            }
+            else
+            {
+                return fullName;
+            }
+        }
+
+        private string MaskPhoneNumber(string phone)
+        {
+            if (string.IsNullOrEmpty(phone))
+                return string.Empty;
+
+            string digitsOnly = new string(phone.Where(char.IsDigit).ToArray());
+
+            if (digitsOnly.Length == 11 && digitsOnly.StartsWith("7"))
+            {
+                string visiblePrefix = "+7";
+                string firstHidden = "***";
+                string secondHidden = "***";
+                string lastFourDigits = digitsOnly.Substring(digitsOnly.Length - 4);
+
+                string formattedLastDigits = $"{lastFourDigits.Substring(0, 2)}-{lastFourDigits.Substring(2)}";
+
+                return $"{visiblePrefix}({firstHidden}) {secondHidden}-{formattedLastDigits}";
+            }
+            else if (digitsOnly.Length == 11 && digitsOnly.StartsWith("8"))
+            {
+                string visiblePrefix = "8";
+                string firstHidden = "***";
+                string secondHidden = "***";
+                string lastFourDigits = digitsOnly.Substring(digitsOnly.Length - 4);
+                string formattedLastDigits = $"{lastFourDigits.Substring(0, 2)}-{lastFourDigits.Substring(2)}";
+
+                return $"{visiblePrefix}({firstHidden}) {secondHidden}-{formattedLastDigits}";
+            }
+            else if (digitsOnly.Length >= 6)
+            {
+                int visibleStartCount = Math.Min(2, digitsOnly.Length - 4);
+                string visibleStart = digitsOnly.Substring(0, visibleStartCount);
+                string lastFourDigits = digitsOnly.Length >= 4
+                    ? digitsOnly.Substring(digitsOnly.Length - 4)
+                    : digitsOnly;
+
+                string formattedLastDigits = lastFourDigits.Length == 4
+                    ? $"{lastFourDigits.Substring(0, 2)}-{lastFourDigits.Substring(2)}"
+                    : lastFourDigits;
+
+                int hiddenCount = digitsOnly.Length - visibleStartCount - 4;
+                if (hiddenCount > 0)
+                {
+                    string hiddenPart = new string('*', hiddenCount);
+                    return $"{visibleStart}{hiddenPart}-{formattedLastDigits}";
                 }
                 else
                 {
-                    string visiblePart = text.Length > 6 ? text.Substring(0, 6) : text;
-                    string hiddenPart = new string('*', 70);
-                    e.Value = visiblePart + hiddenPart;
+                    return $"{visibleStart}-{formattedLastDigits}";
                 }
             }
+            else
+            {
+                return phone;
+            }
+        }
+
+        private string MaskEmail(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+                return string.Empty;
+
+            int atIndex = email.IndexOf('@');
+            if (atIndex > 0)
+            {
+                string domain = email.Substring(atIndex); 
+
+                return $"***{domain}";
+            }
+            else
+            {
+                return "***";
+            }
+        }
+
+        private string MaskLogin(string login)
+        {
+            if (string.IsNullOrEmpty(login))
+                return string.Empty;
+
+            if (login.Length > 3)
+            {
+                string visiblePart = login.Substring(0, Math.Min(3, login.Length));
+                string hiddenPart = new string('*', 10);
+                return $"{visiblePart}{hiddenPart}";
+            }
+            else
+            {
+                string hiddenPart = new string('*', 10);
+                return $"{login}{hiddenPart}";
+            }
+        }
+
+        private string MaskAddress(string address)
+        {
+            if (string.IsNullOrEmpty(address))
+                return string.Empty;
+
+            int commaIndex = address.IndexOf(',');
+            if (commaIndex > 0)
+            {
+                string city = address.Substring(0, commaIndex).Trim();
+                string hiddenPart = new string('*', 10);
+                return $"{city}{hiddenPart}";
+            }
+            else
+            {
+                string visiblePart = address.Length > 5
+                    ? address.Substring(0, 5)
+                    : address;
+                string hiddenPart = new string('*', 10);
+                return $"{visiblePart}{hiddenPart}";
+            }
+        }
+
+        private string MaskDate(DateTime date)
+        {
+            string day = date.Day.ToString("00");
+            string month = date.Month.ToString("00");
+
+            return $"{day}.{month}.****";
         }
 
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
