@@ -36,7 +36,6 @@
             this.buttonMenu = new System.Windows.Forms.Button();
             this.buttonCategory = new System.Windows.Forms.Button();
             this.buttonOffers = new System.Windows.Forms.Button();
-            this.buttonRoles = new System.Windows.Forms.Button();
             this.labelWelcome = new System.Windows.Forms.Label();
             this.labelRole = new System.Windows.Forms.Label();
             this.buttonClients = new System.Windows.Forms.Button();
@@ -54,9 +53,10 @@
             this.buttonExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonExit.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonExit.ForeColor = System.Drawing.Color.White;
-            this.buttonExit.Location = new System.Drawing.Point(12, 533);
+            this.buttonExit.Location = new System.Drawing.Point(16, 656);
+            this.buttonExit.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonExit.Name = "buttonExit";
-            this.buttonExit.Size = new System.Drawing.Size(105, 55);
+            this.buttonExit.Size = new System.Drawing.Size(140, 68);
             this.buttonExit.TabIndex = 7;
             this.buttonExit.Text = "Выйти";
             this.buttonExit.UseVisualStyleBackColor = false;
@@ -69,9 +69,10 @@
             this.buttonWorkers.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonWorkers.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonWorkers.ForeColor = System.Drawing.Color.White;
-            this.buttonWorkers.Location = new System.Drawing.Point(314, 359);
+            this.buttonWorkers.Location = new System.Drawing.Point(419, 442);
+            this.buttonWorkers.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonWorkers.Name = "buttonWorkers";
-            this.buttonWorkers.Size = new System.Drawing.Size(145, 55);
+            this.buttonWorkers.Size = new System.Drawing.Size(193, 68);
             this.buttonWorkers.TabIndex = 9;
             this.buttonWorkers.Text = "Сотрудники";
             this.buttonWorkers.UseVisualStyleBackColor = false;
@@ -85,9 +86,10 @@
             this.buttonTables.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonTables.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonTables.ForeColor = System.Drawing.Color.White;
-            this.buttonTables.Location = new System.Drawing.Point(12, 420);
+            this.buttonTables.Location = new System.Drawing.Point(16, 517);
+            this.buttonTables.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonTables.Name = "buttonTables";
-            this.buttonTables.Size = new System.Drawing.Size(145, 55);
+            this.buttonTables.Size = new System.Drawing.Size(193, 68);
             this.buttonTables.TabIndex = 10;
             this.buttonTables.Text = "Столы";
             this.buttonTables.UseVisualStyleBackColor = false;
@@ -101,9 +103,10 @@
             this.buttonOrders.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonOrders.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonOrders.ForeColor = System.Drawing.Color.White;
-            this.buttonOrders.Location = new System.Drawing.Point(12, 359);
+            this.buttonOrders.Location = new System.Drawing.Point(16, 442);
+            this.buttonOrders.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonOrders.Name = "buttonOrders";
-            this.buttonOrders.Size = new System.Drawing.Size(145, 55);
+            this.buttonOrders.Size = new System.Drawing.Size(193, 68);
             this.buttonOrders.TabIndex = 11;
             this.buttonOrders.Text = "Заказы";
             this.buttonOrders.UseVisualStyleBackColor = false;
@@ -117,9 +120,10 @@
             this.buttonMenu.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonMenu.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonMenu.ForeColor = System.Drawing.Color.White;
-            this.buttonMenu.Location = new System.Drawing.Point(12, 298);
+            this.buttonMenu.Location = new System.Drawing.Point(16, 367);
+            this.buttonMenu.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonMenu.Name = "buttonMenu";
-            this.buttonMenu.Size = new System.Drawing.Size(145, 55);
+            this.buttonMenu.Size = new System.Drawing.Size(193, 68);
             this.buttonMenu.TabIndex = 12;
             this.buttonMenu.Text = "Меню";
             this.buttonMenu.UseVisualStyleBackColor = false;
@@ -133,9 +137,10 @@
             this.buttonCategory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonCategory.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonCategory.ForeColor = System.Drawing.Color.White;
-            this.buttonCategory.Location = new System.Drawing.Point(163, 298);
+            this.buttonCategory.Location = new System.Drawing.Point(217, 367);
+            this.buttonCategory.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonCategory.Name = "buttonCategory";
-            this.buttonCategory.Size = new System.Drawing.Size(145, 55);
+            this.buttonCategory.Size = new System.Drawing.Size(193, 68);
             this.buttonCategory.TabIndex = 8;
             this.buttonCategory.Text = "Категории блюд";
             this.buttonCategory.UseVisualStyleBackColor = false;
@@ -149,30 +154,15 @@
             this.buttonOffers.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonOffers.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonOffers.ForeColor = System.Drawing.Color.White;
-            this.buttonOffers.Location = new System.Drawing.Point(163, 359);
+            this.buttonOffers.Location = new System.Drawing.Point(217, 442);
+            this.buttonOffers.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonOffers.Name = "buttonOffers";
-            this.buttonOffers.Size = new System.Drawing.Size(145, 55);
+            this.buttonOffers.Size = new System.Drawing.Size(193, 68);
             this.buttonOffers.TabIndex = 8;
             this.buttonOffers.Text = "Акции";
             this.buttonOffers.UseVisualStyleBackColor = false;
             this.buttonOffers.Visible = false;
             this.buttonOffers.Click += new System.EventHandler(this.buttonOffers_Click);
-            // 
-            // buttonRoles
-            // 
-            this.buttonRoles.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.buttonRoles.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(99)))), ((int)(((byte)(107)))));
-            this.buttonRoles.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonRoles.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonRoles.ForeColor = System.Drawing.Color.White;
-            this.buttonRoles.Location = new System.Drawing.Point(163, 420);
-            this.buttonRoles.Name = "buttonRoles";
-            this.buttonRoles.Size = new System.Drawing.Size(145, 55);
-            this.buttonRoles.TabIndex = 8;
-            this.buttonRoles.Text = "Роли";
-            this.buttonRoles.UseVisualStyleBackColor = false;
-            this.buttonRoles.Visible = false;
-            this.buttonRoles.Click += new System.EventHandler(this.buttonRoles_Click);
             // 
             // labelWelcome
             // 
@@ -180,9 +170,10 @@
             this.labelWelcome.BackColor = System.Drawing.Color.Transparent;
             this.labelWelcome.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelWelcome.ForeColor = System.Drawing.Color.White;
-            this.labelWelcome.Location = new System.Drawing.Point(391, 51);
+            this.labelWelcome.Location = new System.Drawing.Point(521, 63);
+            this.labelWelcome.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelWelcome.Name = "labelWelcome";
-            this.labelWelcome.Size = new System.Drawing.Size(223, 23);
+            this.labelWelcome.Size = new System.Drawing.Size(281, 29);
             this.labelWelcome.TabIndex = 13;
             this.labelWelcome.Text = "Добро пожаловать ...";
             this.labelWelcome.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -193,9 +184,10 @@
             this.labelRole.BackColor = System.Drawing.Color.Transparent;
             this.labelRole.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelRole.ForeColor = System.Drawing.Color.White;
-            this.labelRole.Location = new System.Drawing.Point(8, 238);
+            this.labelRole.Location = new System.Drawing.Point(11, 293);
+            this.labelRole.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelRole.Name = "labelRole";
-            this.labelRole.Size = new System.Drawing.Size(65, 23);
+            this.labelRole.Size = new System.Drawing.Size(82, 29);
             this.labelRole.TabIndex = 14;
             this.labelRole.Text = "Роль:";
             // 
@@ -206,9 +198,10 @@
             this.buttonClients.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonClients.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonClients.ForeColor = System.Drawing.Color.White;
-            this.buttonClients.Location = new System.Drawing.Point(314, 298);
+            this.buttonClients.Location = new System.Drawing.Point(419, 367);
+            this.buttonClients.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonClients.Name = "buttonClients";
-            this.buttonClients.Size = new System.Drawing.Size(145, 55);
+            this.buttonClients.Size = new System.Drawing.Size(193, 68);
             this.buttonClients.TabIndex = 9;
             this.buttonClients.Text = "Клиенты";
             this.buttonClients.UseVisualStyleBackColor = false;
@@ -222,9 +215,10 @@
             this.buttonBooking.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonBooking.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonBooking.ForeColor = System.Drawing.Color.White;
-            this.buttonBooking.Location = new System.Drawing.Point(314, 420);
+            this.buttonBooking.Location = new System.Drawing.Point(217, 518);
+            this.buttonBooking.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonBooking.Name = "buttonBooking";
-            this.buttonBooking.Size = new System.Drawing.Size(145, 55);
+            this.buttonBooking.Size = new System.Drawing.Size(193, 68);
             this.buttonBooking.TabIndex = 8;
             this.buttonBooking.Text = "Бронь столиков";
             this.buttonBooking.UseVisualStyleBackColor = false;
@@ -237,8 +231,9 @@
             this.pictureBox2.BackgroundImage = global::Restaurant.Properties.Resources.logo;
             this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pictureBox2.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(250, 200);
+            this.pictureBox2.Size = new System.Drawing.Size(333, 246);
             this.pictureBox2.TabIndex = 18;
             this.pictureBox2.TabStop = false;
             // 
@@ -247,20 +242,21 @@
             this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox1.BackgroundImage = global::Restaurant.Properties.Resources.Restaurant;
             this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox1.Location = new System.Drawing.Point(350, 250);
+            this.pictureBox1.Location = new System.Drawing.Point(467, 308);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(450, 350);
+            this.pictureBox1.Size = new System.Drawing.Size(600, 431);
             this.pictureBox1.TabIndex = 18;
             this.pictureBox1.TabStop = false;
             // 
             // Desktop
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImage = global::Restaurant.Properties.Resources.fonMain;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(800, 600);
+            this.ClientSize = new System.Drawing.Size(1067, 738);
             this.ControlBox = false;
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.pictureBox2);
@@ -268,7 +264,6 @@
             this.Controls.Add(this.labelRole);
             this.Controls.Add(this.buttonExit);
             this.Controls.Add(this.buttonBooking);
-            this.Controls.Add(this.buttonRoles);
             this.Controls.Add(this.buttonOffers);
             this.Controls.Add(this.buttonCategory);
             this.Controls.Add(this.buttonClients);
@@ -278,6 +273,7 @@
             this.Controls.Add(this.buttonMenu);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Desktop";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Главная";
@@ -296,7 +292,6 @@
         private System.Windows.Forms.Button buttonMenu;
         private System.Windows.Forms.Button buttonCategory;
         private System.Windows.Forms.Button buttonOffers;
-        private System.Windows.Forms.Button buttonRoles;
         private System.Windows.Forms.Label labelWelcome;
         private System.Windows.Forms.Label labelRole;
         private System.Windows.Forms.Button buttonClients;

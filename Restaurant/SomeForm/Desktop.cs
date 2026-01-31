@@ -31,7 +31,6 @@ namespace Restaurant
             buttonClients.Font = Fonts.MontserratAlternatesBold(12f);
             buttonCategory.Font = Fonts.MontserratAlternatesBold(12f);
             buttonOffers.Font = Fonts.MontserratAlternatesBold(12f);
-            buttonRoles.Font = Fonts.MontserratAlternatesBold(12f);
             buttonBooking.Font = Fonts.MontserratAlternatesBold(12f);
 
             ConfigureByRole();
@@ -42,10 +41,9 @@ namespace Restaurant
             {
                 buttonTables.Visible = true;
                 buttonWorkers.Visible = true;
-                buttonRoles.Visible = true;
 
-                buttonWorkers.Location = new System.Drawing.Point(12, 359);
-                buttonRoles.Location = new System.Drawing.Point(12, 298);
+                buttonWorkers.Location = new System.Drawing.Point(12, 298);
+                buttonTables.Location = new System.Drawing.Point(12, 359);
             }
             if (currentRole == 2)
             {
@@ -71,13 +69,6 @@ namespace Restaurant
                 buttonCategory.Location = new System.Drawing.Point(12, 359);
                 buttonOffers.Location = new System.Drawing.Point(12, 420);
             }
-        }
-        private void buttonRoles_Click(object sender, EventArgs e)
-        {
-            Role Roles = new Role();
-            this.Visible = false;
-            Roles.ShowDialog();
-            this.Visible = true;
         }
         private void buttonBooking_Click(object sender, EventArgs e)
         {
