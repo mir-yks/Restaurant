@@ -33,6 +33,7 @@
             this.buttonBack = new System.Windows.Forms.Button();
             this.labelTotal = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.buttonUpdate = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -99,6 +100,22 @@
             this.dataGridView1.Size = new System.Drawing.Size(1067, 505);
             this.dataGridView1.TabIndex = 38;
             // 
+            // buttonUpdate
+            // 
+            this.buttonUpdate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.buttonUpdate.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(99)))), ((int)(((byte)(107)))));
+            this.buttonUpdate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonUpdate.Font = new System.Drawing.Font("Verdana", 14F);
+            this.buttonUpdate.ForeColor = System.Drawing.Color.White;
+            this.buttonUpdate.Location = new System.Drawing.Point(733, 660);
+            this.buttonUpdate.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
+            this.buttonUpdate.Name = "buttonUpdate";
+            this.buttonUpdate.Size = new System.Drawing.Size(153, 62);
+            this.buttonUpdate.TabIndex = 41;
+            this.buttonUpdate.Text = "Изменить";
+            this.buttonUpdate.UseVisualStyleBackColor = false;
+            this.buttonUpdate.Click += new System.EventHandler(this.buttonUpdate_Click);
+            // 
             // Category
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -108,6 +125,7 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1067, 738);
             this.ControlBox = false;
+            this.Controls.Add(this.buttonUpdate);
             this.Controls.Add(this.buttonNew);
             this.Controls.Add(this.buttonBack);
             this.Controls.Add(this.labelTotal);
@@ -130,5 +148,6 @@
         private System.Windows.Forms.Button buttonBack;
         private System.Windows.Forms.Label labelTotal;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Button buttonUpdate;
     }
 }

@@ -22,15 +22,37 @@ namespace Restaurant
             labelTotal.Font = Fonts.MontserratAlternatesRegular(14f);
             buttonBack.Font = Fonts.MontserratAlternatesBold(12f);
             buttonNew.Font = Fonts.MontserratAlternatesBold(12f);
+            buttonUpdate.Font = Fonts.MontserratAlternatesBold(12f);
             dataGridView1.Font = Fonts.MontserratAlternatesRegular(12f);
         }
         private void buttonNew_Click(object sender, EventArgs e)
         {
-            CategoryInsert CategoryInsert = new CategoryInsert();
-            CategoryInsert.ShowDialog();
+            CategoryInsert categoryInsert = new CategoryInsert("add");
+            categoryInsert.ShowDialog();
 
             LoadCategories();
         }
+
+        private void buttonUpdate_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Выберите категорию для редактирования!", "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DataGridViewRow selectedRow = dataGridView1.SelectedRows[0];
+
+            int categoryId = Convert.ToInt32(selectedRow.Cells["CategoryDishId"].Value);
+            string categoryName = selectedRow.Cells["Категория"].Value.ToString();
+
+            CategoryInsert categoryInsert = new CategoryInsert("edit", categoryId, categoryName);
+            categoryInsert.ShowDialog();
+
+            LoadCategories();
+        }
+
         private void buttonBack_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
@@ -48,7 +70,7 @@ namespace Restaurant
                 using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
                 {
                     con.Open();
-                    MySqlCommand cmd = new MySqlCommand("SELECT CategoryDishId, CategoryDishName AS 'Категория' FROM CategoryDish", con);
+                    MySqlCommand cmd = new MySqlCommand("SELECT CategoryDishId, CategoryDishName AS 'Категория' FROM CategoryDish ORDER BY CategoryDishName", con);
                     categoriesTable = new DataTable();
                     MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                     da.Fill(categoriesTable);
