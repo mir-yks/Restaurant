@@ -83,8 +83,8 @@ namespace Restaurant
                 DishPrice = price;
                 DishCategory = category;
                 DishOffer = offer;
-                selectedImageHash = photoHash;
-                oldImageHash = photoHash;
+                selectedImageHash = string.IsNullOrWhiteSpace(photoHash) ? null : photoHash;
+                oldImageHash = string.IsNullOrWhiteSpace(photoHash) ? null : photoHash;
 
                 LoadDishPhotoByHash(photoHash);
             }
@@ -143,7 +143,7 @@ namespace Restaurant
                     byte[] imageData = File.ReadAllBytes(plugImagePath);
                     UpdatePictureBox(imageData);
                     selectedImageName = "plug.png";
-                    selectedImageHash = ImageManager.Instance.CalculateImageHash(imageData);
+                    selectedImageHash = null;
                 }
             }
             catch (Exception ex)
@@ -382,23 +382,10 @@ namespace Restaurant
                         cmd.Parameters.AddWithValue("@price", price);
                         cmd.Parameters.AddWithValue("@category", DishCategory);
                         cmd.Parameters.AddWithValue("@offer", offerValue);
-                        cmd.Parameters.AddWithValue("@photoHash", selectedImageHash ?? "");
+                        cmd.Parameters.AddWithValue("@photoHash", string.IsNullOrEmpty(selectedImageHash) ? "" : selectedImageHash);
+                        cmd.ExecuteNonQuery();
 
-                        try
-                        {
-                            cmd.ExecuteNonQuery();
-                            MessageBox.Show($"Блюдо \"{DishName}\" успешно добавлено!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
-                        catch (MySqlException mysqlEx)
-                        {
-                            if (mysqlEx.Number == 1264)
-                            {
-                                MessageBox.Show("Значение цены выходит за допустимые пределы! Максимально допустимая цена: 99,999,999.99",
-                                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                return;
-                            }
-                            throw;
-                        }
+                        MessageBox.Show($"Блюдо \"{DishName}\" успешно добавлено!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else if (mode == "edit")
                     {
@@ -619,20 +606,23 @@ namespace Restaurant
                         byte[] imageData = File.ReadAllBytes(ofd.FileName);
                         string imageHash = ImageManager.Instance.CalculateImageHash(imageData);
 
-                        using (var con = new MySqlConnection(connStr.ConnectionString))
+                        if (!string.IsNullOrEmpty(imageHash))
                         {
-                            con.Open();
-                            using (var cmd = new MySqlCommand(
-                                "SELECT DishId FROM MenuDish WHERE DishPhoto = @hash AND DishId != @id;", con))
+                            using (var con = new MySqlConnection(connStr.ConnectionString))
                             {
-                                cmd.Parameters.AddWithValue("@hash", imageHash);
-                                cmd.Parameters.AddWithValue("@id", mode == "edit" ? DishID : 0);
-                                object exists = cmd.ExecuteScalar();
-                                if (exists != null)
+                                con.Open();
+                                using (var cmd = new MySqlCommand(
+                                    "SELECT DishId FROM MenuDish WHERE DishPhoto = @hash AND DishId != @id;", con))
                                 {
-                                    MessageBox.Show("Данное изображение уже используется для другого блюда!\nВыберите другое изображение.",
-                                        "Изображение занято", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                    return;
+                                    cmd.Parameters.AddWithValue("@hash", imageHash);
+                                    cmd.Parameters.AddWithValue("@id", mode == "edit" ? DishID : 0);
+                                    object exists = cmd.ExecuteScalar();
+                                    if (exists != null)
+                                    {
+                                        MessageBox.Show("Данное изображение уже используется для другого блюда!\nВыберите другое изображение.",
+                                            "Изображение занято", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                        return;
+                                    }
                                 }
                             }
                         }
