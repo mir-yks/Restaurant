@@ -219,9 +219,91 @@ namespace Restaurant
                 return;
             }
 
-            if (!decimal.TryParse(textBoxPrice.Text.Replace(',', '.'), out decimal price) || price <= 0)
+            string priceText = textBoxPrice.Text.Trim();
+
+            if (!Regex.IsMatch(priceText, @"^\d*\.?\d*$"))
             {
-                MessageBox.Show("Введите корректную цену (число больше 0)!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Цена может содержать только цифры и не более одной точки!",
+                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                textBoxPrice.Focus();
+                return;
+            }
+
+            int dotIndex = priceText.IndexOf('.');
+            if (dotIndex != -1)
+            {
+                string beforeDot = priceText.Substring(0, dotIndex);
+                if (beforeDot.Length > 8)
+                {
+                    MessageBox.Show("Целая часть цены не может превышать 8 символов!",
+                        "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    textBoxPrice.Focus();
+                    return;
+                }
+
+                string afterDot = priceText.Substring(dotIndex + 1);
+                if (afterDot.Length > 2)
+                {
+                    MessageBox.Show("Дробная часть цены не может превышать 2 символа!",
+                        "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    textBoxPrice.Focus();
+                    return;
+                }
+            }
+            else
+            {
+                if (priceText.Length > 8)
+                {
+                    MessageBox.Show("Целая часть цены не может превышать 8 символов!",
+                        "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    textBoxPrice.Focus();
+                    return;
+                }
+            }
+
+            if (priceText.StartsWith("."))
+            {
+                priceText = "0" + priceText;
+            }
+
+            decimal price;
+            try
+            {
+                if (!decimal.TryParse(priceText.Replace(',', '.'),
+                    System.Globalization.NumberStyles.Any,
+                    System.Globalization.CultureInfo.InvariantCulture,
+                    out price))
+                {
+                    MessageBox.Show("Введите корректную цену!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    textBoxPrice.Focus();
+                    return;
+                }
+            }
+            catch (OverflowException)
+            {
+                MessageBox.Show("Слишком большое значение цены! Максимально допустимая цена: 99999999.99",
+                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                textBoxPrice.Focus();
+                return;
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Введите корректную цену!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                textBoxPrice.Focus();
+                return;
+            }
+
+            if (price <= 0)
+            {
+                MessageBox.Show("Цена должна быть больше 0!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                textBoxPrice.Focus();
+                return;
+            }
+
+            if (price > 99999999.99m)
+            {
+                MessageBox.Show("Слишком большое значение цены! Максимально допустимая цена: 99999999.99",
+                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 textBoxPrice.Focus();
                 return;
             }
@@ -283,32 +365,45 @@ namespace Restaurant
                     if (mode == "add")
                     {
                         MySqlCommand cmd = new MySqlCommand(@"
-                    INSERT INTO MenuDish (DishName, OriginalDishName, DishDescription, DishPrice, DishCategory, OffersDish, DishPhoto)
-                    VALUES (
-                        @name,
-                        @originalName,
-                        @desc,
-                        @price,
-                        (SELECT CategoryDishId FROM CategoryDish WHERE CategoryDishName = @category),
-                        (SELECT OffersDishId FROM OffersDish WHERE OffersDishName = @offer),
-                        @photoHash
-                    );", con);
+            INSERT INTO MenuDish (DishName, OriginalDishName, DishDescription, DishPrice, DishCategory, OffersDish, DishPhoto)
+            VALUES (
+                @name,
+                @originalName,
+                @desc,
+                @price,
+                (SELECT CategoryDishId FROM CategoryDish WHERE CategoryDishName = @category),
+                (SELECT OffersDishId FROM OffersDish WHERE OffersDishName = @offer),
+                @photoHash
+            );", con);
 
                         cmd.Parameters.AddWithValue("@name", DishName.Trim());
-                        cmd.Parameters.AddWithValue("@originalName", DishName.Trim()); 
+                        cmd.Parameters.AddWithValue("@originalName", DishName.Trim());
                         cmd.Parameters.AddWithValue("@desc", DishDescription.Trim());
                         cmd.Parameters.AddWithValue("@price", price);
                         cmd.Parameters.AddWithValue("@category", DishCategory);
                         cmd.Parameters.AddWithValue("@offer", offerValue);
                         cmd.Parameters.AddWithValue("@photoHash", selectedImageHash ?? "");
-                        cmd.ExecuteNonQuery();
 
-                        MessageBox.Show($"Блюдо \"{DishName}\" успешно добавлено!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        try
+                        {
+                            cmd.ExecuteNonQuery();
+                            MessageBox.Show($"Блюдо \"{DishName}\" успешно добавлено!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        catch (MySqlException mysqlEx)
+                        {
+                            if (mysqlEx.Number == 1264)
+                            {
+                                MessageBox.Show("Значение цены выходит за допустимые пределы! Максимально допустимая цена: 99,999,999.99",
+                                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return;
+                            }
+                            throw;
+                        }
                     }
                     else if (mode == "edit")
                     {
                         bool nameChanged = false;
-                        string originalName = DishName; 
+                        string originalName = DishName;
 
                         MySqlCommand getOriginalCmd = new MySqlCommand(
                             "SELECT DishName, OriginalDishName FROM MenuDish WHERE DishId = @Id", con);
@@ -326,7 +421,7 @@ namespace Restaurant
                                 if (currentName != DishName)
                                 {
                                     nameChanged = true;
-                                    originalName = storedOriginalName; 
+                                    originalName = storedOriginalName;
                                 }
                                 else
                                 {
@@ -336,16 +431,16 @@ namespace Restaurant
                         }
 
                         MySqlCommand cmd = new MySqlCommand(@"
-                    UPDATE MenuDish
-                    SET 
-                        DishName = @name,
-                        OriginalDishName = @originalName,
-                        DishDescription = @desc,
-                        DishPrice = @price,
-                        DishCategory = (SELECT CategoryDishId FROM CategoryDish WHERE CategoryDishName = @category),
-                        OffersDish = (SELECT OffersDishId FROM OffersDish WHERE OffersDishName = @offer),
-                        DishPhoto = @photoHash
-                    WHERE DishId = @id;", con);
+            UPDATE MenuDish
+            SET 
+                DishName = @name,
+                OriginalDishName = @originalName,
+                DishDescription = @desc,
+                DishPrice = @price,
+                DishCategory = (SELECT CategoryDishId FROM CategoryDish WHERE CategoryDishName = @category),
+                OffersDish = (SELECT OffersDishId FROM OffersDish WHERE OffersDishName = @offer),
+                DishPhoto = @photoHash
+            WHERE DishId = @id;", con);
 
                         cmd.Parameters.AddWithValue("@name", DishName.Trim());
                         cmd.Parameters.AddWithValue("@originalName", originalName);
@@ -355,16 +450,42 @@ namespace Restaurant
                         cmd.Parameters.AddWithValue("@offer", offerValue);
                         cmd.Parameters.AddWithValue("@photoHash", selectedImageHash ?? "");
                         cmd.Parameters.AddWithValue("@id", DishID);
-                        cmd.ExecuteNonQuery();
 
-                        string message = nameChanged
-                            ? $"Блюдо \"{DishName}\" успешно обновлено!\n\nПримечание: в существующих заказах останется предыдущее название блюда."
-                            : $"Блюдо \"{DishName}\" успешно обновлено!";
+                        try
+                        {
+                            cmd.ExecuteNonQuery();
 
-                        MessageBox.Show(message, "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            string message = nameChanged
+                                ? $"Блюдо \"{DishName}\" успешно обновлено!\n\nПримечание: в существующих заказах останется предыдущее название блюда."
+                                : $"Блюдо \"{DishName}\" успешно обновлено!";
+
+                            MessageBox.Show(message, "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        catch (MySqlException mysqlEx)
+                        {
+                            if (mysqlEx.Number == 1264)
+                            {
+                                MessageBox.Show("Значение цены выходит за допустимые пределы! Максимально допустимая цена: 99,999,999.99",
+                                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return;
+                            }
+                            throw;
+                        }
                     }
 
                     this.DialogResult = DialogResult.OK;
+                }
+            }
+            catch (MySqlException mysqlEx)
+            {
+                if (mysqlEx.Number == 1264)
+                {
+                    MessageBox.Show("Значение цены выходит за допустимые пределы! Проверьте корректность введенной цены.",
+                        "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    MessageBox.Show(mysqlEx.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
@@ -393,10 +514,83 @@ namespace Restaurant
 
         private void textBoxPrice_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!char.IsControl(e.KeyChar) &&
-                !Regex.IsMatch(e.KeyChar.ToString(), @"^[0-9,]$"))
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
             {
                 e.Handled = true;
+                return;
+            }
+
+            TextBox textBox = (TextBox)sender;
+            string currentText = textBox.Text;
+
+            if (e.KeyChar == '.')
+            {
+                if (currentText.Contains('.'))
+                {
+                    e.Handled = true;
+                    return;
+                }
+
+                if (string.IsNullOrEmpty(currentText))
+                {
+                    textBox.Text = "0.";
+                    textBox.SelectionStart = textBox.Text.Length;
+                    e.Handled = true;
+                    return;
+                }
+
+                if (textBox.SelectionStart == 0)
+                {
+                    textBox.Text = "0." + currentText;
+                    textBox.SelectionStart = 2;
+                    e.Handled = true;
+                    return;
+                }
+            }
+
+            if (char.IsDigit(e.KeyChar) || e.KeyChar == '.')
+            {
+                string newText;
+                int selectionStart = textBox.SelectionStart;
+                int selectionLength = textBox.SelectionLength;
+
+                if (selectionLength > 0)
+                {
+                    newText = currentText.Remove(selectionStart, selectionLength)
+                                        .Insert(selectionStart, e.KeyChar.ToString());
+                }
+                else
+                {
+                    newText = currentText.Insert(selectionStart, e.KeyChar.ToString());
+                }
+
+                int dotIndex = newText.IndexOf('.');
+
+                if (dotIndex != -1)
+                {
+                    string beforeDot = newText.Substring(0, dotIndex);
+                    string afterDot = newText.Substring(dotIndex + 1);
+
+                    if (beforeDot.Length > 8)
+                    {
+                        e.Handled = true;
+                        return;
+                    }
+
+                    if (afterDot.Length > 2)
+                    {
+                        e.Handled = true;
+                        return;
+                    }
+                }
+                else
+                {
+                    if (newText.Length > 8)
+                    {
+                        e.Handled = true;
+                        return;
+                    }
+                }
             }
         }
 

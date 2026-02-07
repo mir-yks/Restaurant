@@ -54,7 +54,7 @@
             this.textBoxPrice.ForeColor = System.Drawing.Color.White;
             this.textBoxPrice.Location = new System.Drawing.Point(21, 208);
             this.textBoxPrice.Margin = new System.Windows.Forms.Padding(4);
-            this.textBoxPrice.MaxLength = 5;
+            this.textBoxPrice.MaxLength = 11;
             this.textBoxPrice.Name = "textBoxPrice";
             this.textBoxPrice.Size = new System.Drawing.Size(302, 36);
             this.textBoxPrice.TabIndex = 46;
