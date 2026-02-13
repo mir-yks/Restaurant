@@ -268,6 +268,14 @@ namespace Restaurant
                 textBoxEmail.Focus();
                 return;
             }
+
+            if (!IsValidEmail(textBoxEmail.Text))
+            {
+                MessageBox.Show("Введите корректный адрес электронной почты!\nФормат: имя@домен.зона (например: user@mail.ru)",
+                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                textBoxEmail.Focus();
+                return;
+            }
             if (comboBoxRole.SelectedIndex == -1)
             {
                 MessageBox.Show("Введите роль!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -564,6 +572,102 @@ namespace Restaurant
             textBoxFIO.SelectionStart = Math.Min(cursorPos, textBoxFIO.Text.Length);
             textBoxFIO.TextChanged += textBoxFIO_TextChanged;
 
+        }
+
+        private bool IsValidEmail(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+                return false;
+
+            try
+            {
+                if (!email.Contains('@'))
+                    return false;
+
+                string[] parts = email.Split('@');
+                if (parts.Length != 2)
+                    return false;
+
+                string localPart = parts[0];
+                string domainPart = parts[1];
+
+                if (string.IsNullOrWhiteSpace(localPart) || localPart.Length < 1)
+                    return false;
+
+                if (string.IsNullOrWhiteSpace(domainPart) || !domainPart.Contains('.'))
+                    return false;
+
+                string[] domainParts = domainPart.Split('.');
+                if (domainParts.Length < 2)
+                    return false;
+
+                string lastPart = domainParts[domainParts.Length - 1];
+                if (lastPart.Length < 2)
+                    return false;
+
+                if (email.Contains("..") || email.Contains(".@") || email.Contains("@.") || email.StartsWith(".") || email.EndsWith("."))
+                    return false;
+
+                foreach (char c in email)
+                {
+                    if (!char.IsLetterOrDigit(c) && c != '@' && c != '.' && c != '_' && c != '-')
+                        return false;
+                }
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private void textBoxEmail_TextChanged(object sender, EventArgs e)
+        {
+            int cursorPos = textBoxEmail.SelectionStart;
+            string text = textBoxEmail.Text;
+
+            int atCount = text.Count(c => c == '@');
+
+            if (atCount > 1)
+            {
+                var atPositions = new List<int>();
+                for (int i = 0; i < text.Length; i++)
+                {
+                    if (text[i] == '@')
+                        atPositions.Add(i);
+                }
+
+                if (atPositions.Count > 1)
+                {
+                    for (int i = atPositions.Count - 1; i > 0; i--)
+                    {
+                        text = text.Remove(atPositions[i], 1);
+                        if (cursorPos > atPositions[i])
+                            cursorPos--;
+                    }
+                }
+            }
+
+            System.Text.StringBuilder filteredText = new System.Text.StringBuilder();
+            foreach (char c in text)
+            {
+                if (char.IsControl(c) ||
+                    System.Text.RegularExpressions.Regex.IsMatch(c.ToString(), @"^[a-zA-Z0-9@._-]$"))
+                {
+                    filteredText.Append(c);
+                }
+            }
+
+            string finalText = filteredText.ToString();
+
+            if (textBoxEmail.Text != finalText)
+            {
+                textBoxEmail.TextChanged -= textBoxEmail_TextChanged;
+                textBoxEmail.Text = finalText;
+                textBoxEmail.SelectionStart = Math.Min(cursorPos, textBoxEmail.Text.Length);
+                textBoxEmail.TextChanged += textBoxEmail_TextChanged;
+            }
         }
     }
 }

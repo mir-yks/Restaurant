@@ -106,6 +106,7 @@
             this.textBoxEmail.Name = "textBoxEmail";
             this.textBoxEmail.Size = new System.Drawing.Size(377, 36);
             this.textBoxEmail.TabIndex = 47;
+            this.textBoxEmail.TextChanged += new System.EventHandler(this.textBoxEmail_TextChanged);
             this.textBoxEmail.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxPasswdAndEmail_KeyPress);
             // 
             // textBoxLogin
