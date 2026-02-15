@@ -5,12 +5,14 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using System.Configuration;
 
 namespace Restaurant
 {
     public partial class Autorizathion : Form
     {
         private bool passwordVisible = false;
+
         public Autorizathion()
         {
             InitializeComponent();
@@ -21,8 +23,52 @@ namespace Restaurant
             textBoxPassword.Font = Fonts.MontserratAlternatesRegular(14f);
             buttonEnter.Font = Fonts.MontserratAlternatesBold(12f);
 
-            textBoxPassword.UseSystemPasswordChar = false; 
-            textBoxPassword.PasswordChar = '*';    
+            textBoxPassword.PasswordChar = '*';
+        }
+
+        private void Autorizathion_Load(object sender, EventArgs e)
+        {
+            CheckConnectionBeforeShow();
+        }
+
+        private void CheckConnectionBeforeShow()
+        {
+            if (!DatabaseChecker.QuickCheck())
+            {
+                DialogResult res = MessageBox.Show(
+                    "Отсутствует подключение к базе данных.\nПерейти к настройкам?",
+                    "Ошибка подключения",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Error);
+
+                if (res == DialogResult.Yes)
+                {
+                    SettingsForm settingsForm = new SettingsForm();
+                    settingsForm.ShowDialog();
+
+                    if (!DatabaseChecker.QuickCheck())
+                    {
+                        DialogResult exitRes = MessageBox.Show(
+                            "Подключение не установлено. Завершить работу приложения?",
+                            "Ошибка подключения",
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Error);
+
+                        if (exitRes == DialogResult.Yes)
+                        {
+                            Application.Exit();
+                        }
+                    }
+                }
+                else
+                {
+                    Application.Exit();
+                }
+            }
+
+            this.BeginInvoke(new Action(() => {
+                DatabaseChecker.CheckConnectionWithMessage();
+            }));
         }
         private void buttonExit_Click(object sender, EventArgs e)
         {
@@ -44,6 +90,29 @@ namespace Restaurant
                     return;
                 }
 
+                if (!DatabaseChecker.QuickCheck())
+                {
+                    DialogResult res = MessageBox.Show(
+                        "Отсутствует подключение к базе данных.\nПерейти к настройкам?",
+                        "Ошибка подключения",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Error);
+
+                    if (res == DialogResult.Yes)
+                    {
+                        SettingsForm settingsForm = new SettingsForm();
+                        settingsForm.ShowDialog();
+                        if (!DatabaseChecker.QuickCheck())
+                        {
+                            return; 
+                        }
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+
                 string login = textBoxLogin.Text;
                 string passwd = textBoxPassword.Text;
 
@@ -56,7 +125,6 @@ namespace Restaurant
 
                 using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
                 {
-                    con.Open();
                     MySqlCommand cmd = new MySqlCommand(
                         "SELECT WorkerPassword, WorkerRole, WorkerFIO, WorkerId FROM Worker WHERE WorkerLogin = @login;", con);
                     cmd.Parameters.AddWithValue("@login", login);
@@ -75,7 +143,6 @@ namespace Restaurant
                     string passwordHashInDB = dt.Rows[0]["WorkerPassword"].ToString();
                     int userRole = Convert.ToInt32(dt.Rows[0]["WorkerRole"]);
                     string workerFIO = dt.Rows[0]["WorkerFIO"].ToString();
-
 
                     if (hash_pass != passwordHashInDB)
                     {
@@ -136,7 +203,7 @@ namespace Restaurant
 
             if (passwordVisible)
             {
-                textBoxPassword.PasswordChar = '\0'; 
+                textBoxPassword.PasswordChar = '\0';
                 pictureBox.BackgroundImage = Properties.Resources.eye;
             }
             else
@@ -144,6 +211,13 @@ namespace Restaurant
                 textBoxPassword.PasswordChar = '*';
                 pictureBox.BackgroundImage = Properties.Resources.eye_closed;
             }
+        }
+
+        private void buttonSettings_Click(object sender, EventArgs e)
+        {
+            SettingsForm SettingForm = new SettingsForm();
+            SettingForm.ShowDialog();
+            DatabaseChecker.CheckConnectionWithMessage();
         }
     }
 }

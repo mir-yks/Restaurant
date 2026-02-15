@@ -41,6 +41,7 @@
       <HintPath>..\..\..\..\..\Program Files (x86)\MySQL\MySQL Connector NET 9.4\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -54,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\connStr.cs" />
+    <Compile Include="Classes\DatabaseChecker.cs" />
     <Compile Include="Classes\DatabaseCleanup.cs" />
     <Compile Include="Classes\Fonts.cs" />
     <Compile Include="Classes\ImageManager.cs" />
@@ -130,6 +132,12 @@
     </Compile>
     <Compile Include="Chef\Offers.Designer.cs">
       <DependentUpon>Offers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SomeForm\SettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SomeForm\SettingsForm.Designer.cs">
+      <DependentUpon>SettingsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Waiter\OrderInsert.cs">
       <SubType>Form</SubType>
@@ -219,6 +227,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Chef\Offers.resx">
       <DependentUpon>Offers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SomeForm\SettingsForm.resx">
+      <DependentUpon>SettingsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Waiter\OrderInsert.resx">
       <DependentUpon>OrderInsert.cs</DependentUpon>
@@ -326,7 +337,6 @@
     <Content Include="Resources\image\fonMain.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\image\logo.ico" />
     <Content Include="Resources\image\logo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -487,9 +497,14 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\image\plug.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="Resources\image\Restaurant.png" />
+    <None Include="Resources\image\settings.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\image\Restaurant.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
