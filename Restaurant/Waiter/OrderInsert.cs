@@ -141,7 +141,7 @@ namespace Restaurant
         {
             try
             {
-                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                using (MySqlConnection con = new MySqlConnection(connStr.GetConnectionString("db57")))
                 {
                     con.Open();
 
@@ -212,11 +212,24 @@ namespace Restaurant
                     SetControlsState();
                 }
             }
+            catch (MySqlException ex)
+            {
+                if (ex.Number == 1049)
+                {
+                    MessageBox.Show($"База данных 'db57' не найдена. Проверьте настройки подключения.",
+                        "Ошибка базы данных", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
         private void LoadClientsWithTodayBooking(MySqlConnection con)
         {
             try
@@ -278,11 +291,12 @@ namespace Restaurant
                               MessageBoxIcon.Error);
             }
         }
+
         private void LoadOrderDetails()
         {
             try
             {
-                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                using (MySqlConnection con = new MySqlConnection(connStr.GetConnectionString("db57")))
                 {
                     con.Open();
 
@@ -615,7 +629,7 @@ namespace Restaurant
 
             try
             {
-                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                using (MySqlConnection con = new MySqlConnection(connStr.GetConnectionString("db57")))
                 {
                     con.Open();
 
@@ -765,9 +779,10 @@ namespace Restaurant
             }
             catch (Exception)
             {
-                
+
             }
         }
+
         private void comboBoxStatusPayment_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (isUpdatingStatus) return;
@@ -802,7 +817,7 @@ namespace Restaurant
         {
             try
             {
-                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                using (MySqlConnection con = new MySqlConnection(connStr.GetConnectionString("db57")))
                 {
                     con.Open();
                     MySqlCommand cmd = new MySqlCommand(
@@ -832,7 +847,7 @@ namespace Restaurant
 
             try
             {
-                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                using (MySqlConnection con = new MySqlConnection(connStr.GetConnectionString("db57")))
                 {
                     con.Open();
                     MySqlCommand cmd = new MySqlCommand(
@@ -858,7 +873,7 @@ namespace Restaurant
             {
                 try
                 {
-                    using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                    using (MySqlConnection con = new MySqlConnection(connStr.GetConnectionString("db57")))
                     {
                         con.Open();
                         MySqlCommand checkCmd = new MySqlCommand(
@@ -922,7 +937,7 @@ namespace Restaurant
             {
                 try
                 {
-                    using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                    using (MySqlConnection con = new MySqlConnection(connStr.GetConnectionString("db57")))
                     {
                         con.Open();
                         LoadFreeTables(con);
@@ -947,7 +962,7 @@ namespace Restaurant
 
                 try
                 {
-                    using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                    using (MySqlConnection con = new MySqlConnection(connStr.GetConnectionString("db57")))
                     {
                         con.Open();
 
@@ -965,7 +980,7 @@ namespace Restaurant
             {
                 try
                 {
-                    using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                    using (MySqlConnection con = new MySqlConnection(connStr.GetConnectionString("db57")))
                     {
                         con.Open();
                         LoadFreeTables(con);
@@ -993,7 +1008,7 @@ namespace Restaurant
 
             try
             {
-                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                using (MySqlConnection con = new MySqlConnection(connStr.GetConnectionString("db57")))
                 {
                     con.Open();
                     int tableId = Convert.ToInt32(comboBoxTable.Text);

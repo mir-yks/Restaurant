@@ -78,7 +78,7 @@ namespace Restaurant
         {
             try
             {
-                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                using (MySqlConnection con = new MySqlConnection(connStr.GetConnectionString("db57")))
                 {
                     con.Open();
                     MySqlCommand cmd = new MySqlCommand(@"
@@ -95,7 +95,7 @@ namespace Restaurant
                             w.IsActive AS 'Активен'
                         FROM worker w
                         JOIN role r ON w.WorkerRole = r.RoleId
-                        WHERE w.IsActive = 1;", con); 
+                        WHERE w.IsActive = 1;", con);
 
                     MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                     workersTable = new DataTable();
@@ -121,6 +121,18 @@ namespace Restaurant
                     reader.Close();
 
                     comboBoxCategory.SelectedIndex = 0;
+                }
+            }
+            catch (MySqlException ex)
+            {
+                if (ex.Number == 1049)
+                {
+                    MessageBox.Show($"База данных 'db57' не найдена. Проверьте настройки подключения.",
+                        "Ошибка базы данных", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
@@ -356,7 +368,7 @@ namespace Restaurant
             int atIndex = email.IndexOf('@');
             if (atIndex > 0)
             {
-                string domain = email.Substring(atIndex); 
+                string domain = email.Substring(atIndex);
 
                 return $"***{domain}";
             }
@@ -444,17 +456,7 @@ namespace Restaurant
             }
 
             int selectedWorkerId = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID"].Value);
-            string workerRole = dataGridView1.CurrentRow.Cells["Роль"].Value.ToString();
             string workerFIO = dataGridView1.CurrentRow.Cells["ФИО"].Value.ToString();
-
-            if (workerRole.Equals("Администратор", StringComparison.OrdinalIgnoreCase))
-            {
-                MessageBox.Show("Нельзя удалить сотрудника с ролью 'Администратор'!",
-                              "Запрещено",
-                              MessageBoxButtons.OK,
-                              MessageBoxIcon.Warning);
-                return;
-            }
 
             if (selectedWorkerId == CurrentUserID)
             {
@@ -472,7 +474,7 @@ namespace Restaurant
 
             try
             {
-                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                using (MySqlConnection con = new MySqlConnection(connStr.GetConnectionString("db57")))
                 {
                     con.Open();
 
@@ -486,7 +488,7 @@ namespace Restaurant
                     if (rowsAffected > 0)
                     {
                         MessageBox.Show($"Сотрудник \"{workerFIO}\" успешно удалён!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        LoadWorkers(); 
+                        LoadWorkers();
                     }
                 }
             }

@@ -156,7 +156,7 @@ namespace Restaurant
         {
             try
             {
-                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                using (MySqlConnection con = new MySqlConnection(connStr.GetConnectionString("db57")))
                 {
                     con.Open();
                     MySqlCommand cmd = new MySqlCommand("SELECT CategoryDishName FROM CategoryDish;", con);
@@ -175,7 +175,7 @@ namespace Restaurant
         {
             try
             {
-                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                using (MySqlConnection con = new MySqlConnection(connStr.GetConnectionString("db57")))
                 {
                     con.Open();
                     MySqlCommand cmd = new MySqlCommand("SELECT OffersDishName FROM OffersDish;", con);
@@ -319,7 +319,7 @@ namespace Restaurant
 
             try
             {
-                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                using (MySqlConnection con = new MySqlConnection(connStr.GetConnectionString("db57")))
                 {
                     con.Open();
 
@@ -608,7 +608,7 @@ namespace Restaurant
 
                         if (!string.IsNullOrEmpty(imageHash))
                         {
-                            using (var con = new MySqlConnection(connStr.ConnectionString))
+                            using (MySqlConnection con = new MySqlConnection(connStr.GetConnectionString("db57")))
                             {
                                 con.Open();
                                 using (var cmd = new MySqlCommand(

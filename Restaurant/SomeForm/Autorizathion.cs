@@ -104,7 +104,7 @@ namespace Restaurant
                         settingsForm.ShowDialog();
                         if (!DatabaseChecker.QuickCheck())
                         {
-                            return; 
+                            return;
                         }
                     }
                     else
@@ -123,7 +123,7 @@ namespace Restaurant
                     hash_pass = BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
                 }
 
-                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                using (MySqlConnection con = new MySqlConnection(connStr.GetConnectionString("db57")))
                 {
                     MySqlCommand cmd = new MySqlCommand(
                         "SELECT WorkerPassword, WorkerRole, WorkerFIO, WorkerId FROM Worker WHERE WorkerLogin = @login;", con);
@@ -171,6 +171,18 @@ namespace Restaurant
                     textBoxLogin.Clear();
                     textBoxPassword.Clear();
                     this.Visible = true;
+                }
+            }
+            catch (MySqlException ex)
+            {
+                if (ex.Number == 1049)
+                {
+                    MessageBox.Show($"База данных 'db57' не найдена. Проверьте наличие базы данных.",
+                        "Ошибка базы данных", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)

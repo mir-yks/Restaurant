@@ -96,7 +96,7 @@ namespace Restaurant
 
             try
             {
-                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                using (MySqlConnection con = new MySqlConnection(connStr.GetConnectionString("db57")))
                 {
                     con.Open();
                     MySqlCommand cmd;

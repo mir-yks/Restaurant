@@ -14,7 +14,7 @@ namespace Restaurant
                 string connectionString;
                 try
                 {
-                    connectionString = connStr.ConnectionString;
+                    connectionString = connStr.GetConnectionString("db57");
                 }
                 catch (Exception)
                 {
@@ -82,11 +82,12 @@ namespace Restaurant
                 return false;
             }
         }
+
         public static bool QuickCheck()
         {
             try
             {
-                string connectionString = connStr.ConnectionString;
+                string connectionString = connStr.GetConnectionString("db57");
                 using (MySqlConnection con = new MySqlConnection(connectionString))
                 {
                     con.Open();

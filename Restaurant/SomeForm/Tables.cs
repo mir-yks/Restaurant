@@ -93,7 +93,7 @@ namespace Restaurant
             TableStatusUpdater.UpdateTablesStatus();
             try
             {
-                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                using (MySqlConnection con = new MySqlConnection(connStr.GetConnectionString("db57")))
                 {
                     con.Open();
                     MySqlCommand cmd = new MySqlCommand(@"
@@ -128,6 +128,18 @@ namespace Restaurant
 
                     comboBoxPlaceCount.SelectedIndex = 0;
                     comboBoxStatus.SelectedIndex = 0;
+                }
+            }
+            catch (MySqlException ex)
+            {
+                if (ex.Number == 1049)
+                {
+                    MessageBox.Show($"База данных 'db57' не найдена. Проверьте настройки подключения.",
+                        "Ошибка базы данных", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
@@ -197,7 +209,6 @@ namespace Restaurant
                 labelTotal.Text = $"Всего: {view.Count}";
             }
         }
-
 
         private void textBoxTable_KeyPress(object sender, KeyPressEventArgs e)
         {

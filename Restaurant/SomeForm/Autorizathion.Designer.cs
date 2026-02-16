@@ -102,6 +102,8 @@
             this.buttonExit.BackgroundImage = global::Restaurant.Properties.Resources.exit;
             this.buttonExit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.buttonExit.FlatAppearance.BorderSize = 0;
+            this.buttonExit.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.WindowFrame;
+            this.buttonExit.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.WindowFrame;
             this.buttonExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonExit.Font = new System.Drawing.Font("Verdana", 14F);
             this.buttonExit.ForeColor = System.Drawing.Color.White;
@@ -162,6 +164,8 @@
             this.buttonSettings.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonSettings.BackgroundImage")));
             this.buttonSettings.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.buttonSettings.FlatAppearance.BorderSize = 0;
+            this.buttonSettings.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.WindowFrame;
+            this.buttonSettings.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.WindowFrame;
             this.buttonSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonSettings.Font = new System.Drawing.Font("Verdana", 14F);
             this.buttonSettings.ForeColor = System.Drawing.Color.White;

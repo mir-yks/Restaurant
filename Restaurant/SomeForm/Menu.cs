@@ -94,7 +94,7 @@ namespace Restaurant
 
             try
             {
-                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                using (MySqlConnection con = new MySqlConnection(connStr.GetConnectionString("db57")))
                 {
                     con.Open();
                     MySqlCommand cmd = new MySqlCommand("SELECT DishPhoto FROM MenuDish WHERE DishId = @id", con);
@@ -132,7 +132,7 @@ namespace Restaurant
         {
             try
             {
-                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                using (MySqlConnection con = new MySqlConnection(connStr.GetConnectionString("db57")))
                 {
                     await con.OpenAsync();
                     string query = @"SELECT 
@@ -166,6 +166,18 @@ namespace Restaurant
                     dataGridView1.Columns["Акция"].Width = 120;
 
                     _ = Task.Run(() => LoadImagesGraduallyAsync());
+                }
+            }
+            catch (MySqlException ex)
+            {
+                if (ex.Number == 1049)
+                {
+                    MessageBox.Show($"База данных 'db57' не найдена. Проверьте настройки подключения.",
+                        "Ошибка базы данных", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
@@ -243,7 +255,7 @@ namespace Restaurant
         {
             try
             {
-                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                using (MySqlConnection con = new MySqlConnection(connStr.GetConnectionString("db57")))
                 {
                     con.Open();
 
@@ -359,7 +371,7 @@ namespace Restaurant
 
             try
             {
-                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                using (MySqlConnection con = new MySqlConnection(connStr.GetConnectionString("db57")))
                 {
                     con.Open();
                     MySqlCommand cmd = new MySqlCommand("UPDATE MenuDish SET IsActive = 0 WHERE DishId = @id", con);

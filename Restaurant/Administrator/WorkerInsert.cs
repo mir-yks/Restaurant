@@ -61,7 +61,7 @@ namespace Restaurant
         {
             try
             {
-                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                using (MySqlConnection con = new MySqlConnection(connStr.GetConnectionString("db57")))
                 {
                     con.Open();
                     DataTable rolesTable = new DataTable();
@@ -314,7 +314,7 @@ namespace Restaurant
 
             try
             {
-                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                using (MySqlConnection con = new MySqlConnection(connStr.GetConnectionString("db57")))
                 {
                     con.Open();
 
@@ -398,7 +398,7 @@ namespace Restaurant
 
                         MySqlCommand cmd = new MySqlCommand(query, con);
                         cmd.Parameters.AddWithValue("@FIO", textBoxFIO.Text);
-                        cmd.Parameters.AddWithValue("@OriginalFIO", textBoxFIO.Text); 
+                        cmd.Parameters.AddWithValue("@OriginalFIO", textBoxFIO.Text);
                         cmd.Parameters.AddWithValue("@Login", textBoxLogin.Text);
                         cmd.Parameters.AddWithValue("@Password", hashedPassword);
                         cmd.Parameters.AddWithValue("@Phone", userDigits);
@@ -414,7 +414,7 @@ namespace Restaurant
                     else if (mode == "edit")
                     {
                         bool fioChanged = false;
-                        string originalFIO = textBoxFIO.Text; 
+                        string originalFIO = textBoxFIO.Text;
 
                         MySqlCommand getOriginalCmd = new MySqlCommand(
                             "SELECT WorkerFIO, OriginalWorkerFIO FROM Worker WHERE WorkerId = @Id", con);

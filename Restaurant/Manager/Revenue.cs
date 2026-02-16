@@ -34,12 +34,12 @@ namespace Restaurant
         {
             try
             {
-                using (MySqlConnection connection = new MySqlConnection(connStr.ConnectionString))
+                using (MySqlConnection con = new MySqlConnection(connStr.GetConnectionString("db57")))
                 {
-                    connection.Open();
+                    con.Open();
 
                     string minDateQuery = "SELECT MIN(DATE(OrderDate)) FROM `Order`";
-                    using (MySqlCommand minCmd = new MySqlCommand(minDateQuery, connection))
+                    using (MySqlCommand minCmd = new MySqlCommand(minDateQuery, con))
                     {
                         var minDateResult = minCmd.ExecuteScalar();
                         if (minDateResult != null && minDateResult != DBNull.Value)
@@ -57,7 +57,7 @@ namespace Restaurant
                     }
 
                     string maxDateQuery = "SELECT MAX(DATE(OrderDate)) FROM `Order`";
-                    using (MySqlCommand maxCmd = new MySqlCommand(maxDateQuery, connection))
+                    using (MySqlCommand maxCmd = new MySqlCommand(maxDateQuery, con))
                     {
                         var maxDateResult = maxCmd.ExecuteScalar();
                         if (maxDateResult != null && maxDateResult != DBNull.Value)
@@ -279,9 +279,9 @@ namespace Restaurant
 
             try
             {
-                using (MySqlConnection connection = new MySqlConnection(connStr.ConnectionString))
+                using (MySqlConnection con = new MySqlConnection(connStr.GetConnectionString("db57")))
                 {
-                    connection.Open();
+                    con.Open();
 
                     string query = @"
                         SELECT 
@@ -301,7 +301,7 @@ namespace Restaurant
                         AND o.OrderStatusPayment = 'Оплачен'
                         ORDER BY o.OrderDate ASC"; 
 
-                    using (MySqlCommand cmd = new MySqlCommand(query, connection))
+                    using (MySqlCommand cmd = new MySqlCommand(query, con))
                     {
                         cmd.Parameters.AddWithValue("@StartDate", dateTimePickerMin.Value.Date);
                         cmd.Parameters.AddWithValue("@EndDate", dateTimePickerMax.Value.Date);

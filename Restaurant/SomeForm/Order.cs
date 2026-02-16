@@ -306,25 +306,25 @@ namespace Restaurant
 
             try
             {
-                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                using (MySqlConnection con = new MySqlConnection(connStr.GetConnectionString("db57")))
                 {
                     con.Open();
                     MySqlCommand cmd = new MySqlCommand(@"
-                SELECT 
-                    md.DishName,
-                    oi.DishCount,
-                    md.DishPrice as OriginalPrice,
-                    CASE 
-                        WHEN md.OffersDish IS NOT NULL AND md.OffersDish > 0 THEN
-                            (oi.DishCount * md.DishPrice * (100 - od.OffersDishDicsount) / 100)
-                        ELSE
-                            (oi.DishCount * md.DishPrice)
-                    END as TotalPrice,
-                    COALESCE(od.OffersDishDicsount, 0) as Discount
-                FROM OrderItems oi
-                JOIN MenuDish md ON oi.DishId = md.DishId
-                LEFT JOIN OffersDish od ON md.OffersDish = od.OffersDishId
-                WHERE oi.OrderId = @orderId", con);
+        SELECT 
+            md.DishName,
+            oi.DishCount,
+            md.DishPrice as OriginalPrice,
+            CASE 
+                WHEN md.OffersDish IS NOT NULL AND md.OffersDish > 0 THEN
+                    (oi.DishCount * md.DishPrice * (100 - od.OffersDishDicsount) / 100)
+                ELSE
+                    (oi.DishCount * md.DishPrice)
+            END as TotalPrice,
+            COALESCE(od.OffersDishDicsount, 0) as Discount
+        FROM OrderItems oi
+        JOIN MenuDish md ON oi.DishId = md.DishId
+        LEFT JOIN OffersDish od ON md.OffersDish = od.OffersDishId
+        WHERE oi.OrderId = @orderId", con);
 
                     cmd.Parameters.AddWithValue("@orderId", orderId);
 
@@ -365,23 +365,23 @@ namespace Restaurant
         {
             try
             {
-                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                using (MySqlConnection con = new MySqlConnection(connStr.GetConnectionString("db57")))
                 {
                     con.Open();
                     MySqlCommand cmd = new MySqlCommand(@"SELECT 
-                                                        o.OrderId,
-                                                        o.OrderDate,
-                                                        w.WorkerFIO,
-                                                        c.ClientFIO,
-                                                        t.TablesId,
-                                                        o.OrderPrice,
-                                                        o.OrderStatus,
-                                                        o.OrderStatusPayment
-                                                    FROM `Order` o
-                                                    JOIN Worker w ON o.WorkerId = w.WorkerId
-                                                    LEFT JOIN Client c ON o.ClientId = c.ClientId
-                                                    LEFT JOIN Tables t ON o.TableId = t.TablesId
-                                                    WHERE o.OrderId = @orderId", con);
+                                                o.OrderId,
+                                                o.OrderDate,
+                                                w.WorkerFIO,
+                                                c.ClientFIO,
+                                                t.TablesId,
+                                                o.OrderPrice,
+                                                o.OrderStatus,
+                                                o.OrderStatusPayment
+                                            FROM `Order` o
+                                            JOIN Worker w ON o.WorkerId = w.WorkerId
+                                            LEFT JOIN Client c ON o.ClientId = c.ClientId
+                                            LEFT JOIN Tables t ON o.TableId = t.TablesId
+                                            WHERE o.OrderId = @orderId", con);
                     cmd.Parameters.AddWithValue("@orderId", orderId);
 
                     using (MySqlDataReader reader = cmd.ExecuteReader())
@@ -417,17 +417,17 @@ namespace Restaurant
 
             try
             {
-                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                using (MySqlConnection con = new MySqlConnection(connStr.GetConnectionString("db57")))
                 {
                     con.Open();
                     MySqlCommand cmd = new MySqlCommand(@"SELECT 
-                                                        md.DishName,
-                                                        oi.DishCount,
-                                                        md.DishPrice,
-                                                        (md.DishPrice * oi.DishCount) as TotalPrice
-                                                    FROM OrderItems oi
-                                                    JOIN MenuDish md ON oi.DishId = md.DishId
-                                                    WHERE oi.OrderId = @orderId", con);
+                                                md.DishName,
+                                                oi.DishCount,
+                                                md.DishPrice,
+                                                (md.DishPrice * oi.DishCount) as TotalPrice
+                                            FROM OrderItems oi
+                                            JOIN MenuDish md ON oi.DishId = md.DishId
+                                            WHERE oi.OrderId = @orderId", con);
                     cmd.Parameters.AddWithValue("@orderId", orderId);
 
                     using (MySqlDataReader reader = cmd.ExecuteReader())
@@ -537,7 +537,7 @@ namespace Restaurant
         {
             try
             {
-                using (MySqlConnection con = new MySqlConnection(connStr.ConnectionString))
+                using (MySqlConnection con = new MySqlConnection(connStr.GetConnectionString("db57")))
                 {
                     con.Open();
                     MySqlCommand cmd = new MySqlCommand(@"SELECT 

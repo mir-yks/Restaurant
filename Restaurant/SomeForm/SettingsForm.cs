@@ -15,6 +15,7 @@ namespace Restaurant
     public partial class SettingsForm : Form
     {
         private bool passwordVisible = false;
+
         public SettingsForm()
         {
             InitializeComponent();
@@ -22,12 +23,11 @@ namespace Restaurant
             label1.Font = Fonts.MontserratAlternatesRegular(14f);
             label2.Font = Fonts.MontserratAlternatesRegular(14f);
             label3.Font = Fonts.MontserratAlternatesRegular(14f);
-            label4.Font = Fonts.MontserratAlternatesRegular(14f);
             textBoxHost.Font = Fonts.MontserratAlternatesRegular(14f);
             textBoxUid.Font = Fonts.MontserratAlternatesRegular(14f);
             textBoxPwd.Font = Fonts.MontserratAlternatesRegular(14f);
-            textBoxDatabase.Font = Fonts.MontserratAlternatesRegular(14f);
             buttonEnter.Font = Fonts.MontserratAlternatesBold(12f);
+            buttonExit.Font = Fonts.MontserratAlternatesBold(12f);
 
             textBoxPwd.PasswordChar = '*';
         }
@@ -48,14 +48,13 @@ namespace Restaurant
 
                 if (currentConfig.AppSettings.Settings["pwd"] != null)
                     textBoxPwd.Text = currentConfig.AppSettings.Settings["pwd"].Value;
-
-                if (currentConfig.AppSettings.Settings["database"] != null)
-                    textBoxDatabase.Text = currentConfig.AppSettings.Settings["database"].Value;
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Ошибка при загрузке конфигурации: " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+            textBoxHost.Focus();
         }
 
         private void buttonEnter_Click(object sender, EventArgs e)
@@ -63,21 +62,26 @@ namespace Restaurant
             try
             {
                 if (string.IsNullOrWhiteSpace(textBoxHost.Text) ||
-                    string.IsNullOrWhiteSpace(textBoxUid.Text) ||
-                    string.IsNullOrWhiteSpace(textBoxPwd.Text) ||
-                    string.IsNullOrWhiteSpace(textBoxDatabase.Text))
+                    string.IsNullOrWhiteSpace(textBoxUid.Text))
                 {
-                    MessageBox.Show("Заполните все поля для подключения!", "Ошибка",
+                    MessageBox.Show("Заполните хост и имя пользователя!", "Ошибка",
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
                 string h = textBoxHost.Text.Trim();
                 string u = textBoxUid.Text.Trim();
-                string p = textBoxPwd.Text;
-                string db = textBoxDatabase.Text.Trim();
+                string p = textBoxPwd.Text; 
 
-                string testConnectionStr = $"host={h};uid={u};pwd={p};database={db};";
+                string testConnectionStr;
+                if (string.IsNullOrEmpty(p))
+                {
+                    testConnectionStr = $"host={h};uid={u};";
+                }
+                else
+                {
+                    testConnectionStr = $"host={h};uid={u};pwd={p};";
+                }
 
                 using (MySqlConnection con = new MySqlConnection(testConnectionStr))
                 {
@@ -86,8 +90,8 @@ namespace Restaurant
 
                 Configuration currentConfig = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
-                string[] keys = { "host", "uid", "pwd", "database" };
-                string[] values = { h, u, p, db };
+                string[] keys = { "host", "uid", "pwd" };
+                string[] values = { h, u, p };
 
                 for (int i = 0; i < keys.Length; i++)
                 {
@@ -118,9 +122,6 @@ namespace Restaurant
                     case 1045:
                         errorMessage += "Неверное имя пользователя или пароль.";
                         break;
-                    case 1049:
-                        errorMessage += $"База данных '{textBoxDatabase.Text}' не найдена.";
-                        break;
                     case 0:
                         errorMessage += "Сервер MySQL не найден или не запущен.";
                         break;
@@ -141,7 +142,8 @@ namespace Restaurant
 
         private void buttonExit_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.OK;
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
         }
 
         private void pictureBox_Click(object sender, EventArgs e)
@@ -157,15 +159,6 @@ namespace Restaurant
             {
                 textBoxPwd.PasswordChar = '*';
                 pictureBox.BackgroundImage = Properties.Resources.eye_closed;
-            }
-        }
-
-        private void textBoxDatabase_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsControl(e.KeyChar) &&
-                !System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"^[a-z0-9_-]$"))
-            {
-                e.Handled = true;
             }
         }
 
