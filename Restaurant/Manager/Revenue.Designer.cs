@@ -56,7 +56,7 @@
             this.labelReport.BackColor = System.Drawing.Color.Transparent;
             this.labelReport.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelReport.ForeColor = System.Drawing.Color.White;
-            this.labelReport.Location = new System.Drawing.Point(48, 11);
+            this.labelReport.Location = new System.Drawing.Point(50, 11);
             this.labelReport.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelReport.Name = "labelReport";
             this.labelReport.Size = new System.Drawing.Size(236, 29);
@@ -138,7 +138,7 @@
             this.labelPeriod.BackColor = System.Drawing.Color.Transparent;
             this.labelPeriod.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelPeriod.ForeColor = System.Drawing.Color.White;
-            this.labelPeriod.Location = new System.Drawing.Point(41, 69);
+            this.labelPeriod.Location = new System.Drawing.Point(50, 69);
             this.labelPeriod.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelPeriod.Name = "labelPeriod";
             this.labelPeriod.Size = new System.Drawing.Size(241, 29);

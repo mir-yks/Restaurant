@@ -37,13 +37,14 @@
             this.labelTotal = new System.Windows.Forms.Label();
             this.textBoxOrder = new System.Windows.Forms.TextBox();
             this.labelOrder = new System.Windows.Forms.Label();
-            this.buttonReport = new System.Windows.Forms.Button();
+            this.buttonReportRevenue = new System.Windows.Forms.Button();
             this.buttonBack = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.buttonNew = new System.Windows.Forms.Button();
             this.buttonUpdate = new System.Windows.Forms.Button();
             this.buttonCheck = new System.Windows.Forms.Button();
             this.buttonClearFilters = new System.Windows.Forms.Button();
+            this.buttonReportPopular = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -173,22 +174,22 @@
             this.labelOrder.TabIndex = 46;
             this.labelOrder.Text = "Поиск заказа:";
             // 
-            // buttonReport
+            // buttonReportRevenue
             // 
-            this.buttonReport.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.buttonReport.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(99)))), ((int)(((byte)(107)))));
-            this.buttonReport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonReport.Font = new System.Drawing.Font("Verdana", 14F);
-            this.buttonReport.ForeColor = System.Drawing.Color.White;
-            this.buttonReport.Location = new System.Drawing.Point(575, 656);
-            this.buttonReport.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonReport.Name = "buttonReport";
-            this.buttonReport.Size = new System.Drawing.Size(153, 68);
-            this.buttonReport.TabIndex = 44;
-            this.buttonReport.Text = "Отчёт по выручке";
-            this.buttonReport.UseVisualStyleBackColor = false;
-            this.buttonReport.Visible = false;
-            this.buttonReport.Click += new System.EventHandler(this.buttonReport_Click);
+            this.buttonReportRevenue.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.buttonReportRevenue.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(99)))), ((int)(((byte)(107)))));
+            this.buttonReportRevenue.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonReportRevenue.Font = new System.Drawing.Font("Verdana", 14F);
+            this.buttonReportRevenue.ForeColor = System.Drawing.Color.White;
+            this.buttonReportRevenue.Location = new System.Drawing.Point(575, 656);
+            this.buttonReportRevenue.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonReportRevenue.Name = "buttonReportRevenue";
+            this.buttonReportRevenue.Size = new System.Drawing.Size(153, 68);
+            this.buttonReportRevenue.TabIndex = 44;
+            this.buttonReportRevenue.Text = "Отчёт по выручке";
+            this.buttonReportRevenue.UseVisualStyleBackColor = false;
+            this.buttonReportRevenue.Visible = false;
+            this.buttonReportRevenue.Click += new System.EventHandler(this.buttonReport_Click);
             // 
             // buttonBack
             // 
@@ -294,6 +295,23 @@
             this.buttonClearFilters.UseVisualStyleBackColor = false;
             this.buttonClearFilters.Click += new System.EventHandler(this.buttonClearFilters_Click);
             // 
+            // buttonReportPopular
+            // 
+            this.buttonReportPopular.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.buttonReportPopular.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(99)))), ((int)(((byte)(107)))));
+            this.buttonReportPopular.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonReportPopular.Font = new System.Drawing.Font("Verdana", 14F);
+            this.buttonReportPopular.ForeColor = System.Drawing.Color.White;
+            this.buttonReportPopular.Location = new System.Drawing.Point(387, 657);
+            this.buttonReportPopular.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonReportPopular.Name = "buttonReportPopular";
+            this.buttonReportPopular.Size = new System.Drawing.Size(180, 68);
+            this.buttonReportPopular.TabIndex = 44;
+            this.buttonReportPopular.Text = "Популярные блюда";
+            this.buttonReportPopular.UseVisualStyleBackColor = false;
+            this.buttonReportPopular.Visible = false;
+            this.buttonReportPopular.Click += new System.EventHandler(this.buttonReportPopular_Click);
+            // 
             // Order
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -315,7 +333,8 @@
             this.Controls.Add(this.labelOrder);
             this.Controls.Add(this.buttonNew);
             this.Controls.Add(this.buttonUpdate);
-            this.Controls.Add(this.buttonReport);
+            this.Controls.Add(this.buttonReportPopular);
+            this.Controls.Add(this.buttonReportRevenue);
             this.Controls.Add(this.buttonBack);
             this.Controls.Add(this.dataGridView1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -341,12 +360,13 @@
         private System.Windows.Forms.Label labelTotal;
         private System.Windows.Forms.TextBox textBoxOrder;
         private System.Windows.Forms.Label labelOrder;
-        private System.Windows.Forms.Button buttonReport;
+        private System.Windows.Forms.Button buttonReportRevenue;
         private System.Windows.Forms.Button buttonBack;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button buttonNew;
         private System.Windows.Forms.Button buttonUpdate;
         private System.Windows.Forms.Button buttonCheck;
         private System.Windows.Forms.Button buttonClearFilters;
+        private System.Windows.Forms.Button buttonReportPopular;
     }
 }

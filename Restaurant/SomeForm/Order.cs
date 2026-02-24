@@ -35,7 +35,8 @@ namespace Restaurant
             comboBoxStatus.Font = Fonts.MontserratAlternatesRegular(14f);
             comboBoxSum.Font = Fonts.MontserratAlternatesRegular(14f);
             buttonBack.Font = Fonts.MontserratAlternatesBold(12f);
-            buttonReport.Font = Fonts.MontserratAlternatesBold(12f);
+            buttonReportRevenue.Font = Fonts.MontserratAlternatesBold(12f);
+            buttonReportPopular.Font = Fonts.MontserratAlternatesBold(12f);
             buttonOrderItem.Font = Fonts.MontserratAlternatesBold(12f);
             buttonNew.Font = Fonts.MontserratAlternatesBold(12f);
             buttonUpdate.Font = Fonts.MontserratAlternatesBold(12f);
@@ -47,8 +48,10 @@ namespace Restaurant
         {
             if (roleId == 2)
             {
-                buttonReport.Visible = true;
-                buttonReport.Location = new System.Drawing.Point(552, 533);
+                buttonReportRevenue.Visible = true;
+                buttonReportPopular.Visible = true;
+                buttonReportRevenue.Location = new System.Drawing.Point(552, 533);
+                buttonReportPopular.Location = new System.Drawing.Point(412, 533);
                 buttonOrderItem.Location = new System.Drawing.Point(673, 533);
             }
             else if (roleId == 3)
@@ -87,6 +90,7 @@ namespace Restaurant
                 }
 
                 var orderItems = GetOrderItemsWithDiscounts(orderId);
+
 
                 wordApp = new Word.Application();
                 wordApp.Visible = false;
@@ -269,6 +273,7 @@ namespace Restaurant
                         }
                         ReleaseObject(wordApp);
                         wordApp = null;
+
                     }
                     GC.Collect();
                     GC.WaitForPendingFinalizers();
@@ -519,7 +524,7 @@ namespace Restaurant
 
         private void buttonReport_Click(object sender, EventArgs e)
         {
-            Revenue Revenue = new Revenue();
+            Revenue Revenue = new Revenue("revenue");
             Revenue.ShowDialog();
         }
 
@@ -717,6 +722,12 @@ namespace Restaurant
             {
                 return fullName;
             }
+        }
+
+        private void buttonReportPopular_Click(object sender, EventArgs e)
+        {
+            Revenue Revenue = new Revenue("popular");
+            Revenue.ShowDialog();
         }
     }
 }

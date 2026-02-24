@@ -15,9 +15,12 @@ namespace Restaurant
 {
     public partial class Revenue : Form
     {
-        public Revenue()
+        private string reportMode;
+
+        public Revenue(string mode = "revenue")
         {
             InitializeComponent();
+            this.reportMode = mode;
             InactivityManager.Init();
 
             labelReport.Font = Fonts.MontserratAlternatesRegular(14f);
@@ -26,6 +29,11 @@ namespace Restaurant
             labelPeriod.Font = Fonts.MontserratAlternatesRegular(14f);
             buttonBack.Font = Fonts.MontserratAlternatesBold(12f);
             buttonCreate.Font = Fonts.MontserratAlternatesBold(12f);
+
+            if (mode == "popular")
+            {
+                labelReport.Text = "Популярные блюда";
+            }
 
             LoadDateRangeFromDatabase();
         }
@@ -109,11 +117,16 @@ namespace Restaurant
 
             if (result == DialogResult.Yes)
             {
-                GenerateExcelReport();
+                InactivityManager.PauseTimer();
+
+                if (reportMode == "popular")
+                    GeneratePopularDishesReport();
+                else
+                    GenerateRevenueReport();
             }
         }
 
-        private void GenerateExcelReport()
+        private void GenerateRevenueReport()
         {
             Excel.Application excelApp = null;
             Excel.Workbook workbook = null;
@@ -126,6 +139,7 @@ namespace Restaurant
                 if (dataTable.Rows.Count == 0)
                 {
                     MessageBox.Show("Нет оплаченных заказов за выбранный период", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    InactivityManager.ResumeTimer(); // Включаем таймер обратно
                     return;
                 }
 
@@ -217,7 +231,6 @@ namespace Restaurant
                 worksheet.Columns.AutoFit();
 
                 excelApp.Visible = true;
-
             }
             catch (Exception ex)
             {
@@ -247,30 +260,182 @@ namespace Restaurant
 
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
+
+                // Включаем таймер обратно после завершения работы с Excel
+                InactivityManager.ResumeTimer();
             }
         }
 
-        private void SetRangeStyle(Excel.Range range, int fontSize, bool bold, Excel.XlHAlign alignment)
+        private void GeneratePopularDishesReport()
         {
-            range.Font.Size = fontSize;
-            range.Font.Bold = bold;
-            range.HorizontalAlignment = alignment;
-        }
+            Excel.Application excelApp = null;
+            Excel.Workbook workbook = null;
+            Excel.Worksheet worksheet = null;
 
-        private void ReleaseObject(object obj)
-        {
             try
             {
-                if (obj != null)
+                DataTable dataTable = GetPopularDishesData();
+
+                if (dataTable.Rows.Count == 0)
                 {
-                    System.Runtime.InteropServices.Marshal.ReleaseComObject(obj);
-                    obj = null;
+                    MessageBox.Show("Нет данных о заказах за выбранный период", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    InactivityManager.ResumeTimer(); // Включаем таймер обратно
+                    return;
+                }
+
+                excelApp = new Excel.Application();
+                excelApp.Visible = false;
+                excelApp.DisplayAlerts = false;
+
+                workbook = excelApp.Workbooks.Add();
+                worksheet = workbook.ActiveSheet as Excel.Worksheet;
+                worksheet.Name = "Популярные блюда";
+
+                worksheet.Cells[1, 1] = "Топ-20 популярных блюд";
+                SetRangeStyle(worksheet.Range[worksheet.Cells[1, 1], worksheet.Cells[1, 4]],
+                            16, true, Excel.XlHAlign.xlHAlignCenter);
+                worksheet.Range[worksheet.Cells[1, 1], worksheet.Cells[1, 4]].Merge();
+
+                worksheet.Cells[2, 1] = $"Период: с {dateTimePickerMin.Value:dd.MM.yyyy} по {dateTimePickerMax.Value:dd.MM.yyyy}";
+                SetRangeStyle(worksheet.Range[worksheet.Cells[2, 1], worksheet.Cells[2, 4]],
+                            12, false, Excel.XlHAlign.xlHAlignCenter);
+                worksheet.Range[worksheet.Cells[2, 1], worksheet.Cells[2, 4]].Merge();
+
+                worksheet.Cells[3, 1] = "";
+
+                int currentRow = 4;
+                string[] headers = { "№", "Блюдо", "Количество заказов", "Общая выручка (руб.)" };
+
+                for (int i = 0; i < headers.Length; i++)
+                {
+                    worksheet.Cells[currentRow, i + 1] = headers[i];
+                    var cell = worksheet.Cells[currentRow, i + 1];
+                    cell.Font.Bold = true;
+                    cell.Interior.Color = Excel.XlRgbColor.rgbLightGray;
+                    cell.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                    cell.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+                }
+
+                currentRow++;
+                int counter = 1;
+                decimal totalRevenue = 0;
+
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    worksheet.Cells[currentRow, 1] = counter++;
+                    worksheet.Cells[currentRow, 2] = row["Блюдо"].ToString();
+                    worksheet.Cells[currentRow, 3] = row["Количество"].ToString();
+                    worksheet.Cells[currentRow, 3].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+
+                    decimal amount = Convert.ToDecimal(row["Выручка"]);
+                    worksheet.Cells[currentRow, 4] = $"{amount:N2} руб.";
+                    worksheet.Cells[currentRow, 4].HorizontalAlignment = Excel.XlHAlign.xlHAlignRight;
+
+                    for (int col = 1; col <= 4; col++)
+                    {
+                        worksheet.Cells[currentRow, col].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                    }
+
+                    totalRevenue += amount;
+                    currentRow++;
+                }
+
+                currentRow++;
+                worksheet.Cells[currentRow, 1] = "ИТОГО по топ-20:";
+                worksheet.Cells[currentRow, 1].Font.Bold = true;
+                worksheet.Range[worksheet.Cells[currentRow, 1], worksheet.Cells[currentRow, 3]].Merge();
+                worksheet.Cells[currentRow, 4] = $"{totalRevenue:N2} руб.";
+                worksheet.Cells[currentRow, 4].Font.Bold = true;
+                worksheet.Cells[currentRow, 4].HorizontalAlignment = Excel.XlHAlign.xlHAlignRight;
+
+                worksheet.Columns.AutoFit();
+
+                excelApp.Visible = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при создании отчёта: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                try
+                {
+                    if (workbook != null) workbook.Close(false);
+                    if (excelApp != null) excelApp.Quit();
+                }
+                catch { }
+            }
+            finally
+            {
+                if (excelApp != null && !excelApp.Visible)
+                {
+                    ReleaseObject(worksheet);
+                    ReleaseObject(workbook);
+                    ReleaseObject(excelApp);
+                }
+                else
+                {
+                    worksheet = null;
+                    workbook = null;
+                    excelApp = null;
+                }
+
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+
+                // Включаем таймер обратно после завершения работы с Excel
+                InactivityManager.ResumeTimer();
+            }
+        }
+
+        private DataTable GetPopularDishesData()
+        {
+            DataTable dataTable = new DataTable();
+
+            try
+            {
+                using (MySqlConnection con = new MySqlConnection(connStr.GetConnectionString("db57")))
+                {
+                    con.Open();
+
+                    string query = @"
+                        SELECT 
+                            md.DishName AS 'Блюдо',
+                            SUM(oi.DishCount) AS 'Количество',
+                            SUM(
+                                CASE 
+                                    WHEN md.OffersDish IS NOT NULL AND md.OffersDish > 0 THEN
+                                        ROUND(oi.DishCount * md.DishPrice * (100 - od.OffersDishDicsount) / 100, 2)
+                                    ELSE
+                                        ROUND(oi.DishCount * md.DishPrice, 2)
+                                END
+                            ) AS 'Выручка'
+                        FROM OrderItems oi
+                        JOIN `Order` o ON oi.OrderId = o.OrderId
+                        JOIN MenuDish md ON oi.DishId = md.DishId
+                        LEFT JOIN OffersDish od ON md.OffersDish = od.OffersDishId
+                        WHERE DATE(o.OrderDate) BETWEEN @StartDate AND @EndDate
+                        AND o.OrderStatusPayment = 'Оплачен'
+                        GROUP BY md.DishId, md.DishName
+                        ORDER BY SUM(oi.DishCount) DESC
+                        LIMIT 20";
+
+                    using (MySqlCommand cmd = new MySqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@StartDate", dateTimePickerMin.Value.Date);
+                        cmd.Parameters.AddWithValue("@EndDate", dateTimePickerMax.Value.Date);
+
+                        using (MySqlDataAdapter adapter = new MySqlDataAdapter(cmd))
+                        {
+                            adapter.Fill(dataTable);
+                        }
+                    }
                 }
             }
-            catch (Exception )
+            catch (Exception ex)
             {
-                obj = null;
+                MessageBox.Show($"Ошибка при получении данных: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+            return dataTable;
         }
 
         private DataTable GetRevenueData()
@@ -299,7 +464,7 @@ namespace Restaurant
                         LEFT JOIN Tables t ON o.TableId = t.TablesId
                         WHERE DATE(o.OrderDate) BETWEEN @StartDate AND @EndDate
                         AND o.OrderStatusPayment = 'Оплачен'
-                        ORDER BY o.OrderDate ASC"; 
+                        ORDER BY o.OrderDate ASC";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, con))
                     {
@@ -321,6 +486,29 @@ namespace Restaurant
             return dataTable;
         }
 
+        private void SetRangeStyle(Excel.Range range, int fontSize, bool bold, Excel.XlHAlign alignment)
+        {
+            range.Font.Size = fontSize;
+            range.Font.Bold = bold;
+            range.HorizontalAlignment = alignment;
+        }
+
+        private void ReleaseObject(object obj)
+        {
+            try
+            {
+                if (obj != null)
+                {
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(obj);
+                    obj = null;
+                }
+            }
+            catch (Exception)
+            {
+                obj = null;
+            }
+        }
+
         private void dateTimePickerMin_ValueChanged(object sender, EventArgs e)
         {
             if (dateTimePickerMin.Value > dateTimePickerMax.Value)
@@ -331,7 +519,7 @@ namespace Restaurant
 
         private void dateTimePickerMax_ValueChanged(object sender, EventArgs e)
         {
-            if (dateTimePickerMax.Value < dateTimePickerMin.Value) 
+            if (dateTimePickerMax.Value < dateTimePickerMin.Value)
             {
                 dateTimePickerMin.Value = dateTimePickerMax.Value;
             }
