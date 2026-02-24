@@ -820,12 +820,24 @@ namespace Restaurant
                 using (MySqlConnection con = new MySqlConnection(connStr.GetConnectionString("db57")))
                 {
                     con.Open();
-                    MySqlCommand cmd = new MySqlCommand(
-                        "UPDATE Tables SET TablesStatus = @Status WHERE TablesId = @TableId",
+
+                    MySqlCommand checkCmd = new MySqlCommand(
+                        "SELECT COUNT(*) FROM `Order` WHERE TableId = @TableId AND OrderStatus != 'Завершен' AND OrderId != @CurrentOrderId",
                         con);
-                    cmd.Parameters.AddWithValue("@Status", status);
-                    cmd.Parameters.AddWithValue("@TableId", tableId);
-                    cmd.ExecuteNonQuery();
+                    checkCmd.Parameters.AddWithValue("@TableId", tableId);
+                    checkCmd.Parameters.AddWithValue("@CurrentOrderId", OrderID);
+
+                    int activeOrders = Convert.ToInt32(checkCmd.ExecuteScalar());
+
+                    if (activeOrders == 0)
+                    {
+                        MySqlCommand cmd = new MySqlCommand(
+                            "UPDATE Tables SET TablesStatus = @Status WHERE TablesId = @TableId",
+                            con);
+                        cmd.Parameters.AddWithValue("@Status", status);
+                        cmd.Parameters.AddWithValue("@TableId", tableId);
+                        cmd.ExecuteNonQuery();
+                    }
                 }
             }
             catch (Exception ex)

@@ -72,10 +72,28 @@ namespace Restaurant
             }
 
             int selectedOrderId = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID"].Value);
-            GenerateOrderCheck(selectedOrderId);
+            string currentStatus = dataGridView1.CurrentRow.Cells["Статус заказа"].Value.ToString();
+            string paymentStatus = dataGridView1.CurrentRow.Cells["Статус оплаты заказа"].Value.ToString();
+
+            if (currentStatus == "Завершен" && paymentStatus == "Оплачен")
+            {
+                DialogResult result = MessageBox.Show(
+                    "Этот заказ уже завершен и оплачен.\n\nСформировать чек повторно?",
+                    "Чек",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    GenerateOrderCheck(selectedOrderId, false);
+                }
+                return;
+            }
+
+            GenerateOrderCheck(selectedOrderId, true);
         }
 
-        private void GenerateOrderCheck(int orderId)
+        private void GenerateOrderCheck(int orderId, bool askForPayment)
         {
             Word.Application wordApp = null;
             Word.Document document = null;
@@ -91,6 +109,7 @@ namespace Restaurant
 
                 var orderItems = GetOrderItemsWithDiscounts(orderId);
 
+                InactivityManager.PauseTimer();
 
                 wordApp = new Word.Application();
                 wordApp.Visible = false;
@@ -232,9 +251,24 @@ namespace Restaurant
                 content.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
 
                 wordApp.Visible = true;
-
                 wordApp.Activate();
 
+                if (askForPayment)
+                {
+                    DialogResult paymentResult = MessageBox.Show(
+                        "Клиент оплатил заказ?",
+                        "Подтверждение оплаты",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question);
+
+                    if (paymentResult == DialogResult.Yes)
+                    {
+                        UpdateOrderStatus(orderId, "Завершен", "Оплачен");
+                        MessageBox.Show("Статус заказа обновлен: Завершен, Оплачен", "Успех",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LoadOrders(); 
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -253,6 +287,8 @@ namespace Restaurant
             }
             finally
             {
+                InactivityManager.ResumeTimer();
+
                 try
                 {
                     if (document != null)
@@ -273,7 +309,6 @@ namespace Restaurant
                         }
                         ReleaseObject(wordApp);
                         wordApp = null;
-
                     }
                     GC.Collect();
                     GC.WaitForPendingFinalizers();
@@ -283,6 +318,44 @@ namespace Restaurant
                 {
 
                 }
+            }
+        }
+
+        private void UpdateOrderStatus(int orderId, string orderStatus, string paymentStatus)
+        {
+            try
+            {
+                using (MySqlConnection con = new MySqlConnection(connStr.GetConnectionString("db57")))
+                {
+                    con.Open();
+
+                    MySqlCommand getTableCmd = new MySqlCommand(
+                        "SELECT TableId FROM `Order` WHERE OrderId = @OrderId", con);
+                    getTableCmd.Parameters.AddWithValue("@OrderId", orderId);
+                    object tableIdObj = getTableCmd.ExecuteScalar();
+
+                    MySqlCommand cmd = new MySqlCommand(
+                        "UPDATE `Order` SET OrderStatus = @OrderStatus, OrderStatusPayment = @OrderStatusPayment WHERE OrderId = @OrderId",
+                        con);
+                    cmd.Parameters.AddWithValue("@OrderStatus", orderStatus);
+                    cmd.Parameters.AddWithValue("@OrderStatusPayment", paymentStatus);
+                    cmd.Parameters.AddWithValue("@OrderId", orderId);
+                    cmd.ExecuteNonQuery();
+
+                    if (orderStatus == "Завершен" && paymentStatus == "Оплачен" && tableIdObj != null && tableIdObj != DBNull.Value)
+                    {
+                        int tableId = Convert.ToInt32(tableIdObj);
+                        MySqlCommand updateTableCmd = new MySqlCommand(
+                            "UPDATE Tables SET TablesStatus = 'Свободен' WHERE TablesId = @TableId", con);
+                        updateTableCmd.Parameters.AddWithValue("@TableId", tableId);
+                        updateTableCmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при обновлении статуса: {ex.Message}", "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -305,6 +378,7 @@ namespace Restaurant
                 obj = null;
             }
         }
+
         private List<OrderItemWithDiscount> GetOrderItemsWithDiscounts(int orderId)
         {
             var items = new List<OrderItemWithDiscount>();
@@ -457,6 +531,7 @@ namespace Restaurant
 
             return items;
         }
+
         private class OrderData
         {
             public int OrderNumber { get; set; }
@@ -493,7 +568,7 @@ namespace Restaurant
             OrderInsert OrderInsert = new OrderInsert("edit")
             {
                 OrderID = Convert.ToInt32(row.Cells["ID"].Value),
-                WorkerName = row.Cells["Сотрудник"].Value.ToString(), 
+                WorkerName = row.Cells["Сотрудник"].Value.ToString(),
                 ClientName = row.Cells["Клиент"].Value.ToString(),
                 TableNumber = row.Cells["Номер столика"].Value?.ToString() ?? "",
                 OrderDate = Convert.ToDateTime(row.Cells["Дата заказа"].Value),
@@ -522,9 +597,15 @@ namespace Restaurant
             }
         }
 
-        private void buttonReport_Click(object sender, EventArgs e)
+        private void buttonReportRevenue_Click(object sender, EventArgs e)
         {
             Revenue Revenue = new Revenue("revenue");
+            Revenue.ShowDialog();
+        }
+
+        private void buttonReportPopular_Click(object sender, EventArgs e)
+        {
+            Revenue Revenue = new Revenue("popular");
             Revenue.ShowDialog();
         }
 
@@ -722,12 +803,6 @@ namespace Restaurant
             {
                 return fullName;
             }
-        }
-
-        private void buttonReportPopular_Click(object sender, EventArgs e)
-        {
-            Revenue Revenue = new Revenue("popular");
-            Revenue.ShowDialog();
         }
     }
 }

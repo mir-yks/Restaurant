@@ -189,7 +189,7 @@
             this.buttonReportRevenue.Text = "Отчёт по выручке";
             this.buttonReportRevenue.UseVisualStyleBackColor = false;
             this.buttonReportRevenue.Visible = false;
-            this.buttonReportRevenue.Click += new System.EventHandler(this.buttonReport_Click);
+            this.buttonReportRevenue.Click += new System.EventHandler(this.buttonReportRevenue_Click);
             // 
             // buttonBack
             // 
