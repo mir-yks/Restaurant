@@ -21,7 +21,6 @@ namespace Restaurant
         {
             InitializeComponent();
             this.reportMode = mode;
-            InactivityManager.Init();
 
             labelReport.Font = Fonts.MontserratAlternatesRegular(14f);
             labelS.Font = Fonts.MontserratAlternatesRegular(14f);

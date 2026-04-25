@@ -16,7 +16,6 @@ namespace Restaurant
             currentRole = role;
             currentRoleName = roleName;
             currentUserID = userID;
-            InactivityManager.Init();
 
             labelWelcome.Text = $"Добро пожаловать,\n\n{currentFIO}!";
             labelRole.Text = $"Ваша роль: {currentRoleName}";

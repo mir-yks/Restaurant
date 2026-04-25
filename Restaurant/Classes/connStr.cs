@@ -9,27 +9,6 @@ namespace Restaurant
 {
     public static class connStr
     {
-        public static string ConnectionString
-        {
-            get
-            {
-                Configuration currentConfig = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-
-                string host = currentConfig.AppSettings.Settings["host"]?.Value;
-                string uid = currentConfig.AppSettings.Settings["uid"]?.Value;
-                string pwd = currentConfig.AppSettings.Settings["pwd"]?.Value;
-                string database = currentConfig.AppSettings.Settings["database"]?.Value;
-
-                if (string.IsNullOrEmpty(host) || string.IsNullOrEmpty(uid) ||
-                    string.IsNullOrEmpty(pwd) || string.IsNullOrEmpty(database))
-                {
-                    throw new Exception("Не все параметры подключения настроены в конфигурационном файле.");
-                }
-
-                return $"host={host};uid={uid};pwd={pwd};database={database};";
-            }
-        }
-
         public static string GetConnectionString(string databaseName)
         {
             Configuration currentConfig = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);

@@ -34,8 +34,6 @@ namespace Restaurant
 
         private void SettingsForm_Load(object sender, EventArgs e)
         {
-            InactivityManager.Init();
-
             try
             {
                 Configuration currentConfig = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);

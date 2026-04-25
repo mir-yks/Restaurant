@@ -55,7 +55,6 @@ namespace Restaurant
         {
             InitializeComponent();
             this.mode = mode;
-            InactivityManager.Init();
 
             labelName.Font = Fonts.MontserratAlternatesRegular(14f);
             labelDescription.Font = Fonts.MontserratAlternatesRegular(14f);
