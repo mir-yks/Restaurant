@@ -43,6 +43,8 @@
             this.buttonUpdate = new System.Windows.Forms.Button();
             this.buttonClearFilters = new System.Windows.Forms.Button();
             this.buttonDelete = new System.Windows.Forms.Button();
+            this.panelLegend = new System.Windows.Forms.Panel();
+            this.labelLegend = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -195,6 +197,7 @@
             this.dataGridView1.Size = new System.Drawing.Size(1067, 505);
             this.dataGridView1.TabIndex = 26;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
+            this.dataGridView1.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.dataGridView1_RowPrePaint);
             this.dataGridView1.Sorted += new System.EventHandler(this.dataGridView1_Sorted);
             // 
             // ColumnImage
@@ -274,6 +277,30 @@
             this.buttonDelete.Visible = false;
             this.buttonDelete.Click += new System.EventHandler(this.buttonDelete_Click);
             // 
+            // panelLegend
+            // 
+            this.panelLegend.BackColor = System.Drawing.Color.LightGreen;
+            this.panelLegend.Location = new System.Drawing.Point(345, 675);
+            this.panelLegend.Name = "panelLegend";
+            this.panelLegend.Size = new System.Drawing.Size(20, 20);
+            this.panelLegend.TabIndex = 59;
+            // 
+            // labelLegend
+            // 
+            this.labelLegend.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelLegend.AutoSize = true;
+            this.labelLegend.BackColor = System.Drawing.Color.Transparent;
+            this.labelLegend.Font = new System.Drawing.Font("Verdana", 14F);
+            this.labelLegend.ForeColor = System.Drawing.Color.White;
+            this.labelLegend.Location = new System.Drawing.Point(372, 666);
+            this.labelLegend.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelLegend.Name = "labelLegend";
+            this.labelLegend.Size = new System.Drawing.Size(231, 29);
+            this.labelLegend.TabIndex = 31;
+            this.labelLegend.Text = "- блюдо по акции";
+            // 
             // Menu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -283,11 +310,13 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1067, 738);
             this.ControlBox = false;
+            this.Controls.Add(this.panelLegend);
             this.Controls.Add(this.buttonDelete);
             this.Controls.Add(this.buttonClearFilters);
             this.Controls.Add(this.comboBoxPrice);
             this.Controls.Add(this.labelPrice);
             this.Controls.Add(this.comboBoxCategory);
+            this.Controls.Add(this.labelLegend);
             this.Controls.Add(this.labelCategory);
             this.Controls.Add(this.buttonUpdate);
             this.Controls.Add(this.buttonNew);
@@ -325,5 +354,7 @@
         private System.Windows.Forms.Button buttonClearFilters;
         private System.Windows.Forms.Button buttonDelete;
         private System.Windows.Forms.DataGridViewImageColumn ColumnImage;
+        private System.Windows.Forms.Panel panelLegend;
+        private System.Windows.Forms.Label labelLegend;
     }
 }

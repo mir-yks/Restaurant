@@ -24,6 +24,7 @@ namespace Restaurant
             ConfigureButtons();
             LoadPlugImage();
 
+            labelLegend.Font = Fonts.MontserratAlternatesRegular(14f);
             labelDish.Font = Fonts.MontserratAlternatesRegular(14f);
             labelTotal.Font = Fonts.MontserratAlternatesRegular(14f);
             labelCategory.Font = Fonts.MontserratAlternatesRegular(14f);
@@ -420,6 +421,24 @@ namespace Restaurant
                 !Regex.IsMatch(e.KeyChar.ToString(), @"^[а-яА-Я\s]$"))
             {
                 e.Handled = true;
+            }
+        }
+
+        private void dataGridView1_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
+        {
+            var row = dataGridView1.Rows[e.RowIndex];
+
+            if (row.IsNewRow) return;
+
+            var offerValue = row.Cells["Акция"].Value?.ToString();
+
+            if (!string.IsNullOrEmpty(offerValue))
+            {
+                row.DefaultCellStyle.BackColor = Color.LightGreen;
+            }
+            else
+            {
+                row.DefaultCellStyle.BackColor = Color.White;
             }
         }
     }

@@ -10,6 +10,9 @@ using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using Word = Microsoft.Office.Interop.Word;
 using System.IO;
+using QuestPDF.Fluent;
+using QuestPDF.Helpers;
+using QuestPDF.Infrastructure;
 
 namespace Restaurant
 {
@@ -67,43 +70,55 @@ namespace Restaurant
         {
             if (dataGridView1.CurrentRow == null)
             {
-                MessageBox.Show("Выберите заказ для формирования чека!", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Выберите заказ для формирования чека!");
                 return;
             }
 
-            int selectedOrderId = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID"].Value);
-            string currentStatus = dataGridView1.CurrentRow.Cells["Статус заказа"].Value.ToString();
-            string paymentStatus = dataGridView1.CurrentRow.Cells["Статус оплаты заказа"].Value.ToString();
+            int orderId = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID"].Value);
+            string status = dataGridView1.CurrentRow.Cells["Статус заказа"].Value.ToString();
+            string payment = dataGridView1.CurrentRow.Cells["Статус оплаты заказа"].Value.ToString();
 
-            if (currentStatus == "Завершен" && paymentStatus == "Оплачен")
+            if (status != "Завершен" || payment != "Оплачен")
             {
-                DialogResult result = MessageBox.Show(
-                    "Этот заказ уже завершен и оплачен.\n\nСформировать чек повторно?",
-                    "Чек",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question);
+                var payResult = MessageBox.Show(
+                    "Заказ не оплачен. Отметить как оплаченный?",
+                    "Оплата",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Information);
 
-                if (result == DialogResult.Yes)
+                if (payResult == DialogResult.Yes)
                 {
-                    GenerateOrderCheck(selectedOrderId, false);
+                    UpdateOrderStatus(orderId, "Завершен", "Оплачен");
+                    payment = "Оплачен";
                 }
-                return;
+                else
+                {
+                    return; 
+                }
             }
 
-            GenerateOrderCheck(selectedOrderId, true);
+            DialogResult formatResult = MessageBox.Show(
+                "Выберите формат:\nДа - Word\nНет - PDF",
+                "Формат чека",
+                MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information);
+
+            if (formatResult == DialogResult.Cancel)
+                return;
+
+            string format = formatResult == DialogResult.Yes ? "Word" : "PDF";
+
+            GenerateOrderCheck(orderId, false, format);
+            LoadOrders();
         }
 
-        private void GenerateOrderCheck(int orderId, bool askForPayment)
+        private void GenerateOrderCheck(int orderId, bool askForPayment, string format)
         {
-            Word.Application wordApp = null;
-            Word.Document document = null;
-
             try
             {
                 var orderData = GetOrderData(orderId);
                 if (orderData == null)
                 {
-                    MessageBox.Show("Не удалось получить данные о заказе", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Не удалось получить данные о заказе", "Ошибка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -111,147 +126,21 @@ namespace Restaurant
 
                 InactivityManager.PauseTimer();
 
-                wordApp = new Word.Application();
-                wordApp.Visible = false;
+                string baseDir = AppDomain.CurrentDomain.BaseDirectory;
 
-                document = wordApp.Documents.Add();
+                string folder = Path.Combine(baseDir, "Resources", "check");
+                Directory.CreateDirectory(folder);
 
-                document.PageSetup.Orientation = Word.WdOrientation.wdOrientPortrait;
-                document.PageSetup.PageWidth = wordApp.CentimetersToPoints(8f);
-                document.PageSetup.PageHeight = wordApp.CentimetersToPoints(29.7f);
-                document.PageSetup.TopMargin = wordApp.CentimetersToPoints(0.5f);
-                document.PageSetup.BottomMargin = wordApp.CentimetersToPoints(0.5f);
-                document.PageSetup.LeftMargin = wordApp.CentimetersToPoints(0.5f);
-                document.PageSetup.RightMargin = wordApp.CentimetersToPoints(0.5f);
+                string filePath = Path.Combine(folder, $"Чек_{orderId}");
 
-                Word.Paragraph content = document.Content.Paragraphs.Add();
-                content.Format.SpaceAfter = 1f;
-                content.Format.SpaceBefore = 0f;
-                content.Format.LineSpacingRule = Word.WdLineSpacing.wdLineSpaceSingle;
-
-                content.Range.Text = "MIRYKS";
-                content.Range.Font.Name = "Courier New";
-                content.Range.Font.Size = 10;
-                content.Range.Font.Bold = 1;
-                content.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
-                content.Range.InsertParagraphAfter();
-
-                content.Range.Text = "Ресторан европейской кухни";
-                content.Range.Font.Name = "Courier New";
-                content.Range.Font.Size = 7;
-                content.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
-                content.Range.InsertParagraphAfter();
-
-                content.Range.Text = "----------------------";
-                content.Range.Font.Name = "Courier New";
-                content.Range.Font.Size = 7;
-                content.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
-                content.Range.InsertParagraphAfter();
-
-                content.Range.Text = $"Чек №{orderData.OrderNumber}";
-                content.Range.Font.Name = "Courier New";
-                content.Range.Font.Size = 7;
-                content.Alignment = Word.WdParagraphAlignment.wdAlignParagraphLeft;
-                content.Range.InsertParagraphAfter();
-
-                content.Range.Text = $"{orderData.OrderDate:dd.MM.yy HH:mm}";
-                content.Range.Font.Name = "Courier New";
-                content.Range.Font.Size = 7;
-                content.Alignment = Word.WdParagraphAlignment.wdAlignParagraphLeft;
-                content.Range.InsertParagraphAfter();
-
-                content.Range.Text = $"Официант: {orderData.WorkerName}";
-                content.Range.Font.Name = "Courier New";
-                content.Range.Font.Size = 7;
-                content.Alignment = Word.WdParagraphAlignment.wdAlignParagraphLeft;
-                content.Range.InsertParagraphAfter();
-
-                content.Range.Text = "----------------------";
-                content.Range.Font.Name = "Courier New";
-                content.Range.Font.Size = 7;
-                content.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
-                content.Range.InsertParagraphAfter();
-
-                decimal totalAmount = 0;
-                decimal totalDiscount = 0;
-
-                foreach (var item in orderItems)
+                if (format == "Word")
                 {
-                    string dishName = item.DishName;
-                    if (item.Discount > 0)
-                    {
-                        dishName = $"★ {dishName}";
-                    }
-
-                    content.Range.Text = dishName;
-                    content.Range.Font.Name = "Courier New";
-                    content.Range.Font.Size = 7;
-                    content.Alignment = Word.WdParagraphAlignment.wdAlignParagraphLeft;
-                    content.Range.InsertParagraphAfter();
-
-                    string priceLine;
-                    if (item.Discount > 0)
-                    {
-                        decimal originalTotal = item.Quantity * item.OriginalPrice;
-                        decimal discountAmount = originalTotal - item.TotalPrice;
-                        priceLine = $"{item.Quantity} x {item.OriginalPrice:N0} = {item.TotalPrice:N0} (-{discountAmount:N0})";
-                        totalDiscount += discountAmount;
-                    }
-                    else
-                    {
-                        priceLine = $"{item.Quantity} x {item.OriginalPrice:N0} = {item.TotalPrice:N0}";
-                    }
-
-                    content.Range.Text = priceLine;
-                    content.Range.Font.Name = "Courier New";
-                    content.Range.Font.Size = 7;
-                    content.Alignment = Word.WdParagraphAlignment.wdAlignParagraphRight;
-                    content.Range.InsertParagraphAfter();
-
-                    totalAmount += item.TotalPrice;
+                    GenerateWordCheck(filePath, orderData, orderItems);
                 }
-
-                content.Range.Text = "======================";
-                content.Range.Font.Name = "Courier New";
-                content.Range.Font.Size = 7;
-                content.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
-                content.Range.InsertParagraphAfter();
-
-                content.Range.Text = $"ИТОГО: {totalAmount:N0} руб.";
-                content.Range.Font.Name = "Courier New";
-                content.Range.Font.Size = 8;
-                content.Range.Font.Bold = 1;
-                content.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
-                content.Range.InsertParagraphAfter();
-
-                if (totalDiscount > 0)
+                else
                 {
-                    content.Range.Text = $"Скидка: -{totalDiscount:N0} руб.";
-                    content.Range.Font.Name = "Courier New";
-                    content.Range.Font.Size = 7;
-                    content.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
-                    content.Range.InsertParagraphAfter();
+                    GeneratePdfCheck(filePath, orderData, orderItems);
                 }
-
-                content.Range.Text = "======================";
-                content.Range.Font.Name = "Courier New";
-                content.Range.Font.Size = 7;
-                content.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
-                content.Range.InsertParagraphAfter();
-
-                content.Range.Text = "Спасибо за посещение!";
-                content.Range.Font.Name = "Courier New";
-                content.Range.Font.Size = 7;
-                content.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
-                content.Range.InsertParagraphAfter();
-
-                content.Range.Text = "Ждем Вас снова!";
-                content.Range.Font.Name = "Courier New";
-                content.Range.Font.Size = 7;
-                content.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
-
-                wordApp.Visible = true;
-                wordApp.Activate();
 
                 if (askForPayment)
                 {
@@ -264,61 +153,197 @@ namespace Restaurant
                     if (paymentResult == DialogResult.Yes)
                     {
                         UpdateOrderStatus(orderId, "Завершен", "Оплачен");
-                        MessageBox.Show("Статус заказа обновлен: Завершен, Оплачен", "Успех",
+                        MessageBox.Show("Статус заказа обновлен!", "Успех",
                             MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        LoadOrders(); 
+                        LoadOrders();
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при создании чека: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                if (document != null)
-                {
-                    document.Close(false);
-                    document = null;
-                }
-                if (wordApp != null)
-                {
-                    wordApp.Quit();
-                    wordApp = null;
-                }
+                MessageBox.Show($"Ошибка при создании чека: {ex.Message}",
+                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
                 InactivityManager.ResumeTimer();
-
-                try
-                {
-                    if (document != null)
-                    {
-                        if (!wordApp.Visible)
-                        {
-                            document.Close(false);
-                        }
-                        ReleaseObject(document);
-                        document = null;
-                    }
-
-                    if (wordApp != null)
-                    {
-                        if (wordApp.Documents.Count == 0)
-                        {
-                            wordApp.Quit();
-                        }
-                        ReleaseObject(wordApp);
-                        wordApp = null;
-                    }
-                    GC.Collect();
-                    GC.WaitForPendingFinalizers();
-                    GC.Collect();
-                }
-                catch (Exception)
-                {
-
-                }
             }
+        }
+
+        private void GenerateWordCheck(string filePath, OrderData orderData, List<OrderItemWithDiscount> orderItems)
+        {
+            Word.Application wordApp = null;
+            Word.Document document = null;
+
+            try
+            {
+                wordApp = new Word.Application();
+                wordApp.Visible = false;
+
+                document = wordApp.Documents.Add();
+
+                document.PageSetup.Orientation = Word.WdOrientation.wdOrientPortrait;
+                document.PageSetup.PageWidth = wordApp.CentimetersToPoints(8f);
+                document.PageSetup.PageHeight = wordApp.CentimetersToPoints(29.7f);
+                document.PageSetup.TopMargin = wordApp.CentimetersToPoints(0.3f);
+                document.PageSetup.BottomMargin = wordApp.CentimetersToPoints(0.3f);
+                document.PageSetup.LeftMargin = wordApp.CentimetersToPoints(0.3f);
+                document.PageSetup.RightMargin = wordApp.CentimetersToPoints(0.3f);
+
+                void AddLine(string text, Word.WdParagraphAlignment align = Word.WdParagraphAlignment.wdAlignParagraphLeft, bool bold = false, int size = 8)
+                {
+                    Word.Paragraph p = document.Content.Paragraphs.Add();
+                    p.Range.Text = text;
+                    p.Range.Font.Name = "Courier New";
+                    p.Range.Font.Size = size;
+                    p.Range.Font.Bold = bold ? 1 : 0;
+                    p.Alignment = align;
+                    p.Format.SpaceBefore = 0;
+                    p.Format.SpaceAfter = 0;
+                    p.Range.InsertParagraphAfter();
+                }
+
+                AddLine("MIRYKS", Word.WdParagraphAlignment.wdAlignParagraphCenter, true, 10);
+                AddLine("Ресторан европейской кухни", Word.WdParagraphAlignment.wdAlignParagraphCenter, false, 7);
+                AddLine("----------------------", Word.WdParagraphAlignment.wdAlignParagraphCenter);
+
+                AddLine($"Чек №{orderData.OrderNumber}");
+                AddLine($"{orderData.OrderDate:dd.MM.yy HH:mm}");
+                AddLine($"Официант: {orderData.WorkerName}");
+
+                AddLine("----------------------", Word.WdParagraphAlignment.wdAlignParagraphCenter);
+
+                decimal total = 0;
+                decimal discountTotal = 0;
+
+                foreach (var item in orderItems)
+                {
+                    string name = item.DishName;
+
+                    AddLine(name);
+
+                    string line;
+
+                    if (item.Discount > 0)
+                    {
+                        decimal original = item.Quantity * item.OriginalPrice;
+                        decimal discount = original - item.TotalPrice;
+
+                        line = $"{item.Quantity} x {item.OriginalPrice:N0} = {item.TotalPrice:N0} (-{discount:N0})";
+                        discountTotal += discount;
+                    }
+                    else
+                    {
+                        line = $"{item.Quantity} x {item.OriginalPrice:N0} = {item.TotalPrice:N0}";
+                    }
+
+                    AddLine(line, Word.WdParagraphAlignment.wdAlignParagraphRight);
+
+                    total += item.TotalPrice;
+                }
+
+                AddLine("======================", Word.WdParagraphAlignment.wdAlignParagraphCenter);
+                AddLine($"ИТОГО: {total:N0} руб.", Word.WdParagraphAlignment.wdAlignParagraphCenter, true);
+
+                if (discountTotal > 0)
+                {
+                    AddLine($"Скидка: -{discountTotal:N0} руб.", Word.WdParagraphAlignment.wdAlignParagraphCenter);
+                }
+
+                AddLine("======================", Word.WdParagraphAlignment.wdAlignParagraphCenter);
+
+                AddLine("Спасибо за посещение!", Word.WdParagraphAlignment.wdAlignParagraphCenter);
+                AddLine("Ждем Вас снова!", Word.WdParagraphAlignment.wdAlignParagraphCenter);
+
+                document.SaveAs(filePath + ".docx");
+
+                wordApp.Visible = true;
+                wordApp.Activate();
+            }
+            finally
+            {
+                ReleaseObject(document);
+                ReleaseObject(wordApp);
+            }
+        }
+
+        private void GeneratePdfCheck(string filePath, OrderData orderData, List<OrderItemWithDiscount> orderItems)
+        {
+            string fullPath = filePath + ".pdf";
+
+            Document.Create(container =>
+            {
+                container.Page(page =>
+                {
+                    page.Size(226, 842);
+
+                    page.Margin(5);
+
+                    page.DefaultTextStyle(x =>
+                        x.FontSize(8).FontFamily("Courier New"));
+
+                    page.Content().Column(col =>
+                    {
+                        col.Spacing(1);
+
+                        col.Item().AlignCenter().Text("MIRYKS").Bold();
+                        col.Item().AlignCenter().Text("Ресторан европейской кухни");
+
+                        col.Item().Text("----------------------").AlignCenter();
+
+                        col.Item().Text($"Чек №{orderData.OrderNumber}");
+                        col.Item().Text($"{orderData.OrderDate:dd.MM.yy HH:mm}");
+                        col.Item().Text($"Официант: {orderData.WorkerName}");
+
+                        col.Item().Text("----------------------").AlignCenter();
+
+                        decimal total = 0;
+                        decimal discountTotal = 0;
+
+                        foreach (var item in orderItems)
+                        {
+                            string name = item.Discount > 0 ? $"★ {item.DishName}" : item.DishName;
+
+                            col.Item().Text(name);
+
+                            string line;
+
+                            if (item.Discount > 0)
+                            {
+                                decimal original = item.Quantity * item.OriginalPrice;
+                                decimal discount = original - item.TotalPrice;
+
+                                line = $"{item.Quantity} x {item.OriginalPrice:N0} = {item.TotalPrice:N0} (-{discount:N0})";
+                                discountTotal += discount;
+                            }
+                            else
+                            {
+                                line = $"{item.Quantity} x {item.OriginalPrice:N0} = {item.TotalPrice:N0}";
+                            }
+
+                            col.Item().AlignRight().Text(line);
+
+                            total += item.TotalPrice;
+                        }
+
+                        col.Item().Text("======================").AlignCenter();
+
+                        col.Item().AlignCenter().Text($"ИТОГО: {total:N0} руб.").Bold();
+
+                        if (discountTotal > 0)
+                        {
+                            col.Item().AlignCenter().Text($"Скидка: -{discountTotal:N0} руб.");
+                        }
+
+                        col.Item().AlignCenter().Text("======================");
+
+                        col.Item().AlignCenter().Text("Спасибо за посещение!");
+                        col.Item().AlignCenter().Text("Ждем Вас снова!"); ;
+                    });
+                });
+            }).GeneratePdf(fullPath);
+
+            System.Diagnostics.Process.Start(fullPath);
         }
 
         private void UpdateOrderStatus(int orderId, string orderStatus, string paymentStatus)
