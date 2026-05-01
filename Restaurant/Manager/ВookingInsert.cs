@@ -15,12 +15,19 @@ namespace Restaurant
     public partial class ВookingInsert : Form
     {
         private string mode;
+        private Form parentForm;
         public int BookingID { get; set; }
 
-        public ВookingInsert(string mode)
+        public ВookingInsert(string mode, Form parentForm = null)
         {
             InitializeComponent();
             this.mode = mode;
+            this.parentForm = parentForm;
+
+            if (parentForm != null)
+            {
+                BlurEffect.ShowDimmed(parentForm);
+            }
             InactivityManager.Init();
 
             InitializeDateTimePickers();
@@ -265,7 +272,7 @@ namespace Restaurant
 
         private void buttonBack_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
 
         private void buttonArrange_Click(object sender, EventArgs e)
@@ -432,7 +439,7 @@ namespace Restaurant
                     cmd.ExecuteNonQuery();
 
                     MessageBox.Show(mode == "add" ? "Бронь успешно добавлена!" : "Бронь успешно обновлена!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.DialogResult = DialogResult.OK;
+                    this.Close();
                 }
             }
             catch (Exception ex)
@@ -548,6 +555,15 @@ namespace Restaurant
                 comboBoxClient.Text = result;
                 comboBoxClient.SelectionStart = Math.Min(cursorPos, result.Length);
                 comboBoxClient.TextChanged += comboBoxClient_TextChanged;
+            }
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            base.OnFormClosed(e);
+            if (parentForm != null)
+            {
+                BlurEffect.HideDimmed();
             }
         }
     }

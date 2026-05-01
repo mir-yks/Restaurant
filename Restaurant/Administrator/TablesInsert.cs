@@ -14,11 +14,18 @@ namespace Restaurant
     public partial class TablesInsert : Form
     {
         private string mode;
+        private Form parentForm;
         public int TableID { get; set; }
-        public TablesInsert(string mode)
+        public TablesInsert(string mode, Form parentForm = null)
         {
             InitializeComponent();
             this.mode = mode;
+            this.parentForm = parentForm;
+
+            if (parentForm != null)
+            {
+                BlurEffect.ShowDimmed(parentForm);
+            }
 
             labelPlaceCount.Font = Fonts.MontserratAlternatesRegular(14f);
             labelStatus.Font = Fonts.MontserratAlternatesRegular(14f);
@@ -60,7 +67,7 @@ namespace Restaurant
 
         private void buttonBack_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
 
         private void buttonWrite_Click(object sender, EventArgs e)
@@ -133,7 +140,7 @@ namespace Restaurant
                             MessageBox.Show("Не удалось обновить данные. Возможно, столик не найден.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
 
-                    this.DialogResult = DialogResult.OK;
+                    this.Close();
                 }
             }
             catch (Exception ex)
@@ -149,6 +156,15 @@ namespace Restaurant
                 !System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"^[0-9]$"))
             {
                 e.Handled = true;
+            }
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            base.OnFormClosed(e);
+            if (parentForm != null)
+            {
+                BlurEffect.HideDimmed();
             }
         }
     }

@@ -14,6 +14,7 @@ namespace Restaurant
     public partial class OffersInsert : Form
     {
         private string mode;
+        private Form parentForm;
         public int OfferID { get; set; }
         public string OfferName
         {
@@ -25,10 +26,16 @@ namespace Restaurant
             get => decimal.TryParse(textBoxDiscount.Text, out decimal d) ? d : 0;
             set => textBoxDiscount.Text = value.ToString("0.##");
         }
-        public OffersInsert(string mode)
+        public OffersInsert(string mode, Form parentForm = null)
         {
             InitializeComponent();
             this.mode = mode;
+            this.parentForm = parentForm;
+
+            if (parentForm != null)
+            {
+                BlurEffect.ShowDimmed(parentForm);
+            }
 
             labelName.Font = Fonts.MontserratAlternatesRegular(14f);
             labelDickount.Font = Fonts.MontserratAlternatesRegular(14f);
@@ -55,7 +62,7 @@ namespace Restaurant
 
         private void buttonBack_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
 
         private void buttonWrite_Click(object sender, EventArgs e)
@@ -142,7 +149,7 @@ namespace Restaurant
                         MessageBox.Show($"Акция успешно обновлена!\nНазвание: \"{offerName}\", скидка: {discount}%", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
 
-                    this.DialogResult = DialogResult.OK;
+                    this.Close();
                 }
             }
             catch (Exception ex)
@@ -166,6 +173,15 @@ namespace Restaurant
                 !System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"^[0-9,]$"))
             {
                 e.Handled = true;
+            }
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            base.OnFormClosed(e);
+            if (parentForm != null)
+            {
+                BlurEffect.HideDimmed();
             }
         }
     }

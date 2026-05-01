@@ -16,11 +16,17 @@ namespace Restaurant
     public partial class Revenue : Form
     {
         private string reportMode;
-
-        public Revenue(string mode = "revenue")
+        private Form parentForm;
+        public Revenue(string mode = "revenue", Form parentForm = null)
         {
             InitializeComponent();
             this.reportMode = mode;
+            this.parentForm = parentForm;
+
+            if (parentForm != null)
+            {
+                BlurEffect.ShowDimmed(parentForm);
+            }
 
             labelReport.Font = Fonts.MontserratAlternatesRegular(14f);
             labelS.Font = Fonts.MontserratAlternatesRegular(14f);
@@ -101,7 +107,7 @@ namespace Restaurant
 
         private void buttonBack_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
 
         private void buttonCreate_Click(object sender, EventArgs e)
@@ -521,6 +527,14 @@ namespace Restaurant
             if (dateTimePickerMax.Value < dateTimePickerMin.Value)
             {
                 dateTimePickerMin.Value = dateTimePickerMax.Value;
+            }
+        }
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            base.OnFormClosed(e);
+            if (parentForm != null)
+            {
+                BlurEffect.HideDimmed();
             }
         }
     }

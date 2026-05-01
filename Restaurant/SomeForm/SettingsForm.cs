@@ -105,7 +105,7 @@ namespace Restaurant
                 MessageBox.Show("Настройки подключения успешно сохранены!",
                     "Сохранение", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                this.DialogResult = DialogResult.OK;
+                this.Close();
                 this.Close();
             }
             catch (MySqlException ex)

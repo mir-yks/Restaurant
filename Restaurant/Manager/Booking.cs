@@ -29,7 +29,7 @@ namespace Restaurant
 
         private void buttonNew_Click(object sender, EventArgs e)
         {
-            ВookingInsert bookingInsert = new ВookingInsert("add");
+            ВookingInsert bookingInsert = new ВookingInsert("add", this);
             bookingInsert.ShowDialog();
             LoadBookings();
         }
@@ -51,7 +51,7 @@ namespace Restaurant
                 return;
             }
 
-            ВookingInsert bookingInsert = new ВookingInsert("edit")
+            ВookingInsert bookingInsert = new ВookingInsert("edit", this)
             {
                 BookingID = Convert.ToInt32(row.Cells["ID"].Value),
                 ClientName = row.Cells["Клиент"].Value.ToString(),
@@ -66,7 +66,7 @@ namespace Restaurant
 
         private void buttonBack_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
 
         private void Booking_Load(object sender, EventArgs e)

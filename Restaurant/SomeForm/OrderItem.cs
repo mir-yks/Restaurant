@@ -52,7 +52,7 @@ namespace Restaurant
 
         private void buttonBack_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
 
         private void OrderItem_Load(object sender, EventArgs e)
@@ -405,7 +405,7 @@ namespace Restaurant
             {
                 if (SaveAllChanges())
                 {
-                    this.DialogResult = DialogResult.OK;
+                    this.Close();
                     this.Close();
                 }
             }

@@ -28,7 +28,7 @@ namespace Restaurant
         public static void UpdateTablesStatus()
         {
             try
-            {
+            {   
                 using (MySqlConnection con = new MySqlConnection(connStr.GetConnectionString("db57")))
                 {
                     con.Open();

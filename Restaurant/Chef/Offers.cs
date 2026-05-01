@@ -34,7 +34,7 @@ namespace Restaurant
             string name = dataGridView1.CurrentRow.Cells["Акция"].Value.ToString();
             decimal discount = Convert.ToDecimal(dataGridView1.CurrentRow.Cells["Скидка"].Value);
 
-            OffersInsert OfferInsert = new OffersInsert("edit")
+            OffersInsert OfferInsert = new OffersInsert("edit", this)
             {
                 OfferID = id,
                 OfferName = name,
@@ -47,7 +47,7 @@ namespace Restaurant
 
         private void buttonNew_Click(object sender, EventArgs e)
         {
-            OffersInsert OfferInsert = new OffersInsert("add");
+            OffersInsert OfferInsert = new OffersInsert("add", this);
             OfferInsert.ShowDialog();
 
             LoadOffers();
@@ -55,7 +55,7 @@ namespace Restaurant
 
         private void buttonBack_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
 
         private void Offers_Load(object sender, EventArgs e)

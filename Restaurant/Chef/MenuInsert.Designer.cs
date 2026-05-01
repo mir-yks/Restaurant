@@ -209,10 +209,10 @@
             this.comboBoxCategory.FormattingEnabled = true;
             this.comboBoxCategory.Location = new System.Drawing.Point(21, 294);
             this.comboBoxCategory.Margin = new System.Windows.Forms.Padding(4);
+            this.comboBoxCategory.MaxLength = 50;
             this.comboBoxCategory.Name = "comboBoxCategory";
             this.comboBoxCategory.Size = new System.Drawing.Size(300, 37);
             this.comboBoxCategory.TabIndex = 38;
-            this.comboBoxCategory.MaxLength = 50;
             this.comboBoxCategory.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBoxCategory_KeyPress);
             // 
             // pictureBoxImage
@@ -247,8 +247,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
-            this.BackgroundImage = global::Restaurant.Properties.Resources.fonMain;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(32)))), ((int)(((byte)(44)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(712, 439);
             this.ControlBox = false;

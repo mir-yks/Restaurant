@@ -44,7 +44,7 @@
             this.textBoxFIO.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxFIO.ForeColor = System.Drawing.Color.White;
             this.textBoxFIO.Location = new System.Drawing.Point(56, 78);
-            this.textBoxFIO.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxFIO.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxFIO.MaxLength = 100;
             this.textBoxFIO.Name = "textBoxFIO";
             this.textBoxFIO.Size = new System.Drawing.Size(377, 36);
@@ -87,7 +87,7 @@
             this.buttonWrite.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonWrite.ForeColor = System.Drawing.Color.White;
             this.buttonWrite.Location = new System.Drawing.Point(297, 231);
-            this.buttonWrite.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonWrite.Margin = new System.Windows.Forms.Padding(4);
             this.buttonWrite.Name = "buttonWrite";
             this.buttonWrite.Size = new System.Drawing.Size(153, 62);
             this.buttonWrite.TabIndex = 26;
@@ -104,7 +104,7 @@
             this.buttonBack.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonBack.ForeColor = System.Drawing.Color.White;
             this.buttonBack.Location = new System.Drawing.Point(16, 231);
-            this.buttonBack.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonBack.Margin = new System.Windows.Forms.Padding(4);
             this.buttonBack.Name = "buttonBack";
             this.buttonBack.Size = new System.Drawing.Size(153, 62);
             this.buttonBack.TabIndex = 25;
@@ -119,7 +119,7 @@
             this.maskedTextBoxPhone.Font = new System.Drawing.Font("Verdana", 14.25F);
             this.maskedTextBoxPhone.ForeColor = System.Drawing.Color.White;
             this.maskedTextBoxPhone.Location = new System.Drawing.Point(56, 159);
-            this.maskedTextBoxPhone.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.maskedTextBoxPhone.Margin = new System.Windows.Forms.Padding(4);
             this.maskedTextBoxPhone.Mask = "+7 (000) 000-00-00";
             this.maskedTextBoxPhone.Name = "maskedTextBoxPhone";
             this.maskedTextBoxPhone.Size = new System.Drawing.Size(377, 36);
@@ -129,8 +129,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
-            this.BackgroundImage = global::Restaurant.Properties.Resources.fonMain;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(32)))), ((int)(((byte)(44)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(467, 308);
             this.ControlBox = false;
@@ -142,7 +141,7 @@
             this.Controls.Add(this.labelFIO);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "ClientsInsert";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Редактирование клиента";

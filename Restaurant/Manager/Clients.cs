@@ -1,12 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Restaurant
@@ -14,6 +9,7 @@ namespace Restaurant
     public partial class Clients : Form
     {
         private DataTable clientTable;
+
         public Clients()
         {
             InitializeComponent();
@@ -31,7 +27,7 @@ namespace Restaurant
 
         private void buttonBack_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
 
         private void buttonUpdate_Click(object sender, EventArgs e)
@@ -40,21 +36,21 @@ namespace Restaurant
 
             DataGridViewRow row = dataGridView1.CurrentRow;
 
-            ClientsInsert ClientsInsert = new ClientsInsert("edit")
+            ClientsInsert clientsInsert = new ClientsInsert("edit", this)
             {
                 ClientFIO = row.Cells["ФИО"].Value.ToString(),
                 ClientPhone = row.Cells["Телефон"].Value.ToString(),
                 ClientID = Convert.ToInt32(row.Cells["ID"].Value)
             };
 
-            ClientsInsert.ShowDialog();
+            clientsInsert.ShowDialog();
             LoadClients();
         }
 
         private void buttonNew_Click(object sender, EventArgs e)
         {
-            ClientsInsert ClientsInsert = new ClientsInsert("add");
-            ClientsInsert.ShowDialog();
+            ClientsInsert clientsInsert = new ClientsInsert("add", this);
+            clientsInsert.ShowDialog();
             LoadClients();
         }
 
@@ -75,7 +71,8 @@ namespace Restaurant
                                                     ClientFIO AS 'ФИО',
                                                     ClientPhone AS 'Телефон'
                                                 FROM client 
-                                                WHERE IsActive = 1;", con);
+                                                WHERE IsActive = 1
+                                                ORDER BY ClientFIO;", con);
                     MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                     clientTable = new DataTable();
                     da.Fill(clientTable);
@@ -96,47 +93,16 @@ namespace Restaurant
         private void textBoxClient_TextChanged(object sender, EventArgs e)
         {
             int cursorPos = textBoxClient.SelectionStart;
-
-            string input = textBoxClient.Text;
-
-            int spaceCount = input.Count(c => c == ' ');
-            if (spaceCount > 2)
-            {
-                int lastSpace = input.LastIndexOf(' ');
-                input = input.Remove(lastSpace, 1);
-            }
-
-            int dashCount = input.Count(c => c == '-');
-            if (dashCount > 1)
-            {
-                int lastDash = input.LastIndexOf('-');
-                input = input.Remove(lastDash, 1);
-            }
-
-            string[] parts = input
-                .Split(new char[] { ' ', '-' }, StringSplitOptions.RemoveEmptyEntries)
-                .Select(p => char.ToUpper(p[0]) + p.Substring(1).ToLower())
-                .ToArray();
-
-            string formatted = input;
-            int index = 0;
-            foreach (string part in parts)
-            {
-                int pos = formatted.IndexOf(part, index, StringComparison.OrdinalIgnoreCase);
-                if (pos >= 0)
-                {
-                    formatted = formatted.Remove(pos, part.Length).Insert(pos, part);
-                    index = pos + part.Length;
-                }
-            }
+            string formatted = DataFormatter.ValidateAndFormatName(textBoxClient.Text, ref cursorPos);
 
             textBoxClient.TextChanged -= textBoxClient_TextChanged;
             textBoxClient.Text = formatted;
-            textBoxClient.SelectionStart = Math.Min(cursorPos, textBoxClient.Text.Length);
+            textBoxClient.SelectionStart = cursorPos;
             textBoxClient.TextChanged += textBoxClient_TextChanged;
 
             ApplyFilters();
         }
+
         private void ApplyFilters()
         {
             if (clientTable == null) return;
@@ -149,10 +115,8 @@ namespace Restaurant
             if (!string.IsNullOrEmpty(searchText))
                 filter = $"ФИО LIKE '%{searchText}%'";
 
-
             view.RowFilter = filter;
             dataGridView1.DataSource = view;
-
             labelTotal.Text = $"Всего: {view.Count}";
         }
 
@@ -165,10 +129,10 @@ namespace Restaurant
                 DataView view = new DataView(clientTable);
                 view.RowFilter = "";
                 dataGridView1.DataSource = view;
-
                 labelTotal.Text = $"Всего: {view.Count}";
             }
         }
+
         private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.Value == null || e.Value == DBNull.Value) return;
@@ -179,106 +143,25 @@ namespace Restaurant
             if (columnName == "ФИО")
             {
                 if (!string.IsNullOrEmpty(text))
-                {
-                    e.Value = ConvertToInitials(text);
-                }
+                    e.Value = DataFormatter.ConvertToInitials(text);
             }
             else if (columnName == "Телефон")
             {
                 if (!string.IsNullOrEmpty(text))
-                {
-                    e.Value = MaskPhoneNumber(text);
-                }
+                    e.Value = DataFormatter.MaskPhoneNumber(text);
             }
         }
 
-        private string ConvertToInitials(string fullName)
-        {
-            if (string.IsNullOrEmpty(fullName))
-                return string.Empty;
-
-            string[] parts = fullName.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-
-            if (parts.Length >= 3)
-            {
-                return $"{parts[0]} {parts[1][0]}.{parts[2][0]}.";
-            }
-            else if (parts.Length == 2)
-            {
-                return $"{parts[0]} {parts[1][0]}.";
-            }
-            else
-            {
-                return fullName;
-            }
-        }
-
-        private string MaskPhoneNumber(string phone)
-        {
-            if (string.IsNullOrEmpty(phone))
-                return string.Empty;
-
-            string digitsOnly = new string(phone.Where(char.IsDigit).ToArray());
-
-            if (digitsOnly.Length == 11 && digitsOnly.StartsWith("7"))
-            {
-                string visiblePrefix = "+7";
-                string firstHidden = "***";  
-                string secondHidden = "***"; 
-                string lastFourDigits = digitsOnly.Substring(digitsOnly.Length - 4);
-
-                string formattedLastDigits = $"{lastFourDigits.Substring(0, 2)}-{lastFourDigits.Substring(2)}";
-
-                return $"{visiblePrefix}({firstHidden}) {secondHidden}-{formattedLastDigits}";
-            }
-            else if (digitsOnly.Length == 11 && digitsOnly.StartsWith("8"))
-            {
-                string visiblePrefix = "8";
-                string firstHidden = "***";
-                string secondHidden = "***";
-                string lastFourDigits = digitsOnly.Substring(digitsOnly.Length - 4);
-                string formattedLastDigits = $"{lastFourDigits.Substring(0, 2)}-{lastFourDigits.Substring(2)}";
-
-                return $"{visiblePrefix}({firstHidden}) {secondHidden}-{formattedLastDigits}";
-            }
-            else if (digitsOnly.Length >= 6)
-            {
-                int visibleStartCount = Math.Min(2, digitsOnly.Length - 4);
-                string visibleStart = digitsOnly.Substring(0, visibleStartCount);
-                string lastFourDigits = digitsOnly.Length >= 4
-                    ? digitsOnly.Substring(digitsOnly.Length - 4)
-                    : digitsOnly;
-
-                string formattedLastDigits = lastFourDigits.Length == 4
-                    ? $"{lastFourDigits.Substring(0, 2)}-{lastFourDigits.Substring(2)}"
-                    : lastFourDigits;
-
-                int hiddenCount = digitsOnly.Length - visibleStartCount - 4;
-                if (hiddenCount > 0)
-                {
-                    string hiddenPart = new string('*', hiddenCount);
-                    return $"{visibleStart}{hiddenPart}-{formattedLastDigits}";
-                }
-                else
-                {
-                    return $"{visibleStart}-{formattedLastDigits}";
-                }
-            }
-            else
-            {
-                return phone;
-            }
-        }
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
             {
                 DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
-                ClientsInsert form = new ClientsInsert("view");
-
-                form.ClientFIO = row.Cells["ФИО"].Value.ToString();
-                form.ClientPhone = row.Cells["Телефон"].Value.ToString();
-
+                ClientsInsert form = new ClientsInsert("view")
+                {
+                    ClientFIO = row.Cells["ФИО"].Value.ToString(),
+                    ClientPhone = row.Cells["Телефон"].Value.ToString()
+                };
                 form.ShowDialog();
             }
         }
@@ -315,7 +198,7 @@ namespace Restaurant
                     if (rowsAffected > 0)
                     {
                         MessageBox.Show($"Клиент \"{clientFIO}\" успешно удалён!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        LoadClients(); 
+                        LoadClients();
                     }
                     else
                     {

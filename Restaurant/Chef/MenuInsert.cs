@@ -14,6 +14,7 @@ namespace Restaurant
     public partial class MenuInsert : Form
     {
         private string mode;
+        private Form parentForm;
         private string selectedImageName = null;
         private string selectedImageHash = null;
         private string oldImageHash = null;
@@ -51,10 +52,16 @@ namespace Restaurant
         }
 
         public MenuInsert(string mode, int dishId = 0, string name = "", string description = "", decimal price = 0,
-                 string category = "", string offer = "", string photoHash = "")
+                 string category = "", string offer = "", string photoHash = "", Form parentForm = null)
         {
             InitializeComponent();
             this.mode = mode;
+            this.parentForm = parentForm;
+
+            if (parentForm != null)
+            {
+                BlurEffect.ShowDimmed(parentForm);
+            }
 
             labelName.Font = Fonts.MontserratAlternatesRegular(14f);
             labelDescription.Font = Fonts.MontserratAlternatesRegular(14f);
@@ -192,7 +199,7 @@ namespace Restaurant
 
         private void buttonBack_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
 
         private void buttonWrite_Click(object sender, EventArgs e)
@@ -459,7 +466,7 @@ namespace Restaurant
                         }
                     }
 
-                    this.DialogResult = DialogResult.OK;
+                    this.Close();
                 }
             }
             catch (MySqlException mysqlEx)
@@ -685,6 +692,15 @@ namespace Restaurant
                 !Regex.IsMatch(e.KeyChar.ToString(), @"^[а-яА-Я\s]$"))
             {
                 e.Handled = true;
+            }
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            base.OnFormClosed(e);
+            if (parentForm != null)
+            {
+                BlurEffect.HideDimmed();
             }
         }
     }

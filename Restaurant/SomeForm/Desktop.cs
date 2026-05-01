@@ -83,7 +83,7 @@ namespace Restaurant
 
             if (result == DialogResult.Yes)
             {
-                this.DialogResult = DialogResult.OK;
+                this.Close();
             }
         }
 

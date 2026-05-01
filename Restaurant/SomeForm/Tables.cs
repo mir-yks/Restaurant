@@ -40,7 +40,7 @@ namespace Restaurant
 
         private void buttonNew_Click(object sender, EventArgs e)
         {
-            TablesInsert TablesInsert = new TablesInsert("add");
+            TablesInsert TablesInsert = new TablesInsert("add", this);
             TablesInsert.ShowDialog();
 
             LoadTables();
@@ -66,7 +66,7 @@ namespace Restaurant
                 return;
             }
 
-            TablesInsert TablesInsert = new TablesInsert("edit")
+            TablesInsert TablesInsert = new TablesInsert("edit", this)
             {
                 TableID = Convert.ToInt32(row.Cells["Номер столика"].Value),
                 TablePlaces = Convert.ToInt32(row.Cells["Количество мест"].Value),
@@ -79,7 +79,7 @@ namespace Restaurant
 
         private void buttonBack_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
 
         private void Tables_Load(object sender, EventArgs e)

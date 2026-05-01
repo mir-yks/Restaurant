@@ -1,12 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Restaurant
@@ -15,6 +10,7 @@ namespace Restaurant
     {
         private DataTable workersTable;
         public int CurrentUserID { get; set; }
+        private int lastEditedWorkerId = -1;
 
         public Worker()
         {
@@ -35,14 +31,13 @@ namespace Restaurant
 
         private void buttonBack_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
 
         private void buttonNew_Click(object sender, EventArgs e)
         {
-            WorkerInsert WorkerInsert = new WorkerInsert("add");
-            WorkerInsert.ShowDialog();
-
+            WorkerInsert workerInsert = new WorkerInsert("add", this);
+            workerInsert.ShowDialog();
             LoadWorkers();
         }
 
@@ -52,20 +47,17 @@ namespace Restaurant
 
             DataGridViewRow row = dataGridView1.CurrentRow;
 
-            WorkerInsert WorkerInsert = new WorkerInsert("edit")
+            WorkerInsert workerInsert = new WorkerInsert("edit", this)
             {
                 WorkerFIO = row.Cells["ФИО"].Value.ToString(),
                 WorkerLogin = row.Cells["Логин"].Value.ToString(),
                 WorkerPhone = row.Cells["Телефон"].Value.ToString(),
-                WorkerEmail = row.Cells["Email"].Value.ToString(),
-                WorkerBirthday = Convert.ToDateTime(row.Cells["Дата рождения"].Value),
-                WorkerDateEmployment = Convert.ToDateTime(row.Cells["Дата найма"].Value),
-                WorkerAddress = row.Cells["Адрес"].Value.ToString(),
+                WorkerPassport = row.Cells["Паспорт"].Value.ToString(),
                 WorkerRole = row.Cells["Роль"].Value.ToString(),
                 WorkerID = Convert.ToInt32(row.Cells["ID"].Value)
             };
 
-            WorkerInsert.ShowDialog();
+            workerInsert.ShowDialog();
             LoadWorkers();
         }
 
@@ -87,15 +79,13 @@ namespace Restaurant
                             w.WorkerFIO AS 'ФИО',
                             w.WorkerLogin AS 'Логин',
                             w.WorkerPhone AS 'Телефон',
-                            w.WorkerEmail AS 'Email',
-                            w.WorkerBirthday AS 'Дата рождения',
-                            w.WorkerDateEmployment AS 'Дата найма',
-                            w.WorkerAddress AS 'Адрес',
+                            w.WorkerPassport AS 'Паспорт',
                             r.RoleName AS 'Роль',
                             w.IsActive AS 'Активен'
                         FROM worker w
                         JOIN role r ON w.WorkerRole = r.RoleId
-                        WHERE w.IsActive = 1;", con);
+                        WHERE w.IsActive = 1
+                        ORDER BY w.WorkerFIO;", con);
 
                     MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                     workersTable = new DataTable();
@@ -149,44 +139,13 @@ namespace Restaurant
         private void textBoxWorker_TextChanged(object sender, EventArgs e)
         {
             int cursorPos = textBoxWorker.SelectionStart;
-
-            string input = textBoxWorker.Text;
-
-            int spaceCount = input.Count(c => c == ' ');
-            if (spaceCount > 2)
-            {
-                int lastSpace = input.LastIndexOf(' ');
-                input = input.Remove(lastSpace, 1);
-            }
-
-            int dashCount = input.Count(c => c == '-');
-            if (dashCount > 1)
-            {
-                int lastDash = input.LastIndexOf('-');
-                input = input.Remove(lastDash, 1);
-            }
-
-            string[] parts = input
-                .Split(new char[] { ' ', '-' }, StringSplitOptions.RemoveEmptyEntries)
-                .Select(p => char.ToUpper(p[0]) + p.Substring(1).ToLower())
-                .ToArray();
-
-            string formatted = input;
-            int index = 0;
-            foreach (string part in parts)
-            {
-                int pos = formatted.IndexOf(part, index, StringComparison.OrdinalIgnoreCase);
-                if (pos >= 0)
-                {
-                    formatted = formatted.Remove(pos, part.Length).Insert(pos, part);
-                    index = pos + part.Length;
-                }
-            }
+            string formatted = DataFormatter.ValidateAndFormatName(textBoxWorker.Text, ref cursorPos);
 
             textBoxWorker.TextChanged -= textBoxWorker_TextChanged;
             textBoxWorker.Text = formatted;
-            textBoxWorker.SelectionStart = Math.Min(cursorPos, textBoxWorker.Text.Length);
+            textBoxWorker.SelectionStart = cursorPos;
             textBoxWorker.TextChanged += textBoxWorker_TextChanged;
+
             ApplyFilters();
         }
 
@@ -212,7 +171,6 @@ namespace Restaurant
 
             view.RowFilter = filter;
             dataGridView1.DataSource = view;
-
             labelTotal.Text = $"Всего: {view.Count}";
         }
 
@@ -226,7 +184,6 @@ namespace Restaurant
                 DataView view = new DataView(workersTable);
                 view.RowFilter = "";
                 dataGridView1.DataSource = view;
-
                 labelTotal.Text = $"Всего: {view.Count}";
             }
         }
@@ -241,189 +198,28 @@ namespace Restaurant
             if (columnName == "ФИО")
             {
                 if (!string.IsNullOrEmpty(text))
-                {
-                    e.Value = ConvertToInitials(text);
-                }
+                    e.Value = DataFormatter.ConvertToInitials(text);
             }
             else if (columnName == "Телефон")
             {
                 if (!string.IsNullOrEmpty(text))
-                {
-                    e.Value = MaskPhoneNumber(text);
-                }
+                    e.Value = DataFormatter.MaskPhoneNumber(text);
             }
-            else if (columnName == "Email")
+            else if (columnName == "Паспорт")
             {
                 if (!string.IsNullOrEmpty(text))
-                {
-                    e.Value = MaskEmail(text);
-                }
+                    e.Value = DataFormatter.MaskPassport(text);
             }
             else if (columnName == "Логин")
             {
                 if (!string.IsNullOrEmpty(text))
                 {
-                    e.Value = MaskLogin(text);
+                    if (text.Length > 3)
+                        e.Value = text.Substring(0, 3) + "***";
+                    else
+                        e.Value = text + "***";
                 }
             }
-            else if (columnName == "Адрес")
-            {
-                if (!string.IsNullOrEmpty(text))
-                {
-                    e.Value = MaskAddress(text);
-                }
-            }
-            else if (columnName == "Дата рождения" || columnName == "Дата найма")
-            {
-                if (!string.IsNullOrEmpty(text) && DateTime.TryParse(text, out DateTime date))
-                {
-                    e.Value = MaskDate(date);
-                }
-            }
-        }
-
-        private string ConvertToInitials(string fullName)
-        {
-            if (string.IsNullOrEmpty(fullName))
-                return string.Empty;
-
-            string[] parts = fullName.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-
-            if (parts.Length >= 3)
-            {
-                return $"{parts[0]} {parts[1][0]}.{parts[2][0]}.";
-            }
-            else if (parts.Length == 2)
-            {
-                return $"{parts[0]} {parts[1][0]}.";
-            }
-            else
-            {
-                return fullName;
-            }
-        }
-
-        private string MaskPhoneNumber(string phone)
-        {
-            if (string.IsNullOrEmpty(phone))
-                return string.Empty;
-
-            string digitsOnly = new string(phone.Where(char.IsDigit).ToArray());
-
-            if (digitsOnly.Length == 11 && digitsOnly.StartsWith("7"))
-            {
-                string visiblePrefix = "+7";
-                string firstHidden = "***";
-                string secondHidden = "***";
-                string lastFourDigits = digitsOnly.Substring(digitsOnly.Length - 4);
-
-                string formattedLastDigits = $"{lastFourDigits.Substring(0, 2)}-{lastFourDigits.Substring(2)}";
-
-                return $"{visiblePrefix}({firstHidden}) {secondHidden}-{formattedLastDigits}";
-            }
-            else if (digitsOnly.Length == 11 && digitsOnly.StartsWith("8"))
-            {
-                string visiblePrefix = "8";
-                string firstHidden = "***";
-                string secondHidden = "***";
-                string lastFourDigits = digitsOnly.Substring(digitsOnly.Length - 4);
-                string formattedLastDigits = $"{lastFourDigits.Substring(0, 2)}-{lastFourDigits.Substring(2)}";
-
-                return $"{visiblePrefix}({firstHidden}) {secondHidden}-{formattedLastDigits}";
-            }
-            else if (digitsOnly.Length >= 6)
-            {
-                int visibleStartCount = Math.Min(2, digitsOnly.Length - 4);
-                string visibleStart = digitsOnly.Substring(0, visibleStartCount);
-                string lastFourDigits = digitsOnly.Length >= 4
-                    ? digitsOnly.Substring(digitsOnly.Length - 4)
-                    : digitsOnly;
-
-                string formattedLastDigits = lastFourDigits.Length == 4
-                    ? $"{lastFourDigits.Substring(0, 2)}-{lastFourDigits.Substring(2)}"
-                    : lastFourDigits;
-
-                int hiddenCount = digitsOnly.Length - visibleStartCount - 4;
-                if (hiddenCount > 0)
-                {
-                    string hiddenPart = new string('*', hiddenCount);
-                    return $"{visibleStart}{hiddenPart}-{formattedLastDigits}";
-                }
-                else
-                {
-                    return $"{visibleStart}-{formattedLastDigits}";
-                }
-            }
-            else
-            {
-                return phone;
-            }
-        }
-
-        private string MaskEmail(string email)
-        {
-            if (string.IsNullOrEmpty(email))
-                return string.Empty;
-
-            int atIndex = email.IndexOf('@');
-            if (atIndex > 0)
-            {
-                string domain = email.Substring(atIndex);
-
-                return $"***{domain}";
-            }
-            else
-            {
-                return "***";
-            }
-        }
-
-        private string MaskLogin(string login)
-        {
-            if (string.IsNullOrEmpty(login))
-                return string.Empty;
-
-            if (login.Length > 3)
-            {
-                string visiblePart = login.Substring(0, Math.Min(3, login.Length));
-                string hiddenPart = new string('*', 10);
-                return $"{visiblePart}{hiddenPart}";
-            }
-            else
-            {
-                string hiddenPart = new string('*', 10);
-                return $"{login}{hiddenPart}";
-            }
-        }
-
-        private string MaskAddress(string address)
-        {
-            if (string.IsNullOrEmpty(address))
-                return string.Empty;
-
-            int commaIndex = address.IndexOf(',');
-            if (commaIndex > 0)
-            {
-                string city = address.Substring(0, commaIndex).Trim();
-                string hiddenPart = new string('*', 10);
-                return $"{city}{hiddenPart}";
-            }
-            else
-            {
-                string visiblePart = address.Length > 5
-                    ? address.Substring(0, 5)
-                    : address;
-                string hiddenPart = new string('*', 10);
-                return $"{visiblePart}{hiddenPart}";
-            }
-        }
-
-        private string MaskDate(DateTime date)
-        {
-            string day = date.Day.ToString("00");
-            string month = date.Month.ToString("00");
-
-            return $"{day}.{month}.****";
         }
 
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -432,16 +228,14 @@ namespace Restaurant
             {
                 DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
 
-                WorkerInsert form = new WorkerInsert("view");
-
-                form.WorkerFIO = row.Cells["ФИО"].Value.ToString();
-                form.WorkerLogin = row.Cells["Логин"].Value.ToString();
-                form.WorkerPhone = row.Cells["Телефон"].Value.ToString();
-                form.WorkerEmail = row.Cells["Email"].Value.ToString();
-                form.WorkerBirthday = Convert.ToDateTime(row.Cells["Дата рождения"].Value);
-                form.WorkerDateEmployment = Convert.ToDateTime(row.Cells["Дата найма"].Value);
-                form.WorkerAddress = row.Cells["Адрес"].Value.ToString();
-                form.WorkerRole = row.Cells["Роль"].Value.ToString();
+                WorkerInsert form = new WorkerInsert("view", this)
+                {
+                    WorkerFIO = row.Cells["ФИО"].Value.ToString(),
+                    WorkerLogin = row.Cells["Логин"].Value.ToString(),
+                    WorkerPhone = row.Cells["Телефон"].Value.ToString(),
+                    WorkerPassport = row.Cells["Паспорт"].Value.ToString(),
+                    WorkerRole = row.Cells["Роль"].Value.ToString()
+                };
 
                 form.ShowDialog();
             }
@@ -465,7 +259,7 @@ namespace Restaurant
             }
 
             DialogResult result = MessageBox.Show(
-                $"Вы действительно хотите удалить сотрудника \"{workerFIO}\"",
+                $"Вы действительно хотите удалить сотрудника \"{workerFIO}\"?",
                 "Удаление",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question);
@@ -477,12 +271,8 @@ namespace Restaurant
                 using (MySqlConnection con = new MySqlConnection(connStr.GetConnectionString("db57")))
                 {
                     con.Open();
-
-                    MySqlCommand cmd = new MySqlCommand(
-                        "UPDATE worker SET IsActive = 0 WHERE WorkerId = @id",
-                        con);
+                    MySqlCommand cmd = new MySqlCommand("UPDATE worker SET IsActive = 0 WHERE WorkerId = @id", con);
                     cmd.Parameters.AddWithValue("@id", selectedWorkerId);
-
                     int rowsAffected = cmd.ExecuteNonQuery();
 
                     if (rowsAffected > 0)

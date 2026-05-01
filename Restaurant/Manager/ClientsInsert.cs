@@ -14,10 +14,17 @@ namespace Restaurant
     public partial class ClientsInsert : Form
     {
         private string mode;
+        private Form parentForm;
         public int ClientID { get; set; }
-        public ClientsInsert(string mode)
+        public ClientsInsert(string mode, Form parentForm = null)
         {
             InitializeComponent();
+            this.parentForm = parentForm;
+
+            if (parentForm != null)
+            {
+                BlurEffect.ShowDimmed(parentForm);
+            }
             this.mode = mode;
             InactivityManager.Init();
 
@@ -79,7 +86,7 @@ namespace Restaurant
 
         private void buttonBack_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
 
         private void buttonWrite_Click(object sender, EventArgs e)
@@ -195,7 +202,7 @@ namespace Restaurant
                         MessageBox.Show(message, "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
 
-                    this.DialogResult = DialogResult.OK;
+                    this.Close();
                 }
             }
             catch (Exception ex)
@@ -253,6 +260,15 @@ namespace Restaurant
             textBoxFIO.Text = formatted;
             textBoxFIO.SelectionStart = Math.Min(cursorPos, textBoxFIO.Text.Length);
             textBoxFIO.TextChanged += textBoxFIO_TextChanged;
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            base.OnFormClosed(e);
+            if (parentForm != null)
+            {
+                BlurEffect.HideDimmed();
+            }
         }
     }
 }

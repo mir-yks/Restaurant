@@ -171,8 +171,9 @@
             // 
             // comboBoxStatusPayment
             // 
+            this.comboBoxStatusPayment.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.comboBoxStatusPayment.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.comboBoxStatusPayment.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.comboBoxStatusPayment.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxStatusPayment.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.comboBoxStatusPayment.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.comboBoxStatusPayment.ForeColor = System.Drawing.Color.White;
@@ -186,8 +187,9 @@
             // 
             // comboBoxStatusOrder
             // 
+            this.comboBoxStatusOrder.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.comboBoxStatusOrder.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.comboBoxStatusOrder.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.comboBoxStatusOrder.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxStatusOrder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.comboBoxStatusOrder.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.comboBoxStatusOrder.ForeColor = System.Drawing.Color.White;
@@ -210,16 +212,17 @@
             this.comboBoxTable.FormattingEnabled = true;
             this.comboBoxTable.Location = new System.Drawing.Point(40, 204);
             this.comboBoxTable.Margin = new System.Windows.Forms.Padding(4);
+            this.comboBoxTable.MaxLength = 2;
             this.comboBoxTable.Name = "comboBoxTable";
             this.comboBoxTable.Size = new System.Drawing.Size(300, 37);
             this.comboBoxTable.TabIndex = 22;
-            this.comboBoxTable.MaxLength = 2;
             this.comboBoxTable.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBoxTable_KeyPress);
             // 
             // comboBoxClient
             // 
+            this.comboBoxClient.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.comboBoxClient.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.comboBoxClient.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.comboBoxClient.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxClient.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.comboBoxClient.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.comboBoxClient.ForeColor = System.Drawing.Color.White;
@@ -233,8 +236,9 @@
             // 
             // comboBoxWaiter
             // 
+            this.comboBoxWaiter.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.comboBoxWaiter.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.comboBoxWaiter.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.comboBoxWaiter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxWaiter.Enabled = false;
             this.comboBoxWaiter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.comboBoxWaiter.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -250,8 +254,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
-            this.BackgroundImage = global::Restaurant.Properties.Resources.fonMain;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(32)))), ((int)(((byte)(44)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(779, 444);
             this.ControlBox = false;

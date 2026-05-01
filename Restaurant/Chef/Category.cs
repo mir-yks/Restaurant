@@ -26,7 +26,7 @@ namespace Restaurant
         }
         private void buttonNew_Click(object sender, EventArgs e)
         {
-            CategoryInsert categoryInsert = new CategoryInsert("add");
+            CategoryInsert categoryInsert = new CategoryInsert("add", 0, "", this);
             categoryInsert.ShowDialog();
 
             LoadCategories();
@@ -46,7 +46,7 @@ namespace Restaurant
             int categoryId = Convert.ToInt32(selectedRow.Cells["CategoryDishId"].Value);
             string categoryName = selectedRow.Cells["Категория"].Value.ToString();
 
-            CategoryInsert categoryInsert = new CategoryInsert("edit", categoryId, categoryName);
+            CategoryInsert categoryInsert = new CategoryInsert("edit", categoryId, categoryName, this);
             categoryInsert.ShowDialog();
 
             LoadCategories();
@@ -54,7 +54,7 @@ namespace Restaurant
 
         private void buttonBack_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
 
         private void Category_Load(object sender, EventArgs e)

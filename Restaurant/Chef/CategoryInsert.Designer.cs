@@ -43,7 +43,7 @@
             this.buttonWrite.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonWrite.ForeColor = System.Drawing.Color.White;
             this.buttonWrite.Location = new System.Drawing.Point(231, 108);
-            this.buttonWrite.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonWrite.Margin = new System.Windows.Forms.Padding(4);
             this.buttonWrite.Name = "buttonWrite";
             this.buttonWrite.Size = new System.Drawing.Size(153, 62);
             this.buttonWrite.TabIndex = 7;
@@ -59,7 +59,7 @@
             this.buttonBack.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonBack.ForeColor = System.Drawing.Color.White;
             this.buttonBack.Location = new System.Drawing.Point(16, 108);
-            this.buttonBack.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonBack.Margin = new System.Windows.Forms.Padding(4);
             this.buttonBack.Name = "buttonBack";
             this.buttonBack.Size = new System.Drawing.Size(153, 62);
             this.buttonBack.TabIndex = 6;
@@ -87,7 +87,7 @@
             this.textBoxCategory.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBoxCategory.ForeColor = System.Drawing.Color.White;
             this.textBoxCategory.Location = new System.Drawing.Point(51, 44);
-            this.textBoxCategory.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxCategory.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxCategory.MaxLength = 100;
             this.textBoxCategory.Name = "textBoxCategory";
             this.textBoxCategory.Size = new System.Drawing.Size(291, 36);
@@ -98,8 +98,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
-            this.BackgroundImage = global::Restaurant.Properties.Resources.fonMain;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(32)))), ((int)(((byte)(44)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(400, 185);
             this.ControlBox = false;
@@ -109,7 +108,7 @@
             this.Controls.Add(this.textBoxCategory);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "CategoryInsert";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Редактирование категории";

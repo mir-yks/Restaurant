@@ -15,6 +15,7 @@ namespace Restaurant
     public partial class OrderInsert : Form
     {
         private string mode;
+        private Form parentForm;
         private bool isUpdatingStatus = false;
         private string initialOrderStatus;
         private string initialOrderStatusPayment;
@@ -58,10 +59,16 @@ namespace Restaurant
         }
         public int OrderID { get; set; }
 
-        public OrderInsert(string mode, int currentWorkerId = 0)
+        public OrderInsert(string mode, int currentWorkerId = 0, Form parentForm = null)
         {
             InitializeComponent();
             this.mode = mode;
+            this.parentForm = parentForm;
+
+            if (parentForm != null)
+            {
+                BlurEffect.ShowDimmed(parentForm);
+            }
             InactivityManager.Init();
 
             labelWaiter.Font = Fonts.MontserratAlternatesRegular(14f);
@@ -109,12 +116,6 @@ namespace Restaurant
 
         private void UpdateControlsState()
         {
-            UpdatePaymentStatusControlState();
-            UpdateOrderStatusControlState();
-        }
-
-        private void UpdatePaymentStatusControlState()
-        {
             if (comboBoxStatusPayment.Text == "Оплачен")
             {
                 comboBoxStatusPayment.Enabled = false;
@@ -123,10 +124,7 @@ namespace Restaurant
             {
                 comboBoxStatusPayment.Enabled = true;
             }
-        }
 
-        private void UpdateOrderStatusControlState()
-        {
             if (comboBoxStatusOrder.Text == "Завершен")
             {
                 comboBoxStatusOrder.Enabled = false;
@@ -136,7 +134,6 @@ namespace Restaurant
                 comboBoxStatusOrder.Enabled = true;
             }
         }
-
         private void LoadComboBoxData(int currentWorkerId = 0)
         {
             try
@@ -187,9 +184,8 @@ namespace Restaurant
 
                     comboBoxStatusOrder.Items.Clear();
                     comboBoxStatusOrder.Items.Add("Новый");
-                    comboBoxStatusOrder.Items.Add("На кухне");
-                    comboBoxStatusOrder.Items.Add("Готов");
                     comboBoxStatusOrder.Items.Add("Завершен");
+                    comboBoxStatusOrder.Items.Add("Отменен");
 
                     comboBoxStatusPayment.Items.Clear();
                     comboBoxStatusPayment.Items.Add("Оплачен");
@@ -464,7 +460,7 @@ namespace Restaurant
 
         private void buttonBack_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
 
         private void buttonOrderItem_Click(object sender, EventArgs e)
@@ -539,7 +535,7 @@ namespace Restaurant
                     {
                         MessageBox.Show($"Заказ №{OrderID} успешно обновлен!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                        this.DialogResult = DialogResult.OK;
+                        this.Close();
                         this.Close();
                     }
                     return;
@@ -576,7 +572,7 @@ namespace Restaurant
                     }
                     else
                     {
-                        this.DialogResult = DialogResult.OK;
+                        this.Close();
                         this.Close();
                     }
                 }
@@ -1091,6 +1087,15 @@ namespace Restaurant
                 !Regex.IsMatch(e.KeyChar.ToString(), @"^[0-9]$"))
             {
                 e.Handled = true;
+            }
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            base.OnFormClosed(e);
+            if (parentForm != null)
+            {
+                BlurEffect.HideDimmed();
             }
         }
     }

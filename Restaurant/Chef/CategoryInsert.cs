@@ -14,6 +14,7 @@ namespace Restaurant
     public partial class CategoryInsert : Form
     {
         private string mode;
+        private Form parentForm;
         public int CategoryID { get; set; }
         public string CategoryName
         {
@@ -21,10 +22,16 @@ namespace Restaurant
             set => textBoxCategory.Text = value;
         }
 
-        public CategoryInsert(string mode = "add", int categoryId = 0, string categoryName = "")
+        public CategoryInsert(string mode = "add", int categoryId = 0, string categoryName = "", Form parentForm = null)
         {
             InitializeComponent();
             this.mode = mode;
+            this.parentForm = parentForm;
+
+            if (parentForm != null)
+            {
+                BlurEffect.ShowDimmed(parentForm);
+            }
 
             labelName.Font = Fonts.MontserratAlternatesRegular(14f);
             textBoxCategory.Font = Fonts.MontserratAlternatesRegular(14f);
@@ -133,7 +140,7 @@ namespace Restaurant
                             MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
 
-                    this.DialogResult = DialogResult.OK;
+                    this.Close();
                 }
             }
             catch (Exception ex)
@@ -148,6 +155,15 @@ namespace Restaurant
                 !System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"^[а-яА-Я-\s]$"))
             {
                 e.Handled = true;
+            }
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            base.OnFormClosed(e);
+            if (parentForm != null)
+            {
+                BlurEffect.HideDimmed();
             }
         }
     }

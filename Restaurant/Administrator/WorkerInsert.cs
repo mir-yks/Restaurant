@@ -16,37 +16,36 @@ namespace Restaurant
     {
         private string mode;
         private string originalRole;
+        private Form parentForm;
         public int WorkerID { get; set; }
-        public WorkerInsert(string mode)
+        public WorkerInsert(string mode, Form parentForm = null)
         {
             InitializeComponent();
             this.mode = mode;
+            this.parentForm = parentForm;
             InactivityManager.Init();
+
+            if (parentForm != null)
+            {
+                BlurEffect.ShowDimmed(parentForm);
+            }
 
             labelLogin.Font = Fonts.MontserratAlternatesRegular(14f);
             labelPassword.Font = Fonts.MontserratAlternatesRegular(14f);
             labelRole.Font = Fonts.MontserratAlternatesRegular(14f);
-            labelBirthday.Font = Fonts.MontserratAlternatesRegular(14f);
-            labelEmployment.Font = Fonts.MontserratAlternatesRegular(14f);
             labelConfPassword.Font = Fonts.MontserratAlternatesRegular(14f);
             labelPhone.Font = Fonts.MontserratAlternatesRegular(14f);
-            labelAddress.Font = Fonts.MontserratAlternatesRegular(14f);
             labelFIO.Font = Fonts.MontserratAlternatesRegular(14f);
-            labelEmail.Font = Fonts.MontserratAlternatesRegular(14f);
+            labelPassport.Font = Fonts.MontserratAlternatesRegular(14f);
             textBoxFIO.Font = Fonts.MontserratAlternatesRegular(14f);
             textBoxLogin.Font = Fonts.MontserratAlternatesRegular(14f);
             textBoxPassword.Font = Fonts.MontserratAlternatesRegular(14f);
             textBoxConfPassword.Font = Fonts.MontserratAlternatesRegular(14f);
-            textBoxEmail.Font = Fonts.MontserratAlternatesRegular(14f);
-            textBoxAddress.Font = Fonts.MontserratAlternatesRegular(14f);
+            textBoxPassport.Font = Fonts.MontserratAlternatesRegular(14f);
             maskedTextBoxPhone.Font = Fonts.MontserratAlternatesRegular(14f);
             comboBoxRole.Font = Fonts.MontserratAlternatesRegular(14f);
             buttonBack.Font = Fonts.MontserratAlternatesBold(12f);
             buttonWrite.Font = Fonts.MontserratAlternatesBold(12f);
-
-            dateTimePickerBirthday.MaxDate = DateTime.Today.AddYears(-14);
-            dateTimePickerBirthday.MinDate = DateTime.Today.AddYears(-120);
-            dateTimePickerEmployment.MaxDate = DateTime.Today;
 
             LoadRoles();
             ApplyMode();
@@ -97,16 +96,9 @@ namespace Restaurant
                     textBoxPassword.ReadOnly = true;
                     textBoxConfPassword.ReadOnly = true;
                     maskedTextBoxPhone.ReadOnly = true;
-                    textBoxEmail.ReadOnly = true;
-                    textBoxAddress.ReadOnly = true;
-
+                    textBoxPassport.ReadOnly = true;
                     comboBoxRole.Enabled = false;
-                    dateTimePickerBirthday.Enabled = false;
 
-                    comboBoxRole.Location = new System.Drawing.Point(16, 235);
-                    labelRole.Location = new System.Drawing.Point(12, 209);
-                    textBoxAddress.Location = new System.Drawing.Point(16, 168);
-                    labelAddress.Location = new System.Drawing.Point(12, 142);
                     break;
 
                 case "add":
@@ -115,17 +107,13 @@ namespace Restaurant
                     textBoxPassword.Text = "";
                     textBoxConfPassword.Text = "";
                     maskedTextBoxPhone.Text = "";
-                    textBoxEmail.Text = "";
-                    textBoxAddress.Text = "";
-                    comboBoxRole.SelectedIndex = 0;
-                    dateTimePickerEmployment.Value = DateTime.Today;
+                    textBoxPassport.Text = "";
+                    comboBoxRole.SelectedIndex = -1;
 
                     comboBoxRole.Enabled = true;
                     break;
 
                 case "edit":
-                    dateTimePickerBirthday.Enabled = false;
-
                     if (string.IsNullOrEmpty(originalRole) && !string.IsNullOrEmpty(comboBoxRole.Text))
                     {
                         originalRole = comboBoxRole.Text;
@@ -183,28 +171,10 @@ namespace Restaurant
             }
         }
 
-        public string WorkerEmail
+        public string WorkerPassport
         {
-            get => textBoxEmail.Text;
-            set => textBoxEmail.Text = value;
-        }
-
-        public DateTime WorkerBirthday
-        {
-            get => dateTimePickerBirthday.Value;
-            set => dateTimePickerBirthday.Value = value;
-        }
-
-        public DateTime WorkerDateEmployment
-        {
-            get => dateTimePickerEmployment.Value;
-            set => dateTimePickerEmployment.Value = value;
-        }
-
-        public string WorkerAddress
-        {
-            get => textBoxAddress.Text;
-            set => textBoxAddress.Text = value;
+            get => textBoxPassport.Text;
+            set => textBoxPassport.Text = value;
         }
 
         public string WorkerRole
@@ -223,7 +193,7 @@ namespace Restaurant
 
         private void buttonBack_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
 
         private void buttonWrite_Click(object sender, EventArgs e)
@@ -262,30 +232,25 @@ namespace Restaurant
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(textBoxEmail.Text))
+            if (string.IsNullOrWhiteSpace(textBoxPassport.Text))
             {
-                MessageBox.Show("Введите почту!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                textBoxEmail.Focus();
+                MessageBox.Show("Введите паспортные данные!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                textBoxPassport.Focus();
                 return;
             }
 
-            if (!IsValidEmail(textBoxEmail.Text))
+            if (!IsValidPassport(textBoxPassport.Text))
             {
-                MessageBox.Show("Введите корректный адрес электронной почты!\nФормат: имя@домен.зона (например: user@mail.ru)",
+                MessageBox.Show("Введите корректные паспортные данные!\nФормат: XXXX XXXXXX (4 цифры серии, пробел, 6 цифр номера)",
                     "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                textBoxEmail.Focus();
+                textBoxPassport.Focus();
                 return;
             }
+
             if (comboBoxRole.SelectedIndex == -1)
             {
-                MessageBox.Show("Введите роль!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Выберите роль!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 comboBoxRole.Focus();
-                return;
-            }
-            if (string.IsNullOrWhiteSpace(textBoxAddress.Text))
-            {
-                MessageBox.Show("Введите адрес!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                textBoxAddress.Focus();
                 return;
             }
 
@@ -320,7 +285,7 @@ namespace Restaurant
 
                     string checkLoginQuery = @"SELECT COUNT(*) FROM worker WHERE WorkerLogin = @Login {0}";
                     string checkPhoneQuery = @"SELECT COUNT(*) FROM worker WHERE WorkerPhone = @Phone {0}";
-                    string checkEmailQuery = @"SELECT COUNT(*) FROM worker WHERE WorkerEmail = @Email {0}";
+                    string checkPassportQuery = @"SELECT COUNT(*) FROM worker WHERE WorkerPassport = @Passport {0}";
 
                     string excludeCondition = mode == "edit" ? "AND WorkerId <> @Id" : "";
 
@@ -354,26 +319,26 @@ namespace Restaurant
                         }
                     }
 
-                    using (MySqlCommand checkEmailCmd = new MySqlCommand(string.Format(checkEmailQuery, excludeCondition), con))
+                    using (MySqlCommand checkPassportCmd = new MySqlCommand(string.Format(checkPassportQuery, excludeCondition), con))
                     {
-                        checkEmailCmd.Parameters.AddWithValue("@Email", textBoxEmail.Text);
+                        checkPassportCmd.Parameters.AddWithValue("@Passport", textBoxPassport.Text);
                         if (mode == "edit")
-                            checkEmailCmd.Parameters.AddWithValue("@Id", WorkerID);
+                            checkPassportCmd.Parameters.AddWithValue("@Id", WorkerID);
 
-                        int emailCount = Convert.ToInt32(checkEmailCmd.ExecuteScalar());
-                        if (emailCount > 0)
+                        int passportCount = Convert.ToInt32(checkPassportCmd.ExecuteScalar());
+                        if (passportCount > 0)
                         {
-                            MessageBox.Show("Пользователь с такой почтой уже существует!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            textBoxEmail.Focus();
+                            MessageBox.Show("Пользователь с такими паспортными данными уже существует!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            textBoxPassport.Focus();
                             return;
                         }
                     }
 
                     DialogResult confirmResult = MessageBox.Show(
-                "Вы действительно хотите сохранить запись?",
-                "Подтверждение записи",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question);
+                        "Вы действительно хотите сохранить запись?",
+                        "Подтверждение записи",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question);
 
                     if (confirmResult != DialogResult.Yes) return;
 
@@ -390,11 +355,9 @@ namespace Restaurant
                     if (mode == "add")
                     {
                         string query = @"INSERT INTO worker 
-                    (WorkerFIO, OriginalWorkerFIO, WorkerLogin, WorkerPassword, WorkerPhone, WorkerEmail, 
-                     WorkerBirthday, WorkerDateEmployment, WorkerAddress, WorkerRole)
-                     VALUES (@FIO, @OriginalFIO, @Login, @Password, @Phone, @Email, 
-                             @Birthday, @Employment, @Address, 
-                             (SELECT RoleId FROM role WHERE RoleName = @Role))";
+                            (WorkerFIO, OriginalWorkerFIO, WorkerLogin, WorkerPassword, WorkerPhone, WorkerPassport, WorkerRole)
+                            VALUES (@FIO, @OriginalFIO, @Login, @Password, @Phone, @Passport, 
+                                    (SELECT RoleId FROM role WHERE RoleName = @Role))";
 
                         MySqlCommand cmd = new MySqlCommand(query, con);
                         cmd.Parameters.AddWithValue("@FIO", textBoxFIO.Text);
@@ -402,10 +365,7 @@ namespace Restaurant
                         cmd.Parameters.AddWithValue("@Login", textBoxLogin.Text);
                         cmd.Parameters.AddWithValue("@Password", hashedPassword);
                         cmd.Parameters.AddWithValue("@Phone", userDigits);
-                        cmd.Parameters.AddWithValue("@Email", textBoxEmail.Text);
-                        cmd.Parameters.AddWithValue("@Birthday", dateTimePickerBirthday.Value);
-                        cmd.Parameters.AddWithValue("@Employment", dateTimePickerEmployment.Value);
-                        cmd.Parameters.AddWithValue("@Address", textBoxAddress.Text);
+                        cmd.Parameters.AddWithValue("@Passport", textBoxPassport.Text);
                         cmd.Parameters.AddWithValue("@Role", comboBoxRole.Text);
 
                         cmd.ExecuteNonQuery();
@@ -442,17 +402,14 @@ namespace Restaurant
                         }
 
                         string query = @"UPDATE worker 
-                     SET WorkerFIO = @FIO,
-                         OriginalWorkerFIO = @OriginalFIO,
-                         WorkerLogin = @Login,
-                         WorkerPhone = @Phone,
-                         WorkerEmail = @Email,
-                         WorkerBirthday = @Birthday,
-                         WorkerDateEmployment = @Employment,
-                         WorkerAddress = @Address,
-                         WorkerRole = (SELECT RoleId FROM role WHERE RoleName = @Role)
-                         {0}
-                     WHERE WorkerId = @Id";
+                            SET WorkerFIO = @FIO,
+                                OriginalWorkerFIO = @OriginalFIO,
+                                WorkerLogin = @Login,
+                                WorkerPhone = @Phone,
+                                WorkerPassport = @Passport,
+                                WorkerRole = (SELECT RoleId FROM role WHERE RoleName = @Role)
+                                {0}
+                            WHERE WorkerId = @Id";
 
                         string passwordPart = !string.IsNullOrEmpty(hashedPassword) ? ", WorkerPassword = @Password" : "";
                         query = string.Format(query, passwordPart);
@@ -462,10 +419,7 @@ namespace Restaurant
                         cmd.Parameters.AddWithValue("@OriginalFIO", originalFIO);
                         cmd.Parameters.AddWithValue("@Login", textBoxLogin.Text);
                         cmd.Parameters.AddWithValue("@Phone", userDigits);
-                        cmd.Parameters.AddWithValue("@Email", textBoxEmail.Text);
-                        cmd.Parameters.AddWithValue("@Birthday", dateTimePickerBirthday.Value);
-                        cmd.Parameters.AddWithValue("@Employment", dateTimePickerEmployment.Value);
-                        cmd.Parameters.AddWithValue("@Address", textBoxAddress.Text);
+                        cmd.Parameters.AddWithValue("@Passport", textBoxPassport.Text);
 
                         string roleToUse = originalRole.Equals("Администратор", StringComparison.OrdinalIgnoreCase)
                             ? originalRole
@@ -485,13 +439,83 @@ namespace Restaurant
                         MessageBox.Show(message, "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
 
-                    this.DialogResult = DialogResult.OK;
+                    this.Close();
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void textBoxPassport_TextChanged(object sender, EventArgs e)
+        {
+            int cursorPos = textBoxPassport.SelectionStart;
+            string oldText = textBoxPassport.Text;
+
+            string digitsOnly = new string(oldText.Where(char.IsDigit).ToArray());
+
+            if (digitsOnly.Length > 10)
+                digitsOnly = digitsOnly.Substring(0, 10);
+
+            string formatted = "";
+            if (digitsOnly.Length > 0)
+            {
+                formatted = digitsOnly;
+                if (digitsOnly.Length >= 4 && digitsOnly.Length <= 10)
+                {
+                    formatted = digitsOnly.Substring(0, 4);
+                    if (digitsOnly.Length > 4)
+                    {
+                        formatted += " " + digitsOnly.Substring(4);
+                    }
+                }
+            }
+
+            if (oldText == formatted)
+                return;
+
+            int newCursorPos = cursorPos;
+
+            if (cursorPos == 4 && oldText.Length >= 4 && formatted.Length > 4 && formatted[4] == ' ')
+            {
+                newCursorPos = 5; 
+            }
+            else if (cursorPos > 0 && cursorPos < oldText.Length && oldText[cursorPos] == ' ' && formatted.Length > cursorPos)
+            {
+                newCursorPos = cursorPos;
+            }
+            else if (oldText.Length > formatted.Length)
+            {
+                int diff = oldText.Length - formatted.Length;
+                newCursorPos = Math.Max(0, cursorPos - diff);
+            }
+            else if (oldText.Length < formatted.Length)
+            {
+                if (cursorPos >= 4 && cursorPos <= 5)
+                {
+                    newCursorPos = 5;
+                }
+                else
+                {
+                    newCursorPos = cursorPos + (formatted.Length - oldText.Length);
+                }
+            }
+
+            textBoxPassport.TextChanged -= textBoxPassport_TextChanged;
+            textBoxPassport.Text = formatted;
+            textBoxPassport.SelectionStart = Math.Min(newCursorPos, textBoxPassport.Text.Length);
+            textBoxPassport.TextChanged += textBoxPassport_TextChanged;
+        }
+
+        private bool IsValidPassport(string passport)
+        {
+            if (string.IsNullOrWhiteSpace(passport))
+                return false;
+
+            string digitsOnly = new string(passport.Where(char.IsDigit).ToArray());
+
+            return digitsOnly.Length == 10;
         }
 
         private void textBoxFIO_KeyPress(object sender, KeyPressEventArgs e)
@@ -512,19 +536,10 @@ namespace Restaurant
             }
         }
 
-        private void textBoxPasswdAndEmail_KeyPress(object sender, KeyPressEventArgs e)
+        private void textBoxPasswd_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) &&
                 !System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"^[a-zA-Z0-9!@#$%^&*()\-_=+\[\]{}|;:,.<>?]$"))
-            {
-                e.Handled = true;
-            }
-        }
-
-        private void textBoxAddress_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsControl(e.KeyChar) &&
-                !System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"^[а-яА-Я0-9-,.\s]$"))
             {
                 e.Handled = true;
             }
@@ -571,102 +586,24 @@ namespace Restaurant
             textBoxFIO.Text = formatted;
             textBoxFIO.SelectionStart = Math.Min(cursorPos, textBoxFIO.Text.Length);
             textBoxFIO.TextChanged += textBoxFIO_TextChanged;
-
         }
 
-        private bool IsValidEmail(string email)
+        private void textBoxPassport_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(email))
-                return false;
-
-            try
+            if (!char.IsControl(e.KeyChar) &&
+                !char.IsDigit(e.KeyChar) &&
+                e.KeyChar != ' ')
             {
-                if (!email.Contains('@'))
-                    return false;
-
-                string[] parts = email.Split('@');
-                if (parts.Length != 2)
-                    return false;
-
-                string localPart = parts[0];
-                string domainPart = parts[1];
-
-                if (string.IsNullOrWhiteSpace(localPart) || localPart.Length < 1)
-                    return false;
-
-                if (string.IsNullOrWhiteSpace(domainPart) || !domainPart.Contains('.'))
-                    return false;
-
-                string[] domainParts = domainPart.Split('.');
-                if (domainParts.Length < 2)
-                    return false;
-
-                string lastPart = domainParts[domainParts.Length - 1];
-                if (lastPart.Length < 2)
-                    return false;
-
-                if (email.Contains("..") || email.Contains(".@") || email.Contains("@.") || email.StartsWith(".") || email.EndsWith("."))
-                    return false;
-
-                foreach (char c in email)
-                {
-                    if (!char.IsLetterOrDigit(c) && c != '@' && c != '.' && c != '_' && c != '-')
-                        return false;
-                }
-
-                return true;
-            }
-            catch
-            {
-                return false;
+                e.Handled = true;
             }
         }
 
-        private void textBoxEmail_TextChanged(object sender, EventArgs e)
+        protected override void OnFormClosed(FormClosedEventArgs e)
         {
-            int cursorPos = textBoxEmail.SelectionStart;
-            string text = textBoxEmail.Text;
-
-            int atCount = text.Count(c => c == '@');
-
-            if (atCount > 1)
+            base.OnFormClosed(e);
+            if (parentForm != null)
             {
-                var atPositions = new List<int>();
-                for (int i = 0; i < text.Length; i++)
-                {
-                    if (text[i] == '@')
-                        atPositions.Add(i);
-                }
-
-                if (atPositions.Count > 1)
-                {
-                    for (int i = atPositions.Count - 1; i > 0; i--)
-                    {
-                        text = text.Remove(atPositions[i], 1);
-                        if (cursorPos > atPositions[i])
-                            cursorPos--;
-                    }
-                }
-            }
-
-            System.Text.StringBuilder filteredText = new System.Text.StringBuilder();
-            foreach (char c in text)
-            {
-                if (char.IsControl(c) ||
-                    System.Text.RegularExpressions.Regex.IsMatch(c.ToString(), @"^[a-zA-Z0-9@._-]$"))
-                {
-                    filteredText.Append(c);
-                }
-            }
-
-            string finalText = filteredText.ToString();
-
-            if (textBoxEmail.Text != finalText)
-            {
-                textBoxEmail.TextChanged -= textBoxEmail_TextChanged;
-                textBoxEmail.Text = finalText;
-                textBoxEmail.SelectionStart = Math.Min(cursorPos, textBoxEmail.Text.Length);
-                textBoxEmail.TextChanged += textBoxEmail_TextChanged;
+                BlurEffect.HideDimmed();
             }
         }
     }

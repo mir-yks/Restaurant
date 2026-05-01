@@ -67,7 +67,7 @@ namespace Restaurant
 
         private void buttonBack_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
 
         private void buttonUpdate_Click(object sender, EventArgs e)
@@ -83,7 +83,7 @@ namespace Restaurant
 
             string photoHash = GetDishPhotoHashFromDatabase(id);
 
-            MenuInsert MenuInsert = new MenuInsert("edit", id, name, desc, price, category, offer, photoHash);
+            MenuInsert MenuInsert = new MenuInsert("edit", id, name, desc, price, category, offer, photoHash, this);
             MenuInsert.ShowDialog();
             LoadMenuAsync();
         }
@@ -117,7 +117,7 @@ namespace Restaurant
 
         private void buttonNew_Click(object sender, EventArgs e)
         {
-            MenuInsert MenuInsert = new MenuInsert("add");
+            MenuInsert MenuInsert = new MenuInsert("add", 0, "", "", 0, "", "", "", this);
             MenuInsert.ShowDialog();
             LoadMenuAsync();
         }
