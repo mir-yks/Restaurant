@@ -87,7 +87,9 @@
             this.textBoxPassport.Name = "textBoxPassport";
             this.textBoxPassport.Size = new System.Drawing.Size(377, 36);
             this.textBoxPassport.TabIndex = 5;
+            this.textBoxPassport.Click += new System.EventHandler(this.textBoxPassport_Click);
             this.textBoxPassport.TextChanged += new System.EventHandler(this.textBoxPassport_TextChanged);
+            this.textBoxPassport.Enter += new System.EventHandler(this.textBoxPassport_Enter);
             this.textBoxPassport.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxPassport_KeyPress);
             // 
             // textBoxLogin
@@ -269,6 +271,8 @@
             this.maskedTextBoxPhone.Name = "maskedTextBoxPhone";
             this.maskedTextBoxPhone.Size = new System.Drawing.Size(377, 36);
             this.maskedTextBoxPhone.TabIndex = 6;
+            this.maskedTextBoxPhone.Click += new System.EventHandler(this.maskedTextBoxPhone_Click);
+            this.maskedTextBoxPhone.Enter += new System.EventHandler(this.maskedTextBoxPhone_Enter);
             // 
             // WorkerInsert
             // 

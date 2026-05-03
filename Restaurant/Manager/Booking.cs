@@ -95,7 +95,7 @@ namespace Restaurant
                                                 FROM booking b 
                                                 JOIN client c ON b.ClientId = c.ClientId
                                                 JOIN tables t ON b.TableId = t.TablesId
-                                                ORDER BY b.BookingDate DESC;", con);
+                                                ORDER BY b.BookingDate ASC;", con);
 
                     MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                     bookingTable = new DataTable();

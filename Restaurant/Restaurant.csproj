@@ -52,6 +52,7 @@
     <Reference Include="System.Numerics.Vectors, Version=4.1.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Numerics.Vectors.4.6.1\lib\net462\System.Numerics.Vectors.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -70,6 +71,7 @@
     <Compile Include="Classes\DataFormatter.cs" />
     <Compile Include="Classes\Fonts.cs" />
     <Compile Include="Classes\GenerateCheck.cs" />
+    <Compile Include="Classes\GenerateReport.cs" />
     <Compile Include="Classes\ImageManager.cs" />
     <Compile Include="Classes\InactivityManager.cs" />
     <Compile Include="Classes\OrderStatusUpdater.cs" />

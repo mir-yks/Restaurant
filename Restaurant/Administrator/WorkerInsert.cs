@@ -598,6 +598,40 @@ namespace Restaurant
             }
         }
 
+        private void maskedTextBoxPhone_Click(object sender, EventArgs e)
+        {
+            SetCursorToEnd(maskedTextBoxPhone);
+        }
+
+        private void maskedTextBoxPhone_Enter(object sender, EventArgs e)
+        {
+            SetCursorToEnd(maskedTextBoxPhone);
+        }
+
+        private void textBoxPassport_Click(object sender, EventArgs e)
+        {
+            textBoxPassport.SelectionStart = textBoxPassport.Text.Length;
+        }
+
+        private void textBoxPassport_Enter(object sender, EventArgs e)
+        {
+            textBoxPassport.SelectionStart = textBoxPassport.Text.Length;
+        }
+
+        private void SetCursorToEnd(MaskedTextBox mtb)
+        {
+            mtb.SelectionStart = mtb.Text.Length;
+
+            for (int i = mtb.Text.Length - 1; i >= 0; i--)
+            {
+                if (char.IsDigit(mtb.Text[i]))
+                {
+                    mtb.SelectionStart = i + 1;
+                    break;
+                }
+            }
+        }
+
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
             base.OnFormClosed(e);

@@ -36,12 +36,6 @@ namespace Restaurant
             return Math.Round(originalPrice, 2);
         }
 
-        public decimal CalculateTotalSumForDish(decimal originalPrice, int quantity, int discount = 0)
-        {
-            decimal finalPrice = CalculatePriceWithDiscount(originalPrice, discount);
-            return Math.Round(quantity * finalPrice, 2);
-        }
-
         public int GetDiscountForDish(int dishId, DataTable allDishesTable, DataTable offersTable)
         {
             DataRow[] dishRows = allDishesTable.Select($"DishId = {dishId}");
@@ -81,30 +75,6 @@ namespace Restaurant
             return dishName;
         }
 
-        public string GetToolTipText(int discount, decimal finalPrice, int quantity, decimal totalSum)
-        {
-            if (discount > 0)
-            {
-                return $"Цена со скидкой {discount}%: {finalPrice:F2} × {quantity} = {totalSum:F2}";
-            }
-            return null;
-        }
-
-        public decimal CalculateCurrentTotalSum(DataGridView dataGridView)
-        {
-            decimal total = 0;
-            foreach (DataGridViewRow row in dataGridView.Rows)
-            {
-                if (row.IsNewRow) continue;
-
-                if (row.Cells["ColumnSum"].Value != null && row.Cells["ColumnSum"].Value != DBNull.Value)
-                {
-                    total += Convert.ToDecimal(row.Cells["ColumnSum"].Value);
-                }
-            }
-            return Math.Round(total, 2);
-        }
-
         public decimal CalculateOrderTotalSumFromDatabase(int orderId, MySqlConnection connection)
         {
             try
@@ -112,29 +82,36 @@ namespace Restaurant
                 MySqlCommand cmd = new MySqlCommand(@"
                     SELECT 
                         SUM(
+                            i.DishCount * 
                             CASE 
-                                WHEN m.OffersDish IS NOT NULL AND m.OffersDish > 0 THEN
-                                    ROUND(i.DishCount * m.DishPrice * (100 - od.OffersDishDicsount) / 100, 2)
-                                ELSE
-                                    ROUND(i.DishCount * m.DishPrice, 2)
-                            END
+                                WHEN i.OriginalPrice > 0 THEN i.OriginalPrice
+                                ELSE m.DishPrice
+                            END *
+                            (100 - 
+                                CASE 
+                                    WHEN i.OriginalDiscount > 0 THEN i.OriginalDiscount
+                                    WHEN m.OffersDish IS NOT NULL AND m.OffersDish > 0 THEN 
+                                        (SELECT OffersDishDicsount FROM OffersDish WHERE OffersDishId = m.OffersDish)
+                                    ELSE 0
+                                END
+                            ) / 100
                         ) AS TotalSum
                     FROM OrderItems i
                     JOIN MenuDish m ON i.DishId = m.DishId
-                    LEFT JOIN OffersDish od ON m.OffersDish = od.OffersDishId
-                    WHERE i.OrderId = @OrderId;", connection);
+                    WHERE i.OrderId = @OrderId;
+                ", connection);
 
                 cmd.Parameters.AddWithValue("@OrderId", orderId);
-
                 object result = cmd.ExecuteScalar();
+
                 if (result != null && result != DBNull.Value)
                 {
-                    return Convert.ToDecimal(result);
+                    return Math.Round(Convert.ToDecimal(result), 2);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                
+                System.Diagnostics.Debug.WriteLine($"Error calculating order sum: {ex.Message}");
             }
             return 0;
         }

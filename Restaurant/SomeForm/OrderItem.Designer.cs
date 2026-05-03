@@ -35,13 +35,13 @@
             this.buttonWrite = new System.Windows.Forms.Button();
             this.buttonBack = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.textBoxSum = new System.Windows.Forms.TextBox();
-            this.labelSum = new System.Windows.Forms.Label();
-            this.labelTotal = new System.Windows.Forms.Label();
             this.ColumnDish = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.ColumnQuantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnSum = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.labelSumma = new System.Windows.Forms.Label();
+            this.labelTotal = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -95,44 +95,76 @@
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
+            this.dataGridView1.RowTemplate.Height = 27;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(1067, 505);
             this.dataGridView1.TabIndex = 5;
-            this.dataGridView1.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView1_CellEndEdit);
             this.dataGridView1.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DataGridView1_CellFormatting);
             this.dataGridView1.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.dataGridView1_CellValidating);
             this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
             this.dataGridView1.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dataGridView1_DataError);
             this.dataGridView1.DefaultValuesNeeded += new System.Windows.Forms.DataGridViewRowEventHandler(this.dataGridView1_DefaultValuesNeeded);
-            this.dataGridView1.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.DataGridView1_EditingControlShowing);
+            this.dataGridView1.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dataGridView1_EditingControlShowing);
             this.dataGridView1.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridView1_RowsAdded);
             this.dataGridView1.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dataGridView1_RowsRemoved);
             // 
-            // textBoxSum
+            // ColumnDish
             // 
-            this.textBoxSum.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.textBoxSum.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBoxSum.Enabled = false;
-            this.textBoxSum.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxSum.ForeColor = System.Drawing.Color.White;
-            this.textBoxSum.Location = new System.Drawing.Point(899, 577);
-            this.textBoxSum.Margin = new System.Windows.Forms.Padding(4);
-            this.textBoxSum.Name = "textBoxSum";
-            this.textBoxSum.Size = new System.Drawing.Size(151, 36);
-            this.textBoxSum.TabIndex = 36;
+            this.ColumnDish.DataPropertyName = "DishId";
+            this.ColumnDish.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
+            this.ColumnDish.DisplayStyleForCurrentCellOnly = true;
+            this.ColumnDish.FillWeight = 52F;
+            this.ColumnDish.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ColumnDish.HeaderText = "Блюдо";
+            this.ColumnDish.MinimumWidth = 6;
+            this.ColumnDish.Name = "ColumnDish";
             // 
-            // labelSum
+            // ColumnQuantity
             // 
-            this.labelSum.AutoSize = true;
-            this.labelSum.BackColor = System.Drawing.Color.Transparent;
-            this.labelSum.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelSum.ForeColor = System.Drawing.Color.White;
-            this.labelSum.Location = new System.Drawing.Point(893, 545);
-            this.labelSum.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelSum.Name = "labelSum";
-            this.labelSum.Size = new System.Drawing.Size(103, 29);
-            this.labelSum.TabIndex = 35;
-            this.labelSum.Text = "Сумма:";
+            this.ColumnQuantity.DataPropertyName = "Количество";
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.ColumnQuantity.DefaultCellStyle = dataGridViewCellStyle1;
+            this.ColumnQuantity.FillWeight = 16F;
+            this.ColumnQuantity.HeaderText = "Количество";
+            this.ColumnQuantity.MinimumWidth = 6;
+            this.ColumnQuantity.Name = "ColumnQuantity";
+            this.ColumnQuantity.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // ColumnPrice
+            // 
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle2.Format = "N2";
+            this.ColumnPrice.DefaultCellStyle = dataGridViewCellStyle2;
+            this.ColumnPrice.FillWeight = 16F;
+            this.ColumnPrice.HeaderText = "Цена";
+            this.ColumnPrice.MinimumWidth = 6;
+            this.ColumnPrice.Name = "ColumnPrice";
+            this.ColumnPrice.ReadOnly = true;
+            // 
+            // ColumnSum
+            // 
+            this.ColumnSum.DataPropertyName = "Сумма";
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle3.Format = "N2";
+            this.ColumnSum.DefaultCellStyle = dataGridViewCellStyle3;
+            this.ColumnSum.FillWeight = 16F;
+            this.ColumnSum.HeaderText = "Сумма";
+            this.ColumnSum.MinimumWidth = 6;
+            this.ColumnSum.Name = "ColumnSum";
+            this.ColumnSum.ReadOnly = true;
+            // 
+            // labelSumma
+            // 
+            this.labelSumma.AutoSize = true;
+            this.labelSumma.BackColor = System.Drawing.Color.Transparent;
+            this.labelSumma.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelSumma.ForeColor = System.Drawing.Color.White;
+            this.labelSumma.Location = new System.Drawing.Point(893, 545);
+            this.labelSumma.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelSumma.Name = "labelSumma";
+            this.labelSumma.Size = new System.Drawing.Size(103, 29);
+            this.labelSumma.TabIndex = 35;
+            this.labelSumma.Text = "Сумма:";
             // 
             // labelTotal
             // 
@@ -150,46 +182,18 @@
             this.labelTotal.TabIndex = 49;
             this.labelTotal.Text = "Всего:";
             // 
-            // ColumnDish
+            // label1
             // 
-            this.ColumnDish.DataPropertyName = "DishId";
-            this.ColumnDish.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
-            this.ColumnDish.DisplayStyleForCurrentCellOnly = true;
-            this.ColumnDish.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ColumnDish.HeaderText = "Блюдо";
-            this.ColumnDish.MinimumWidth = 6;
-            this.ColumnDish.Name = "ColumnDish";
-            // 
-            // ColumnQuantity
-            // 
-            this.ColumnQuantity.DataPropertyName = "Количество";
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.ColumnQuantity.DefaultCellStyle = dataGridViewCellStyle1;
-            this.ColumnQuantity.HeaderText = "Количество";
-            this.ColumnQuantity.MinimumWidth = 6;
-            this.ColumnQuantity.Name = "ColumnQuantity";
-            this.ColumnQuantity.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // ColumnPrice
-            // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle2.Format = "N2";
-            this.ColumnPrice.DefaultCellStyle = dataGridViewCellStyle2;
-            this.ColumnPrice.HeaderText = "Цена";
-            this.ColumnPrice.MinimumWidth = 6;
-            this.ColumnPrice.Name = "ColumnPrice";
-            this.ColumnPrice.ReadOnly = true;
-            // 
-            // ColumnSum
-            // 
-            this.ColumnSum.DataPropertyName = "Сумма";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle3.Format = "N2";
-            this.ColumnSum.DefaultCellStyle = dataGridViewCellStyle3;
-            this.ColumnSum.HeaderText = "Сумма";
-            this.ColumnSum.MinimumWidth = 6;
-            this.ColumnSum.Name = "ColumnSum";
-            this.ColumnSum.ReadOnly = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(702, 574);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(293, 29);
+            this.label1.TabIndex = 35;
+            this.label1.Text = "Сумма";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // OrderItem
             // 
@@ -201,8 +205,8 @@
             this.ClientSize = new System.Drawing.Size(1067, 738);
             this.ControlBox = false;
             this.Controls.Add(this.labelTotal);
-            this.Controls.Add(this.textBoxSum);
-            this.Controls.Add(this.labelSum);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.labelSumma);
             this.Controls.Add(this.buttonWrite);
             this.Controls.Add(this.buttonBack);
             this.Controls.Add(this.dataGridView1);
@@ -224,12 +228,12 @@
         private System.Windows.Forms.Button buttonWrite;
         private System.Windows.Forms.Button buttonBack;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.TextBox textBoxSum;
-        private System.Windows.Forms.Label labelSum;
+        private System.Windows.Forms.Label labelSumma;
         private System.Windows.Forms.Label labelTotal;
         private System.Windows.Forms.DataGridViewComboBoxColumn ColumnDish;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnQuantity;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnPrice;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnSum;
+        private System.Windows.Forms.Label label1;
     }
 }

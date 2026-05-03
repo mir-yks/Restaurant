@@ -2,15 +2,8 @@
 {
     partial class Revenue
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -20,12 +13,6 @@
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Revenue));
@@ -56,7 +43,7 @@
             this.labelReport.BackColor = System.Drawing.Color.Transparent;
             this.labelReport.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelReport.ForeColor = System.Drawing.Color.White;
-            this.labelReport.Location = new System.Drawing.Point(50, 11);
+            this.labelReport.Location = new System.Drawing.Point(50, 20);
             this.labelReport.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelReport.Name = "labelReport";
             this.labelReport.Size = new System.Drawing.Size(236, 29);
@@ -69,7 +56,7 @@
             this.labelS.BackColor = System.Drawing.Color.Transparent;
             this.labelS.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelS.ForeColor = System.Drawing.Color.White;
-            this.labelS.Location = new System.Drawing.Point(39, 153);
+            this.labelS.Location = new System.Drawing.Point(39, 160);
             this.labelS.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelS.Name = "labelS";
             this.labelS.Size = new System.Drawing.Size(30, 29);
@@ -82,7 +69,7 @@
             this.labelPo.BackColor = System.Drawing.Color.Transparent;
             this.labelPo.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelPo.ForeColor = System.Drawing.Color.White;
-            this.labelPo.Location = new System.Drawing.Point(21, 217);
+            this.labelPo.Location = new System.Drawing.Point(21, 224);
             this.labelPo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelPo.Name = "labelPo";
             this.labelPo.Size = new System.Drawing.Size(46, 29);
@@ -93,7 +80,7 @@
             // 
             this.dateTimePickerMax.Font = new System.Drawing.Font("Segoe UI", 13F);
             this.dateTimePickerMax.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dateTimePickerMax.Location = new System.Drawing.Point(76, 217);
+            this.dateTimePickerMax.Location = new System.Drawing.Point(76, 224);
             this.dateTimePickerMax.Margin = new System.Windows.Forms.Padding(4);
             this.dateTimePickerMax.Name = "dateTimePickerMax";
             this.dateTimePickerMax.Size = new System.Drawing.Size(265, 36);
@@ -138,7 +125,7 @@
             this.labelPeriod.BackColor = System.Drawing.Color.Transparent;
             this.labelPeriod.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelPeriod.ForeColor = System.Drawing.Color.White;
-            this.labelPeriod.Location = new System.Drawing.Point(50, 69);
+            this.labelPeriod.Location = new System.Drawing.Point(50, 76);
             this.labelPeriod.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelPeriod.Name = "labelPeriod";
             this.labelPeriod.Size = new System.Drawing.Size(241, 29);
@@ -169,10 +156,7 @@
             this.Text = "Выручка";
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
-
-        #endregion
 
         private System.Windows.Forms.DateTimePicker dateTimePickerMin;
         private System.Windows.Forms.Label labelReport;

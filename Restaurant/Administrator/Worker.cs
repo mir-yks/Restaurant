@@ -10,7 +10,6 @@ namespace Restaurant
     {
         private DataTable workersTable;
         public int CurrentUserID { get; set; }
-        private int lastEditedWorkerId = -1;
 
         public Worker()
         {

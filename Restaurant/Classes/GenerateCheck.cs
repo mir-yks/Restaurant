@@ -119,22 +119,29 @@ namespace Restaurant
 
                 foreach (var item in orderItems)
                 {
-                    string name = item.DishName;
-                    AddLine(name);
+                    string displayName;
+                    if (item.Discount > 0)
+                    {
+                        displayName = $"{item.DishName} (-{item.Discount}%)";
+                    }
+                    else
+                    {
+                        displayName = item.DishName;
+                    }
+                    AddLine(displayName);
 
                     string line;
+                    decimal original = item.Quantity * item.OriginalPrice;
+                    decimal discount = original - item.TotalPrice;
 
                     if (item.Discount > 0)
                     {
-                        decimal original = item.Quantity * item.OriginalPrice;
-                        decimal discount = original - item.TotalPrice;
-
-                        line = $"{item.Quantity} x {item.OriginalPrice:N0} = {item.TotalPrice:N0} (-{discount:N0})";
+                        line = $"{item.Quantity} x {item.OriginalPrice:F2} = {item.TotalPrice:F2} (-{discount:F2})";
                         discountTotal += discount;
                     }
                     else
                     {
-                        line = $"{item.Quantity} x {item.OriginalPrice:N0} = {item.TotalPrice:N0}";
+                        line = $"{item.Quantity} x {item.OriginalPrice:F2} = {item.TotalPrice:F2}";
                     }
 
                     AddLine(line, Word.WdParagraphAlignment.wdAlignParagraphRight);
@@ -142,11 +149,11 @@ namespace Restaurant
                 }
 
                 AddLine("======================", Word.WdParagraphAlignment.wdAlignParagraphCenter);
-                AddLine($"ИТОГО: {total:N0} руб.", Word.WdParagraphAlignment.wdAlignParagraphCenter, true);
+                AddLine($"ИТОГО: {total:F2} руб.", Word.WdParagraphAlignment.wdAlignParagraphCenter, true);
 
                 if (discountTotal > 0)
                 {
-                    AddLine($"Скидка: -{discountTotal:N0} руб.", Word.WdParagraphAlignment.wdAlignParagraphCenter);
+                    AddLine($"Скидка: -{discountTotal:F2} руб.", Word.WdParagraphAlignment.wdAlignParagraphCenter);
                 }
 
                 AddLine("======================", Word.WdParagraphAlignment.wdAlignParagraphCenter);
@@ -197,21 +204,29 @@ namespace Restaurant
 
                         foreach (var item in orderItems)
                         {
-                            string name = item.Discount > 0 ? $"★ {item.DishName}" : item.DishName;
-                            col.Item().Text(name);
+                            string displayName;
+                            if (item.Discount > 0)
+                            {
+                                displayName = $"{item.DishName} (-{item.Discount}%)";
+                            }
+                            else
+                            {
+                                displayName = item.DishName;
+                            }
+                            col.Item().Text(displayName);
 
                             string line;
+                            decimal original = item.Quantity * item.OriginalPrice;
+                            decimal discount = original - item.TotalPrice;
 
                             if (item.Discount > 0)
                             {
-                                decimal original = item.Quantity * item.OriginalPrice;
-                                decimal discount = original - item.TotalPrice;
-                                line = $"{item.Quantity} x {item.OriginalPrice:N0} = {item.TotalPrice:N0} (-{discount:N0})";
+                                line = $"{item.Quantity} x {item.OriginalPrice:F2} = {item.TotalPrice:F2} (-{discount:F2})";
                                 discountTotal += discount;
                             }
                             else
                             {
-                                line = $"{item.Quantity} x {item.OriginalPrice:N0} = {item.TotalPrice:N0}";
+                                line = $"{item.Quantity} x {item.OriginalPrice:F2} = {item.TotalPrice:F2}";
                             }
 
                             col.Item().AlignRight().Text(line);
@@ -219,11 +234,11 @@ namespace Restaurant
                         }
 
                         col.Item().Text("======================").AlignCenter();
-                        col.Item().AlignCenter().Text($"ИТОГО: {total:N0} руб.").Bold();
+                        col.Item().AlignCenter().Text($"ИТОГО: {total:F2} руб.").Bold();
 
                         if (discountTotal > 0)
                         {
-                            col.Item().AlignCenter().Text($"Скидка: -{discountTotal:N0} руб.");
+                            col.Item().AlignCenter().Text($"Скидка: -{discountTotal:F2} руб.");
                         }
 
                         col.Item().AlignCenter().Text("======================");
@@ -247,20 +262,14 @@ namespace Restaurant
                     con.Open();
                     MySqlCommand cmd = new MySqlCommand(@"
                         SELECT 
-                            md.DishName,
-                            oi.DishCount,
-                            md.DishPrice as OriginalPrice,
-                            CASE 
-                                WHEN md.OffersDish IS NOT NULL AND md.OffersDish > 0 THEN
-                                    (oi.DishCount * md.DishPrice * (100 - od.OffersDishDicsount) / 100)
-                                ELSE
-                                    (oi.DishCount * md.DishPrice)
-                            END as TotalPrice,
-                            COALESCE(od.OffersDishDicsount, 0) as Discount
-                        FROM OrderItems oi
-                        JOIN MenuDish md ON oi.DishId = md.DishId
-                        LEFT JOIN OffersDish od ON md.OffersDish = od.OffersDishId
-                        WHERE oi.OrderId = @orderId", con);
+                            COALESCE(i.OriginalDishName, md.DishName) as DishName,
+                            i.DishCount,
+                            COALESCE(i.OriginalPrice, md.DishPrice) as OriginalPrice,
+                            i.DishCount * COALESCE(i.OriginalPrice, md.DishPrice) * (100 - COALESCE(i.OriginalDiscount, 0)) / 100 as TotalPrice,
+                            COALESCE(i.OriginalDiscount, 0) as Discount
+                        FROM OrderItems i
+                        JOIN MenuDish md ON i.DishId = md.DishId
+                        WHERE i.OrderId = @orderId", con);
 
                     cmd.Parameters.AddWithValue("@orderId", orderId);
 
@@ -298,7 +307,7 @@ namespace Restaurant
                     MySqlCommand cmd = new MySqlCommand(@"SELECT 
                                                 o.OrderId,
                                                 o.OrderDate,
-                                                w.WorkerFIO,
+                                                COALESCE(w.OriginalWorkerFIO, w.WorkerFIO) as WorkerFIO,
                                                 c.ClientFIO,
                                                 t.TablesId,
                                                 o.OrderPrice,

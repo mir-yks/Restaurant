@@ -124,6 +124,8 @@
             this.maskedTextBoxPhone.Name = "maskedTextBoxPhone";
             this.maskedTextBoxPhone.Size = new System.Drawing.Size(377, 36);
             this.maskedTextBoxPhone.TabIndex = 53;
+            this.maskedTextBoxPhone.Click += new System.EventHandler(this.maskedTextBoxPhone_Click);
+            this.maskedTextBoxPhone.Enter += new System.EventHandler(this.maskedTextBoxPhone_Enter);
             // 
             // ClientsInsert
             // 
