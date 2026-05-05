@@ -27,14 +27,6 @@ namespace Restaurant
 
         private PriceCalculator() { }
 
-        public decimal CalculatePriceWithDiscount(decimal originalPrice, int discount)
-        {
-            if (discount > 0)
-            {
-                return Math.Round(originalPrice * (100 - discount) / 100, 2);
-            }
-            return Math.Round(originalPrice, 2);
-        }
 
         public int GetDiscountForDish(int dishId, DataTable allDishesTable, DataTable offersTable)
         {
@@ -54,25 +46,6 @@ namespace Restaurant
                 }
             }
             return 0;
-        }
-
-        public string GetDishDisplayName(string dishName, object offersDish, DataTable offersTable)
-        {
-            if (offersDish != null && offersDish != DBNull.Value && Convert.ToInt32(offersDish) > 0)
-            {
-                int offerId = Convert.ToInt32(offersDish);
-                DataRow[] offerRows = offersTable.Select($"OffersDishId = {offerId}");
-                if (offerRows.Length > 0)
-                {
-                    int discount = Convert.ToInt32(offerRows[0]["OffersDishDicsount"]);
-                    return $"★ {dishName} (-{discount}%)";
-                }
-                else
-                {
-                    return $"★ {dishName}";
-                }
-            }
-            return dishName;
         }
 
         public decimal CalculateOrderTotalSumFromDatabase(int orderId, MySqlConnection connection)

@@ -38,8 +38,8 @@
             this.textBoxWorker = new System.Windows.Forms.TextBox();
             this.labelWorker = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.buttonClearFilters = new System.Windows.Forms.Button();
             this.buttonDelete = new System.Windows.Forms.Button();
+            this.buttonClearFilters = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -52,10 +52,10 @@
             this.comboBoxCategory.ForeColor = System.Drawing.Color.White;
             this.comboBoxCategory.FormattingEnabled = true;
             this.comboBoxCategory.Location = new System.Drawing.Point(331, 566);
-            this.comboBoxCategory.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBoxCategory.Margin = new System.Windows.Forms.Padding(4);
             this.comboBoxCategory.Name = "comboBoxCategory";
             this.comboBoxCategory.Size = new System.Drawing.Size(305, 37);
-            this.comboBoxCategory.TabIndex = 43;
+            this.comboBoxCategory.TabIndex = 2;
             this.comboBoxCategory.SelectedIndexChanged += new System.EventHandler(this.comboBoxCategory_SelectedIndexChanged);
             // 
             // labelCategory
@@ -86,7 +86,7 @@
             this.buttonUpdate.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.buttonUpdate.Name = "buttonUpdate";
             this.buttonUpdate.Size = new System.Drawing.Size(153, 62);
-            this.buttonUpdate.TabIndex = 39;
+            this.buttonUpdate.TabIndex = 5;
             this.buttonUpdate.Text = "Изменить";
             this.buttonUpdate.UseVisualStyleBackColor = false;
             this.buttonUpdate.Click += new System.EventHandler(this.buttonUpdate_Click);
@@ -102,7 +102,7 @@
             this.buttonNew.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.buttonNew.Name = "buttonNew";
             this.buttonNew.Size = new System.Drawing.Size(153, 62);
-            this.buttonNew.TabIndex = 40;
+            this.buttonNew.TabIndex = 4;
             this.buttonNew.Text = "Добавить";
             this.buttonNew.UseVisualStyleBackColor = false;
             this.buttonNew.Click += new System.EventHandler(this.buttonNew_Click);
@@ -118,7 +118,7 @@
             this.buttonBack.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.buttonBack.Name = "buttonBack";
             this.buttonBack.Size = new System.Drawing.Size(147, 62);
-            this.buttonBack.TabIndex = 41;
+            this.buttonBack.TabIndex = 7;
             this.buttonBack.Text = "Назад";
             this.buttonBack.UseVisualStyleBackColor = false;
             this.buttonBack.Click += new System.EventHandler(this.buttonBack_Click);
@@ -146,11 +146,11 @@
             this.textBoxWorker.Font = new System.Drawing.Font("Verdana", 14F);
             this.textBoxWorker.ForeColor = System.Drawing.Color.White;
             this.textBoxWorker.Location = new System.Drawing.Point(19, 567);
-            this.textBoxWorker.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.textBoxWorker.MaxLength = 50;
+            this.textBoxWorker.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxWorker.MaxLength = 100;
             this.textBoxWorker.Name = "textBoxWorker";
             this.textBoxWorker.Size = new System.Drawing.Size(306, 36);
-            this.textBoxWorker.TabIndex = 37;
+            this.textBoxWorker.TabIndex = 1;
             this.textBoxWorker.TextChanged += new System.EventHandler(this.textBoxWorker_TextChanged);
             this.textBoxWorker.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxWorker_KeyPress);
             // 
@@ -179,33 +179,17 @@
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Top;
             this.dataGridView1.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(4);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(1067, 505);
-            this.dataGridView1.TabIndex = 35;
+            this.dataGridView1.TabIndex = 8;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
             this.dataGridView1.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dataGridView1_CellFormatting);
-            // 
-            // buttonClearFilters
-            // 
-            this.buttonClearFilters.BackColor = System.Drawing.Color.Transparent;
-            this.buttonClearFilters.BackgroundImage = global::Restaurant.Properties.Resources.exit;
-            this.buttonClearFilters.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.buttonClearFilters.FlatAppearance.BorderSize = 0;
-            this.buttonClearFilters.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonClearFilters.ForeColor = System.Drawing.Color.Transparent;
-            this.buttonClearFilters.Location = new System.Drawing.Point(645, 566);
-            this.buttonClearFilters.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.buttonClearFilters.Name = "buttonClearFilters";
-            this.buttonClearFilters.Size = new System.Drawing.Size(40, 37);
-            this.buttonClearFilters.TabIndex = 44;
-            this.buttonClearFilters.UseVisualStyleBackColor = false;
-            this.buttonClearFilters.Click += new System.EventHandler(this.buttonClearFilters_Click);
             // 
             // buttonDelete
             // 
@@ -216,13 +200,29 @@
             this.buttonDelete.Font = new System.Drawing.Font("Verdana", 14F);
             this.buttonDelete.ForeColor = System.Drawing.Color.White;
             this.buttonDelete.Location = new System.Drawing.Point(896, 582);
-            this.buttonDelete.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonDelete.Margin = new System.Windows.Forms.Padding(4);
             this.buttonDelete.Name = "buttonDelete";
             this.buttonDelete.Size = new System.Drawing.Size(153, 68);
-            this.buttonDelete.TabIndex = 45;
+            this.buttonDelete.TabIndex = 6;
             this.buttonDelete.Text = "Удалить";
             this.buttonDelete.UseVisualStyleBackColor = false;
             this.buttonDelete.Click += new System.EventHandler(this.buttonDelete_Click);
+            // 
+            // buttonClearFilters
+            // 
+            this.buttonClearFilters.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.buttonClearFilters.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(99)))), ((int)(((byte)(107)))));
+            this.buttonClearFilters.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonClearFilters.Font = new System.Drawing.Font("Verdana", 14F);
+            this.buttonClearFilters.ForeColor = System.Drawing.Color.White;
+            this.buttonClearFilters.Location = new System.Drawing.Point(645, 566);
+            this.buttonClearFilters.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
+            this.buttonClearFilters.Name = "buttonClearFilters";
+            this.buttonClearFilters.Size = new System.Drawing.Size(98, 41);
+            this.buttonClearFilters.TabIndex = 3;
+            this.buttonClearFilters.Text = "Сброс";
+            this.buttonClearFilters.UseVisualStyleBackColor = false;
+            this.buttonClearFilters.Click += new System.EventHandler(this.buttonUpdate_Click);
             // 
             // Worker
             // 
@@ -234,9 +234,9 @@
             this.ClientSize = new System.Drawing.Size(1067, 738);
             this.ControlBox = false;
             this.Controls.Add(this.buttonDelete);
-            this.Controls.Add(this.buttonClearFilters);
             this.Controls.Add(this.comboBoxCategory);
             this.Controls.Add(this.labelCategory);
+            this.Controls.Add(this.buttonClearFilters);
             this.Controls.Add(this.buttonUpdate);
             this.Controls.Add(this.buttonNew);
             this.Controls.Add(this.buttonBack);
@@ -246,7 +246,7 @@
             this.Controls.Add(this.dataGridView1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Worker";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Сотрудники";
@@ -267,7 +267,7 @@
         private System.Windows.Forms.TextBox textBoxWorker;
         private System.Windows.Forms.Label labelWorker;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.Button buttonClearFilters;
         private System.Windows.Forms.Button buttonDelete;
+        private System.Windows.Forms.Button buttonClearFilters;
     }
 }

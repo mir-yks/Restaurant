@@ -48,7 +48,7 @@
             this.buttonWrite.Margin = new System.Windows.Forms.Padding(4);
             this.buttonWrite.Name = "buttonWrite";
             this.buttonWrite.Size = new System.Drawing.Size(153, 62);
-            this.buttonWrite.TabIndex = 7;
+            this.buttonWrite.TabIndex = 3;
             this.buttonWrite.Text = "Добавить";
             this.buttonWrite.UseVisualStyleBackColor = false;
             this.buttonWrite.Click += new System.EventHandler(this.buttonWrite_Click);
@@ -64,7 +64,7 @@
             this.buttonBack.Margin = new System.Windows.Forms.Padding(4);
             this.buttonBack.Name = "buttonBack";
             this.buttonBack.Size = new System.Drawing.Size(147, 62);
-            this.buttonBack.TabIndex = 6;
+            this.buttonBack.TabIndex = 4;
             this.buttonBack.Text = "Назад";
             this.buttonBack.UseVisualStyleBackColor = false;
             this.buttonBack.Click += new System.EventHandler(this.buttonBack_Click);
@@ -93,7 +93,7 @@
             this.textBoxName.MaxLength = 50;
             this.textBoxName.Name = "textBoxName";
             this.textBoxName.Size = new System.Drawing.Size(291, 36);
-            this.textBoxName.TabIndex = 4;
+            this.textBoxName.TabIndex = 1;
             this.textBoxName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxName_KeyPress);
             // 
             // textBoxDiscount
@@ -107,7 +107,7 @@
             this.textBoxDiscount.MaxLength = 3;
             this.textBoxDiscount.Name = "textBoxDiscount";
             this.textBoxDiscount.Size = new System.Drawing.Size(291, 36);
-            this.textBoxDiscount.TabIndex = 4;
+            this.textBoxDiscount.TabIndex = 2;
             this.textBoxDiscount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxDiscount_KeyPress);
             // 
             // labelDickount

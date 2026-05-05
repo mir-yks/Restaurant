@@ -22,7 +22,11 @@ namespace Restaurant
             buttonNew.Font = Fonts.MontserratAlternatesBold(12f);
             buttonUpdate.Font = Fonts.MontserratAlternatesBold(12f);
             buttonDelete.Font = Fonts.MontserratAlternatesBold(12f);
+            buttonBooking.Font = Fonts.MontserratAlternatesBold(12f);
+            buttonClearFilters.Font = Fonts.MontserratAlternatesBold(12f);
             dataGridView1.Font = Fonts.MontserratAlternatesRegular(12f);
+
+            KeyboardLayoutManager.AttachRussianLayout(textBoxClient);
         }
 
         private void buttonBack_Click(object sender, EventArgs e)
@@ -227,7 +231,28 @@ namespace Restaurant
             {
                 buttonUpdate.Enabled = true;
                 buttonDelete.Enabled = true;
+                buttonBooking.Enabled = true;
             }
+        }
+
+        private void buttonBooking_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.CurrentRow == null)
+            {
+                MessageBox.Show("Выберите клиента для бронирования!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DataGridViewRow row = dataGridView1.CurrentRow;
+            int clientId = Convert.ToInt32(row.Cells["ID"].Value);
+            string clientFIO = row.Cells["ФИО"].Value.ToString();
+            string clientPhone = row.Cells["Телефон"].Value.ToString();
+
+            ВookingInsert bookingForm = new ВookingInsert("add", this);
+
+            bookingForm.SetClientData(clientId, clientFIO);
+
+            bookingForm.ShowDialog();
         }
     }
 }

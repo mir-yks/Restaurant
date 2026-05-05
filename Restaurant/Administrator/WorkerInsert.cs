@@ -33,27 +33,23 @@ namespace Restaurant
             labelLogin.Font = Fonts.MontserratAlternatesRegular(14f);
             labelPassword.Font = Fonts.MontserratAlternatesRegular(14f);
             labelRole.Font = Fonts.MontserratAlternatesRegular(14f);
-            labelConfPassword.Font = Fonts.MontserratAlternatesRegular(14f);
             labelPhone.Font = Fonts.MontserratAlternatesRegular(14f);
             labelFIO.Font = Fonts.MontserratAlternatesRegular(14f);
             labelPassport.Font = Fonts.MontserratAlternatesRegular(14f);
             textBoxFIO.Font = Fonts.MontserratAlternatesRegular(14f);
             textBoxLogin.Font = Fonts.MontserratAlternatesRegular(14f);
             textBoxPassword.Font = Fonts.MontserratAlternatesRegular(14f);
-            textBoxConfPassword.Font = Fonts.MontserratAlternatesRegular(14f);
             textBoxPassport.Font = Fonts.MontserratAlternatesRegular(14f);
             maskedTextBoxPhone.Font = Fonts.MontserratAlternatesRegular(14f);
             comboBoxRole.Font = Fonts.MontserratAlternatesRegular(14f);
             buttonBack.Font = Fonts.MontserratAlternatesBold(12f);
             buttonWrite.Font = Fonts.MontserratAlternatesBold(12f);
 
+            KeyboardLayoutManager.AttachRussianLayout(textBoxFIO);
+            KeyboardLayoutManager.AttachEnglishLayout(textBoxLogin, textBoxPassword);
+
             LoadRoles();
             ApplyMode();
-
-            if (mode == "edit")
-            {
-                CheckAndLockRoleComboBox();
-            }
         }
 
         private void LoadRoles()
@@ -86,18 +82,17 @@ namespace Restaurant
             {
                 case "view":
                     labelPassword.Visible = false;
-                    labelConfPassword.Visible = false;
                     textBoxPassword.Visible = false;
-                    textBoxConfPassword.Visible = false;
                     buttonWrite.Visible = false;
 
                     textBoxFIO.ReadOnly = true;
                     textBoxLogin.ReadOnly = true;
                     textBoxPassword.ReadOnly = true;
-                    textBoxConfPassword.ReadOnly = true;
                     maskedTextBoxPhone.ReadOnly = true;
                     textBoxPassport.ReadOnly = true;
                     comboBoxRole.Enabled = false;
+
+                    comboBoxRole.DropDownStyle = ComboBoxStyle.DropDown;
 
                     break;
 
@@ -105,7 +100,6 @@ namespace Restaurant
                     textBoxFIO.Text = "";
                     textBoxLogin.Text = "";
                     textBoxPassword.Text = "";
-                    textBoxConfPassword.Text = "";
                     maskedTextBoxPhone.Text = "";
                     textBoxPassport.Text = "";
                     comboBoxRole.SelectedIndex = -1;
@@ -114,26 +108,15 @@ namespace Restaurant
                     break;
 
                 case "edit":
+                    comboBoxRole.Enabled = false;
+
+                    comboBoxRole.DropDownStyle = ComboBoxStyle.DropDown;
+
                     if (string.IsNullOrEmpty(originalRole) && !string.IsNullOrEmpty(comboBoxRole.Text))
                     {
                         originalRole = comboBoxRole.Text;
                     }
-
-                    CheckAndLockRoleComboBox();
                     break;
-            }
-        }
-
-        private void CheckAndLockRoleComboBox()
-        {
-            if (mode == "edit" && !string.IsNullOrEmpty(originalRole) &&
-                originalRole.Equals("Администратор", StringComparison.OrdinalIgnoreCase))
-            {
-                comboBoxRole.Enabled = false;
-            }
-            else if (mode == "edit")
-            {
-                comboBoxRole.Enabled = true;
             }
         }
 
@@ -187,7 +170,6 @@ namespace Restaurant
                 {
                     originalRole = value;
                 }
-                CheckAndLockRoleComboBox();
             }
         }
 
@@ -211,16 +193,11 @@ namespace Restaurant
                 textBoxLogin.Focus();
                 return;
             }
+
             if (string.IsNullOrWhiteSpace(textBoxPassword.Text) && mode == "add")
             {
                 MessageBox.Show("Введите пароль!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 textBoxPassword.Focus();
-                return;
-            }
-            if (string.IsNullOrWhiteSpace(textBoxConfPassword.Text) && mode == "add")
-            {
-                MessageBox.Show("Введите подтверждение пароля!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                textBoxConfPassword.Focus();
                 return;
             }
 
@@ -254,18 +231,14 @@ namespace Restaurant
                 return;
             }
 
-            if (textBoxPassword.Visible && textBoxConfPassword.Visible)
+            if (textBoxPassword.Visible)
             {
                 string pass = textBoxPassword.Text.Trim();
-                string confPass = textBoxConfPassword.Text.Trim();
-
-                if (!string.IsNullOrEmpty(pass) || !string.IsNullOrEmpty(confPass))
+                if (string.IsNullOrEmpty(pass) && mode == "add")
                 {
-                    if (pass != confPass)
-                    {
-                        MessageBox.Show("Пароль и подтверждение пароля не совпадают!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
+                    MessageBox.Show("Введите пароль!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    textBoxPassword.Focus();
+                    return;
                 }
             }
 
@@ -355,9 +328,9 @@ namespace Restaurant
                     if (mode == "add")
                     {
                         string query = @"INSERT INTO worker 
-                            (WorkerFIO, OriginalWorkerFIO, WorkerLogin, WorkerPassword, WorkerPhone, WorkerPassport, WorkerRole)
-                            VALUES (@FIO, @OriginalFIO, @Login, @Password, @Phone, @Passport, 
-                                    (SELECT RoleId FROM role WHERE RoleName = @Role))";
+            (WorkerFIO, OriginalWorkerFIO, WorkerLogin, WorkerPassword, WorkerPhone, WorkerPassport, WorkerRole)
+            VALUES (@FIO, @OriginalFIO, @Login, @Password, @Phone, @Passport, 
+                    (SELECT RoleId FROM role WHERE RoleName = @Role))";
 
                         MySqlCommand cmd = new MySqlCommand(query, con);
                         cmd.Parameters.AddWithValue("@FIO", textBoxFIO.Text);
@@ -375,41 +348,48 @@ namespace Restaurant
                     {
                         bool fioChanged = false;
                         string originalFIO = textBoxFIO.Text;
+                        string roleName = "";
 
-                        MySqlCommand getOriginalCmd = new MySqlCommand(
-                            "SELECT WorkerFIO, OriginalWorkerFIO FROM Worker WHERE WorkerId = @Id", con);
-                        getOriginalCmd.Parameters.AddWithValue("@Id", WorkerID);
-
-                        using (var reader = getOriginalCmd.ExecuteReader())
+                        using (MySqlCommand getOriginalCmd = new MySqlCommand(@"
+        SELECT w.WorkerFIO, w.OriginalWorkerFIO, w.WorkerRole, r.RoleName
+        FROM Worker w
+        JOIN Role r ON w.WorkerRole = r.RoleId
+        WHERE w.WorkerId = @Id", con))
                         {
-                            if (reader.Read())
-                            {
-                                string currentFIO = reader.GetString("WorkerFIO");
-                                string storedOriginalFIO = reader.IsDBNull(reader.GetOrdinal("OriginalWorkerFIO"))
-                                    ? currentFIO
-                                    : reader.GetString("OriginalWorkerFIO");
+                            getOriginalCmd.Parameters.AddWithValue("@Id", WorkerID);
 
-                                if (currentFIO != textBoxFIO.Text)
+                            using (var reader = getOriginalCmd.ExecuteReader())
+                            {
+                                if (reader.Read())
                                 {
-                                    fioChanged = true;
-                                    originalFIO = storedOriginalFIO;
-                                }
-                                else
-                                {
-                                    originalFIO = storedOriginalFIO;
+                                    string currentFIO = reader.GetString("WorkerFIO");
+                                    string storedOriginalFIO = reader.IsDBNull(reader.GetOrdinal("OriginalWorkerFIO"))
+                                        ? currentFIO
+                                        : reader.GetString("OriginalWorkerFIO");
+                                    roleName = reader.GetString("RoleName");
+
+                                    if (currentFIO != textBoxFIO.Text)
+                                    {
+                                        fioChanged = true;
+                                        originalFIO = storedOriginalFIO;
+                                    }
+                                    else
+                                    {
+                                        originalFIO = storedOriginalFIO;
+                                    }
                                 }
                             }
                         }
 
                         string query = @"UPDATE worker 
-                            SET WorkerFIO = @FIO,
-                                OriginalWorkerFIO = @OriginalFIO,
-                                WorkerLogin = @Login,
-                                WorkerPhone = @Phone,
-                                WorkerPassport = @Passport,
-                                WorkerRole = (SELECT RoleId FROM role WHERE RoleName = @Role)
-                                {0}
-                            WHERE WorkerId = @Id";
+                                        SET WorkerFIO = @FIO,
+                                            OriginalWorkerFIO = @OriginalFIO,
+                                            WorkerLogin = @Login,
+                                            WorkerPhone = @Phone,
+                                            WorkerPassport = @Passport,
+                                            WorkerRole = (SELECT RoleId FROM role WHERE RoleName = @Role)
+                                            {0}
+                                        WHERE WorkerId = @Id";
 
                         string passwordPart = !string.IsNullOrEmpty(hashedPassword) ? ", WorkerPassword = @Password" : "";
                         query = string.Format(query, passwordPart);
@@ -420,19 +400,14 @@ namespace Restaurant
                         cmd.Parameters.AddWithValue("@Login", textBoxLogin.Text);
                         cmd.Parameters.AddWithValue("@Phone", userDigits);
                         cmd.Parameters.AddWithValue("@Passport", textBoxPassport.Text);
-
-                        string roleToUse = originalRole.Equals("Администратор", StringComparison.OrdinalIgnoreCase)
-                            ? originalRole
-                            : comboBoxRole.Text;
-                        cmd.Parameters.AddWithValue("@Role", roleToUse);
-
+                        cmd.Parameters.AddWithValue("@Role", comboBoxRole.Text);
                         cmd.Parameters.AddWithValue("@Id", WorkerID);
                         if (!string.IsNullOrEmpty(hashedPassword))
                             cmd.Parameters.AddWithValue("@Password", hashedPassword);
 
                         cmd.ExecuteNonQuery();
 
-                        string message = fioChanged
+                        string message = fioChanged && roleName.Equals("Официант", StringComparison.OrdinalIgnoreCase)
                             ? $"Данные сотрудника успешно обновлены!\nФИО: \"{textBoxFIO.Text}\"\n\nПримечание: в существующих заказах останется предыдущее ФИО сотрудника."
                             : $"Данные сотрудника успешно обновлены!\nФИО: \"{textBoxFIO.Text}\"";
 

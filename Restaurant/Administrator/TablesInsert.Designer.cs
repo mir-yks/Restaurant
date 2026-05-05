@@ -48,7 +48,7 @@
             this.buttonWrite.Margin = new System.Windows.Forms.Padding(4);
             this.buttonWrite.Name = "buttonWrite";
             this.buttonWrite.Size = new System.Drawing.Size(153, 62);
-            this.buttonWrite.TabIndex = 19;
+            this.buttonWrite.TabIndex = 2;
             this.buttonWrite.Text = "Записать";
             this.buttonWrite.UseVisualStyleBackColor = false;
             this.buttonWrite.Click += new System.EventHandler(this.buttonWrite_Click);
@@ -64,7 +64,7 @@
             this.buttonBack.Margin = new System.Windows.Forms.Padding(4);
             this.buttonBack.Name = "buttonBack";
             this.buttonBack.Size = new System.Drawing.Size(147, 62);
-            this.buttonBack.TabIndex = 18;
+            this.buttonBack.TabIndex = 3;
             this.buttonBack.Text = "Назад";
             this.buttonBack.UseVisualStyleBackColor = false;
             this.buttonBack.Click += new System.EventHandler(this.buttonBack_Click);
@@ -80,7 +80,7 @@
             this.textBoxPlaceCount.MaxLength = 2;
             this.textBoxPlaceCount.Name = "textBoxPlaceCount";
             this.textBoxPlaceCount.Size = new System.Drawing.Size(291, 36);
-            this.textBoxPlaceCount.TabIndex = 16;
+            this.textBoxPlaceCount.TabIndex = 1;
             this.textBoxPlaceCount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_KeyPress);
             // 
             // labelPlaceCount
@@ -99,7 +99,6 @@
             // comboBoxStatus
             // 
             this.comboBoxStatus.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.comboBoxStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxStatus.Enabled = false;
             this.comboBoxStatus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.comboBoxStatus.Font = new System.Drawing.Font("Verdana", 14.25F);

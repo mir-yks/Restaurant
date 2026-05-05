@@ -48,7 +48,7 @@
             this.textBoxFIO.MaxLength = 100;
             this.textBoxFIO.Name = "textBoxFIO";
             this.textBoxFIO.Size = new System.Drawing.Size(377, 36);
-            this.textBoxFIO.TabIndex = 30;
+            this.textBoxFIO.TabIndex = 1;
             this.textBoxFIO.TextChanged += new System.EventHandler(this.textBoxFIO_TextChanged);
             this.textBoxFIO.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxFIO_KeyPress);
             // 
@@ -90,7 +90,7 @@
             this.buttonWrite.Margin = new System.Windows.Forms.Padding(4);
             this.buttonWrite.Name = "buttonWrite";
             this.buttonWrite.Size = new System.Drawing.Size(153, 62);
-            this.buttonWrite.TabIndex = 26;
+            this.buttonWrite.TabIndex = 3;
             this.buttonWrite.Text = "Записать";
             this.buttonWrite.UseVisualStyleBackColor = false;
             this.buttonWrite.Click += new System.EventHandler(this.buttonWrite_Click);
@@ -107,7 +107,7 @@
             this.buttonBack.Margin = new System.Windows.Forms.Padding(4);
             this.buttonBack.Name = "buttonBack";
             this.buttonBack.Size = new System.Drawing.Size(153, 62);
-            this.buttonBack.TabIndex = 25;
+            this.buttonBack.TabIndex = 4;
             this.buttonBack.Text = "Назад";
             this.buttonBack.UseVisualStyleBackColor = false;
             this.buttonBack.Click += new System.EventHandler(this.buttonBack_Click);
@@ -123,7 +123,7 @@
             this.maskedTextBoxPhone.Mask = "+7 (000) 000-00-00";
             this.maskedTextBoxPhone.Name = "maskedTextBoxPhone";
             this.maskedTextBoxPhone.Size = new System.Drawing.Size(377, 36);
-            this.maskedTextBoxPhone.TabIndex = 53;
+            this.maskedTextBoxPhone.TabIndex = 2;
             this.maskedTextBoxPhone.Click += new System.EventHandler(this.maskedTextBoxPhone_Click);
             this.maskedTextBoxPhone.Enter += new System.EventHandler(this.maskedTextBoxPhone_Enter);
             // 

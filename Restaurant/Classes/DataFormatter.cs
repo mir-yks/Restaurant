@@ -91,35 +91,17 @@ namespace Restaurant
 
             if (digitsOnly.Length >= 10)
             {
-                string firstFour = digitsOnly.Substring(0, 4);
-                string lastFour = digitsOnly.Substring(digitsOnly.Length - 4);
-                string hiddenPart = new string('*', digitsOnly.Length - 8);
-                return $"{firstFour}{hiddenPart}{lastFour}";
-            }
-            else if (digitsOnly.Length >= 6)
-            {
-                string firstTwo = digitsOnly.Substring(0, 2);
-                string lastTwo = digitsOnly.Substring(digitsOnly.Length - 2);
-                string hiddenPart = new string('*', digitsOnly.Length - 4);
-                return $"{firstTwo}{hiddenPart}{lastTwo}";
+                string firstTwoSeries = digitsOnly.Substring(0, 2);
+                string lastTwoSeries = "**";
+                string firstTwoNumber = "**";
+                string lastFourNumber = digitsOnly.Substring(digitsOnly.Length - 4);
+
+                return $"{firstTwoSeries}{lastTwoSeries} {firstTwoNumber}{lastFourNumber}";
             }
             else
             {
                 return new string('*', passport.Length);
             }
-        }
-
-        public static string FormatFullName(string input)
-        {
-            if (string.IsNullOrEmpty(input))
-                return input;
-
-            string[] parts = input
-                .Split(new char[] { ' ', '-' }, StringSplitOptions.RemoveEmptyEntries)
-                .Select(p => char.ToUpper(p[0]) + p.Substring(1).ToLower())
-                .ToArray();
-
-            return string.Join(" ", parts);
         }
 
         public static string ValidateAndFormatName(string input, ref int cursorPos)

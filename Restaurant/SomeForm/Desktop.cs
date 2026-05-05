@@ -31,6 +31,7 @@ namespace Restaurant
             buttonCategory.Font = Fonts.MontserratAlternatesBold(12f);
             buttonOffers.Font = Fonts.MontserratAlternatesBold(12f);
             buttonBooking.Font = Fonts.MontserratAlternatesBold(12f);
+            buttonBD.Font = Fonts.MontserratAlternatesBold(12f);
 
             ConfigureByRole();
         }
@@ -40,9 +41,11 @@ namespace Restaurant
             {
                 buttonTables.Visible = true;
                 buttonWorkers.Visible = true;
+                buttonBD.Visible = true;
 
                 buttonWorkers.Location = new System.Drawing.Point(12, 298);
                 buttonTables.Location = new System.Drawing.Point(12, 359);
+                buttonBD.Location = new System.Drawing.Point(12, 420);
             }
             if (currentRole == 2)
             {
@@ -140,6 +143,14 @@ namespace Restaurant
             Clients Clients = new Clients();
             this.Visible = false;
             Clients.ShowDialog();
+            this.Visible = true;
+        }
+
+        private void buttonBD_Click(object sender, EventArgs e)
+        {
+            ManagementBD ManagementBD = new ManagementBD();
+            this.Visible = false;
+            ManagementBD.ShowDialog();
             this.Visible = true;
         }
     }

@@ -77,6 +77,8 @@ namespace Restaurant
             buttonWrite.Font = Fonts.MontserratAlternatesBold(12f);
             buttonImage.Font = Fonts.MontserratAlternatesBold(12f);
 
+            KeyboardLayoutManager.AttachRussianLayout(textBoxName, textBoxDescription, comboBoxCategory);
+
             LoadCategories();
             LoadOffers();
             ApplyMode();

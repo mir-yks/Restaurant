@@ -35,7 +35,7 @@ CREATE TABLE `booking` (
   KEY `table_fk_idx` (`TableId`),
   CONSTRAINT `client_fk` FOREIGN KEY (`ClientId`) REFERENCES `client` (`ClientId`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `table_fk` FOREIGN KEY (`TableId`) REFERENCES `tables` (`TablesId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=221 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -56,7 +56,7 @@ DROP TABLE IF EXISTS `categorydish`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `categorydish` (
   `CategoryDishId` int NOT NULL AUTO_INCREMENT,
-  `CategoryDishName` varchar(100) NOT NULL,
+  `CategoryDishName` varchar(50) NOT NULL,
   PRIMARY KEY (`CategoryDishId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -80,12 +80,12 @@ DROP TABLE IF EXISTS `client`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `client` (
   `ClientId` int NOT NULL AUTO_INCREMENT,
-  `ClientFIO` varchar(150) NOT NULL,
-  `OriginalClientFIO` varchar(150) DEFAULT NULL,
+  `ClientFIO` varchar(100) NOT NULL,
+  `OriginalClientFIO` varchar(100) DEFAULT NULL,
   `ClientPhone` varchar(11) NOT NULL,
   `IsActive` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`ClientId`)
-) ENGINE=InnoDB AUTO_INCREMENT=103 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -113,14 +113,14 @@ CREATE TABLE `menudish` (
   `DishPrice` decimal(10,2) NOT NULL,
   `DishCategory` int NOT NULL,
   `OffersDish` int DEFAULT NULL,
-  `DishPhoto` varchar(200) DEFAULT NULL,
+  `DishPhoto` text,
   `IsActive` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`DishId`),
   KEY `DishCategory` (`DishCategory`),
   KEY `OffersDish` (`OffersDish`),
   CONSTRAINT `menudish_ibfk_1` FOREIGN KEY (`DishCategory`) REFERENCES `categorydish` (`CategoryDishId`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `menudish_ibfk_2` FOREIGN KEY (`OffersDish`) REFERENCES `offersdish` (`OffersDishId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -142,7 +142,7 @@ DROP TABLE IF EXISTS `offersdish`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `offersdish` (
   `OffersDishId` int NOT NULL AUTO_INCREMENT,
-  `OffersDishName` varchar(100) NOT NULL,
+  `OffersDishName` varchar(50) NOT NULL,
   `OffersDishDicsount` int NOT NULL,
   PRIMARY KEY (`OffersDishId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -181,7 +181,7 @@ CREATE TABLE `order` (
   CONSTRAINT `order_ibfk_1` FOREIGN KEY (`WorkerId`) REFERENCES `worker` (`WorkerId`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `order_ibfk_2` FOREIGN KEY (`ClientId`) REFERENCES `client` (`ClientId`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `order_ibfk_3` FOREIGN KEY (`TableId`) REFERENCES `tables` (`TablesId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -190,7 +190,7 @@ CREATE TABLE `order` (
 
 LOCK TABLES `order` WRITE;
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
-INSERT INTO `order` VALUES (1,16,1,1,'2026-04-28 18:45:00',3508.50,'Завершен','Оплачен'),(2,17,NULL,2,'2026-04-28 19:10:00',1690.00,'Новый','Не оплачен'),(3,18,NULL,3,'2026-04-27 13:30:00',4552.50,'Отменен','Не оплачен'),(4,19,NULL,4,'2026-04-27 20:15:00',2270.00,'Завершен','Оплачен'),(5,20,5,5,'2026-04-26 17:20:00',1885.00,'Новый','Не оплачен'),(6,21,NULL,6,'2024-11-18 12:40:00',1307.50,'Завершен','Оплачен'),(7,22,NULL,7,'2026-04-26 21:05:00',2535.50,'Отменен','Не оплачен'),(8,23,NULL,8,'2025-09-25 19:55:00',1452.50,'Завершен','Оплачен'),(9,24,9,9,'2026-04-25 18:25:00',2561.00,'Новый','Не оплачен'),(10,25,10,10,'2026-04-25 20:45:00',1850.00,'Завершен','Оплачен'),(11,26,11,11,'2025-07-12 13:15:00',1948.00,'Отменен','Не оплачен'),(12,27,12,12,'2026-04-24 14:10:00',1541.50,'Новый','Не оплачен'),(13,28,13,13,'2026-04-24 15:30:00',1876.00,'Завершен','Оплачен'),(14,29,14,14,'2025-12-13 18:00:00',2744.00,'Завершен','Оплачен'),(15,30,15,15,'2026-04-23 20:35:00',1875.00,'Новый','Не оплачен'),(16,31,16,16,'2025-04-16 19:25:00',1700.00,'Отменен','Не оплачен'),(17,32,17,17,'2026-04-23 18:50:00',2764.00,'Завершен','Оплачен'),(18,33,18,18,'2026-04-22 21:15:00',1722.00,'Новый','Не оплачен'),(19,34,19,19,'2025-02-05 17:10:00',1830.00,'Завершен','Оплачен'),(20,35,20,20,'2026-04-22 13:35:00',2307.50,'Отменен','Не оплачен'),(21,36,21,1,'2026-04-21 20:05:00',2099.50,'Новый','Не оплачен'),(22,37,22,2,'2024-12-15 19:40:00',3351.50,'Завершен','Оплачен'),(23,38,23,3,'2026-04-21 18:20:00',3212.50,'Новый','Не оплачен'),(24,39,24,4,'2026-04-20 21:03:41',1690.50,'Завершен','Оплачен'),(25,40,25,5,'2025-09-24 21:03:41',1230.00,'Отменен','Не оплачен'),(26,41,26,6,'2026-04-20 19:30:00',1465.50,'Новый','Не оплачен'),(27,42,27,7,'2024-10-14 21:03:41',2815.00,'Завершен','Оплачен'),(28,43,28,8,'2026-04-19 16:45:00',1850.00,'Завершен','Оплачен'),(29,44,29,9,'2025-08-14 21:03:41',2193.00,'Отменен','Не оплачен'),(30,45,30,10,'2026-04-19 14:20:00',3375.00,'Новый','Не оплачен'),(31,46,31,11,'2024-08-19 21:03:41',4065.00,'Завершен','Оплачен'),(32,47,32,12,'2026-04-18 13:10:00',2413.50,'Новый','Не оплачен'),(33,48,33,13,'2026-04-18 17:55:00',1920.00,'Завершен','Оплачен'),(34,49,34,14,'2025-07-03 21:03:41',1759.00,'Отменен','Не оплачен'),(35,50,35,15,'2026-04-17 12:25:00',2350.50,'Новый','Не оплачен'),(36,36,36,16,'2024-05-14 21:03:41',2331.00,'Завершен','Оплачен'),(37,37,37,17,'2026-04-17 19:40:00',2071.00,'Новый','Не оплачен'),(38,38,38,18,'2025-07-04 21:03:41',1762.50,'Отменен','Не оплачен'),(39,39,39,19,'2026-04-16 14:15:00',2460.50,'Завершен','Оплачен'),(40,40,40,20,'2026-04-16 20:30:00',2153.50,'Новый','Не оплачен'),(41,41,41,1,'2026-04-15 18:45:00',2171.00,'Завершен','Оплачен'),(42,42,42,2,'2025-03-23 21:03:41',1140.00,'Отменен','Не оплачен'),(43,43,43,3,'2026-04-15 13:20:00',2075.00,'Новый','Не оплачен'),(44,44,44,4,'2024-10-23 21:03:41',2066.00,'Завершен','Оплачен'),(45,45,NULL,5,'2026-04-14 19:00:00',2203.00,'Завершен','Оплачен'),(46,46,46,6,'2025-06-08 21:03:41',2477.50,'Новый','Не оплачен'),(47,47,NULL,7,'2026-04-14 12:50:00',1662.00,'Отменен','Не оплачен'),(48,48,NULL,8,'2026-04-13 21:10:00',3285.00,'Завершен','Оплачен'),(49,49,49,9,'2025-04-02 21:03:41',2655.00,'Новый','Не оплачен'),(50,50,NULL,10,'2026-04-13 17:35:00',1609.50,'Завершен','Оплачен');
+INSERT INTO `order` VALUES (1,32,1,1,'2026-04-28 18:45:00',3508.50,'Завершен','Оплачен'),(2,34,NULL,2,'2026-04-28 19:10:00',1690.00,'Новый','Не оплачен'),(3,30,NULL,3,'2026-04-27 13:30:00',4552.50,'Отменен','Не оплачен'),(4,39,NULL,4,'2026-04-27 20:15:00',2270.00,'Завершен','Оплачен'),(5,21,5,5,'2026-04-26 17:20:00',1885.00,'Новый','Не оплачен'),(6,23,NULL,6,'2024-11-18 12:40:00',1307.50,'Завершен','Оплачен'),(7,40,NULL,7,'2026-04-26 21:05:00',2535.50,'Отменен','Не оплачен'),(8,29,NULL,8,'2025-09-25 19:55:00',1452.50,'Завершен','Оплачен'),(9,34,9,9,'2026-04-25 18:25:00',2561.00,'Новый','Не оплачен'),(10,36,10,10,'2026-04-25 20:45:00',1850.00,'Завершен','Оплачен'),(11,29,11,11,'2025-07-12 13:15:00',1948.00,'Отменен','Не оплачен'),(12,22,12,12,'2026-04-24 14:10:00',1541.50,'Новый','Не оплачен'),(13,33,13,13,'2026-04-24 15:30:00',1876.00,'Завершен','Оплачен'),(14,40,14,14,'2025-12-13 18:00:00',2744.00,'Завершен','Оплачен'),(15,24,15,15,'2026-04-23 20:35:00',1875.00,'Новый','Не оплачен'),(16,24,16,16,'2025-04-16 19:25:00',1700.00,'Отменен','Не оплачен'),(17,35,17,17,'2026-04-23 18:50:00',2764.00,'Завершен','Оплачен'),(18,35,18,18,'2026-04-22 21:15:00',1722.00,'Новый','Не оплачен'),(19,32,19,19,'2025-02-05 17:10:00',1830.00,'Завершен','Оплачен'),(20,40,20,20,'2026-04-22 13:35:00',2307.50,'Отменен','Не оплачен'),(21,21,21,1,'2026-04-21 20:05:00',2099.50,'Новый','Не оплачен'),(22,35,22,2,'2024-12-15 19:40:00',3351.50,'Завершен','Оплачен'),(23,34,23,3,'2026-04-21 18:20:00',3212.50,'Новый','Не оплачен'),(24,27,24,4,'2026-04-20 21:03:41',1690.50,'Завершен','Оплачен'),(25,29,25,5,'2025-09-24 21:03:41',1230.00,'Отменен','Не оплачен'),(26,37,26,6,'2026-04-20 19:30:00',1465.50,'Новый','Не оплачен'),(27,24,27,7,'2024-10-14 21:03:41',2815.00,'Завершен','Оплачен'),(28,30,28,8,'2026-04-19 16:45:00',1850.00,'Завершен','Оплачен'),(29,34,29,9,'2025-08-14 21:03:41',2193.00,'Отменен','Не оплачен'),(30,37,30,10,'2026-04-19 14:20:00',3375.00,'Новый','Не оплачен'),(31,28,31,11,'2024-08-19 21:03:41',4065.00,'Завершен','Оплачен'),(32,27,32,12,'2026-04-18 13:10:00',2413.50,'Новый','Не оплачен'),(33,24,33,13,'2026-04-18 17:55:00',1920.00,'Завершен','Оплачен'),(34,26,34,14,'2025-07-03 21:03:41',1759.00,'Отменен','Не оплачен'),(35,24,35,15,'2026-04-17 12:25:00',2350.50,'Новый','Не оплачен'),(36,38,36,16,'2024-05-14 21:03:41',2331.00,'Завершен','Оплачен'),(37,34,37,17,'2026-04-17 19:40:00',2071.00,'Новый','Не оплачен'),(38,23,38,18,'2025-07-04 21:03:41',1762.50,'Отменен','Не оплачен'),(39,34,39,19,'2026-04-16 14:15:00',2460.50,'Завершен','Оплачен'),(40,39,40,20,'2026-04-16 20:30:00',2153.50,'Новый','Не оплачен'),(41,32,41,1,'2026-04-15 18:45:00',2171.00,'Завершен','Оплачен'),(42,27,42,2,'2025-03-23 21:03:41',1140.00,'Отменен','Не оплачен'),(43,31,43,3,'2026-04-15 13:20:00',2075.00,'Новый','Не оплачен'),(44,32,44,4,'2024-10-23 21:03:41',2066.00,'Завершен','Оплачен'),(45,32,NULL,5,'2026-04-14 19:00:00',2203.00,'Завершен','Оплачен'),(46,33,46,6,'2025-06-08 21:03:41',2477.50,'Новый','Не оплачен'),(47,38,NULL,7,'2026-04-14 12:50:00',1662.00,'Отменен','Не оплачен'),(48,30,NULL,8,'2026-04-13 21:10:00',3285.00,'Завершен','Оплачен'),(49,30,49,9,'2025-04-02 21:03:41',2655.00,'Новый','Не оплачен'),(50,29,NULL,10,'2026-04-13 17:35:00',1609.50,'Завершен','Оплачен');
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -207,7 +207,7 @@ CREATE TABLE `orderitems` (
   `DishCount` int NOT NULL,
   `OriginalPrice` decimal(10,2) NOT NULL DEFAULT '0.00',
   `OriginalDiscount` int NOT NULL DEFAULT '0',
-  `OriginalDishName` varchar(100) DEFAULT NULL,
+  `OriginalDishName` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`OrderId`,`DishId`),
   KEY `orderitems_ibfk_2` (`DishId`),
   CONSTRAINT `orderitems_ibfk_1` FOREIGN KEY (`OrderId`) REFERENCES `order` (`OrderId`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -261,7 +261,7 @@ CREATE TABLE `tables` (
   `TablesCountPlace` int NOT NULL,
   `TablesStatus` enum('Свободен','Забронирован','Занят') NOT NULL,
   PRIMARY KEY (`TablesId`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -270,7 +270,7 @@ CREATE TABLE `tables` (
 
 LOCK TABLES `tables` WRITE;
 /*!40000 ALTER TABLE `tables` DISABLE KEYS */;
-INSERT INTO `tables` VALUES (1,2,'Занят'),(2,4,'Занят'),(3,6,'Занят'),(4,2,'Свободен'),(5,8,'Занят'),(6,4,'Занят'),(7,2,'Занят'),(8,6,'Свободен'),(9,4,'Занят'),(10,8,'Занят'),(11,2,'Занят'),(12,4,'Занят'),(13,6,'Свободен'),(14,8,'Занят'),(15,2,'Занят'),(16,4,'Занят'),(17,6,'Занят'),(18,2,'Занят'),(19,8,'Свободен'),(20,4,'Занят');
+INSERT INTO `tables` VALUES (1,2,'Занят'),(2,4,'Занят'),(3,6,'Занят'),(4,4,'Занят'),(5,8,'Занят'),(6,4,'Занят'),(7,2,'Занят'),(8,6,'Свободен'),(9,4,'Занят'),(10,8,'Занят'),(11,2,'Занят'),(12,4,'Занят'),(13,6,'Свободен'),(14,8,'Занят'),(15,2,'Занят'),(16,4,'Занят'),(17,6,'Занят'),(18,2,'Занят'),(19,8,'Свободен'),(20,4,'Занят');
 /*!40000 ALTER TABLE `tables` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -283,18 +283,18 @@ DROP TABLE IF EXISTS `worker`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `worker` (
   `WorkerId` int NOT NULL AUTO_INCREMENT,
-  `WorkerFIO` varchar(150) NOT NULL,
-  `OriginalWorkerFIO` varchar(150) DEFAULT NULL,
-  `WorkerLogin` varchar(100) NOT NULL,
+  `WorkerFIO` varchar(100) NOT NULL,
+  `OriginalWorkerFIO` varchar(100) DEFAULT NULL,
+  `WorkerLogin` varchar(50) NOT NULL,
   `WorkerPassword` varchar(200) NOT NULL,
   `WorkerPhone` varchar(11) NOT NULL,
-  `WorkerPassport` varchar(100) DEFAULT NULL COMMENT 'Паспортные данные',
+  `WorkerPassport` varchar(11) NOT NULL COMMENT 'Паспортные данные',
   `WorkerRole` int NOT NULL,
   `IsActive` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`WorkerId`),
   KEY `worker_ibfk_1` (`WorkerRole`),
   CONSTRAINT `worker_ibfk_1` FOREIGN KEY (`WorkerRole`) REFERENCES `role` (`RoleId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -303,7 +303,7 @@ CREATE TABLE `worker` (
 
 LOCK TABLES `worker` WRITE;
 /*!40000 ALTER TABLE `worker` DISABLE KEYS */;
-INSERT INTO `worker` VALUES (1,'Бартенев Антон Ильич',NULL,'admin1','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000001','4510 123456',1,1),(2,'Фролова Мария Александровна',NULL,'admin2','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000002','4510 234567',1,1),(3,'Кузнецов Олег Игоревич',NULL,'admin3','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000003','4511 345678',1,1),(4,'Морозова Екатерина Владимировна',NULL,'admin4','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000004','4511 456789',1,1),(5,'Волков Антон Сергеевич',NULL,'admin5','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000005','4512 567890',1,1),(6,'Иванов Павел Константинович',NULL,'manager1','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000006','4512 678901',2,1),(7,'Егорова Светлана Михайловна',NULL,'manager2','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000007','4513 789012',2,1),(8,'Попов Дмитрий Олегович',NULL,'manager3','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000008','4513 890123',2,1),(9,'Соколова Ирина Фёдоровна',NULL,'manager4','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000009','4514 901234',2,1),(10,'Зайцев Владислав Романович',NULL,'manager5','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000010','4514 012345',2,1),(11,'Орлова Анастасия Васильевна',NULL,'manager6','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000011','4515 123456',2,1),(12,'Лебедев Сергей Андреевич',NULL,'manager7','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000012','4515 234567',2,1),(13,'Крылова Ольга Дмитриевна',NULL,'manager8','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000013','4516 345678',2,1),(14,'Фомин Никита Евгеньевич',NULL,'manager9','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000014','4516 456789',2,1),(15,'Васильева Татьяна Ивановна',NULL,'manager10','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000015','4517 567890',2,1),(16,'Смирнов Алексей Петрович','Смирнов Алексей Петрович','waiter1','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000016','4517 678901',3,1),(17,'Новикова Юлия Александровна',NULL,'waiter2','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000017','4518 789012',3,1),(18,'Сергеев Григорий Дмитриевич',NULL,'waiter3','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000018','4518 890123',3,1),(19,'Белова Ксения Фёдоровна',NULL,'waiter4','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000019','4519 901234',3,1),(20,'Козлов Иван Олегович',NULL,'waiter5','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000020','4519 012345',3,1),(21,'Медведева Алина Романовна',NULL,'waiter6','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000021','4520 123456',3,1),(22,'Борисов Николай Александрович',NULL,'waiter7','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000022','4520 234567',3,1),(23,'Григорьева Вера Игоревна',NULL,'waiter8','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000023','4521 345678',3,1),(24,'Алексеев Роман Михайлович',NULL,'waiter9','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000024','4521 456789',3,1),(25,'Ефимова Полина Андреевна',NULL,'waiter10','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000025','4522 567890',3,1),(26,'Никитин Артём Ильич',NULL,'waiter11','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000026','4522 678901',3,1),(27,'Кузьмина Елена Павловна',NULL,'waiter12','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000027','4523 789012',3,1),(28,'Макаров Фёдор Игоревич',NULL,'waiter13','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000028','4523 890123',3,1),(29,'Дмитриева Карина Алексеевна',NULL,'waiter14','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000029','4524 901234',3,1),(30,'Поляков Степан Олегович',NULL,'waiter15','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000030','4524 012345',3,1),(31,'Захарова Марина Ильинична',NULL,'waiter16','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000031','4525 123456',3,1),(32,'Комаров Даниил Фёдорович',NULL,'waiter17','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000032','4525 234567',3,1),(33,'Богданова Людмила Сергеевна',NULL,'waiter18','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000033','4526 345678',3,1),(34,'Савельев Игорь Викторович',NULL,'waiter19','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000034','4526 456789',3,1),(35,'Романова Дарья Анатольевна',NULL,'waiter20','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000035','4527 567890',3,1),(36,'Миронов Валерий Андреевич',NULL,'waiter21','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000036','4527 678901',3,1),(37,'Тихонова Алёна Ивановна',NULL,'waiter22','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000037','4528 789012',3,1),(38,'Гаврилов Виталий Степанович',NULL,'waiter23','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000038','4528 890123',3,1),(39,'Федорова Ангелина Дмитриевна',NULL,'waiter24','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000039','4529 901234',3,1),(40,'Соболев Михаил Николаевич',NULL,'waiter25','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000040','4529 012345',3,1),(41,'Трифонова Инна Андреевна',NULL,'chef1','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000041','4530 123456',4,1),(42,'Мельников Георгий Васильевич',NULL,'chef2','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000042','4530 234567',4,1),(43,'Ковалева Лилия Евгеньевна',NULL,'chef3','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000043','4531 345678',4,1),(44,'Васильев Станислав Тимурович',NULL,'chef4','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000044','4531 456789',4,1),(45,'Голубева Виктория Аркадьевна',NULL,'chef5','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000045','4532 567890',4,1),(46,'Власов Арсений Григорьевич',NULL,'chef6','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000046','4532 678901',4,1),(47,'Сидорова Инна Никитична',NULL,'ched7','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000047','4533 789012',4,1),(48,'Павлов Вадим Романович',NULL,'chef8','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000048','4533 890123',4,1),(49,'Цветкова Евгения Владимировна',NULL,'chef9','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000049','4534 901234',4,1),(50,'Баринов Виктор Петрович',NULL,'chef10','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000050','4534 012345',4,1);
+INSERT INTO `worker` VALUES (1,'Бартенев Антон Ильич',NULL,'admin1','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000001','4510 123456',1,1),(2,'Фролова Мария Александровна',NULL,'admin2','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000002','4510 234567',1,1),(3,'Кузнецов Олег Игоревич',NULL,'admin3','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000003','4511 345678',1,1),(4,'Морозова Екатерина Владимировна',NULL,'admin4','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000004','4511 456789',1,1),(5,'Волков Антон Сергеевич',NULL,'admin5','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000005','4512 567890',1,1),(6,'Иванов Павел Константинович',NULL,'manager1','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000006','4512 678901',2,1),(7,'Егорова Светлана Михайловна',NULL,'manager2','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000007','4513 789012',2,1),(8,'Попов Дмитрий Олегович',NULL,'manager3','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000008','4513 890123',2,1),(9,'Соколова Ирина Фёдоровна',NULL,'manager4','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000009','4514 901234',2,1),(10,'Зайцев Владислав Романович',NULL,'manager5','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000010','4514 012345',2,1),(11,'Орлова Анастасия Васильевна',NULL,'manager6','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000011','4515 123456',2,1),(12,'Лебедев Сергей Андреевич',NULL,'manager7','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000012','4515 234567',2,1),(13,'Крылова Ольга Дмитриевна',NULL,'manager8','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000013','4516 345678',2,1),(14,'Фомин Никита Евгеньевич',NULL,'manager9','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000014','4516 456789',2,1),(15,'Васильева Татьяна Ивановна',NULL,'manager10','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000015','4517 567890',2,1),(16,'Смирнов Алексей Петрович','Смирнов Алексей Петрович','manager11','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000016','4517 678901',2,1),(17,'Новикова Юлия Александровна',NULL,'manager12','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000017','4518 789012',2,1),(18,'Сергеев Григорий Дмитриевич',NULL,'manager13','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000018','4518 890123',2,1),(19,'Белова Ксения Фёдоровна',NULL,'manager14','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000019','4519 901234',2,1),(20,'Козлов Иван Олегович',NULL,'manager15','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000020','4519 012345',2,1),(21,'Медведева Алина Романовна',NULL,'waiter1','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000021','4520 123456',3,1),(22,'Борисов Николай Александрович',NULL,'waiter2','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000022','4520 234567',3,1),(23,'Григорьева Вера Игоревна',NULL,'waiter3','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000023','4521 345678',3,1),(24,'Алексеев Роман Михайлович',NULL,'waiter4','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000024','4521 456789',3,1),(25,'Ефимова Полина Андреевна',NULL,'waiter5','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000025','4522 567890',3,1),(26,'Никитин Артём Ильич',NULL,'waiter6','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000026','4522 678901',3,1),(27,'Кузьмина Елена Павловна',NULL,'waiter7','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000027','4523 789012',3,1),(28,'Макаров Фёдор Игоревич',NULL,'waiter8','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000028','4523 890123',3,1),(29,'Дмитриева Карина Алексеевна',NULL,'waiter9','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000029','4524 901234',3,1),(30,'Поляков Степан Олегович',NULL,'waiter10','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000030','4524 012345',3,1),(31,'Захарова Марина Ильинична',NULL,'waiter11','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000031','4525 123456',3,1),(32,'Комаров Даниил Фёдорович',NULL,'waiter12','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000032','4525 234567',3,1),(33,'Богданова Людмила Сергеевна',NULL,'waiter13','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000033','4526 345678',3,1),(34,'Савельев Игорь Викторович',NULL,'waiter14','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000034','4526 456789',3,1),(35,'Романова Дарья Анатольевна',NULL,'waiter15','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000035','4527 567890',3,1),(36,'Миронов Валерий Андреевич',NULL,'waiter16','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000036','4527 678901',3,1),(37,'Тихонова Алёна Ивановна',NULL,'waiter17','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000037','4528 789012',3,1),(38,'Гаврилов Виталий Степанович',NULL,'waiter18','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000038','4528 890123',3,1),(39,'Федорова Ангелина Дмитриевна',NULL,'waiter19','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000039','4529 901234',3,1),(40,'Соболев Михаил Николаевич',NULL,'waiter20','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000040','4529 012345',3,1),(41,'Трифонова Инна Андреевна',NULL,'chef1','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000041','4530 123456',4,1),(42,'Мельников Георгий Васильевич',NULL,'chef2','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000042','4530 234567',4,1),(43,'Ковалева Лилия Евгеньевна',NULL,'chef3','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000043','4531 345678',4,1),(44,'Васильев Станислав Тимурович',NULL,'chef4','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000044','4531 456789',4,1),(45,'Голубева Виктория Аркадьевна',NULL,'chef5','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000045','4532 567890',4,1),(46,'Власов Арсений Григорьевич',NULL,'chef6','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000046','4532 678901',4,1),(47,'Сидорова Инна Никитична',NULL,'chef7','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000047','4533 789012',4,1),(48,'Павлов Вадим Романович',NULL,'chef8','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000048','4533 890123',4,1),(49,'Цветкова Евгения Владимировна',NULL,'chef9','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000049','4534 901234',4,1),(50,'Баринов Виктор Петрович',NULL,'chef10','7549920a8f8c5dec3f1dcdb7a5eb7840ea1e52f2ee40fe70b6d1fb376aed3a8d','79010000050','4534 012345',4,1);
 /*!40000 ALTER TABLE `worker` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -324,4 +324,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-05-03 23:07:18
+-- Dump completed on 2026-05-12 20:05:05

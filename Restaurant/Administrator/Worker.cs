@@ -25,7 +25,10 @@ namespace Restaurant
             buttonNew.Font = Fonts.MontserratAlternatesBold(12f);
             buttonUpdate.Font = Fonts.MontserratAlternatesBold(12f);
             buttonDelete.Font = Fonts.MontserratAlternatesBold(12f);
+            buttonClearFilters.Font = Fonts.MontserratAlternatesBold(12f);
             dataGridView1.Font = Fonts.MontserratAlternatesRegular(12f);
+
+            KeyboardLayoutManager.AttachRussianLayout(textBoxWorker);
         }
 
         private void buttonBack_Click(object sender, EventArgs e)
@@ -208,16 +211,6 @@ namespace Restaurant
             {
                 if (!string.IsNullOrEmpty(text))
                     e.Value = DataFormatter.MaskPassport(text);
-            }
-            else if (columnName == "Логин")
-            {
-                if (!string.IsNullOrEmpty(text))
-                {
-                    if (text.Length > 3)
-                        e.Value = text.Substring(0, 3) + "***";
-                    else
-                        e.Value = text + "***";
-                }
             }
         }
 

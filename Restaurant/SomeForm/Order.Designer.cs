@@ -43,8 +43,8 @@
             this.buttonNew = new System.Windows.Forms.Button();
             this.buttonUpdate = new System.Windows.Forms.Button();
             this.buttonCheck = new System.Windows.Forms.Button();
-            this.buttonClearFilters = new System.Windows.Forms.Button();
             this.buttonReportPopular = new System.Windows.Forms.Button();
+            this.buttonClearFilters = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -60,7 +60,7 @@
             this.buttonOrderItem.Margin = new System.Windows.Forms.Padding(4);
             this.buttonOrderItem.Name = "buttonOrderItem";
             this.buttonOrderItem.Size = new System.Drawing.Size(153, 68);
-            this.buttonOrderItem.TabIndex = 53;
+            this.buttonOrderItem.TabIndex = 7;
             this.buttonOrderItem.Text = "Состав заказа";
             this.buttonOrderItem.UseVisualStyleBackColor = false;
             this.buttonOrderItem.Click += new System.EventHandler(this.buttonOrderItem_Click);
@@ -77,7 +77,7 @@
             this.comboBoxSum.Margin = new System.Windows.Forms.Padding(4);
             this.comboBoxSum.Name = "comboBoxSum";
             this.comboBoxSum.Size = new System.Drawing.Size(239, 37);
-            this.comboBoxSum.TabIndex = 52;
+            this.comboBoxSum.TabIndex = 3;
             this.comboBoxSum.SelectedIndexChanged += new System.EventHandler(this.comboBox_SelectedIndexChanged);
             // 
             // labelSum
@@ -108,7 +108,7 @@
             this.comboBoxStatus.Margin = new System.Windows.Forms.Padding(4);
             this.comboBoxStatus.Name = "comboBoxStatus";
             this.comboBoxStatus.Size = new System.Drawing.Size(239, 37);
-            this.comboBoxStatus.TabIndex = 50;
+            this.comboBoxStatus.TabIndex = 2;
             this.comboBoxStatus.SelectedIndexChanged += new System.EventHandler(this.comboBox_SelectedIndexChanged);
             // 
             // labelStatus
@@ -151,10 +151,10 @@
             this.textBoxOrder.ForeColor = System.Drawing.Color.White;
             this.textBoxOrder.Location = new System.Drawing.Point(19, 567);
             this.textBoxOrder.Margin = new System.Windows.Forms.Padding(4);
-            this.textBoxOrder.MaxLength = 50;
+            this.textBoxOrder.MaxLength = 100;
             this.textBoxOrder.Name = "textBoxOrder";
             this.textBoxOrder.Size = new System.Drawing.Size(239, 36);
-            this.textBoxOrder.TabIndex = 47;
+            this.textBoxOrder.TabIndex = 1;
             this.textBoxOrder.TextChanged += new System.EventHandler(this.textBoxOrder_TextChanged);
             this.textBoxOrder.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxOrder_KeyPress);
             // 
@@ -185,7 +185,7 @@
             this.buttonReportRevenue.Margin = new System.Windows.Forms.Padding(4);
             this.buttonReportRevenue.Name = "buttonReportRevenue";
             this.buttonReportRevenue.Size = new System.Drawing.Size(153, 68);
-            this.buttonReportRevenue.TabIndex = 44;
+            this.buttonReportRevenue.TabIndex = 9;
             this.buttonReportRevenue.Text = "Отчёт по выручке";
             this.buttonReportRevenue.UseVisualStyleBackColor = false;
             this.buttonReportRevenue.Visible = false;
@@ -202,7 +202,7 @@
             this.buttonBack.Margin = new System.Windows.Forms.Padding(4);
             this.buttonBack.Name = "buttonBack";
             this.buttonBack.Size = new System.Drawing.Size(153, 68);
-            this.buttonBack.TabIndex = 45;
+            this.buttonBack.TabIndex = 11;
             this.buttonBack.Text = "Назад";
             this.buttonBack.UseVisualStyleBackColor = false;
             this.buttonBack.Click += new System.EventHandler(this.buttonBack_Click);
@@ -222,7 +222,7 @@
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(1067, 505);
-            this.dataGridView1.TabIndex = 43;
+            this.dataGridView1.TabIndex = 12;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             this.dataGridView1.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dataGridView1_CellFormatting);
             // 
@@ -237,7 +237,7 @@
             this.buttonNew.Margin = new System.Windows.Forms.Padding(4);
             this.buttonNew.Name = "buttonNew";
             this.buttonNew.Size = new System.Drawing.Size(153, 68);
-            this.buttonNew.TabIndex = 44;
+            this.buttonNew.TabIndex = 5;
             this.buttonNew.Text = "Добавить";
             this.buttonNew.UseVisualStyleBackColor = false;
             this.buttonNew.Visible = false;
@@ -255,7 +255,7 @@
             this.buttonUpdate.Margin = new System.Windows.Forms.Padding(4);
             this.buttonUpdate.Name = "buttonUpdate";
             this.buttonUpdate.Size = new System.Drawing.Size(153, 68);
-            this.buttonUpdate.TabIndex = 44;
+            this.buttonUpdate.TabIndex = 6;
             this.buttonUpdate.Text = "Изменить";
             this.buttonUpdate.UseVisualStyleBackColor = false;
             this.buttonUpdate.Visible = false;
@@ -273,27 +273,11 @@
             this.buttonCheck.Margin = new System.Windows.Forms.Padding(4);
             this.buttonCheck.Name = "buttonCheck";
             this.buttonCheck.Size = new System.Drawing.Size(167, 68);
-            this.buttonCheck.TabIndex = 54;
+            this.buttonCheck.TabIndex = 8;
             this.buttonCheck.Text = "Оформить чек";
             this.buttonCheck.UseVisualStyleBackColor = false;
             this.buttonCheck.Visible = false;
             this.buttonCheck.Click += new System.EventHandler(this.buttonCheck_Click);
-            // 
-            // buttonClearFilters
-            // 
-            this.buttonClearFilters.BackColor = System.Drawing.Color.Transparent;
-            this.buttonClearFilters.BackgroundImage = global::Restaurant.Properties.Resources.exit;
-            this.buttonClearFilters.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.buttonClearFilters.FlatAppearance.BorderSize = 0;
-            this.buttonClearFilters.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonClearFilters.ForeColor = System.Drawing.Color.Transparent;
-            this.buttonClearFilters.Location = new System.Drawing.Point(763, 566);
-            this.buttonClearFilters.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonClearFilters.Name = "buttonClearFilters";
-            this.buttonClearFilters.Size = new System.Drawing.Size(40, 37);
-            this.buttonClearFilters.TabIndex = 55;
-            this.buttonClearFilters.UseVisualStyleBackColor = false;
-            this.buttonClearFilters.Click += new System.EventHandler(this.buttonClearFilters_Click);
             // 
             // buttonReportPopular
             // 
@@ -306,11 +290,26 @@
             this.buttonReportPopular.Margin = new System.Windows.Forms.Padding(4);
             this.buttonReportPopular.Name = "buttonReportPopular";
             this.buttonReportPopular.Size = new System.Drawing.Size(180, 68);
-            this.buttonReportPopular.TabIndex = 44;
+            this.buttonReportPopular.TabIndex = 10;
             this.buttonReportPopular.Text = "Популярные блюда";
             this.buttonReportPopular.UseVisualStyleBackColor = false;
             this.buttonReportPopular.Visible = false;
             this.buttonReportPopular.Click += new System.EventHandler(this.buttonReportPopular_Click);
+            // 
+            // buttonClearFilters
+            // 
+            this.buttonClearFilters.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.buttonClearFilters.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(99)))), ((int)(((byte)(107)))));
+            this.buttonClearFilters.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonClearFilters.Font = new System.Drawing.Font("Verdana", 14F);
+            this.buttonClearFilters.ForeColor = System.Drawing.Color.White;
+            this.buttonClearFilters.Location = new System.Drawing.Point(763, 566);
+            this.buttonClearFilters.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
+            this.buttonClearFilters.Name = "buttonClearFilters";
+            this.buttonClearFilters.Size = new System.Drawing.Size(98, 41);
+            this.buttonClearFilters.TabIndex = 4;
+            this.buttonClearFilters.Text = "Сброс";
+            this.buttonClearFilters.UseVisualStyleBackColor = false;
             // 
             // Order
             // 
@@ -366,7 +365,7 @@
         private System.Windows.Forms.Button buttonNew;
         private System.Windows.Forms.Button buttonUpdate;
         private System.Windows.Forms.Button buttonCheck;
-        private System.Windows.Forms.Button buttonClearFilters;
         private System.Windows.Forms.Button buttonReportPopular;
+        private System.Windows.Forms.Button buttonClearFilters;
     }
 }

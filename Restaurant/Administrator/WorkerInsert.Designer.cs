@@ -29,12 +29,10 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WorkerInsert));
-            this.textBoxConfPassword = new System.Windows.Forms.TextBox();
             this.textBoxPassword = new System.Windows.Forms.TextBox();
             this.textBoxPassport = new System.Windows.Forms.TextBox();
             this.textBoxLogin = new System.Windows.Forms.TextBox();
             this.textBoxFIO = new System.Windows.Forms.TextBox();
-            this.labelConfPassword = new System.Windows.Forms.Label();
             this.labelPassport = new System.Windows.Forms.Label();
             this.labelPassword = new System.Windows.Forms.Label();
             this.labelPhone = new System.Windows.Forms.Label();
@@ -46,20 +44,6 @@
             this.comboBoxRole = new System.Windows.Forms.ComboBox();
             this.maskedTextBoxPhone = new System.Windows.Forms.MaskedTextBox();
             this.SuspendLayout();
-            // 
-            // textBoxConfPassword
-            // 
-            this.textBoxConfPassword.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.textBoxConfPassword.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBoxConfPassword.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxConfPassword.ForeColor = System.Drawing.Color.White;
-            this.textBoxConfPassword.Location = new System.Drawing.Point(21, 289);
-            this.textBoxConfPassword.Margin = new System.Windows.Forms.Padding(4);
-            this.textBoxConfPassword.MaxLength = 50;
-            this.textBoxConfPassword.Name = "textBoxConfPassword";
-            this.textBoxConfPassword.Size = new System.Drawing.Size(377, 36);
-            this.textBoxConfPassword.TabIndex = 4;
-            this.textBoxConfPassword.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxPasswd_KeyPress);
             // 
             // textBoxPassword
             // 
@@ -86,7 +70,7 @@
             this.textBoxPassport.MaxLength = 11;
             this.textBoxPassport.Name = "textBoxPassport";
             this.textBoxPassport.Size = new System.Drawing.Size(377, 36);
-            this.textBoxPassport.TabIndex = 5;
+            this.textBoxPassport.TabIndex = 4;
             this.textBoxPassport.Click += new System.EventHandler(this.textBoxPassport_Click);
             this.textBoxPassport.TextChanged += new System.EventHandler(this.textBoxPassport_TextChanged);
             this.textBoxPassport.Enter += new System.EventHandler(this.textBoxPassport_Enter);
@@ -114,25 +98,12 @@
             this.textBoxFIO.ForeColor = System.Drawing.Color.White;
             this.textBoxFIO.Location = new System.Drawing.Point(21, 44);
             this.textBoxFIO.Margin = new System.Windows.Forms.Padding(4);
-            this.textBoxFIO.MaxLength = 50;
+            this.textBoxFIO.MaxLength = 100;
             this.textBoxFIO.Name = "textBoxFIO";
             this.textBoxFIO.Size = new System.Drawing.Size(377, 36);
             this.textBoxFIO.TabIndex = 1;
             this.textBoxFIO.TextChanged += new System.EventHandler(this.textBoxFIO_TextChanged);
             this.textBoxFIO.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxFIO_KeyPress);
-            // 
-            // labelConfPassword
-            // 
-            this.labelConfPassword.AutoSize = true;
-            this.labelConfPassword.BackColor = System.Drawing.Color.Transparent;
-            this.labelConfPassword.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelConfPassword.ForeColor = System.Drawing.Color.White;
-            this.labelConfPassword.Location = new System.Drawing.Point(16, 257);
-            this.labelConfPassword.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelConfPassword.Name = "labelConfPassword";
-            this.labelConfPassword.Size = new System.Drawing.Size(315, 29);
-            this.labelConfPassword.TabIndex = 35;
-            this.labelConfPassword.Text = "Подтверждение пароля:";
             // 
             // labelPassport
             // 
@@ -206,11 +177,11 @@
             this.buttonWrite.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonWrite.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonWrite.ForeColor = System.Drawing.Color.White;
-            this.buttonWrite.Location = new System.Drawing.Point(697, 441);
+            this.buttonWrite.Location = new System.Drawing.Point(701, 288);
             this.buttonWrite.Margin = new System.Windows.Forms.Padding(4);
             this.buttonWrite.Name = "buttonWrite";
             this.buttonWrite.Size = new System.Drawing.Size(153, 62);
-            this.buttonWrite.TabIndex = 8;
+            this.buttonWrite.TabIndex = 7;
             this.buttonWrite.Text = "Записать";
             this.buttonWrite.UseVisualStyleBackColor = false;
             this.buttonWrite.Click += new System.EventHandler(this.buttonWrite_Click);
@@ -222,11 +193,11 @@
             this.buttonBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonBack.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonBack.ForeColor = System.Drawing.Color.White;
-            this.buttonBack.Location = new System.Drawing.Point(16, 441);
+            this.buttonBack.Location = new System.Drawing.Point(13, 288);
             this.buttonBack.Margin = new System.Windows.Forms.Padding(4);
             this.buttonBack.Name = "buttonBack";
             this.buttonBack.Size = new System.Drawing.Size(147, 62);
-            this.buttonBack.TabIndex = 9;
+            this.buttonBack.TabIndex = 8;
             this.buttonBack.Text = "Назад";
             this.buttonBack.UseVisualStyleBackColor = false;
             this.buttonBack.Click += new System.EventHandler(this.buttonBack_Click);
@@ -257,7 +228,7 @@
             this.comboBoxRole.Margin = new System.Windows.Forms.Padding(4);
             this.comboBoxRole.Name = "comboBoxRole";
             this.comboBoxRole.Size = new System.Drawing.Size(377, 37);
-            this.comboBoxRole.TabIndex = 7;
+            this.comboBoxRole.TabIndex = 6;
             // 
             // maskedTextBoxPhone
             // 
@@ -270,7 +241,7 @@
             this.maskedTextBoxPhone.Mask = "+7 (000) 000-00-00";
             this.maskedTextBoxPhone.Name = "maskedTextBoxPhone";
             this.maskedTextBoxPhone.Size = new System.Drawing.Size(377, 36);
-            this.maskedTextBoxPhone.TabIndex = 6;
+            this.maskedTextBoxPhone.TabIndex = 5;
             this.maskedTextBoxPhone.Click += new System.EventHandler(this.maskedTextBoxPhone_Click);
             this.maskedTextBoxPhone.Enter += new System.EventHandler(this.maskedTextBoxPhone_Enter);
             // 
@@ -280,15 +251,13 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(32)))), ((int)(((byte)(44)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(867, 517);
+            this.ClientSize = new System.Drawing.Size(867, 371);
             this.ControlBox = false;
             this.Controls.Add(this.maskedTextBoxPhone);
-            this.Controls.Add(this.textBoxConfPassword);
             this.Controls.Add(this.textBoxPassword);
             this.Controls.Add(this.textBoxPassport);
             this.Controls.Add(this.textBoxLogin);
             this.Controls.Add(this.textBoxFIO);
-            this.Controls.Add(this.labelConfPassword);
             this.Controls.Add(this.labelPassport);
             this.Controls.Add(this.labelPassword);
             this.Controls.Add(this.labelPhone);
@@ -310,13 +279,10 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.TextBox textBoxConfPassword;
         private System.Windows.Forms.TextBox textBoxPassword;
         private System.Windows.Forms.TextBox textBoxPassport;
         private System.Windows.Forms.TextBox textBoxLogin;
         private System.Windows.Forms.TextBox textBoxFIO;
-        private System.Windows.Forms.Label labelConfPassword;
         private System.Windows.Forms.Label labelPassport;
         private System.Windows.Forms.Label labelPassword;
         private System.Windows.Forms.Label labelPhone;

@@ -26,6 +26,7 @@ namespace Restaurant
             buttonBack.Font = Fonts.MontserratAlternatesBold(12f);
             buttonNew.Font = Fonts.MontserratAlternatesBold(12f);
             buttonUpdate.Font = Fonts.MontserratAlternatesBold(12f);
+            buttonClearFilters.Font = Fonts.MontserratAlternatesBold(12f);
             dataGridView1.Font = Fonts.MontserratAlternatesRegular(12f);
         }
 
@@ -127,6 +128,8 @@ namespace Restaurant
 
                     comboBoxPlaceCount.SelectedIndex = 0;
                     comboBoxStatus.SelectedIndex = 0;
+
+                    UpdateButtonsState();
                 }
             }
             catch (MySqlException ex)
@@ -221,6 +224,26 @@ namespace Restaurant
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
+            {
+                UpdateButtonsState();
+            }
+        }
+
+        private void UpdateButtonsState()
+        {
+            if (dataGridView1.CurrentRow == null)
+            {
+                buttonUpdate.Enabled = false;
+                return;
+            }
+
+            string status = dataGridView1.CurrentRow.Cells["Статус столика"].Value?.ToString() ?? "";
+
+            if (status == "Занят")
+            {
+                buttonUpdate.Enabled = false;
+            }
+            else
             {
                 buttonUpdate.Enabled = true;
             }

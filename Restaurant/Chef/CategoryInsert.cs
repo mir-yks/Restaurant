@@ -50,6 +50,8 @@ namespace Restaurant
                 buttonWrite.Text = "Добавить";
                 this.Text = "Добавление категории";
             }
+
+            KeyboardLayoutManager.AttachRussianLayout(textBoxCategory);
         }
 
         private void buttonBack_Click(object sender, EventArgs e)

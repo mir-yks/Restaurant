@@ -29,6 +29,8 @@ namespace Restaurant
             buttonEnter.Font = Fonts.MontserratAlternatesBold(12f);
             buttonExit.Font = Fonts.MontserratAlternatesBold(12f);
 
+            KeyboardLayoutManager.AttachEnglishLayout(textBoxHost, textBoxUid, textBoxPwd);
+
             textBoxPwd.PasswordChar = '*';
         }
 

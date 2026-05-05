@@ -66,9 +66,10 @@
             this.comboBoxClient.FormattingEnabled = true;
             this.comboBoxClient.Location = new System.Drawing.Point(36, 41);
             this.comboBoxClient.Margin = new System.Windows.Forms.Padding(4);
+            this.comboBoxClient.MaxLength = 100;
             this.comboBoxClient.Name = "comboBoxClient";
             this.comboBoxClient.Size = new System.Drawing.Size(300, 37);
-            this.comboBoxClient.TabIndex = 4;
+            this.comboBoxClient.TabIndex = 1;
             this.comboBoxClient.TextChanged += new System.EventHandler(this.comboBoxClient_TextChanged);
             this.comboBoxClient.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBoxClient_KeyPress);
             // 
@@ -81,7 +82,7 @@
             this.datePicker.Margin = new System.Windows.Forms.Padding(4);
             this.datePicker.Name = "datePicker";
             this.datePicker.Size = new System.Drawing.Size(186, 36);
-            this.datePicker.TabIndex = 8;
+            this.datePicker.TabIndex = 2;
             this.datePicker.Value = new System.DateTime(2025, 11, 3, 0, 0, 0, 0);
             // 
             // labelDateBooking
@@ -108,7 +109,7 @@
             this.buttonBack.Margin = new System.Windows.Forms.Padding(4);
             this.buttonBack.Name = "buttonBack";
             this.buttonBack.Size = new System.Drawing.Size(140, 68);
-            this.buttonBack.TabIndex = 9;
+            this.buttonBack.TabIndex = 7;
             this.buttonBack.Text = "Назад";
             this.buttonBack.UseVisualStyleBackColor = false;
             this.buttonBack.Click += new System.EventHandler(this.buttonBack_Click);
@@ -124,7 +125,7 @@
             this.buttonArrange.Margin = new System.Windows.Forms.Padding(4);
             this.buttonArrange.Name = "buttonArrange";
             this.buttonArrange.Size = new System.Drawing.Size(165, 68);
-            this.buttonArrange.TabIndex = 9;
+            this.buttonArrange.TabIndex = 6;
             this.buttonArrange.Text = "Добавить";
             this.buttonArrange.UseVisualStyleBackColor = false;
             this.buttonArrange.Click += new System.EventHandler(this.buttonArrange_Click);
@@ -140,8 +141,9 @@
             this.textBoxClientsCount.MaxLength = 2;
             this.textBoxClientsCount.Name = "textBoxClientsCount";
             this.textBoxClientsCount.Size = new System.Drawing.Size(300, 36);
-            this.textBoxClientsCount.TabIndex = 10;
+            this.textBoxClientsCount.TabIndex = 4;
             this.textBoxClientsCount.TextChanged += new System.EventHandler(this.TextBoxClientsCount_TextChanged);
+            this.textBoxClientsCount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxClientsCount_KeyPress);
             // 
             // labelClientsCount
             // 
@@ -158,9 +160,8 @@
             // 
             // comboBoxTable
             // 
-            this.comboBoxTable.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.comboBoxTable.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.comboBoxTable.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.comboBoxTable.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxTable.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.comboBoxTable.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.comboBoxTable.ForeColor = System.Drawing.Color.White;
@@ -169,7 +170,7 @@
             this.comboBoxTable.Margin = new System.Windows.Forms.Padding(4);
             this.comboBoxTable.Name = "comboBoxTable";
             this.comboBoxTable.Size = new System.Drawing.Size(300, 37);
-            this.comboBoxTable.TabIndex = 4;
+            this.comboBoxTable.TabIndex = 5;
             this.comboBoxTable.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBoxTable_KeyPress);
             // 
             // labelTable
@@ -195,7 +196,7 @@
             this.timePicker.Name = "timePicker";
             this.timePicker.ShowUpDown = true;
             this.timePicker.Size = new System.Drawing.Size(106, 36);
-            this.timePicker.TabIndex = 8;
+            this.timePicker.TabIndex = 3;
             this.timePicker.Value = new System.DateTime(2025, 11, 3, 1, 15, 53, 0);
             // 
             // ВookingInsert

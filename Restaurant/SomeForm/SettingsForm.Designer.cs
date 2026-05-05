@@ -57,7 +57,7 @@ namespace Restaurant
             this.buttonExit.Margin = new System.Windows.Forms.Padding(4);
             this.buttonExit.Name = "buttonExit";
             this.buttonExit.Size = new System.Drawing.Size(40, 37);
-            this.buttonExit.TabIndex = 6;
+            this.buttonExit.TabIndex = 5;
             this.buttonExit.UseVisualStyleBackColor = false;
             this.buttonExit.Click += new System.EventHandler(this.buttonExit_Click);
             // 
@@ -72,7 +72,7 @@ namespace Restaurant
             this.buttonEnter.Margin = new System.Windows.Forms.Padding(4);
             this.buttonEnter.Name = "buttonEnter";
             this.buttonEnter.Size = new System.Drawing.Size(170, 43);
-            this.buttonEnter.TabIndex = 5;
+            this.buttonEnter.TabIndex = 4;
             this.buttonEnter.Text = "Сохранить";
             this.buttonEnter.UseVisualStyleBackColor = false;
             this.buttonEnter.Click += new System.EventHandler(this.buttonEnter_Click);

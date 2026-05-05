@@ -34,7 +34,10 @@ namespace Restaurant
             buttonNew.Font = Fonts.MontserratAlternatesBold(12f);
             buttonUpdate.Font = Fonts.MontserratAlternatesBold(12f);
             buttonCheck.Font = Fonts.MontserratAlternatesBold(12f);
+            buttonClearFilters.Font = Fonts.MontserratAlternatesBold(12f);
             dataGridView1.Font = Fonts.MontserratAlternatesRegular(12f);
+
+            KeyboardLayoutManager.AttachRussianLayout(textBoxOrder);
         }
 
         private void ConfigureButtons()

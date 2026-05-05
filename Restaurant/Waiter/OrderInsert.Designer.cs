@@ -52,11 +52,11 @@
             this.buttonOrderItem.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonOrderItem.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonOrderItem.ForeColor = System.Drawing.Color.White;
-            this.buttonOrderItem.Location = new System.Drawing.Point(596, 362);
+            this.buttonOrderItem.Location = new System.Drawing.Point(599, 266);
             this.buttonOrderItem.Margin = new System.Windows.Forms.Padding(4);
             this.buttonOrderItem.Name = "buttonOrderItem";
             this.buttonOrderItem.Size = new System.Drawing.Size(167, 68);
-            this.buttonOrderItem.TabIndex = 33;
+            this.buttonOrderItem.TabIndex = 5;
             this.buttonOrderItem.Text = "Сохранить";
             this.buttonOrderItem.UseVisualStyleBackColor = false;
             this.buttonOrderItem.Click += new System.EventHandler(this.buttonOrderItem_Click);
@@ -68,11 +68,11 @@
             this.buttonBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonBack.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonBack.ForeColor = System.Drawing.Color.White;
-            this.buttonBack.Location = new System.Drawing.Point(16, 362);
+            this.buttonBack.Location = new System.Drawing.Point(13, 266);
             this.buttonBack.Margin = new System.Windows.Forms.Padding(4);
             this.buttonBack.Name = "buttonBack";
             this.buttonBack.Size = new System.Drawing.Size(147, 68);
-            this.buttonBack.TabIndex = 32;
+            this.buttonBack.TabIndex = 6;
             this.buttonBack.Text = "Назад";
             this.buttonBack.UseVisualStyleBackColor = false;
             this.buttonBack.Click += new System.EventHandler(this.buttonBack_Click);
@@ -89,7 +89,7 @@
             this.dateTimePickerOrder.Margin = new System.Windows.Forms.Padding(4);
             this.dateTimePickerOrder.Name = "dateTimePickerOrder";
             this.dateTimePickerOrder.Size = new System.Drawing.Size(300, 36);
-            this.dateTimePickerOrder.TabIndex = 31;
+            this.dateTimePickerOrder.TabIndex = 8;
             // 
             // labelStatusPayment
             // 
@@ -171,9 +171,8 @@
             // 
             // comboBoxStatusPayment
             // 
-            this.comboBoxStatusPayment.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.comboBoxStatusPayment.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.comboBoxStatusPayment.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.comboBoxStatusPayment.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxStatusPayment.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.comboBoxStatusPayment.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.comboBoxStatusPayment.ForeColor = System.Drawing.Color.White;
@@ -182,14 +181,13 @@
             this.comboBoxStatusPayment.Margin = new System.Windows.Forms.Padding(4);
             this.comboBoxStatusPayment.Name = "comboBoxStatusPayment";
             this.comboBoxStatusPayment.Size = new System.Drawing.Size(300, 37);
-            this.comboBoxStatusPayment.TabIndex = 20;
+            this.comboBoxStatusPayment.TabIndex = 4;
             this.comboBoxStatusPayment.SelectedIndexChanged += new System.EventHandler(this.comboBoxStatusPayment_SelectedIndexChanged);
             // 
             // comboBoxStatusOrder
             // 
-            this.comboBoxStatusOrder.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.comboBoxStatusOrder.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.comboBoxStatusOrder.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.comboBoxStatusOrder.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxStatusOrder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.comboBoxStatusOrder.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.comboBoxStatusOrder.ForeColor = System.Drawing.Color.White;
@@ -198,14 +196,13 @@
             this.comboBoxStatusOrder.Margin = new System.Windows.Forms.Padding(4);
             this.comboBoxStatusOrder.Name = "comboBoxStatusOrder";
             this.comboBoxStatusOrder.Size = new System.Drawing.Size(300, 37);
-            this.comboBoxStatusOrder.TabIndex = 21;
+            this.comboBoxStatusOrder.TabIndex = 3;
             this.comboBoxStatusOrder.SelectedIndexChanged += new System.EventHandler(this.comboBoxStatusOrder_SelectedIndexChanged);
             // 
             // comboBoxTable
             // 
-            this.comboBoxTable.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.comboBoxTable.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.comboBoxTable.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.comboBoxTable.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxTable.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.comboBoxTable.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.comboBoxTable.ForeColor = System.Drawing.Color.White;
@@ -215,7 +212,7 @@
             this.comboBoxTable.MaxLength = 2;
             this.comboBoxTable.Name = "comboBoxTable";
             this.comboBoxTable.Size = new System.Drawing.Size(300, 37);
-            this.comboBoxTable.TabIndex = 22;
+            this.comboBoxTable.TabIndex = 2;
             this.comboBoxTable.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBoxTable_KeyPress);
             // 
             // comboBoxClient
@@ -229,9 +226,10 @@
             this.comboBoxClient.FormattingEnabled = true;
             this.comboBoxClient.Location = new System.Drawing.Point(40, 122);
             this.comboBoxClient.Margin = new System.Windows.Forms.Padding(4);
+            this.comboBoxClient.MaxLength = 100;
             this.comboBoxClient.Name = "comboBoxClient";
             this.comboBoxClient.Size = new System.Drawing.Size(300, 37);
-            this.comboBoxClient.TabIndex = 23;
+            this.comboBoxClient.TabIndex = 1;
             this.comboBoxClient.SelectedIndexChanged += new System.EventHandler(this.comboBoxClient_SelectedIndexChanged);
             // 
             // comboBoxWaiter
@@ -248,7 +246,7 @@
             this.comboBoxWaiter.Margin = new System.Windows.Forms.Padding(4);
             this.comboBoxWaiter.Name = "comboBoxWaiter";
             this.comboBoxWaiter.Size = new System.Drawing.Size(300, 37);
-            this.comboBoxWaiter.TabIndex = 24;
+            this.comboBoxWaiter.TabIndex = 7;
             // 
             // OrderInsert
             // 
@@ -256,7 +254,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(32)))), ((int)(((byte)(44)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(779, 444);
+            this.ClientSize = new System.Drawing.Size(779, 350);
             this.ControlBox = false;
             this.Controls.Add(this.buttonOrderItem);
             this.Controls.Add(this.buttonBack);

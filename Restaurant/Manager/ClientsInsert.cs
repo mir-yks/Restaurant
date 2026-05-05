@@ -35,6 +35,8 @@ namespace Restaurant
             buttonBack.Font = Fonts.MontserratAlternatesBold(12f);
             buttonWrite.Font = Fonts.MontserratAlternatesBold(12f);
 
+            KeyboardLayoutManager.AttachRussianLayout(textBoxFIO);
+
             ApplyMode();
         }
 

@@ -37,6 +37,7 @@ namespace Restaurant
             LoadStatuses();
             ApplyMode();
         }
+
         private void LoadStatuses()
         {
             comboBoxStatus.Items.Clear();
@@ -53,6 +54,7 @@ namespace Restaurant
                     break;
             }
         }
+
         public int TablePlaces
         {
             get => int.TryParse(textBoxPlaceCount.Text, out int n) ? n : 0;
@@ -68,6 +70,36 @@ namespace Restaurant
         private void buttonBack_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private bool CanChangeTableCapacity(int tableId, int newCapacity)
+        {
+            try
+            {
+                using (MySqlConnection con = new MySqlConnection(connStr.GetConnectionString("db57")))
+                {
+                    con.Open();
+
+                    string query = @"
+                        SELECT COUNT(*) 
+                        FROM booking 
+                        WHERE TableId = @TableId 
+                        AND ClientsCount > @NewCapacity
+                        AND BookingDate > DATE_SUB(NOW(), INTERVAL 2 HOUR)";
+
+                    MySqlCommand cmd = new MySqlCommand(query, con);
+                    cmd.Parameters.AddWithValue("@TableId", tableId);
+                    cmd.Parameters.AddWithValue("@NewCapacity", newCapacity);
+
+                    int count = Convert.ToInt32(cmd.ExecuteScalar());
+                    return count == 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка проверки броней: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
         }
 
         private void buttonWrite_Click(object sender, EventArgs e)
@@ -98,6 +130,21 @@ namespace Restaurant
             {
                 MessageBox.Show("Введите корректное количество мест (положительное число).", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
+            }
+
+            if (mode == "edit")
+            {
+                if (!CanChangeTableCapacity(TableID, places))
+                {
+                    MessageBox.Show("Нельзя уменьшить вместимость столика!\n" +
+                                   "На этот столик есть бронирования с количеством гостей, " +
+                                   "превышающим новую вместимость.",
+                                   "Ошибка",
+                                   MessageBoxButtons.OK,
+                                   MessageBoxIcon.Warning);
+                    textBoxPlaceCount.Focus();
+                    return;
+                }
             }
 
             try
@@ -148,7 +195,6 @@ namespace Restaurant
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
 
         private void textBox_KeyPress(object sender, KeyPressEventArgs e)
         {

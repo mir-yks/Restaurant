@@ -42,6 +42,8 @@ namespace Restaurant
             buttonBack.Font = Fonts.MontserratAlternatesBold(12f);
             buttonArrange.Font = Fonts.MontserratAlternatesBold(12f);
 
+            KeyboardLayoutManager.AttachRussianLayout(comboBoxClient);
+
             LoadClients();
             ApplyMode();
         }
@@ -267,6 +269,25 @@ namespace Restaurant
                         break;
                     }
                 }
+            }
+        }
+
+        public void SetClientData(int clientId, string clientFIO)
+        {
+            comboBoxClient.Enabled = false;
+
+            foreach (KeyValuePair<int, string> item in comboBoxClient.Items)
+            {
+                if (item.Key == clientId)
+                {
+                    comboBoxClient.SelectedItem = item;
+                    break;
+                }
+            }
+
+            if (comboBoxClient.SelectedItem == null && comboBoxClient.Items.Count > 0 && comboBoxClient.Items[0] is KeyValuePair<int, string> firstItem)
+            {
+                comboBoxClient.SelectedItem = firstItem;
             }
         }
 
@@ -564,6 +585,14 @@ namespace Restaurant
             if (parentForm != null)
             {
                 BlurEffect.HideDimmed();
+            }
+        }
+
+        private void textBoxClientsCount_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
             }
         }
     }

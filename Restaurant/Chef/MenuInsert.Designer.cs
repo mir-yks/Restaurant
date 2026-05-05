@@ -41,8 +41,8 @@
             this.labelName = new System.Windows.Forms.Label();
             this.comboBoxOffers = new System.Windows.Forms.ComboBox();
             this.comboBoxCategory = new System.Windows.Forms.ComboBox();
-            this.pictureBoxImage = new System.Windows.Forms.PictureBox();
             this.buttonImage = new System.Windows.Forms.Button();
+            this.pictureBoxImage = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxImage)).BeginInit();
             this.SuspendLayout();
             // 
@@ -57,7 +57,7 @@
             this.textBoxPrice.MaxLength = 11;
             this.textBoxPrice.Name = "textBoxPrice";
             this.textBoxPrice.Size = new System.Drawing.Size(302, 36);
-            this.textBoxPrice.TabIndex = 46;
+            this.textBoxPrice.TabIndex = 3;
             this.textBoxPrice.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxPrice_KeyPress);
             // 
             // textBoxDescription
@@ -70,7 +70,7 @@
             this.textBoxDescription.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxDescription.Name = "textBoxDescription";
             this.textBoxDescription.Size = new System.Drawing.Size(302, 36);
-            this.textBoxDescription.TabIndex = 47;
+            this.textBoxDescription.TabIndex = 2;
             this.textBoxDescription.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxDescription_KeyPress);
             // 
             // textBoxName
@@ -84,7 +84,7 @@
             this.textBoxName.MaxLength = 100;
             this.textBoxName.Name = "textBoxName";
             this.textBoxName.Size = new System.Drawing.Size(302, 36);
-            this.textBoxName.TabIndex = 48;
+            this.textBoxName.TabIndex = 1;
             this.textBoxName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxName_KeyPress);
             // 
             // buttonWrite
@@ -98,7 +98,7 @@
             this.buttonWrite.Margin = new System.Windows.Forms.Padding(4);
             this.buttonWrite.Name = "buttonWrite";
             this.buttonWrite.Size = new System.Drawing.Size(153, 62);
-            this.buttonWrite.TabIndex = 45;
+            this.buttonWrite.TabIndex = 7;
             this.buttonWrite.Text = "Добавить";
             this.buttonWrite.UseVisualStyleBackColor = false;
             this.buttonWrite.Click += new System.EventHandler(this.buttonWrite_Click);
@@ -114,7 +114,7 @@
             this.buttonBack.Margin = new System.Windows.Forms.Padding(4);
             this.buttonBack.Name = "buttonBack";
             this.buttonBack.Size = new System.Drawing.Size(147, 62);
-            this.buttonBack.TabIndex = 44;
+            this.buttonBack.TabIndex = 8;
             this.buttonBack.Text = "Назад";
             this.buttonBack.UseVisualStyleBackColor = false;
             this.buttonBack.Click += new System.EventHandler(this.buttonBack_Click);
@@ -196,7 +196,7 @@
             this.comboBoxOffers.Margin = new System.Windows.Forms.Padding(4);
             this.comboBoxOffers.Name = "comboBoxOffers";
             this.comboBoxOffers.Size = new System.Drawing.Size(300, 37);
-            this.comboBoxOffers.TabIndex = 37;
+            this.comboBoxOffers.TabIndex = 5;
             // 
             // comboBoxCategory
             // 
@@ -212,20 +212,8 @@
             this.comboBoxCategory.MaxLength = 50;
             this.comboBoxCategory.Name = "comboBoxCategory";
             this.comboBoxCategory.Size = new System.Drawing.Size(300, 37);
-            this.comboBoxCategory.TabIndex = 38;
+            this.comboBoxCategory.TabIndex = 4;
             this.comboBoxCategory.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBoxCategory_KeyPress);
-            // 
-            // pictureBoxImage
-            // 
-            this.pictureBoxImage.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBoxImage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBoxImage.Location = new System.Drawing.Point(371, 94);
-            this.pictureBoxImage.Margin = new System.Windows.Forms.Padding(4);
-            this.pictureBoxImage.Name = "pictureBoxImage";
-            this.pictureBoxImage.Size = new System.Drawing.Size(300, 192);
-            this.pictureBoxImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBoxImage.TabIndex = 49;
-            this.pictureBoxImage.TabStop = false;
             // 
             // buttonImage
             // 
@@ -238,10 +226,22 @@
             this.buttonImage.Margin = new System.Windows.Forms.Padding(4);
             this.buttonImage.Name = "buttonImage";
             this.buttonImage.Size = new System.Drawing.Size(301, 37);
-            this.buttonImage.TabIndex = 45;
+            this.buttonImage.TabIndex = 6;
             this.buttonImage.Text = "Выбрать фото";
             this.buttonImage.UseVisualStyleBackColor = false;
             this.buttonImage.Click += new System.EventHandler(this.buttonImage_Click);
+            // 
+            // pictureBoxImage
+            // 
+            this.pictureBoxImage.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBoxImage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pictureBoxImage.Location = new System.Drawing.Point(371, 94);
+            this.pictureBoxImage.Margin = new System.Windows.Forms.Padding(4);
+            this.pictureBoxImage.Name = "pictureBoxImage";
+            this.pictureBoxImage.Size = new System.Drawing.Size(300, 192);
+            this.pictureBoxImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxImage.TabIndex = 49;
+            this.pictureBoxImage.TabStop = false;
             // 
             // MenuInsert
             // 

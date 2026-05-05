@@ -34,7 +34,7 @@
             this.dateTimePickerMin.Margin = new System.Windows.Forms.Padding(4);
             this.dateTimePickerMin.Name = "dateTimePickerMin";
             this.dateTimePickerMin.Size = new System.Drawing.Size(265, 36);
-            this.dateTimePickerMin.TabIndex = 0;
+            this.dateTimePickerMin.TabIndex = 1;
             this.dateTimePickerMin.ValueChanged += new System.EventHandler(this.dateTimePickerMin_ValueChanged);
             // 
             // labelReport
@@ -98,7 +98,7 @@
             this.buttonCreate.Margin = new System.Windows.Forms.Padding(4);
             this.buttonCreate.Name = "buttonCreate";
             this.buttonCreate.Size = new System.Drawing.Size(147, 68);
-            this.buttonCreate.TabIndex = 10;
+            this.buttonCreate.TabIndex = 3;
             this.buttonCreate.Text = "Создать отчёт";
             this.buttonCreate.UseVisualStyleBackColor = false;
             this.buttonCreate.Click += new System.EventHandler(this.buttonCreate_Click);
@@ -114,7 +114,7 @@
             this.buttonBack.Margin = new System.Windows.Forms.Padding(4);
             this.buttonBack.Name = "buttonBack";
             this.buttonBack.Size = new System.Drawing.Size(147, 68);
-            this.buttonBack.TabIndex = 11;
+            this.buttonBack.TabIndex = 4;
             this.buttonBack.Text = "Назад";
             this.buttonBack.UseVisualStyleBackColor = false;
             this.buttonBack.Click += new System.EventHandler(this.buttonBack_Click);
@@ -156,6 +156,7 @@
             this.Text = "Выручка";
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         private System.Windows.Forms.DateTimePicker dateTimePickerMin;

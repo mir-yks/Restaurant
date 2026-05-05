@@ -42,6 +42,7 @@
             this.buttonBooking = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.buttonBD = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -54,10 +55,10 @@
             this.buttonExit.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonExit.ForeColor = System.Drawing.Color.White;
             this.buttonExit.Location = new System.Drawing.Point(16, 656);
-            this.buttonExit.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonExit.Margin = new System.Windows.Forms.Padding(4);
             this.buttonExit.Name = "buttonExit";
             this.buttonExit.Size = new System.Drawing.Size(140, 68);
-            this.buttonExit.TabIndex = 7;
+            this.buttonExit.TabIndex = 5;
             this.buttonExit.Text = "Выйти";
             this.buttonExit.UseVisualStyleBackColor = false;
             this.buttonExit.Click += new System.EventHandler(this.buttonExit_Click);
@@ -69,11 +70,11 @@
             this.buttonWorkers.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonWorkers.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonWorkers.ForeColor = System.Drawing.Color.White;
-            this.buttonWorkers.Location = new System.Drawing.Point(419, 442);
-            this.buttonWorkers.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonWorkers.Location = new System.Drawing.Point(217, 291);
+            this.buttonWorkers.Margin = new System.Windows.Forms.Padding(4);
             this.buttonWorkers.Name = "buttonWorkers";
             this.buttonWorkers.Size = new System.Drawing.Size(193, 68);
-            this.buttonWorkers.TabIndex = 9;
+            this.buttonWorkers.TabIndex = 1;
             this.buttonWorkers.Text = "Сотрудники";
             this.buttonWorkers.UseVisualStyleBackColor = false;
             this.buttonWorkers.Visible = false;
@@ -87,10 +88,10 @@
             this.buttonTables.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonTables.ForeColor = System.Drawing.Color.White;
             this.buttonTables.Location = new System.Drawing.Point(16, 517);
-            this.buttonTables.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonTables.Margin = new System.Windows.Forms.Padding(4);
             this.buttonTables.Name = "buttonTables";
             this.buttonTables.Size = new System.Drawing.Size(193, 68);
-            this.buttonTables.TabIndex = 10;
+            this.buttonTables.TabIndex = 3;
             this.buttonTables.Text = "Столы";
             this.buttonTables.UseVisualStyleBackColor = false;
             this.buttonTables.Visible = false;
@@ -104,10 +105,10 @@
             this.buttonOrders.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonOrders.ForeColor = System.Drawing.Color.White;
             this.buttonOrders.Location = new System.Drawing.Point(16, 442);
-            this.buttonOrders.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonOrders.Margin = new System.Windows.Forms.Padding(4);
             this.buttonOrders.Name = "buttonOrders";
             this.buttonOrders.Size = new System.Drawing.Size(193, 68);
-            this.buttonOrders.TabIndex = 11;
+            this.buttonOrders.TabIndex = 2;
             this.buttonOrders.Text = "Заказы";
             this.buttonOrders.UseVisualStyleBackColor = false;
             this.buttonOrders.Visible = false;
@@ -121,10 +122,10 @@
             this.buttonMenu.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonMenu.ForeColor = System.Drawing.Color.White;
             this.buttonMenu.Location = new System.Drawing.Point(16, 367);
-            this.buttonMenu.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonMenu.Margin = new System.Windows.Forms.Padding(4);
             this.buttonMenu.Name = "buttonMenu";
             this.buttonMenu.Size = new System.Drawing.Size(193, 68);
-            this.buttonMenu.TabIndex = 12;
+            this.buttonMenu.TabIndex = 1;
             this.buttonMenu.Text = "Меню";
             this.buttonMenu.UseVisualStyleBackColor = false;
             this.buttonMenu.Visible = false;
@@ -138,10 +139,10 @@
             this.buttonCategory.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonCategory.ForeColor = System.Drawing.Color.White;
             this.buttonCategory.Location = new System.Drawing.Point(217, 367);
-            this.buttonCategory.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonCategory.Margin = new System.Windows.Forms.Padding(4);
             this.buttonCategory.Name = "buttonCategory";
             this.buttonCategory.Size = new System.Drawing.Size(193, 68);
-            this.buttonCategory.TabIndex = 8;
+            this.buttonCategory.TabIndex = 2;
             this.buttonCategory.Text = "Категории блюд";
             this.buttonCategory.UseVisualStyleBackColor = false;
             this.buttonCategory.Visible = false;
@@ -155,10 +156,10 @@
             this.buttonOffers.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonOffers.ForeColor = System.Drawing.Color.White;
             this.buttonOffers.Location = new System.Drawing.Point(217, 442);
-            this.buttonOffers.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonOffers.Margin = new System.Windows.Forms.Padding(4);
             this.buttonOffers.Name = "buttonOffers";
             this.buttonOffers.Size = new System.Drawing.Size(193, 68);
-            this.buttonOffers.TabIndex = 8;
+            this.buttonOffers.TabIndex = 3;
             this.buttonOffers.Text = "Акции";
             this.buttonOffers.UseVisualStyleBackColor = false;
             this.buttonOffers.Visible = false;
@@ -198,11 +199,11 @@
             this.buttonClients.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonClients.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonClients.ForeColor = System.Drawing.Color.White;
-            this.buttonClients.Location = new System.Drawing.Point(419, 367);
-            this.buttonClients.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonClients.Location = new System.Drawing.Point(16, 594);
+            this.buttonClients.Margin = new System.Windows.Forms.Padding(4);
             this.buttonClients.Name = "buttonClients";
             this.buttonClients.Size = new System.Drawing.Size(193, 68);
-            this.buttonClients.TabIndex = 9;
+            this.buttonClients.TabIndex = 3;
             this.buttonClients.Text = "Клиенты";
             this.buttonClients.UseVisualStyleBackColor = false;
             this.buttonClients.Visible = false;
@@ -216,10 +217,10 @@
             this.buttonBooking.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonBooking.ForeColor = System.Drawing.Color.White;
             this.buttonBooking.Location = new System.Drawing.Point(217, 518);
-            this.buttonBooking.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonBooking.Margin = new System.Windows.Forms.Padding(4);
             this.buttonBooking.Name = "buttonBooking";
             this.buttonBooking.Size = new System.Drawing.Size(193, 68);
-            this.buttonBooking.TabIndex = 8;
+            this.buttonBooking.TabIndex = 1;
             this.buttonBooking.Text = "Бронь столиков";
             this.buttonBooking.UseVisualStyleBackColor = false;
             this.buttonBooking.Visible = false;
@@ -231,7 +232,7 @@
             this.pictureBox2.BackgroundImage = global::Restaurant.Properties.Resources.logo;
             this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pictureBox2.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pictureBox2.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(333, 246);
             this.pictureBox2.TabIndex = 18;
@@ -243,11 +244,28 @@
             this.pictureBox1.BackgroundImage = global::Restaurant.Properties.Resources.Restaurant;
             this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pictureBox1.Location = new System.Drawing.Point(467, 308);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(600, 431);
             this.pictureBox1.TabIndex = 18;
             this.pictureBox1.TabStop = false;
+            // 
+            // buttonBD
+            // 
+            this.buttonBD.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.buttonBD.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(99)))), ((int)(((byte)(107)))));
+            this.buttonBD.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonBD.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonBD.ForeColor = System.Drawing.Color.White;
+            this.buttonBD.Location = new System.Drawing.Point(217, 594);
+            this.buttonBD.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonBD.Name = "buttonBD";
+            this.buttonBD.Size = new System.Drawing.Size(193, 68);
+            this.buttonBD.TabIndex = 4;
+            this.buttonBD.Text = "Управление БД";
+            this.buttonBD.UseVisualStyleBackColor = false;
+            this.buttonBD.Visible = false;
+            this.buttonBD.Click += new System.EventHandler(this.buttonBD_Click);
             // 
             // Desktop
             // 
@@ -263,6 +281,7 @@
             this.Controls.Add(this.labelWelcome);
             this.Controls.Add(this.labelRole);
             this.Controls.Add(this.buttonExit);
+            this.Controls.Add(this.buttonBD);
             this.Controls.Add(this.buttonBooking);
             this.Controls.Add(this.buttonOffers);
             this.Controls.Add(this.buttonCategory);
@@ -273,7 +292,7 @@
             this.Controls.Add(this.buttonMenu);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Desktop";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Главная";
@@ -298,5 +317,6 @@
         private System.Windows.Forms.Button buttonBooking;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button buttonBD;
     }
 }

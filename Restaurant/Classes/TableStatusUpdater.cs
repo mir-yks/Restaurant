@@ -12,7 +12,7 @@ namespace Restaurant
                        TIMESTAMPDIFF(MINUTE, NOW(), b.BookingDate) as MinutesUntil,
                        TIMESTAMPDIFF(MINUTE, b.BookingDate, NOW()) as MinutesPassed
                 FROM Booking b 
-                WHERE b.BookingDate BETWEEN DATE_SUB(NOW(), INTERVAL 30 MINUTE) AND DATE_ADD(NOW(), INTERVAL 1 HOUR)
+                WHERE b.BookingDate BETWEEN DATE_SUB(NOW(), INTERVAL 30 MINUTE) AND DATE_ADD(NOW(), INTERVAL 2 HOUR)
                 ORDER BY b.BookingDate",
                 con);
 
@@ -20,7 +20,7 @@ namespace Restaurant
             {
                 while (reader.Read())
                 {
-                   
+
                 }
             }
         }
@@ -28,7 +28,7 @@ namespace Restaurant
         public static void UpdateTablesStatus()
         {
             try
-            {   
+            {
                 using (MySqlConnection con = new MySqlConnection(connStr.GetConnectionString("db57")))
                 {
                     con.Open();
@@ -46,7 +46,7 @@ namespace Restaurant
                                 WHEN EXISTS (
                                     SELECT 1 FROM Booking b 
                                     WHERE b.TableId = t.TablesId 
-                                    AND b.BookingDate BETWEEN DATE_SUB(NOW(), INTERVAL 30 MINUTE) AND DATE_ADD(NOW(), INTERVAL 1 HOUR)
+                                    AND b.BookingDate BETWEEN DATE_SUB(NOW(), INTERVAL 30 MINUTE) AND DATE_ADD(NOW(), INTERVAL 2 HOUR)
                                 ) THEN 'Забронирован'
                                 ELSE 'Свободен'
                             END",

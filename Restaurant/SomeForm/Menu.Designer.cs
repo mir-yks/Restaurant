@@ -41,10 +41,10 @@
             this.ColumnImage = new System.Windows.Forms.DataGridViewImageColumn();
             this.buttonNew = new System.Windows.Forms.Button();
             this.buttonUpdate = new System.Windows.Forms.Button();
-            this.buttonClearFilters = new System.Windows.Forms.Button();
             this.buttonDelete = new System.Windows.Forms.Button();
             this.panelLegend = new System.Windows.Forms.Panel();
             this.labelLegend = new System.Windows.Forms.Label();
+            this.buttonClearFilters = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -60,7 +60,7 @@
             this.comboBoxPrice.Margin = new System.Windows.Forms.Padding(4);
             this.comboBoxPrice.Name = "comboBoxPrice";
             this.comboBoxPrice.Size = new System.Drawing.Size(239, 37);
-            this.comboBoxPrice.TabIndex = 34;
+            this.comboBoxPrice.TabIndex = 3;
             this.comboBoxPrice.SelectedIndexChanged += new System.EventHandler(this.comboBox_SelectedIndexChanged);
             // 
             // labelPrice
@@ -93,7 +93,7 @@
             this.comboBoxCategory.MaxLength = 50;
             this.comboBoxCategory.Name = "comboBoxCategory";
             this.comboBoxCategory.Size = new System.Drawing.Size(239, 37);
-            this.comboBoxCategory.TabIndex = 32;
+            this.comboBoxCategory.TabIndex = 2;
             this.comboBoxCategory.SelectedIndexChanged += new System.EventHandler(this.comboBox_SelectedIndexChanged);
             this.comboBoxCategory.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBoxCategory_KeyPress);
             // 
@@ -124,7 +124,7 @@
             this.buttonBack.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.buttonBack.Name = "buttonBack";
             this.buttonBack.Size = new System.Drawing.Size(147, 62);
-            this.buttonBack.TabIndex = 30;
+            this.buttonBack.TabIndex = 8;
             this.buttonBack.Text = "Назад";
             this.buttonBack.UseVisualStyleBackColor = false;
             this.buttonBack.Click += new System.EventHandler(this.buttonBack_Click);
@@ -156,7 +156,7 @@
             this.textBoxDish.MaxLength = 100;
             this.textBoxDish.Name = "textBoxDish";
             this.textBoxDish.Size = new System.Drawing.Size(239, 36);
-            this.textBoxDish.TabIndex = 28;
+            this.textBoxDish.TabIndex = 1;
             this.textBoxDish.TextChanged += new System.EventHandler(this.textBoxDish_TextChanged);
             this.textBoxDish.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxDish_KeyPress);
             // 
@@ -195,7 +195,7 @@
             this.dataGridView1.RowTemplate.Height = 70;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(1067, 505);
-            this.dataGridView1.TabIndex = 26;
+            this.dataGridView1.TabIndex = 9;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             this.dataGridView1.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.dataGridView1_RowPrePaint);
             this.dataGridView1.Sorted += new System.EventHandler(this.dataGridView1_Sorted);
@@ -219,7 +219,7 @@
             this.buttonNew.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.buttonNew.Name = "buttonNew";
             this.buttonNew.Size = new System.Drawing.Size(153, 62);
-            this.buttonNew.TabIndex = 30;
+            this.buttonNew.TabIndex = 5;
             this.buttonNew.Text = "Добавить";
             this.buttonNew.UseVisualStyleBackColor = false;
             this.buttonNew.Visible = false;
@@ -237,27 +237,11 @@
             this.buttonUpdate.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.buttonUpdate.Name = "buttonUpdate";
             this.buttonUpdate.Size = new System.Drawing.Size(153, 62);
-            this.buttonUpdate.TabIndex = 30;
+            this.buttonUpdate.TabIndex = 6;
             this.buttonUpdate.Text = "Изменить";
             this.buttonUpdate.UseVisualStyleBackColor = false;
             this.buttonUpdate.Visible = false;
             this.buttonUpdate.Click += new System.EventHandler(this.buttonUpdate_Click);
-            // 
-            // buttonClearFilters
-            // 
-            this.buttonClearFilters.BackColor = System.Drawing.Color.Transparent;
-            this.buttonClearFilters.BackgroundImage = global::Restaurant.Properties.Resources.exit;
-            this.buttonClearFilters.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.buttonClearFilters.FlatAppearance.BorderSize = 0;
-            this.buttonClearFilters.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonClearFilters.ForeColor = System.Drawing.Color.Transparent;
-            this.buttonClearFilters.Location = new System.Drawing.Point(761, 570);
-            this.buttonClearFilters.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonClearFilters.Name = "buttonClearFilters";
-            this.buttonClearFilters.Size = new System.Drawing.Size(40, 37);
-            this.buttonClearFilters.TabIndex = 35;
-            this.buttonClearFilters.UseVisualStyleBackColor = false;
-            this.buttonClearFilters.Click += new System.EventHandler(this.buttonClearFilters_Click);
             // 
             // buttonDelete
             // 
@@ -271,7 +255,7 @@
             this.buttonDelete.Margin = new System.Windows.Forms.Padding(4);
             this.buttonDelete.Name = "buttonDelete";
             this.buttonDelete.Size = new System.Drawing.Size(153, 68);
-            this.buttonDelete.TabIndex = 58;
+            this.buttonDelete.TabIndex = 7;
             this.buttonDelete.Text = "Удалить";
             this.buttonDelete.UseVisualStyleBackColor = false;
             this.buttonDelete.Visible = false;
@@ -301,6 +285,21 @@
             this.labelLegend.TabIndex = 31;
             this.labelLegend.Text = "- блюдо по акции";
             // 
+            // buttonClearFilters
+            // 
+            this.buttonClearFilters.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.buttonClearFilters.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(99)))), ((int)(((byte)(107)))));
+            this.buttonClearFilters.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonClearFilters.Font = new System.Drawing.Font("Verdana", 14F);
+            this.buttonClearFilters.ForeColor = System.Drawing.Color.White;
+            this.buttonClearFilters.Location = new System.Drawing.Point(761, 566);
+            this.buttonClearFilters.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
+            this.buttonClearFilters.Name = "buttonClearFilters";
+            this.buttonClearFilters.Size = new System.Drawing.Size(98, 41);
+            this.buttonClearFilters.TabIndex = 4;
+            this.buttonClearFilters.Text = "Сброс";
+            this.buttonClearFilters.UseVisualStyleBackColor = false;
+            // 
             // Menu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -310,9 +309,9 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1067, 738);
             this.ControlBox = false;
+            this.Controls.Add(this.buttonClearFilters);
             this.Controls.Add(this.panelLegend);
             this.Controls.Add(this.buttonDelete);
-            this.Controls.Add(this.buttonClearFilters);
             this.Controls.Add(this.comboBoxPrice);
             this.Controls.Add(this.labelPrice);
             this.Controls.Add(this.comboBoxCategory);
@@ -351,10 +350,10 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button buttonNew;
         private System.Windows.Forms.Button buttonUpdate;
-        private System.Windows.Forms.Button buttonClearFilters;
         private System.Windows.Forms.Button buttonDelete;
         private System.Windows.Forms.DataGridViewImageColumn ColumnImage;
         private System.Windows.Forms.Panel panelLegend;
         private System.Windows.Forms.Label labelLegend;
+        private System.Windows.Forms.Button buttonClearFilters;
     }
 }

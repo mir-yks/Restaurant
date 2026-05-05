@@ -46,7 +46,7 @@
             this.buttonWrite.Margin = new System.Windows.Forms.Padding(4);
             this.buttonWrite.Name = "buttonWrite";
             this.buttonWrite.Size = new System.Drawing.Size(153, 62);
-            this.buttonWrite.TabIndex = 7;
+            this.buttonWrite.TabIndex = 2;
             this.buttonWrite.Text = "Записать";
             this.buttonWrite.UseVisualStyleBackColor = false;
             this.buttonWrite.Click += new System.EventHandler(this.buttonWrite_Click);
@@ -62,7 +62,7 @@
             this.buttonBack.Margin = new System.Windows.Forms.Padding(4);
             this.buttonBack.Name = "buttonBack";
             this.buttonBack.Size = new System.Drawing.Size(153, 62);
-            this.buttonBack.TabIndex = 6;
+            this.buttonBack.TabIndex = 3;
             this.buttonBack.Text = "Назад";
             this.buttonBack.UseVisualStyleBackColor = false;
             this.buttonBack.Click += new System.EventHandler(this.buttonBack_Click);
@@ -88,10 +88,10 @@
             this.textBoxCategory.ForeColor = System.Drawing.Color.White;
             this.textBoxCategory.Location = new System.Drawing.Point(51, 44);
             this.textBoxCategory.Margin = new System.Windows.Forms.Padding(4);
-            this.textBoxCategory.MaxLength = 100;
+            this.textBoxCategory.MaxLength = 50;
             this.textBoxCategory.Name = "textBoxCategory";
             this.textBoxCategory.Size = new System.Drawing.Size(291, 36);
-            this.textBoxCategory.TabIndex = 4;
+            this.textBoxCategory.TabIndex = 1;
             this.textBoxCategory.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxCategory_KeyPress);
             // 
             // CategoryInsert

@@ -44,6 +44,8 @@ namespace Restaurant
             buttonBack.Font = Fonts.MontserratAlternatesBold(12f);
             buttonWrite.Font = Fonts.MontserratAlternatesBold(12f);
 
+            KeyboardLayoutManager.AttachRussianLayout(textBoxName);
+
             ApplyMode();
         }
 
@@ -170,7 +172,7 @@ namespace Restaurant
         private void textBoxDiscount_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) &&
-                !System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"^[0-9,]$"))
+                !System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"^[0-9]$"))
             {
                 e.Handled = true;
             }

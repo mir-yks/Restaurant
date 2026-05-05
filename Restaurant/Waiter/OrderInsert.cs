@@ -85,6 +85,8 @@ namespace Restaurant
             buttonBack.Font = Fonts.MontserratAlternatesBold(12f);
             buttonOrderItem.Font = Fonts.MontserratAlternatesBold(12f);
 
+            KeyboardLayoutManager.AttachRussianLayout(comboBoxClient);
+
             LoadComboBoxData(currentWorkerId);
             SetControlsState();
         }
@@ -99,6 +101,8 @@ namespace Restaurant
 
                 comboBoxStatusOrder.SelectedIndex = 0;
                 comboBoxStatusPayment.SelectedIndex = 1;
+                comboBoxStatusOrder.DropDownStyle = ComboBoxStyle.DropDown;
+                comboBoxStatusPayment.DropDownStyle = ComboBoxStyle.DropDown;
 
                 comboBoxClient.SelectedIndex = -1;
                 comboBoxClient.Text = "";
@@ -110,28 +114,31 @@ namespace Restaurant
                 comboBoxClient.Enabled = false;
                 comboBoxTable.Enabled = false;
 
+                comboBoxTable.DropDownStyle = ComboBoxStyle.DropDown;
+
                 UpdateControlsState();
             }
         }
 
         private void UpdateControlsState()
         {
-            if (comboBoxStatusPayment.Text == "Оплачен")
+            if (comboBoxStatusOrder.Text == "Завершен" || comboBoxStatusOrder.Text == "Отменен")
             {
+                comboBoxStatusOrder.Enabled = false;
                 comboBoxStatusPayment.Enabled = false;
             }
             else
             {
-                comboBoxStatusPayment.Enabled = true;
-            }
-
-            if (comboBoxStatusOrder.Text == "Завершен")
-            {
-                comboBoxStatusOrder.Enabled = false;
-            }
-            else
-            {
                 comboBoxStatusOrder.Enabled = true;
+
+                if (comboBoxStatusPayment.Text == "Оплачен")
+                {
+                    comboBoxStatusPayment.Enabled = false;
+                }
+                else
+                {
+                    comboBoxStatusPayment.Enabled = true;
+                }
             }
         }
         private void LoadComboBoxData(int currentWorkerId = 0)
@@ -535,7 +542,21 @@ namespace Restaurant
                     {
                         MessageBox.Show($"Заказ №{OrderID} успешно обновлен!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                        this.Close();
+                        DialogResult formatResult = MessageBox.Show(
+                            "Заказ завершен. Сформировать чек?\n\nДа - Word\nНет - PDF",
+                            "Формат чека",
+                            MessageBoxButtons.YesNoCancel,
+                            MessageBoxIcon.Question);
+
+                        if (formatResult == DialogResult.Cancel)
+                        {
+                            this.Close();
+                            return;
+                        }
+
+                        string format = formatResult == DialogResult.Yes ? "Word" : "PDF";
+                        GenerateCheck.GenerateOrderCheck(OrderID, false, format, OrderStatusUpdater.UpdateOrderStatus, null);
+
                         this.Close();
                     }
                     return;
@@ -572,7 +593,6 @@ namespace Restaurant
                     }
                     else
                     {
-                        this.Close();
                         this.Close();
                     }
                 }
@@ -785,7 +805,7 @@ namespace Restaurant
 
             isUpdatingStatus = true;
 
-            if (comboBoxStatusPayment.Text == "Оплачен" && comboBoxStatusOrder.Text != "Завершен")
+            if (comboBoxStatusPayment.Text == "Оплачен" && comboBoxStatusOrder.Text != "Завершен" && comboBoxStatusOrder.Text != "Отменен")
             {
                 comboBoxStatusOrder.Text = "Завершен";
             }
@@ -800,7 +820,11 @@ namespace Restaurant
 
             isUpdatingStatus = true;
 
-            if (comboBoxStatusOrder.Text == "Завершен" && comboBoxStatusPayment.Text != "Оплачен")
+            if (comboBoxStatusOrder.Text == "Отменен")
+            {
+                comboBoxStatusPayment.Text = "Не оплачен";
+            }
+            else if (comboBoxStatusOrder.Text == "Завершен" && comboBoxStatusPayment.Text != "Оплачен")
             {
                 comboBoxStatusPayment.Text = "Оплачен";
             }

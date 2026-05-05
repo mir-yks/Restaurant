@@ -571,8 +571,16 @@ namespace Restaurant
             {
                 if (e.ColumnIndex == dataGridView1.Columns["ColumnQuantity"].Index)
                 {
-                    if (string.IsNullOrEmpty(e.FormattedValue.ToString()) ||
-                        !int.TryParse(e.FormattedValue.ToString(), out int quantity) || quantity <= 0)
+                    string value = e.FormattedValue.ToString();
+
+                    if (string.IsNullOrEmpty(value))
+                    {
+                        MessageBox.Show("Введите количество!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        e.Cancel = true;
+                        return;
+                    }
+
+                    if (!int.TryParse(value, out int quantity) || quantity <= 0)
                     {
                         MessageBox.Show("Введите корректное количество (целое число больше 0)!", "Ошибка",
                             MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -602,10 +610,39 @@ namespace Restaurant
                     combo.KeyPress += ComboBox_KeyPress;
                 }
             }
+            else if (dataGridView1.CurrentCell.ColumnIndex == dataGridView1.Columns["ColumnQuantity"].Index)
+            {
+                TextBox textBox = e.Control as TextBox;
+                if (textBox != null)
+                {
+                    textBox.KeyPress -= TextBoxQuantity_KeyPress;
+                    textBox.KeyPress += TextBoxQuantity_KeyPress;
+                }
+            }
         }
 
+        private void TextBoxQuantity_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+
+            if (!char.IsControl(e.KeyChar))
+            {
+                if (!char.IsDigit(e.KeyChar))
+                {
+                    e.Handled = true;
+                    return;
+                }
+
+                if (textBox != null && textBox.Text.Length >= 3)
+                {
+                    e.Handled = true;
+                }
+            }
+        }
         private void ComboBox_KeyPress(object sender, KeyPressEventArgs e)
         {
+            ComboBox combo = sender as ComboBox;
+
             if (!char.IsControl(e.KeyChar))
             {
                 bool isValid = (e.KeyChar >= 'а' && e.KeyChar <= 'я') ||
@@ -614,6 +651,12 @@ namespace Restaurant
                                e.KeyChar == ' ';
 
                 if (!isValid)
+                {
+                    e.Handled = true;
+                    return;
+                }
+
+                if (combo != null && combo.Text.Length >= 50)
                 {
                     e.Handled = true;
                 }
