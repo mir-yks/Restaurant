@@ -11,10 +11,18 @@ namespace Restaurant
         private int currentWorkerId;
         private int roleId;
         private DataTable orderTable;
-
+        private DataView currentView;
+        private PaginationManager pagination;
         public Order(int role, int currentWorkerId = 0)
         {
             InitializeComponent();
+
+            pagination = new PaginationManager(
+                dataGridView1,
+                paginationPanel,
+                labelPageInfo,
+                labelTotal);
+
             roleId = role;
             this.currentWorkerId = currentWorkerId;
             ConfigureButtons();
@@ -22,6 +30,7 @@ namespace Restaurant
 
             labelOrder.Font = Fonts.MontserratAlternatesRegular(14f);
             labelTotal.Font = Fonts.MontserratAlternatesRegular(14f);
+            labelPageInfo.Font = Fonts.MontserratAlternatesRegular(14f);
             labelStatus.Font = Fonts.MontserratAlternatesRegular(14f);
             labelSum.Font = Fonts.MontserratAlternatesRegular(14f);
             textBoxOrder.Font = Fonts.MontserratAlternatesRegular(14f);
@@ -35,6 +44,7 @@ namespace Restaurant
             buttonUpdate.Font = Fonts.MontserratAlternatesBold(12f);
             buttonCheck.Font = Fonts.MontserratAlternatesBold(12f);
             buttonClearFilters.Font = Fonts.MontserratAlternatesBold(12f);
+            labelPageInfo.Font = Fonts.MontserratAlternatesRegular(14f);
             dataGridView1.Font = Fonts.MontserratAlternatesRegular(12f);
 
             KeyboardLayoutManager.AttachRussianLayout(textBoxOrder);
@@ -280,12 +290,14 @@ namespace Restaurant
                     MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                     orderTable = new DataTable();
                     da.Fill(orderTable);
-                    dataGridView1.DataSource = orderTable;
+                    currentView = new DataView(orderTable);
+
+                    currentView.Sort = "ID ASC";
+
+                    pagination.SetData(currentView);
 
                     if (dataGridView1.Columns.Contains("ID"))
                         dataGridView1.Columns["ID"].Visible = false;
-
-                    labelTotal.Text = $"Всего: {orderTable.Rows.Count}";
 
                     comboBoxStatus.Items.Clear();
                     comboBoxStatus.Items.Add("");
@@ -321,44 +333,46 @@ namespace Restaurant
 
         private void ApplyFilters()
         {
-            if (orderTable == null) return;
+            if (orderTable == null)
+                return;
 
             string searchText = textBoxOrder.Text.Trim().Replace("'", "''");
             string selectedStatus = comboBoxStatus.SelectedItem?.ToString() ?? "";
             string sortOption = comboBoxSum.SelectedItem?.ToString() ?? "";
 
-            DataView view = new DataView(orderTable);
+            currentView = new DataView(orderTable);
+
+            currentView.Sort = "ID ASC";
+
             string filter = "";
 
             if (!string.IsNullOrEmpty(searchText))
             {
-                filter = $"Convert([Номер заказа], 'System.String') LIKE '%{searchText}%' " +
-                         $"OR [Клиент] LIKE '%{searchText}%' " +
-                         $"OR [Сотрудник] LIKE '%{searchText}%' " +
-                         $"OR Convert([Номер столика], 'System.String') LIKE '%{searchText}%'";
+                filter =
+                    $"Convert([Номер заказа], 'System.String') LIKE '%{searchText}%'" +
+                    $" OR [Клиент] LIKE '%{searchText}%'" +
+                    $" OR [Сотрудник] LIKE '%{searchText}%'" +
+                    $" OR Convert([Номер столика], 'System.String') LIKE '%{searchText}%'";
             }
 
             if (!string.IsNullOrEmpty(selectedStatus))
             {
                 string statusFilter = $"[Статус заказа] = '{selectedStatus}'";
+
                 if (!string.IsNullOrEmpty(filter))
                     filter = $"({filter}) AND ({statusFilter})";
                 else
                     filter = statusFilter;
             }
 
-            view.RowFilter = filter;
+            currentView.RowFilter = filter;
 
             if (sortOption == "По возрастанию")
-                view.Sort = "[Стоимость заказа] ASC";
+                currentView.Sort = "[Стоимость заказа] ASC";
             else if (sortOption == "По убыванию")
-                view.Sort = "[Стоимость заказа] DESC";
-            else
-                view.Sort = "";
+                currentView.Sort = "[Стоимость заказа] DESC";
 
-            dataGridView1.DataSource = view;
-
-            labelTotal.Text = $"Всего: {view.Count}";
+            pagination.SetData(currentView);
         }
 
         private void buttonClearFilters_Click(object sender, EventArgs e)
@@ -367,14 +381,9 @@ namespace Restaurant
             comboBoxStatus.SelectedIndex = 0;
             comboBoxSum.SelectedIndex = 0;
 
-            if (orderTable != null)
-            {
-                DataView view = new DataView(orderTable);
-                view.RowFilter = "";
-                view.Sort = "";
-                dataGridView1.DataSource = view;
-                labelTotal.Text = $"Всего: {view.Count}";
-            }
+            currentView = new DataView(orderTable);
+
+            pagination.SetData(currentView);
         }
 
         private void textBoxOrder_KeyPress(object sender, KeyPressEventArgs e)

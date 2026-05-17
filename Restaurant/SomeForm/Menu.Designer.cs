@@ -299,6 +299,7 @@
             this.buttonClearFilters.TabIndex = 4;
             this.buttonClearFilters.Text = "Сброс";
             this.buttonClearFilters.UseVisualStyleBackColor = false;
+            this.buttonClearFilters.Click += new System.EventHandler(this.buttonClearFilters_Click);
             // 
             // Menu
             // 

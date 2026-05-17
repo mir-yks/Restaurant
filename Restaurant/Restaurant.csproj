@@ -82,6 +82,7 @@
     <Compile Include="Classes\InactivityManager.cs" />
     <Compile Include="Classes\KeyboardLayoutManager.cs" />
     <Compile Include="Classes\OrderStatusUpdater.cs" />
+    <Compile Include="Classes\PaginationManager.cs" />
     <Compile Include="Classes\PriceCalculator.cs" />
     <Compile Include="Classes\TableStatusUpdater.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

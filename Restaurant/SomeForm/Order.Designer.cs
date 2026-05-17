@@ -45,6 +45,8 @@
             this.buttonCheck = new System.Windows.Forms.Button();
             this.buttonReportPopular = new System.Windows.Forms.Button();
             this.buttonClearFilters = new System.Windows.Forms.Button();
+            this.paginationPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.labelPageInfo = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -132,16 +134,16 @@
             this.labelTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelTotal.AutoSize = true;
             this.labelTotal.BackColor = System.Drawing.Color.Transparent;
             this.labelTotal.Font = new System.Drawing.Font("Verdana", 14F);
             this.labelTotal.ForeColor = System.Drawing.Color.White;
-            this.labelTotal.Location = new System.Drawing.Point(893, 517);
+            this.labelTotal.Location = new System.Drawing.Point(886, 523);
             this.labelTotal.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelTotal.Name = "labelTotal";
-            this.labelTotal.Size = new System.Drawing.Size(93, 29);
+            this.labelTotal.Size = new System.Drawing.Size(164, 29);
             this.labelTotal.TabIndex = 48;
             this.labelTotal.Text = "Всего:";
+            this.labelTotal.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // textBoxOrder
             // 
@@ -221,7 +223,7 @@
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(1067, 505);
+            this.dataGridView1.Size = new System.Drawing.Size(1067, 471);
             this.dataGridView1.TabIndex = 12;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             this.dataGridView1.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dataGridView1_CellFormatting);
@@ -310,6 +312,32 @@
             this.buttonClearFilters.TabIndex = 4;
             this.buttonClearFilters.Text = "Сброс";
             this.buttonClearFilters.UseVisualStyleBackColor = false;
+            this.buttonClearFilters.Click += new System.EventHandler(this.buttonClearFilters_Click);
+            // 
+            // paginationPanel
+            // 
+            this.paginationPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.paginationPanel.BackColor = System.Drawing.Color.Transparent;
+            this.paginationPanel.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+            this.paginationPanel.Location = new System.Drawing.Point(350, 480);
+            this.paginationPanel.Name = "paginationPanel";
+            this.paginationPanel.Size = new System.Drawing.Size(700, 40);
+            this.paginationPanel.TabIndex = 60;
+            this.paginationPanel.WrapContents = false;
+            // 
+            // labelPageInfo
+            // 
+            this.labelPageInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelPageInfo.AutoSize = true;
+            this.labelPageInfo.BackColor = System.Drawing.Color.Transparent;
+            this.labelPageInfo.Font = new System.Drawing.Font("Verdana", 11F);
+            this.labelPageInfo.ForeColor = System.Drawing.Color.White;
+            this.labelPageInfo.Location = new System.Drawing.Point(12, 480);
+            this.labelPageInfo.Name = "labelPageInfo";
+            this.labelPageInfo.Size = new System.Drawing.Size(170, 23);
+            this.labelPageInfo.TabIndex = 61;
+            this.labelPageInfo.Text = "Страница 1 из 1";
+            this.labelPageInfo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // Order
             // 
@@ -321,6 +349,8 @@
             this.ClientSize = new System.Drawing.Size(1067, 738);
             this.ControlBox = false;
             this.Controls.Add(this.buttonClearFilters);
+            this.Controls.Add(this.labelPageInfo);
+            this.Controls.Add(this.paginationPanel);
             this.Controls.Add(this.buttonCheck);
             this.Controls.Add(this.buttonOrderItem);
             this.Controls.Add(this.comboBoxSum);
@@ -367,5 +397,7 @@
         private System.Windows.Forms.Button buttonCheck;
         private System.Windows.Forms.Button buttonReportPopular;
         private System.Windows.Forms.Button buttonClearFilters;
+        private System.Windows.Forms.FlowLayoutPanel paginationPanel;
+        private System.Windows.Forms.Label labelPageInfo;
     }
 }
