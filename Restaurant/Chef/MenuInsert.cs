@@ -604,14 +604,22 @@ namespace Restaurant
 
                     if (!ImageManager.Instance.ValidateImageFile(ofd.FileName))
                     {
-                        MessageBox.Show("Недопустимый тип файла или размер превышает 3 МБ! Разрешены только JPG и PNG изображения.",
-                            "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(
+                            "Невозможно обработать изображение.\n\n" +
+                            "Файл имеет слишком большое разрешение или не поддается автоматическому сжатию.\n" +
+                            "Разрешены только JPG и PNG изображения.",
+                            "Ошибка",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+
                         return;
                     }
 
                     try
                     {
-                        byte[] imageData = File.ReadAllBytes(ofd.FileName);
+                        byte[] originalData = File.ReadAllBytes(ofd.FileName);
+
+                        byte[] imageData = ImageManager.Instance.CompressImageIfNeeded(originalData);
                         string imageHash = ImageManager.Instance.CalculateImageHash(imageData);
 
                         if (!string.IsNullOrEmpty(imageHash))

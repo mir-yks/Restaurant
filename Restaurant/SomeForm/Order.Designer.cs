@@ -137,7 +137,7 @@
             this.labelTotal.BackColor = System.Drawing.Color.Transparent;
             this.labelTotal.Font = new System.Drawing.Font("Verdana", 14F);
             this.labelTotal.ForeColor = System.Drawing.Color.White;
-            this.labelTotal.Location = new System.Drawing.Point(886, 523);
+            this.labelTotal.Location = new System.Drawing.Point(886, 500);
             this.labelTotal.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelTotal.Name = "labelTotal";
             this.labelTotal.Size = new System.Drawing.Size(164, 29);
@@ -213,6 +213,7 @@
             // 
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.AllowUserToResizeRows = false;
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Top;
@@ -222,8 +223,9 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersWidth = 51;
+            this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(1067, 471);
+            this.dataGridView1.Size = new System.Drawing.Size(1067, 450);
             this.dataGridView1.TabIndex = 12;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             this.dataGridView1.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dataGridView1_CellFormatting);
@@ -319,7 +321,7 @@
             this.paginationPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.paginationPanel.BackColor = System.Drawing.Color.Transparent;
             this.paginationPanel.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.paginationPanel.Location = new System.Drawing.Point(350, 480);
+            this.paginationPanel.Location = new System.Drawing.Point(350, 457);
             this.paginationPanel.Name = "paginationPanel";
             this.paginationPanel.Size = new System.Drawing.Size(700, 40);
             this.paginationPanel.TabIndex = 60;
@@ -332,7 +334,7 @@
             this.labelPageInfo.BackColor = System.Drawing.Color.Transparent;
             this.labelPageInfo.Font = new System.Drawing.Font("Verdana", 11F);
             this.labelPageInfo.ForeColor = System.Drawing.Color.White;
-            this.labelPageInfo.Location = new System.Drawing.Point(12, 480);
+            this.labelPageInfo.Location = new System.Drawing.Point(12, 457);
             this.labelPageInfo.Name = "labelPageInfo";
             this.labelPageInfo.Size = new System.Drawing.Size(170, 23);
             this.labelPageInfo.TabIndex = 61;

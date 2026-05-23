@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -75,7 +76,7 @@ namespace Restaurant
                 }
                 catch (Exception)
                 {
-                    
+
                 }
             }
 
@@ -118,7 +119,7 @@ namespace Restaurant
             }
             catch (Exception)
             {
-                
+
             }
             return null;
         }
@@ -189,25 +190,82 @@ namespace Restaurant
             try
             {
                 string fileExtension = Path.GetExtension(filePath).ToLower();
-                if (fileExtension != ".jpg" && fileExtension != ".jpeg" && fileExtension != ".png")
-                {
-                    return false;
-                }
 
-                FileInfo fileInfo = new FileInfo(filePath);
-                if (fileInfo.Length > 3 * 1024 * 1024) 
+                if (fileExtension != ".jpg" &&
+                    fileExtension != ".jpeg" &&
+                    fileExtension != ".png")
                 {
                     return false;
                 }
 
                 using (var image = Image.FromFile(filePath))
                 {
+                    if (image.Width > 10000 || image.Height > 10000)
+                    {
+                        return false;
+                    }
+
                     return true;
                 }
             }
-            catch (Exception)
+            catch
             {
                 return false;
+            }
+        }
+
+        public byte[] CompressImageIfNeeded(byte[] imageData, long maxSizeBytes = 3 * 1024 * 1024)
+        {
+            if (imageData.Length <= maxSizeBytes)
+                return imageData;
+
+            using (var inputStream = new MemoryStream(imageData))
+            using (var image = Image.FromStream(inputStream))
+            {
+                ImageCodecInfo jpgEncoder = ImageCodecInfo.GetImageDecoders()
+                    .First(c => c.FormatID == System.Drawing.Imaging.ImageFormat.Jpeg.Guid);
+
+                long quality = 90;
+
+                while (quality >= 10)
+                {
+                    using (var ms = new MemoryStream())
+                    {
+                        EncoderParameters encoderParams = new EncoderParameters(1);
+
+                        encoderParams.Param[0] = new EncoderParameter(
+                            System.Drawing.Imaging.Encoder.Quality,
+                            quality);
+
+                        image.Save(ms, jpgEncoder, encoderParams);
+
+                        if (ms.Length <= maxSizeBytes)
+                        {
+                            return ms.ToArray();
+                        }
+                    }
+
+                    quality -= 10;
+                }
+
+                using (var ms = new MemoryStream())
+                {
+                    int width = image.Width / 2;
+                    int height = image.Height / 2;
+
+                    using (var resized = new Bitmap(image, new Size(width, height)))
+                    {
+                        EncoderParameters encoderParams = new EncoderParameters(1);
+
+                        encoderParams.Param[0] = new EncoderParameter(
+                            System.Drawing.Imaging.Encoder.Quality,
+                            50L);
+
+                        resized.Save(ms, jpgEncoder, encoderParams);
+
+                        return ms.ToArray();
+                    }
+                }
             }
         }
     }
