@@ -40,6 +40,7 @@
             this.comboBoxExport = new System.Windows.Forms.ComboBox();
             this.buttonImportFile = new System.Windows.Forms.Button();
             this.buttonExportFile = new System.Windows.Forms.Button();
+            this.buttonRestore = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // buttonBack
@@ -65,13 +66,14 @@
             this.buttonBackup.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonBackup.Font = new System.Drawing.Font("Verdana", 14F);
             this.buttonBackup.ForeColor = System.Drawing.Color.White;
-            this.buttonBackup.Location = new System.Drawing.Point(632, 272);
+            this.buttonBackup.Location = new System.Drawing.Point(404, 272);
             this.buttonBackup.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.buttonBackup.Name = "buttonBackup";
             this.buttonBackup.Size = new System.Drawing.Size(189, 79);
             this.buttonBackup.TabIndex = 8;
             this.buttonBackup.Text = "Резервное копирование";
             this.buttonBackup.UseVisualStyleBackColor = false;
+            this.buttonBackup.Click += new System.EventHandler(this.buttonBackup_Click);
             // 
             // buttonStructure
             // 
@@ -87,11 +89,13 @@
             this.buttonStructure.TabIndex = 7;
             this.buttonStructure.Text = "Восстановить структуру БД";
             this.buttonStructure.UseVisualStyleBackColor = false;
+            this.buttonStructure.Click += new System.EventHandler(this.buttonStructure_Click);
             // 
             // comboBoxImport
             // 
+            this.comboBoxImport.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.comboBoxImport.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.comboBoxImport.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.comboBoxImport.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxImport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.comboBoxImport.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.comboBoxImport.ForeColor = System.Drawing.Color.White;
@@ -132,6 +136,7 @@
             this.buttonImport.TabIndex = 3;
             this.buttonImport.Text = "Импортировать данные";
             this.buttonImport.UseVisualStyleBackColor = false;
+            this.buttonImport.Click += new System.EventHandler(this.buttonImport_Click);
             // 
             // buttonExport
             // 
@@ -147,6 +152,7 @@
             this.buttonExport.TabIndex = 6;
             this.buttonExport.Text = "Экспортировать данные";
             this.buttonExport.UseVisualStyleBackColor = false;
+            this.buttonExport.Click += new System.EventHandler(this.buttonExport_Click);
             // 
             // labelExport
             // 
@@ -166,8 +172,9 @@
             // 
             // comboBoxExport
             // 
+            this.comboBoxExport.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.comboBoxExport.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.comboBoxExport.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
-            this.comboBoxExport.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxExport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.comboBoxExport.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.comboBoxExport.ForeColor = System.Drawing.Color.White;
@@ -192,6 +199,7 @@
             this.buttonImportFile.TabIndex = 2;
             this.buttonImportFile.Text = "Выберите файл для импорта";
             this.buttonImportFile.UseVisualStyleBackColor = false;
+            this.buttonImportFile.Click += new System.EventHandler(this.buttonImportFile_Click);
             // 
             // buttonExportFile
             // 
@@ -207,6 +215,23 @@
             this.buttonExportFile.TabIndex = 5;
             this.buttonExportFile.Text = "Выберите файл для экспорта";
             this.buttonExportFile.UseVisualStyleBackColor = false;
+            this.buttonExportFile.Click += new System.EventHandler(this.buttonExportFile_Click);
+            // 
+            // buttonRestore
+            // 
+            this.buttonRestore.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.buttonRestore.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(99)))), ((int)(((byte)(107)))));
+            this.buttonRestore.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonRestore.Font = new System.Drawing.Font("Verdana", 14F);
+            this.buttonRestore.ForeColor = System.Drawing.Color.White;
+            this.buttonRestore.Location = new System.Drawing.Point(603, 272);
+            this.buttonRestore.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
+            this.buttonRestore.Name = "buttonRestore";
+            this.buttonRestore.Size = new System.Drawing.Size(218, 79);
+            this.buttonRestore.TabIndex = 8;
+            this.buttonRestore.Text = "Восстановить базу данных";
+            this.buttonRestore.UseVisualStyleBackColor = false;
+            this.buttonRestore.Click += new System.EventHandler(this.buttonRestore_Click);
             // 
             // ManagementBD
             // 
@@ -224,6 +249,7 @@
             this.Controls.Add(this.buttonExport);
             this.Controls.Add(this.buttonImportFile);
             this.Controls.Add(this.buttonImport);
+            this.Controls.Add(this.buttonRestore);
             this.Controls.Add(this.buttonBackup);
             this.Controls.Add(this.buttonStructure);
             this.Controls.Add(this.buttonBack);
@@ -251,5 +277,6 @@
         private System.Windows.Forms.ComboBox comboBoxExport;
         private System.Windows.Forms.Button buttonImportFile;
         private System.Windows.Forms.Button buttonExportFile;
+        private System.Windows.Forms.Button buttonRestore;
     }
 }

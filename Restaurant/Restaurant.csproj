@@ -70,6 +70,7 @@
     <Compile Include="Administrator\ManagementBD.Designer.cs">
       <DependentUpon>ManagementBD.cs</DependentUpon>
     </Compile>
+    <Compile Include="Classes\BackupManager.cs" />
     <Compile Include="Classes\BlurEffect.cs" />
     <Compile Include="Classes\connStr.cs" />
     <Compile Include="Classes\DatabaseChecker.cs" />
@@ -79,6 +80,7 @@
     <Compile Include="Classes\GenerateCheck.cs" />
     <Compile Include="Classes\GenerateReport.cs" />
     <Compile Include="Classes\ImageManager.cs" />
+    <Compile Include="Classes\ImportManager.cs" />
     <Compile Include="Classes\InactivityManager.cs" />
     <Compile Include="Classes\KeyboardLayoutManager.cs" />
     <Compile Include="Classes\OrderStatusUpdater.cs" />
