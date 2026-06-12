@@ -38,8 +38,12 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.buttonSettings = new System.Windows.Forms.Button();
+            this.labelCaptcha = new System.Windows.Forms.Label();
+            this.textBoxCaptcha = new System.Windows.Forms.TextBox();
+            this.pictureBoxCaptcha = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCaptcha)).BeginInit();
             this.SuspendLayout();
             // 
             // textBoxLogin
@@ -111,7 +115,7 @@
             this.buttonExit.Margin = new System.Windows.Forms.Padding(4);
             this.buttonExit.Name = "buttonExit";
             this.buttonExit.Size = new System.Drawing.Size(40, 37);
-            this.buttonExit.TabIndex = 4;
+            this.buttonExit.TabIndex = 5;
             this.buttonExit.UseVisualStyleBackColor = false;
             this.buttonExit.Click += new System.EventHandler(this.buttonExit_Click);
             // 
@@ -126,7 +130,7 @@
             this.buttonEnter.Margin = new System.Windows.Forms.Padding(4);
             this.buttonEnter.Name = "buttonEnter";
             this.buttonEnter.Size = new System.Drawing.Size(150, 43);
-            this.buttonEnter.TabIndex = 3;
+            this.buttonEnter.TabIndex = 4;
             this.buttonEnter.Text = "Войти";
             this.buttonEnter.UseVisualStyleBackColor = false;
             this.buttonEnter.Click += new System.EventHandler(this.buttonEnter_Click);
@@ -173,9 +177,51 @@
             this.buttonSettings.Margin = new System.Windows.Forms.Padding(4);
             this.buttonSettings.Name = "buttonSettings";
             this.buttonSettings.Size = new System.Drawing.Size(40, 37);
-            this.buttonSettings.TabIndex = 5;
+            this.buttonSettings.TabIndex = 6;
             this.buttonSettings.UseVisualStyleBackColor = false;
             this.buttonSettings.Click += new System.EventHandler(this.buttonSettings_Click);
+            // 
+            // labelCaptcha
+            // 
+            this.labelCaptcha.AutoSize = true;
+            this.labelCaptcha.BackColor = System.Drawing.Color.Transparent;
+            this.labelCaptcha.Font = new System.Drawing.Font("Verdana", 14F);
+            this.labelCaptcha.ForeColor = System.Drawing.Color.White;
+            this.labelCaptcha.Location = new System.Drawing.Point(22, 430);
+            this.labelCaptcha.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelCaptcha.Name = "labelCaptcha";
+            this.labelCaptcha.Size = new System.Drawing.Size(121, 29);
+            this.labelCaptcha.TabIndex = 2;
+            this.labelCaptcha.Text = "Captcha:";
+            this.labelCaptcha.Visible = false;
+            // 
+            // textBoxCaptcha
+            // 
+            this.textBoxCaptcha.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.textBoxCaptcha.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBoxCaptcha.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.textBoxCaptcha.Font = new System.Drawing.Font("Verdana", 10.5F);
+            this.textBoxCaptcha.ForeColor = System.Drawing.Color.White;
+            this.textBoxCaptcha.Location = new System.Drawing.Point(27, 463);
+            this.textBoxCaptcha.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxCaptcha.MaxLength = 5;
+            this.textBoxCaptcha.Name = "textBoxCaptcha";
+            this.textBoxCaptcha.Size = new System.Drawing.Size(350, 29);
+            this.textBoxCaptcha.TabIndex = 3;
+            this.textBoxCaptcha.Visible = false;
+            this.textBoxCaptcha.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxCaptcha_KeyPress);
+            // 
+            // pictureBoxCaptcha
+            // 
+            this.pictureBoxCaptcha.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBoxCaptcha.Location = new System.Drawing.Point(27, 345);
+            this.pictureBoxCaptcha.Margin = new System.Windows.Forms.Padding(4);
+            this.pictureBoxCaptcha.Name = "pictureBoxCaptcha";
+            this.pictureBoxCaptcha.Size = new System.Drawing.Size(350, 81);
+            this.pictureBoxCaptcha.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxCaptcha.TabIndex = 4;
+            this.pictureBoxCaptcha.TabStop = false;
+            this.pictureBoxCaptcha.Visible = false;
             // 
             // Autorizathion
             // 
@@ -187,12 +233,15 @@
             this.ClientSize = new System.Drawing.Size(400, 500);
             this.ControlBox = false;
             this.Controls.Add(this.pictureBox);
+            this.Controls.Add(this.pictureBoxCaptcha);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.buttonEnter);
             this.Controls.Add(this.buttonSettings);
             this.Controls.Add(this.buttonExit);
+            this.Controls.Add(this.labelCaptcha);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.labelLogin);
+            this.Controls.Add(this.textBoxCaptcha);
             this.Controls.Add(this.textBoxPassword);
             this.Controls.Add(this.textBoxLogin);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -206,6 +255,7 @@
             this.Load += new System.EventHandler(this.Autorizathion_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCaptcha)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -221,6 +271,9 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox;
         private System.Windows.Forms.Button buttonSettings;
+        private System.Windows.Forms.Label labelCaptcha;
+        private System.Windows.Forms.TextBox textBoxCaptcha;
+        private System.Windows.Forms.PictureBox pictureBoxCaptcha;
     }
 }
 

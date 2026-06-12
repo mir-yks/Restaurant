@@ -144,7 +144,10 @@ namespace Restaurant
                         m.DishDescription AS 'Описание',
                         m.DishPrice AS 'Стоимость',
                         c.CategoryDishName AS 'Категория блюда',
-                        COALESCE(o.OffersDishName, '') AS 'Акция',
+                        CASE 
+                            WHEN o.OffersDishName IS NULL THEN ''
+                            ELSE CONCAT(o.OffersDishName, ' (-', o.OffersDishDicsount, '%)')
+                        END AS 'Акция',
                         m.DishPhoto
                      FROM MenuDish m
                      JOIN CategoryDish c ON m.DishCategory = c.CategoryDishId
