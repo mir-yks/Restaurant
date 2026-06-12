@@ -43,12 +43,12 @@ namespace Restaurant
                 CategoryID = categoryId;
                 CategoryName = categoryName;
                 buttonWrite.Text = "Обновить";
-                this.Text = "Редактирование категории";
+                this.Text = "Редактирование категории блюд";
             }
             else
             {
                 buttonWrite.Text = "Добавить";
-                this.Text = "Добавление категории";
+                this.Text = "Добавление категории блюд";
             }
 
             KeyboardLayoutManager.AttachRussianLayout(textBoxCategory);

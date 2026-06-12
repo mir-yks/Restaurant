@@ -49,11 +49,21 @@ namespace Restaurant
                     maskedTextBoxPhone.ReadOnly = true;
 
                     buttonWrite.Visible = false;
+
+                    this.Text = "Просмотр данных о клиенте";
                     break;
 
                 case "add":
                     textBoxFIO.Text = "";
                     maskedTextBoxPhone.Text = "";
+
+                    this.Text = "Создание клиента";
+                    break;
+                case "edit":
+                    textBoxFIO.Text = "";
+                    maskedTextBoxPhone.Text = "";
+
+                    this.Text = "Редактирование клиента";
                     break;
             }
         }

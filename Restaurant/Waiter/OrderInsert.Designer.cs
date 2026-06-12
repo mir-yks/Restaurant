@@ -47,6 +47,7 @@
             // 
             // buttonOrderItem
             // 
+            this.buttonOrderItem.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonOrderItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
             this.buttonOrderItem.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(99)))), ((int)(((byte)(107)))));
             this.buttonOrderItem.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -63,6 +64,7 @@
             // 
             // buttonBack
             // 
+            this.buttonBack.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.buttonBack.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
             this.buttonBack.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(99)))), ((int)(((byte)(107)))));
             this.buttonBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -79,6 +81,7 @@
             // 
             // dateTimePickerOrder
             // 
+            this.dateTimePickerOrder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.dateTimePickerOrder.CalendarForeColor = System.Drawing.Color.White;
             this.dateTimePickerOrder.CalendarMonthBackground = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
             this.dateTimePickerOrder.CalendarTitleBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
@@ -93,6 +96,7 @@
             // 
             // labelStatusPayment
             // 
+            this.labelStatusPayment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelStatusPayment.AutoSize = true;
             this.labelStatusPayment.BackColor = System.Drawing.Color.Transparent;
             this.labelStatusPayment.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -106,6 +110,7 @@
             // 
             // labelStatusOrder
             // 
+            this.labelStatusOrder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelStatusOrder.AutoSize = true;
             this.labelStatusOrder.BackColor = System.Drawing.Color.Transparent;
             this.labelStatusOrder.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -145,6 +150,7 @@
             // 
             // labelDateOrder
             // 
+            this.labelDateOrder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelDateOrder.AutoSize = true;
             this.labelDateOrder.BackColor = System.Drawing.Color.Transparent;
             this.labelDateOrder.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -171,6 +177,7 @@
             // 
             // comboBoxStatusPayment
             // 
+            this.comboBoxStatusPayment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxStatusPayment.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
             this.comboBoxStatusPayment.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxStatusPayment.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -186,6 +193,7 @@
             // 
             // comboBoxStatusOrder
             // 
+            this.comboBoxStatusOrder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxStatusOrder.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
             this.comboBoxStatusOrder.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxStatusOrder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -255,7 +263,6 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(32)))), ((int)(((byte)(44)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(779, 350);
-            this.ControlBox = false;
             this.Controls.Add(this.buttonOrderItem);
             this.Controls.Add(this.buttonBack);
             this.Controls.Add(this.dateTimePickerOrder);
@@ -270,9 +277,13 @@
             this.Controls.Add(this.comboBoxTable);
             this.Controls.Add(this.comboBoxClient);
             this.Controls.Add(this.comboBoxWaiter);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.DoubleBuffered = true;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(779, 350);
             this.Name = "OrderInsert";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Редактирование заказа";

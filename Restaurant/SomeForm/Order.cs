@@ -23,6 +23,8 @@ namespace Restaurant
                 labelPageInfo,
                 labelTotal);
 
+            InitPerformanceTweaks();
+
             roleId = role;
             this.currentWorkerId = currentWorkerId;
             ConfigureButtons();
@@ -48,6 +50,23 @@ namespace Restaurant
             dataGridView1.Font = Fonts.MontserratAlternatesRegular(12f);
 
             KeyboardLayoutManager.AttachRussianLayout(textBoxOrder);
+        }
+
+        private void InitPerformanceTweaks()
+        {
+            this.SetStyle(ControlStyles.OptimizedDoubleBuffer |
+                          ControlStyles.AllPaintingInWmPaint |
+                          ControlStyles.UserPaint, true);
+            this.UpdateStyles();
+
+            typeof(DataGridView)
+                .GetProperty("DoubleBuffered",
+                    System.Reflection.BindingFlags.Instance |
+                    System.Reflection.BindingFlags.NonPublic)
+                .SetValue(dataGridView1, true, null);
+
+            dataGridView1.SizeChanged += (s, e) => pagination.RecalculateLayoutOnly();
+            this.Resize += (s, e) => pagination.RecalculateLayoutOnly();
         }
 
         private void ConfigureButtons()

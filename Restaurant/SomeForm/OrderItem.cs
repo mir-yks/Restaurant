@@ -25,6 +25,47 @@ namespace Restaurant
             InactivityManager.Init();
 
             SetupFonts();
+            SetFormTitle();
+        }
+
+        private void SetFormTitle()
+        {
+            switch (roleId)
+            {
+                case 2:
+                    this.Text = "Состав заказа";
+                    break;
+                case 3:
+                    try
+                    {
+                        using (MySqlConnection con = new MySqlConnection(connStr.GetConnectionString("db57")))
+                        {
+                            con.Open();
+                            MySqlCommand cmd = new MySqlCommand(
+                                "SELECT COUNT(*) FROM `Order` WHERE OrderId = @OrderId",
+                                con);
+                            cmd.Parameters.AddWithValue("@OrderId", orderId);
+                            int count = Convert.ToInt32(cmd.ExecuteScalar());
+
+                            if (count > 0)
+                            {
+                                this.Text = "Состав заказа при его редактировании";
+                            }
+                            else
+                            {
+                                this.Text = "Состав заказа при его создании";
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        this.Text = "Состав заказа";
+                    }
+                    break;
+                default:
+                    this.Text = "Состав заказа";
+                    break;
+            }
         }
 
         private void SetupFonts()

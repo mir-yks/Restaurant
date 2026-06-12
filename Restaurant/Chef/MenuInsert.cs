@@ -90,7 +90,14 @@ namespace Restaurant
                 DishDescription = description;
                 DishPrice = price;
                 DishCategory = category;
-                DishOffer = offer;
+                if (int.TryParse(offer, out int offerId))
+                {
+                    comboBoxOffers.SelectedValue = offerId;
+                }
+                else
+                {
+                    comboBoxOffers.SelectedIndex = -1;
+                }
                 selectedImageHash = string.IsNullOrWhiteSpace(photoHash) ? null : photoHash;
                 oldImageHash = string.IsNullOrWhiteSpace(photoHash) ? null : photoHash;
 
@@ -107,6 +114,12 @@ namespace Restaurant
             if (mode == "edit")
             {
                 buttonWrite.Text = "Обновить";
+
+                this.Text = "Редактирование блюда";
+            }
+            else if (mode == "add")
+            {
+                this.Text = "Добавление блюда";
             }
         }
 
@@ -186,17 +199,27 @@ namespace Restaurant
                 using (MySqlConnection con = new MySqlConnection(connStr.GetConnectionString("db57")))
                 {
                     con.Open();
-                    MySqlCommand cmd = new MySqlCommand("SELECT OffersDishName FROM OffersDish;", con);
-                    MySqlDataReader reader = cmd.ExecuteReader();
-                    comboBoxOffers.Items.Clear();
-                    comboBoxOffers.Items.Add("");
-                    while (reader.Read())
-                        comboBoxOffers.Items.Add(reader.GetString(0));
-                    reader.Close();
-                    comboBoxOffers.SelectedIndex = 0;
+
+                    MySqlCommand cmd = new MySqlCommand(
+                        "SELECT OffersDishId, OffersDishName FROM OffersDish;", con);
+
+                    MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+
+                    comboBoxOffers.DataSource = null;
+                    comboBoxOffers.DataSource = dt;
+
+                    comboBoxOffers.DisplayMember = "OffersDishName";
+                    comboBoxOffers.ValueMember = "OffersDishId";
+
+                    comboBoxOffers.SelectedIndex = -1;
                 }
             }
-            catch (Exception ex) { MessageBox.Show(ex.Message); }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void buttonBack_Click(object sender, EventArgs e)

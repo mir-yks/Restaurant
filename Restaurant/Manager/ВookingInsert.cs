@@ -204,6 +204,12 @@ namespace Restaurant
                 case "edit":
                     buttonArrange.Text = "Сохранить";
                     comboBoxClient.Enabled = false;
+
+                    this.Text = "Редактирование брони";
+
+                    break;
+                case "add":
+                    this.Text = "Оформление брони";
                     break;
             }
         }

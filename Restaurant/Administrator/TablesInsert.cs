@@ -51,6 +51,10 @@ namespace Restaurant
                 case "add":
                     textBoxPlaceCount.Text = "";
                     comboBoxStatus.Text = "Свободен";
+                    this.Text = "Добавление столика";
+                    break;
+                case "edit":
+                    this.Text = "Редактирование столика";
                     break;
             }
         }

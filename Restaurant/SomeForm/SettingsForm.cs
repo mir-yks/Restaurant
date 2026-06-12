@@ -27,7 +27,6 @@ namespace Restaurant
             textBoxUid.Font = Fonts.MontserratAlternatesRegular(14f);
             textBoxPwd.Font = Fonts.MontserratAlternatesRegular(14f);
             buttonEnter.Font = Fonts.MontserratAlternatesBold(12f);
-            buttonExit.Font = Fonts.MontserratAlternatesBold(12f);
 
             KeyboardLayoutManager.AttachEnglishLayout(textBoxHost, textBoxUid, textBoxPwd);
 
@@ -139,13 +138,6 @@ namespace Restaurant
                     "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-        private void buttonExit_Click(object sender, EventArgs e)
-        {
-            this.DialogResult = DialogResult.Cancel;
-            this.Close();
-        }
-
         private void pictureBox_Click(object sender, EventArgs e)
         {
             passwordVisible = !passwordVisible;

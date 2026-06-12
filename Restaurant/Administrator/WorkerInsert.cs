@@ -94,6 +94,8 @@ namespace Restaurant
 
                     comboBoxRole.DropDownStyle = ComboBoxStyle.DropDown;
 
+                    this.Text = "Просмотр данных о сотруднике";
+
                     break;
 
                 case "add":
@@ -105,6 +107,9 @@ namespace Restaurant
                     comboBoxRole.SelectedIndex = -1;
 
                     comboBoxRole.Enabled = true;
+
+                    this.Text = "Добавление сотрудника";
+
                     break;
 
                 case "edit":
@@ -116,6 +121,9 @@ namespace Restaurant
                     {
                         originalRole = comboBoxRole.Text;
                     }
+
+                    this.Text = "Редактирование сотрудника";
+
                     break;
             }
         }

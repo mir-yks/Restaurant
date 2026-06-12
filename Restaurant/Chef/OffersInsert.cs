@@ -55,10 +55,14 @@ namespace Restaurant
             {
                 textBoxName.Text = "";
                 textBoxDiscount.Text = "1";
+                
+                this.Text = "Добавление акции блюд";
             }
             else if (mode == "edit")
             {
                 buttonWrite.Text = "Обновить";
+
+                this.Text = "Редактирование акции блюд";
             }
         }
 

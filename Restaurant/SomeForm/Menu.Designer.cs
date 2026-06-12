@@ -50,29 +50,28 @@
             // 
             // comboBoxPrice
             // 
+            this.comboBoxPrice.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.comboBoxPrice.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
             this.comboBoxPrice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxPrice.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.comboBoxPrice.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.comboBoxPrice.ForeColor = System.Drawing.Color.White;
             this.comboBoxPrice.FormattingEnabled = true;
-            this.comboBoxPrice.Location = new System.Drawing.Point(513, 567);
+            this.comboBoxPrice.Location = new System.Drawing.Point(610, 589);
             this.comboBoxPrice.Margin = new System.Windows.Forms.Padding(4);
             this.comboBoxPrice.Name = "comboBoxPrice";
-            this.comboBoxPrice.Size = new System.Drawing.Size(239, 37);
+            this.comboBoxPrice.Size = new System.Drawing.Size(283, 37);
             this.comboBoxPrice.TabIndex = 3;
             this.comboBoxPrice.SelectedIndexChanged += new System.EventHandler(this.comboBox_SelectedIndexChanged);
             // 
             // labelPrice
             // 
-            this.labelPrice.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelPrice.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.labelPrice.AutoSize = true;
             this.labelPrice.BackColor = System.Drawing.Color.Transparent;
             this.labelPrice.Font = new System.Drawing.Font("Verdana", 14F);
             this.labelPrice.ForeColor = System.Drawing.Color.White;
-            this.labelPrice.Location = new System.Drawing.Point(508, 535);
+            this.labelPrice.Location = new System.Drawing.Point(605, 556);
             this.labelPrice.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelPrice.Name = "labelPrice";
             this.labelPrice.Size = new System.Drawing.Size(85, 29);
@@ -81,6 +80,7 @@
             // 
             // comboBoxCategory
             // 
+            this.comboBoxCategory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.comboBoxCategory.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.comboBoxCategory.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.comboBoxCategory.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
@@ -88,25 +88,23 @@
             this.comboBoxCategory.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.comboBoxCategory.ForeColor = System.Drawing.Color.White;
             this.comboBoxCategory.FormattingEnabled = true;
-            this.comboBoxCategory.Location = new System.Drawing.Point(265, 567);
+            this.comboBoxCategory.Location = new System.Drawing.Point(319, 589);
             this.comboBoxCategory.Margin = new System.Windows.Forms.Padding(4);
             this.comboBoxCategory.MaxLength = 50;
             this.comboBoxCategory.Name = "comboBoxCategory";
-            this.comboBoxCategory.Size = new System.Drawing.Size(239, 37);
+            this.comboBoxCategory.Size = new System.Drawing.Size(283, 37);
             this.comboBoxCategory.TabIndex = 2;
             this.comboBoxCategory.SelectedIndexChanged += new System.EventHandler(this.comboBox_SelectedIndexChanged);
             this.comboBoxCategory.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBoxCategory_KeyPress);
             // 
             // labelCategory
             // 
-            this.labelCategory.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelCategory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.labelCategory.AutoSize = true;
             this.labelCategory.BackColor = System.Drawing.Color.Transparent;
             this.labelCategory.Font = new System.Drawing.Font("Verdana", 14F);
             this.labelCategory.ForeColor = System.Drawing.Color.White;
-            this.labelCategory.Location = new System.Drawing.Point(260, 535);
+            this.labelCategory.Location = new System.Drawing.Point(314, 556);
             this.labelCategory.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelCategory.Name = "labelCategory";
             this.labelCategory.Size = new System.Drawing.Size(151, 29);
@@ -115,12 +113,13 @@
             // 
             // buttonBack
             // 
+            this.buttonBack.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.buttonBack.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
             this.buttonBack.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(99)))), ((int)(((byte)(107)))));
             this.buttonBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonBack.Font = new System.Drawing.Font("Verdana", 14F);
             this.buttonBack.ForeColor = System.Drawing.Color.White;
-            this.buttonBack.Location = new System.Drawing.Point(17, 660);
+            this.buttonBack.Location = new System.Drawing.Point(14, 676);
             this.buttonBack.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.buttonBack.Name = "buttonBack";
             this.buttonBack.Size = new System.Drawing.Size(147, 62);
@@ -131,14 +130,12 @@
             // 
             // labelTotal
             // 
-            this.labelTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.labelTotal.AutoSize = true;
             this.labelTotal.BackColor = System.Drawing.Color.Transparent;
             this.labelTotal.Font = new System.Drawing.Font("Verdana", 14F);
             this.labelTotal.ForeColor = System.Drawing.Color.White;
-            this.labelTotal.Location = new System.Drawing.Point(893, 517);
+            this.labelTotal.Location = new System.Drawing.Point(1010, 546);
             this.labelTotal.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelTotal.Name = "labelTotal";
             this.labelTotal.Size = new System.Drawing.Size(93, 29);
@@ -147,29 +144,28 @@
             // 
             // textBoxDish
             // 
+            this.textBoxDish.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.textBoxDish.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
             this.textBoxDish.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxDish.Font = new System.Drawing.Font("Verdana", 14F);
             this.textBoxDish.ForeColor = System.Drawing.Color.White;
-            this.textBoxDish.Location = new System.Drawing.Point(19, 567);
+            this.textBoxDish.Location = new System.Drawing.Point(13, 591);
             this.textBoxDish.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxDish.MaxLength = 100;
             this.textBoxDish.Name = "textBoxDish";
-            this.textBoxDish.Size = new System.Drawing.Size(239, 36);
+            this.textBoxDish.Size = new System.Drawing.Size(298, 36);
             this.textBoxDish.TabIndex = 1;
             this.textBoxDish.TextChanged += new System.EventHandler(this.textBoxDish_TextChanged);
             this.textBoxDish.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxDish_KeyPress);
             // 
             // labelDish
             // 
-            this.labelDish.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelDish.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.labelDish.AutoSize = true;
             this.labelDish.BackColor = System.Drawing.Color.Transparent;
             this.labelDish.Font = new System.Drawing.Font("Verdana", 14F);
             this.labelDish.ForeColor = System.Drawing.Color.White;
-            this.labelDish.Location = new System.Drawing.Point(13, 535);
+            this.labelDish.Location = new System.Drawing.Point(8, 558);
             this.labelDish.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelDish.Name = "labelDish";
             this.labelDish.Size = new System.Drawing.Size(105, 29);
@@ -180,11 +176,13 @@
             // 
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ColumnImage});
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Top;
             this.dataGridView1.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(4);
@@ -194,9 +192,10 @@
             this.dataGridView1.RowHeadersWidth = 50;
             this.dataGridView1.RowTemplate.Height = 70;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(1067, 505);
+            this.dataGridView1.Size = new System.Drawing.Size(1182, 542);
             this.dataGridView1.TabIndex = 9;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
+            this.dataGridView1.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridView1_CellPainting);
             this.dataGridView1.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.dataGridView1_RowPrePaint);
             this.dataGridView1.Sorted += new System.EventHandler(this.dataGridView1_Sorted);
             // 
@@ -210,12 +209,13 @@
             // 
             // buttonNew
             // 
+            this.buttonNew.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonNew.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
             this.buttonNew.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(99)))), ((int)(((byte)(107)))));
             this.buttonNew.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonNew.Font = new System.Drawing.Font("Verdana", 14F);
             this.buttonNew.ForeColor = System.Drawing.Color.White;
-            this.buttonNew.Location = new System.Drawing.Point(896, 660);
+            this.buttonNew.Location = new System.Drawing.Point(1015, 676);
             this.buttonNew.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.buttonNew.Name = "buttonNew";
             this.buttonNew.Size = new System.Drawing.Size(153, 62);
@@ -227,13 +227,14 @@
             // 
             // buttonUpdate
             // 
+            this.buttonUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonUpdate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
             this.buttonUpdate.Enabled = false;
             this.buttonUpdate.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(99)))), ((int)(((byte)(107)))));
             this.buttonUpdate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonUpdate.Font = new System.Drawing.Font("Verdana", 14F);
             this.buttonUpdate.ForeColor = System.Drawing.Color.White;
-            this.buttonUpdate.Location = new System.Drawing.Point(732, 660);
+            this.buttonUpdate.Location = new System.Drawing.Point(852, 676);
             this.buttonUpdate.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.buttonUpdate.Name = "buttonUpdate";
             this.buttonUpdate.Size = new System.Drawing.Size(153, 62);
@@ -245,13 +246,14 @@
             // 
             // buttonDelete
             // 
+            this.buttonDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonDelete.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
             this.buttonDelete.Enabled = false;
             this.buttonDelete.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(99)))), ((int)(((byte)(107)))));
             this.buttonDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonDelete.Font = new System.Drawing.Font("Verdana", 14F);
             this.buttonDelete.ForeColor = System.Drawing.Color.White;
-            this.buttonDelete.Location = new System.Drawing.Point(896, 582);
+            this.buttonDelete.Location = new System.Drawing.Point(1015, 600);
             this.buttonDelete.Margin = new System.Windows.Forms.Padding(4);
             this.buttonDelete.Name = "buttonDelete";
             this.buttonDelete.Size = new System.Drawing.Size(153, 68);
@@ -263,22 +265,21 @@
             // 
             // panelLegend
             // 
+            this.panelLegend.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.panelLegend.BackColor = System.Drawing.Color.LightGreen;
-            this.panelLegend.Location = new System.Drawing.Point(345, 675);
+            this.panelLegend.Location = new System.Drawing.Point(345, 659);
             this.panelLegend.Name = "panelLegend";
             this.panelLegend.Size = new System.Drawing.Size(20, 20);
             this.panelLegend.TabIndex = 59;
             // 
             // labelLegend
             // 
-            this.labelLegend.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelLegend.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.labelLegend.AutoSize = true;
             this.labelLegend.BackColor = System.Drawing.Color.Transparent;
             this.labelLegend.Font = new System.Drawing.Font("Verdana", 14F);
             this.labelLegend.ForeColor = System.Drawing.Color.White;
-            this.labelLegend.Location = new System.Drawing.Point(372, 666);
+            this.labelLegend.Location = new System.Drawing.Point(372, 650);
             this.labelLegend.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelLegend.Name = "labelLegend";
             this.labelLegend.Size = new System.Drawing.Size(231, 29);
@@ -287,12 +288,13 @@
             // 
             // buttonClearFilters
             // 
+            this.buttonClearFilters.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.buttonClearFilters.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
             this.buttonClearFilters.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(99)))), ((int)(((byte)(107)))));
             this.buttonClearFilters.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonClearFilters.Font = new System.Drawing.Font("Verdana", 14F);
             this.buttonClearFilters.ForeColor = System.Drawing.Color.White;
-            this.buttonClearFilters.Location = new System.Drawing.Point(761, 566);
+            this.buttonClearFilters.Location = new System.Drawing.Point(902, 587);
             this.buttonClearFilters.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.buttonClearFilters.Name = "buttonClearFilters";
             this.buttonClearFilters.Size = new System.Drawing.Size(98, 41);
@@ -308,8 +310,7 @@
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImage = global::Restaurant.Properties.Resources.fonMain;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(1067, 738);
-            this.ControlBox = false;
+            this.ClientSize = new System.Drawing.Size(1182, 753);
             this.Controls.Add(this.buttonClearFilters);
             this.Controls.Add(this.panelLegend);
             this.Controls.Add(this.buttonDelete);
@@ -325,9 +326,10 @@
             this.Controls.Add(this.textBoxDish);
             this.Controls.Add(this.labelDish);
             this.Controls.Add(this.dataGridView1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
+            this.MinimumSize = new System.Drawing.Size(1200, 800);
             this.Name = "Menu";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Меню";

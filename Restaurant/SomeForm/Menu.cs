@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -16,13 +17,19 @@ namespace Restaurant
         private DataTable menuTable;
         private Dictionary<string, Image> imageCache = new Dictionary<string, Image>();
         private Image plugImage;
-
+        private CancellationTokenSource imageLoadingCts;
+        private bool _resettingFilters;
         public Menu(int role)
         {
             InitializeComponent();
+
+            InitPerformanceTweaks();
+
             roleId = role;
             ConfigureButtons();
             LoadPlugImage();
+
+            ColumnImage.DefaultCellStyle.NullValue = plugImage;
 
             labelLegend.Font = Fonts.MontserratAlternatesRegular(14f);
             labelDish.Font = Fonts.MontserratAlternatesRegular(14f);
@@ -40,6 +47,20 @@ namespace Restaurant
             dataGridView1.Font = Fonts.MontserratAlternatesRegular(12f);
 
             KeyboardLayoutManager.AttachRussianLayout(textBoxDish);
+        }
+
+        private void InitPerformanceTweaks()
+        {
+            this.SetStyle(ControlStyles.OptimizedDoubleBuffer |
+                          ControlStyles.AllPaintingInWmPaint |
+                          ControlStyles.UserPaint, true);
+            this.UpdateStyles();
+
+            typeof(DataGridView)
+                .GetProperty("DoubleBuffered",
+                    System.Reflection.BindingFlags.Instance |
+                    System.Reflection.BindingFlags.NonPublic)
+                .SetValue(dataGridView1, true, null);
         }
 
         private void LoadPlugImage()
@@ -82,11 +103,12 @@ namespace Restaurant
             string desc = dataGridView1.CurrentRow.Cells["Описание"].Value.ToString();
             decimal price = Convert.ToDecimal(dataGridView1.CurrentRow.Cells["Стоимость"].Value);
             string category = dataGridView1.CurrentRow.Cells["Категория блюда"].Value.ToString();
-            string offer = dataGridView1.CurrentRow.Cells["Акция"].Value.ToString();
+            object offerObj = dataGridView1.CurrentRow.Cells["OffersDishId"].Value;
+            int offerId = (offerObj == DBNull.Value || offerObj == null) ? -1 : Convert.ToInt32(offerObj);
 
             string photoHash = GetDishPhotoHashFromDatabase(id);
 
-            MenuInsert MenuInsert = new MenuInsert("edit", id, name, desc, price, category, offer, photoHash, this);
+            MenuInsert MenuInsert = new MenuInsert("edit", id, name, desc, price, category, offerId.ToString(), photoHash, this);
             MenuInsert.ShowDialog();
             LoadMenuAsync();
         }
@@ -138,122 +160,116 @@ namespace Restaurant
                 using (MySqlConnection con = new MySqlConnection(connStr.GetConnectionString("db57")))
                 {
                     await con.OpenAsync();
+
                     string query = @"SELECT 
-                        m.DishId,
-                        m.DishName AS 'Блюдо',
-                        m.DishDescription AS 'Описание',
-                        m.DishPrice AS 'Стоимость',
-                        c.CategoryDishName AS 'Категория блюда',
-                        CASE 
-                            WHEN o.OffersDishName IS NULL THEN ''
-                            ELSE CONCAT(o.OffersDishName, ' (-', o.OffersDishDicsount, '%)')
-                        END AS 'Акция',
-                        m.DishPhoto
-                     FROM MenuDish m
-                     JOIN CategoryDish c ON m.DishCategory = c.CategoryDishId
-                     LEFT JOIN OffersDish o ON m.OffersDish = o.OffersDishId
-                     WHERE m.IsActive = 1;";
+                m.DishId,
+                m.DishName AS 'Блюдо',
+                m.DishDescription AS 'Описание',
+                CASE 
+                    WHEN o.OffersDishDicsount IS NULL THEN m.DishPrice
+                    ELSE m.DishPrice - (m.DishPrice * o.OffersDishDicsount / 100)
+                END AS 'FinalPrice',
+                m.DishPrice AS 'Стоимость',
+                c.CategoryDishName AS 'Категория блюда',
+                CASE 
+                    WHEN o.OffersDishName IS NULL THEN ''
+                    ELSE CONCAT(o.OffersDishName, ' (-', o.OffersDishDicsount, '%)')
+                END AS 'Акция',
+                o.OffersDishId,
+                m.DishPhoto
+             FROM MenuDish m
+             JOIN CategoryDish c ON m.DishCategory = c.CategoryDishId
+             LEFT JOIN OffersDish o ON m.OffersDish = o.OffersDishId
+             WHERE m.IsActive = 1;";
 
                     MySqlDataAdapter da = new MySqlDataAdapter(query, con);
                     menuTable = new DataTable();
                     da.Fill(menuTable);
 
                     dataGridView1.DataSource = menuTable;
+                    EnsureImageColumn();
+                    HideColumns();
 
-                    if (dataGridView1.Columns.Contains("DishPhoto"))
-                        dataGridView1.Columns["DishPhoto"].Visible = false;
-
-                    if (dataGridView1.Columns.Contains("DishId"))
-                        dataGridView1.Columns["DishId"].Visible = false;
-
-                    SetPlugImagesToAllRows();
+                    SetPlugs();
 
                     labelTotal.Text = $"Всего: {menuTable.Rows.Count}";
-                    dataGridView1.Columns["Акция"].Width = 120;
 
-                    _ = Task.Run(() => LoadImagesGraduallyAsync());
-                }
-            }
-            catch (MySqlException ex)
-            {
-                if (ex.Number == 1049)
-                {
-                    MessageBox.Show($"База данных 'db57' не найдена. Проверьте настройки подключения.",
-                        "Ошибка базы данных", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                else
-                {
-                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    imageLoadingCts?.Cancel();
+                    imageLoadingCts?.Dispose();
+
+                    imageLoadingCts = new CancellationTokenSource();
+
+                    try
+                    {
+                        await FillImagesOnce(imageLoadingCts.Token);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                    }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message);
             }
         }
 
-        private void SetPlugImagesToAllRows()
+        private void SetPlugs()
         {
+            if (!dataGridView1.Columns.Contains("ColumnImage"))
+                return;
+
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                if (!row.IsNewRow)
+                    row.Cells["ColumnImage"].Value = plugImage;
+            }
+        }
+
+        private void HideColumns()
+        {
+            if (dataGridView1.Columns.Contains("DishPhoto"))
+                dataGridView1.Columns["DishPhoto"].Visible = false;
+
+            if (dataGridView1.Columns.Contains("DishId"))
+                dataGridView1.Columns["DishId"].Visible = false;
+
+            if (dataGridView1.Columns.Contains("FinalPrice"))
+                dataGridView1.Columns["FinalPrice"].Visible = false;
+
+            if (dataGridView1.Columns.Contains("OffersDishId"))
+                dataGridView1.Columns["OffersDishId"].Visible = false;
+        }
+
+        private async Task FillImagesOnce(CancellationToken token)
+        {
+            if (!dataGridView1.Columns.Contains("ColumnImage"))
+                return;
+
             for (int i = 0; i < dataGridView1.Rows.Count; i++)
             {
-                if (dataGridView1.Rows[i].IsNewRow) continue;
-                dataGridView1.Rows[i].Cells["ColumnImage"].Value = plugImage;
-            }
-        }
+                token.ThrowIfCancellationRequested();
 
-        private async Task LoadImagesGraduallyAsync()
-        {
-            for (int i = 0; i < dataGridView1.Rows.Count; i++)
-            {
-                if (dataGridView1.Rows[i].IsNewRow) continue;
+                var row = dataGridView1.Rows[i];
 
-                string photoHash = dataGridView1.Rows[i].Cells["DishPhoto"].Value?.ToString();
+                if (row.IsNewRow)
+                    continue;
 
-                if (!string.IsNullOrEmpty(photoHash))
+                string hash = row.Cells["DishPhoto"].Value?.ToString();
+
+                Image img = null;
+
+                if (!string.IsNullOrEmpty(hash))
                 {
-                    Image image = await ImageManager.Instance.LoadImageByHashAsync(photoHash);
-                    if (image != null)
-                    {
-                        if (dataGridView1.InvokeRequired)
-                        {
-                            dataGridView1.Invoke(new Action<int, Image>((rowIndex, img) =>
-                            {
-                                SafeSetImage(rowIndex, img);
-                            }), i, image);
-                        }
-                        else
-                        {
-                            SafeSetImage(i, image);
-                        }
-                    }
-                    else
-                    {
-                        SafeSetImage(i, plugImage);
-                    }
-                }
-                else
-                {
-                    SafeSetImage(i, plugImage);
+                    img = await ImageManager.Instance.LoadImageByHashAsync(hash);
+
+                    token.ThrowIfCancellationRequested();
                 }
 
-                await Task.Delay(30);
-            }
-        }
+                if (!dataGridView1.Columns.Contains("ColumnImage"))
+                    return;
 
-        private void SafeSetImage(int rowIndex, Image image)
-        {
-            try
-            {
-                if (rowIndex < dataGridView1.Rows.Count &&
-                    !dataGridView1.Rows[rowIndex].IsNewRow &&
-                    dataGridView1.Rows[rowIndex].Cells["ColumnImage"] != null)
-                {
-                    dataGridView1.Rows[rowIndex].Cells["ColumnImage"].Value = image;
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"Ошибка установки изображения: {ex.Message}");
+                row.Cells["ColumnImage"].Value = img ?? plugImage;
             }
         }
 
@@ -298,8 +314,11 @@ namespace Restaurant
             ApplyFilters();
         }
 
-        private void ApplyFilters()
+        private async void ApplyFilters()
         {
+            if (_resettingFilters)
+                return;
+
             if (menuTable == null) return;
 
             string searchText = textBoxDish.Text.Trim().Replace("'", "''");
@@ -311,53 +330,64 @@ namespace Restaurant
 
             if (!string.IsNullOrEmpty(searchText))
             {
-                if (searchText.Length > 1)
-                {
-                    string trimmedSearch = searchText.Substring(1);
-                    filter = $"(Блюдо LIKE '%{trimmedSearch}%' OR Описание LIKE '%{trimmedSearch}%')";
-                }
+                string trimmed = searchText.Length > 1 ? searchText.Substring(1) : searchText;
+                filter = $"(Блюдо LIKE '%{trimmed}%' OR Описание LIKE '%{trimmed}%')";
             }
 
             if (!string.IsNullOrEmpty(selectedCategory))
             {
                 if (!string.IsNullOrEmpty(filter))
                     filter += " AND ";
+
                 filter += $"[Категория блюда] = '{selectedCategory}'";
             }
 
             view.RowFilter = filter;
 
             if (sortOption == "По возрастанию")
+            {
                 view.Sort = "[Стоимость] ASC";
+            }
             else if (sortOption == "По убыванию")
+            {
                 view.Sort = "[Стоимость] DESC";
+            }
             else
+            {
                 view.Sort = "";
+            }
 
             dataGridView1.DataSource = view;
+            EnsureImageColumn();
+            SetPlugs();
+
             labelTotal.Text = $"Всего: {view.Count}";
 
-            SetPlugImagesToAllRows();
-            _ = Task.Run(() => LoadImagesGraduallyAsync());
+            imageLoadingCts?.Cancel();
+            imageLoadingCts?.Dispose();
+
+            imageLoadingCts = new CancellationTokenSource();
+
+            try
+            {
+                await FillImagesOnce(imageLoadingCts.Token);
+            }
+            catch (OperationCanceledException)
+            {
+            }
         }
 
         private void buttonClearFilters_Click(object sender, EventArgs e)
         {
+            _resettingFilters = true;
+
             textBoxDish.Text = "";
             comboBoxCategory.SelectedIndex = 0;
             comboBoxPrice.SelectedIndex = 0;
 
-            if (menuTable != null)
-            {
-                DataView view = new DataView(menuTable);
-                view.RowFilter = "";
-                view.Sort = "";
-                dataGridView1.DataSource = view;
-                labelTotal.Text = $"Всего: {view.Count}";
+            _resettingFilters = false;
 
-                SetPlugImagesToAllRows();
-                _ = Task.Run(() => LoadImagesGraduallyAsync());
-            }
+            ApplyFilters();
         }
 
         private void buttonDelete_Click(object sender, EventArgs e)
@@ -415,12 +445,6 @@ namespace Restaurant
             }
         }
 
-        private void dataGridView1_Sorted(object sender, EventArgs e)
-        {
-            SetPlugImagesToAllRows();
-            _ = Task.Run(() => LoadImagesGraduallyAsync());
-        }
-
         private void comboBoxCategory_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) &&
@@ -445,6 +469,106 @@ namespace Restaurant
             else
             {
                 row.DefaultCellStyle.BackColor = Color.White;
+            }
+        }
+
+        private void dataGridView1_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+                return;
+
+            if (e.ColumnIndex >= dataGridView1.Columns.Count)
+                return;
+
+            if (dataGridView1.Columns[e.ColumnIndex].Name != "Стоимость")
+                return;
+
+            var row = dataGridView1.Rows[e.RowIndex];
+
+            string offer = row.Cells["Акция"].Value?.ToString();
+            if (string.IsNullOrEmpty(offer))
+                return;
+
+            if (!decimal.TryParse(row.Cells["Стоимость"].Value?.ToString(), out decimal oldPrice))
+                return;
+
+            if (!decimal.TryParse(row.Cells["FinalPrice"].Value?.ToString(), out decimal newPrice))
+                return;
+
+            e.Handled = true;
+            e.PaintBackground(e.CellBounds, true);
+
+            string oldText = oldPrice.ToString("0.00");  
+            string newText = newPrice.ToString("0.00");   
+
+            using (Font font = Fonts.MontserratAlternatesRegular(12f))
+            {
+                int x = e.CellBounds.Left + 6;
+                int y = e.CellBounds.Top + (e.CellBounds.Height - font.Height) / 2;
+
+                TextRenderer.DrawText(
+                    e.Graphics,
+                    oldText,
+                    new Font(font, FontStyle.Strikeout),
+                    new Point(x, y),
+                    Color.Gray,
+                    TextFormatFlags.NoPadding
+                );
+
+                int oldWidth = TextRenderer.MeasureText(oldText, font).Width;
+
+                TextRenderer.DrawText(
+                    e.Graphics,
+                    newText,
+                    font,
+                    new Point(x + oldWidth, y),
+                    Color.Black,
+                    TextFormatFlags.NoPadding
+                );
+            }
+
+            e.Paint(e.CellBounds, DataGridViewPaintParts.Border);
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            imageLoadingCts?.Cancel();
+            imageLoadingCts?.Dispose();
+
+            base.OnFormClosing(e);
+        }
+
+        private void EnsureImageColumn()
+        {
+            if (!dataGridView1.Columns.Contains("ColumnImage"))
+            {
+                DataGridViewImageColumn imgCol = new DataGridViewImageColumn();
+                imgCol.Name = "ColumnImage";
+                imgCol.HeaderText = "Фото";
+                imgCol.ImageLayout = DataGridViewImageCellLayout.Zoom;
+
+                dataGridView1.Columns.Insert(0, imgCol);
+            }
+        }
+
+        private async void dataGridView1_Sorted(object sender, EventArgs e)
+        {
+            if (!dataGridView1.Columns.Contains("ColumnImage"))
+                return;
+
+            imageLoadingCts?.Cancel();
+            imageLoadingCts?.Dispose();
+
+            imageLoadingCts = new CancellationTokenSource();
+
+            SetPlugs();
+
+            try
+            {
+                await FillImagesOnce(imageLoadingCts.Token);
+            }
+            catch (OperationCanceledException)
+            {
             }
         }
     }

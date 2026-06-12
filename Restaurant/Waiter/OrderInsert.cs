@@ -108,6 +108,8 @@ namespace Restaurant
                 comboBoxClient.Text = "";
                 comboBoxTable.SelectedIndex = -1;
                 comboBoxTable.Text = "";
+
+                this.Text = "Оформление заказа";
             }
             else if (mode == "edit")
             {
@@ -115,6 +117,8 @@ namespace Restaurant
                 comboBoxTable.Enabled = false;
 
                 comboBoxTable.DropDownStyle = ComboBoxStyle.DropDown;
+
+                this.Text = "Редактирование заказа";
 
                 UpdateControlsState();
             }

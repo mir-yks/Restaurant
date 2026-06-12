@@ -30,6 +30,11 @@ namespace Restaurant
             labelTotal = total;
         }
 
+        public void RecalculateLayoutOnly()
+        {
+            StretchRows();
+        }
+
         public void SetData(DataView view)
         {
             currentView = view;

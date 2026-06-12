@@ -17,6 +17,7 @@ namespace Restaurant
         private string currentCaptcha = "";
         private Random random = new Random();   
         private Timer blockTimer;
+        private bool captchaShown = false;
         public Autorizathion()
         {
             InitializeComponent();
@@ -355,8 +356,10 @@ namespace Restaurant
 
         private void ShowCaptcha()
         {
-            if (labelCaptcha.Visible)
+            if (captchaShown)
                 return;
+
+            captchaShown = true;
 
             labelCaptcha.Visible = true;
             textBoxCaptcha.Visible = true;
@@ -403,7 +406,6 @@ namespace Restaurant
 
             buttonEnter.Enabled = true;
             buttonSettings.Enabled = true;
-            buttonExit.Enabled = true;
 
             pictureBox.Enabled = true;
 
@@ -422,7 +424,6 @@ namespace Restaurant
 
             buttonEnter.Enabled = false;
             buttonSettings.Enabled = false;
-            buttonExit.Enabled = false;
 
             pictureBox.Enabled = false;
 
@@ -435,6 +436,11 @@ namespace Restaurant
 
         private void HideCaptcha()
         {
+            if (!captchaShown)
+                return;
+
+            captchaShown = false;
+
             labelCaptcha.Visible = false;
             textBoxCaptcha.Visible = false;
             pictureBoxCaptcha.Visible = false;

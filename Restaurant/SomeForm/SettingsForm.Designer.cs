@@ -30,7 +30,6 @@ namespace Restaurant
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsForm));
-            this.buttonExit = new System.Windows.Forms.Button();
             this.buttonEnter = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.textBoxPwd = new System.Windows.Forms.TextBox();
@@ -42,27 +41,10 @@ namespace Restaurant
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.SuspendLayout();
             // 
-            // buttonExit
-            // 
-            this.buttonExit.BackColor = System.Drawing.Color.Transparent;
-            this.buttonExit.BackgroundImage = global::Restaurant.Properties.Resources.exit;
-            this.buttonExit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.buttonExit.FlatAppearance.BorderSize = 0;
-            this.buttonExit.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.WindowFrame;
-            this.buttonExit.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.WindowFrame;
-            this.buttonExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonExit.Font = new System.Drawing.Font("Verdana", 14F);
-            this.buttonExit.ForeColor = System.Drawing.Color.White;
-            this.buttonExit.Location = new System.Drawing.Point(360, 0);
-            this.buttonExit.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonExit.Name = "buttonExit";
-            this.buttonExit.Size = new System.Drawing.Size(40, 37);
-            this.buttonExit.TabIndex = 5;
-            this.buttonExit.UseVisualStyleBackColor = false;
-            this.buttonExit.Click += new System.EventHandler(this.buttonExit_Click);
-            // 
             // buttonEnter
             // 
+            this.buttonEnter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonEnter.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
             this.buttonEnter.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(97)))), ((int)(((byte)(99)))), ((int)(((byte)(107)))));
             this.buttonEnter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -79,6 +61,8 @@ namespace Restaurant
             // 
             // label3
             // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
             this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.Font = new System.Drawing.Font("Verdana", 14F);
@@ -92,6 +76,8 @@ namespace Restaurant
             // 
             // textBoxPwd
             // 
+            this.textBoxPwd.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxPwd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
             this.textBoxPwd.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxPwd.Font = new System.Drawing.Font("Verdana", 10.5F);
@@ -106,6 +92,8 @@ namespace Restaurant
             // 
             // textBoxHost
             // 
+            this.textBoxHost.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxHost.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
             this.textBoxHost.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxHost.Font = new System.Drawing.Font("Verdana", 10.5F);
@@ -120,6 +108,8 @@ namespace Restaurant
             // 
             // textBoxUid
             // 
+            this.textBoxUid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxUid.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
             this.textBoxUid.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxUid.Font = new System.Drawing.Font("Verdana", 10.5F);
@@ -134,6 +124,8 @@ namespace Restaurant
             // 
             // label1
             // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Verdana", 14F);
@@ -147,6 +139,8 @@ namespace Restaurant
             // 
             // label2
             // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.Font = new System.Drawing.Font("Verdana", 14F);
@@ -160,6 +154,8 @@ namespace Restaurant
             // 
             // pictureBox
             // 
+            this.pictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
             this.pictureBox.BackgroundImage = global::Restaurant.Properties.Resources.eye_closed;
             this.pictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
@@ -181,7 +177,6 @@ namespace Restaurant
             this.BackgroundImage = global::Restaurant.Properties.Resources.fonAutorization;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(400, 500);
-            this.ControlBox = false;
             this.Controls.Add(this.pictureBox);
             this.Controls.Add(this.buttonEnter);
             this.Controls.Add(this.label2);
@@ -190,11 +185,12 @@ namespace Restaurant
             this.Controls.Add(this.textBoxUid);
             this.Controls.Add(this.textBoxHost);
             this.Controls.Add(this.textBoxPwd);
-            this.Controls.Add(this.buttonExit);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.DoubleBuffered = true;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(400, 500);
             this.Name = "SettingsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Настройки";
@@ -206,8 +202,6 @@ namespace Restaurant
         }
 
         #endregion
-
-        private System.Windows.Forms.Button buttonExit;
         private System.Windows.Forms.Button buttonEnter;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox textBoxPwd;

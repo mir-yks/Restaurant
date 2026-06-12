@@ -22,6 +22,15 @@ namespace Restaurant
                 BlurEffect.ShowDimmed(parentForm);
             }
 
+            if (mode == "popular")
+            {
+                this.Text = "Создание отчёта по популярности блюд за период";
+            }
+            else
+            {
+                this.Text = "Создание отчёта по выручке за период";
+            }
+
             SetupFonts();
 
             if (mode == "popular")
