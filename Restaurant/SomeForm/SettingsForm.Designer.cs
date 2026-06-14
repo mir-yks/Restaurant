@@ -84,7 +84,7 @@ namespace Restaurant
             this.textBoxPwd.ForeColor = System.Drawing.Color.White;
             this.textBoxPwd.Location = new System.Drawing.Point(23, 233);
             this.textBoxPwd.Margin = new System.Windows.Forms.Padding(4);
-            this.textBoxPwd.MaxLength = 50;
+            this.textBoxPwd.MaxLength = 10000;
             this.textBoxPwd.Name = "textBoxPwd";
             this.textBoxPwd.Size = new System.Drawing.Size(350, 29);
             this.textBoxPwd.TabIndex = 3;
@@ -100,7 +100,7 @@ namespace Restaurant
             this.textBoxHost.ForeColor = System.Drawing.Color.White;
             this.textBoxHost.Location = new System.Drawing.Point(23, 89);
             this.textBoxHost.Margin = new System.Windows.Forms.Padding(4);
-            this.textBoxHost.MaxLength = 50;
+            this.textBoxHost.MaxLength = 10000;
             this.textBoxHost.Name = "textBoxHost";
             this.textBoxHost.Size = new System.Drawing.Size(350, 29);
             this.textBoxHost.TabIndex = 1;
@@ -116,7 +116,7 @@ namespace Restaurant
             this.textBoxUid.ForeColor = System.Drawing.Color.White;
             this.textBoxUid.Location = new System.Drawing.Point(23, 161);
             this.textBoxUid.Margin = new System.Windows.Forms.Padding(4);
-            this.textBoxUid.MaxLength = 50;
+            this.textBoxUid.MaxLength = 10000;
             this.textBoxUid.Name = "textBoxUid";
             this.textBoxUid.Size = new System.Drawing.Size(350, 29);
             this.textBoxUid.TabIndex = 2;
@@ -193,7 +193,7 @@ namespace Restaurant
             this.MinimumSize = new System.Drawing.Size(400, 500);
             this.Name = "SettingsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Настройки";
+            this.Text = "Настройка подключения к БД";
             this.Load += new System.EventHandler(this.SettingsForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.ResumeLayout(false);

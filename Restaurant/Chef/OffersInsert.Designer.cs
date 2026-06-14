@@ -112,7 +112,7 @@
             this.textBoxDiscount.ForeColor = System.Drawing.Color.White;
             this.textBoxDiscount.Location = new System.Drawing.Point(53, 113);
             this.textBoxDiscount.Margin = new System.Windows.Forms.Padding(4);
-            this.textBoxDiscount.MaxLength = 3;
+            this.textBoxDiscount.MaxLength = 2;
             this.textBoxDiscount.Name = "textBoxDiscount";
             this.textBoxDiscount.Size = new System.Drawing.Size(291, 36);
             this.textBoxDiscount.TabIndex = 2;

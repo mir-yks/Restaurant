@@ -517,7 +517,7 @@ namespace Restaurant
 
                     UpdateTableStatus(comboBoxTable.Text, "Занят");
 
-                    OrderItem orderItemForm = new OrderItem(3, OrderID);
+                    OrderItem orderItemForm = new OrderItem(3, OrderID, false);
                     this.Hide();
                     orderItemForm.ShowDialog();
                     this.Close();
@@ -590,7 +590,7 @@ namespace Restaurant
 
                     if (result == DialogResult.Yes)
                     {
-                        OrderItem orderItemForm = new OrderItem(3, OrderID);
+                        OrderItem orderItemForm = new OrderItem(3, OrderID, true);
                         this.Hide();
                         orderItemForm.ShowDialog();
                         this.Close();

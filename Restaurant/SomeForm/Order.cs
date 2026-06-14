@@ -244,16 +244,33 @@ namespace Restaurant
         {
             if (dataGridView1.CurrentRow == null)
             {
-                MessageBox.Show("Выберите заказ для просмотра состава!", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(
+                    "Выберите заказ для просмотра состава!",
+                    "Внимание",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
                 return;
             }
 
-            int selectedOrderId = Convert.ToInt32(dataGridView1.CurrentRow.Cells["Номер заказа"].Value);
-            OrderItem orderItemForm = new OrderItem(2, selectedOrderId);
+            int selectedOrderId =
+                Convert.ToInt32(dataGridView1.CurrentRow.Cells["Номер заказа"].Value);
 
-            if (orderItemForm.ShowDialog() == DialogResult.OK)
+            BlurEffect.ShowDimmed(this);
+
+            try
             {
-                LoadOrders();
+                using (OrderItem orderItemForm =
+                       new OrderItem(2, selectedOrderId))
+                {
+                    if (orderItemForm.ShowDialog() == DialogResult.OK)
+                    {
+                        LoadOrders();
+                    }
+                }
+            }
+            finally
+            {
+                BlurEffect.HideDimmed();
             }
         }
 

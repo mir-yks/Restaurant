@@ -15,57 +15,38 @@ namespace Restaurant
         private DataTable offersTable;
         private DataTable orderItemsData;
         private List<int> originalItemIds = new List<int>();
-
-        public OrderItem(int role, int orderId)
+        private bool isEditMode;
+        public OrderItem(int role, int orderId, bool isEditMode = false)
         {
             InitializeComponent();
+
             roleId = role;
             this.orderId = orderId;
+            this.isEditMode = isEditMode;
+
             ConfigureButtons();
             InactivityManager.Init();
-
             SetupFonts();
             SetFormTitle();
         }
 
         private void SetFormTitle()
         {
-            switch (roleId)
+            if (roleId == 2)
             {
-                case 2:
-                    this.Text = "Состав заказа";
-                    break;
-                case 3:
-                    try
-                    {
-                        using (MySqlConnection con = new MySqlConnection(connStr.GetConnectionString("db57")))
-                        {
-                            con.Open();
-                            MySqlCommand cmd = new MySqlCommand(
-                                "SELECT COUNT(*) FROM `Order` WHERE OrderId = @OrderId",
-                                con);
-                            cmd.Parameters.AddWithValue("@OrderId", orderId);
-                            int count = Convert.ToInt32(cmd.ExecuteScalar());
-
-                            if (count > 0)
-                            {
-                                this.Text = "Состав заказа при его редактировании";
-                            }
-                            else
-                            {
-                                this.Text = "Состав заказа при его создании";
-                            }
-                        }
-                    }
-                    catch
-                    {
-                        this.Text = "Состав заказа";
-                    }
-                    break;
-                default:
-                    this.Text = "Состав заказа";
-                    break;
+                this.Text = "Состав заказа";
+                return;
             }
+
+            if (roleId == 3)
+            {
+                this.Text = isEditMode
+                    ? "Состав заказа при его редактировании"
+                    : "Состав заказа при его оформлении";
+                return;
+            }
+
+            this.Text = "Состав заказа";
         }
 
         private void SetupFonts()
