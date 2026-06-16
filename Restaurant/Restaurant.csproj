@@ -41,6 +41,7 @@
     <Reference Include="MySql.Data, Version=9.4.0.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\Program Files (x86)\MySQL\MySQL Connector NET 9.4\MySql.Data.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="QuestPDF, Version=2026.2.4.0, Culture=neutral, PublicKeyToken=0f3c2b2315ff52c8, processorArchitecture=MSIL">
       <HintPath>..\packages\QuestPDF.2026.2.4\lib\netstandard2.0\QuestPDF.dll</HintPath>
